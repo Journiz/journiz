@@ -5,7 +5,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "device": "nuxt generate && npx cap sync"
   },
   "devDependencies": {
     "@capacitor/cli": "4.7.0",

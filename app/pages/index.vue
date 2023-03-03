@@ -1,8 +1,13 @@
 <script lang="ts" setup>
-import HelloJourniz from '~/components/fake/HelloJourniz.vue';
+import HelloJourniz from '~/components/HelloJourniz.vue';
 </script>
 <template>
 <ion-page class="bg-gray-300 flex flex-col items-center">
-  <HelloJourniz />
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Journiz</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <HelloJourniz class="my-auto" />
 </ion-page>
 </template>
