@@ -16,6 +16,7 @@
     "tailwindcss": "^3.2.7"
   },
   "dependencies": {
+    "@capacitor-community/background-geolocation": "^1.2.12",
     "@capacitor/android": "4.7.0",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.7.0",
