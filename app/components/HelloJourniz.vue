@@ -3,11 +3,13 @@ const count = ref(0)
 const doubleCount = computed(() => count.value * 2)
 
 const increment = () => count.value++
+const { apiUrl } = useRuntimeConfig().public
 
 </script>
 <template>
   <div class="flex flex-col items-center">
     <h1>Journiz</h1>
+    <p>{{ apiUrl }}</p>
     <p>Count is: <strong>{{ count }}</strong>, doubleCount is <strong class="text-red-600">{{ doubleCount }}</strong></p>
     <ion-button @click="increment">Increment</ion-button>
   </div>

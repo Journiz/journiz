@@ -7,5 +7,11 @@ export default defineNuxtConfig({
     ssr: false,
     devServer: {
         port: 4000
+    },
+
+    runtimeConfig: {
+        public: {
+            apiUrl: 'https://dev.journiz.leoboyer.dev'
+        }
     }
 })
