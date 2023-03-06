@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Journey } from '@journiz/api-types'
 const count = ref(0)
 const doubleCount = computed(() => count.value * 2)
 
@@ -7,9 +8,10 @@ const increment = () => count.value++
 const pb = usePocketBase()
 onMounted(async () => {
   const records = await pb.collection('journey').getFullList({
-    sort: '-created',
+    sort: '-created'
   });
-console.log(records)
+  const result: Journey = Journey.parse(records[0])
+console.log(result)
 })
 </script>
 <template>
