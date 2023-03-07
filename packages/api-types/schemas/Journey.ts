@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const Journey = z.object({
+export const JourneySchema = z.object({
     basecampLatitude: z.number(),
     basecampLongitude: z.number(),
     basecampName: z.string(),
@@ -15,4 +15,4 @@ export const Journey = z.object({
     updated: z.string(),
     user: z.string()
 })
-export type Journey = z.infer<typeof Journey>
+export type JourneyType = z.infer<typeof JourneySchema>
