@@ -10,5 +10,6 @@ const increment = () => count.value++
     <h1>Journiz</h1>
     <p>Count is: <strong>{{ count }}</strong>, doubleCount is <strong class="text-red-600">{{ doubleCount }}</strong></p>
     <ion-button @click="increment">Increment</ion-button>
+    <ion-button router-link="/pocGeolocation">Go to geolocation</ion-button>
   </div>
 </template>
