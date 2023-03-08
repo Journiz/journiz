@@ -11,14 +11,14 @@ export type RecordComposable<Schema extends ZodObject<any>> = (id: string) => Re
  * @param schema
  * @param lazy
  */
-export function makeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema, lazy = false): RecordComposable<Schema> {
+export function makeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema, expand = '', lazy = false): RecordComposable<Schema> {
   const pb = usePocketBase()
   return (id: string): RecordComposableData<Schema> => {
     const loading = ref(false)
     const data: Ref<z.infer<Schema>|null> = ref(null)
     const refresh = async () => {
       loading.value = true
-      const result = await pb.collection(collection).getOne(id)
+      const result = await pb.collection(collection).getOne(id, { expand })
       if (!result) {
         data.value = null
       }
