@@ -25,6 +25,8 @@
     "@capacitor/ios": "4.7.0",
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "@studiometa/vue-mapbox-gl": "^2.0.4",
     "mapbox-gl": "^2.13.0"
   }
 }
