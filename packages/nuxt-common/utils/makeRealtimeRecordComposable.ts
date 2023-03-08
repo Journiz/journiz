@@ -10,8 +10,8 @@ import {makeRecordComposable, RecordComposable, RecordComposableData} from './ma
  * @param schema
  * @param lazy
  */
-export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema, expand = '') {
-  const useRecord = makeRecordComposable(collection, schema, expand, true)
+export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema) {
+  const useRecord = makeRecordComposable(collection, schema, '', true)
   const pb = usePocketBase()
 
   return (id: string): RecordComposableData<Schema> => {
