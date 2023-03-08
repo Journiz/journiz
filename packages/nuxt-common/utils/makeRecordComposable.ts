@@ -1,15 +1,33 @@
 import {TypeOf, z, ZodObject} from 'zod'
-import {usePocketBase} from '../composables/usePocketBase';
+import {Ref} from 'vue';
 
-export type RecordComposable<Schema extends ZodObject<any>> = (id: string) => Promise<TypeOf<Schema> | null>
+export type RecordComposableData<Schema extends ZodObject<any>> = { data: Ref<z.infer<Schema>|null>; refresh: () => Promise<void>; loading: any }
+export type RecordComposable<Schema extends ZodObject<any>> = (id: string) => RecordComposableData<Schema>
 
-export function makeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema): RecordComposable<Schema> {
-  return async (id: string): Promise<z.infer<Schema>|null> => {
-    const pb = usePocketBase()
-    const result = await pb.collection(collection).getOne(id)
-    if (!result) {
-      return null
+export function makeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema, lazy = false): RecordComposable<Schema> {
+  const pb = usePocketBase()
+  return (id: string): RecordComposableData<Schema> => {
+    const loading = ref(false)
+    const data: Ref<z.infer<Schema>|null> = ref(null)
+    const refresh = async () => {
+      loading.value = true
+      const result = await pb.collection(collection).getOne(id)
+      if (!result) {
+        data.value = null
+      }
+      data.value = schema.parse(result)
+      loading.value = false
     }
-    return schema.parse(result)
+
+    // Initial load
+    if (!lazy) {
+      refresh().then()
+    }
+
+    return {
+      data,
+      refresh,
+      loading
+    }
   }
 }
