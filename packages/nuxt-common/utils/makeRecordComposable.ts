@@ -4,6 +4,13 @@ import {Ref} from 'vue';
 export type RecordComposableData<Schema extends ZodObject<any>> = { data: Ref<z.infer<Schema>|null>; refresh: () => Promise<void>; loading: any }
 export type RecordComposable<Schema extends ZodObject<any>> = (id: string) => RecordComposableData<Schema>
 
+/**
+ * This function creates a composable that contains the data from the record if any, the error data, the loading state,
+ * and a refresh function.
+ * @param collection
+ * @param schema
+ * @param lazy
+ */
 export function makeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema, lazy = false): RecordComposable<Schema> {
   const pb = usePocketBase()
   return (id: string): RecordComposableData<Schema> => {

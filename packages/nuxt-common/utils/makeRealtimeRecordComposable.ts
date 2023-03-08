@@ -3,6 +3,13 @@ import {z, ZodObject} from 'zod'
 import {usePocketBase} from '../composables/usePocketBase';
 import {makeRecordComposable, RecordComposable, RecordComposableData} from './makeRecordComposable';
 
+/**
+ * This function creates a composable that contains the same data from the makeRecordComposable function, but with a
+ * realtime data. The returned ref will be reactive to any changes made to the record in the database.
+ * @param collection
+ * @param schema
+ * @param lazy
+ */
 export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema) {
   const useRecord = makeRecordComposable(collection, schema, true)
   const pb = usePocketBase()
