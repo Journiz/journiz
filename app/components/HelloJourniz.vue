@@ -4,6 +4,8 @@ const doubleCount = computed(() => count.value * 2)
 
 const increment = () => count.value++
 
+console.log('👋 Welcome to app')
+
 </script>
 <template>
   <div class="flex flex-col items-center">

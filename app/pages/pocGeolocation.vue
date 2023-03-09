@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import GeolocationV1 from "~/components/GeolocationV1.vue";
 import BasicMap from "~/components/BasicMap.vue";
+import {startWatching, stopWatching, currentLocation} from "~/components/useGeolocation";
 </script>
 <template>
 <ion-page class="bg-gray-300 flex flex-col items-center">
@@ -9,7 +9,7 @@ import BasicMap from "~/components/BasicMap.vue";
       <ion-title>POC Geolocation</ion-title>
     </ion-toolbar>
   </ion-header>
-  <BasicMap />
-  <GeolocationV1 />
+  <BasicMap :positionMarkerCoord="[currentLocation.long, currentLocation.lat]" />
+  <ion-button @click="startWatching">Activer la localisation en background</ion-button>
 </ion-page>
 </template>
