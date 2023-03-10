@@ -24,7 +24,6 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(collection: 
         data.value = null
       }
       result = flattenExpands(result)
-      console.log(result)
       data.value = schema.parse(result)
       loading.value = false
     }
