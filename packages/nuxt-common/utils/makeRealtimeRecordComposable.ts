@@ -10,24 +10,25 @@ import {makeRecordComposable, RecordComposable, RecordComposableData} from './ma
  * @param schema
  * @param lazy
  */
-export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema) {
-  const useRecord = makeRecordComposable(collection, schema, '', true)
+export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(collection: string, schema: Schema, expand = '') {
+  const useRecord = makeRecordComposable(collection, schema, expand, true)
   const pb = usePocketBase()
 
   return (id: string): RecordComposableData<Schema> => {
     const {data, loading, refresh} = useRecord(id)
 
-    let unsubscribe: () => void
+    const unsubscribes: (() => void)[] = []
     const bind = async () => {
       await refresh()
-      unsubscribe = await pb.collection(collection).subscribe(id, e => {
+      const un = await pb.collection(collection).subscribe(id, e => {
         if (e.action === 'update') {
           data.value = e.record
         }
       })
+      unsubscribes.push(un)
     }
 
-    onUnmounted(() => unsubscribe?.())
+    onUnmounted(() => unsubscribes.forEach(u => u()))
     bind().then()
     return {
       data, loading, refresh

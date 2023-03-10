@@ -3,7 +3,6 @@ import { z } from "zod";
 export const TeamSchema = z.object({
     created: z.string(),
     id: z.string(),
-    journey: z.string(),
     latitude: z.number(),
     longitude: z.number(),
     members: z.array(z.string()),
