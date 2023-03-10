@@ -6,13 +6,13 @@ const increment = () => count.value++
 
 // const { data: journey } = useRealtimeJourney('5mk4b6z2819n3x8')
 
-const {data: trip} = useTrip('cc790mc7p9ywe2a')
+const {data: trip} = useRealtimeTrip('cc790mc7p9ywe2a')
 </script>
 <template>
   <div class="flex flex-col items-center">
     <h1>Journiz</h1>
     <p v-if="trip">
-      {{ trip.expand.teams }}
+      <pre>{{ trip }}</pre>
     </p>
     <p>Count is: <strong>{{ count }}</strong>, doubleCount is <strong class="text-red-600">{{ doubleCount }}</strong>
     </p>

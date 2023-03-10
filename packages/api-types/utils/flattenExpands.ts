@@ -1,6 +1,7 @@
 import {Record} from 'pocketbase'
 
 export function flattenExpands<T extends Record>(data: T): T {
+    if (!data.expand) return data
     for (const [key, value] of Object.entries(data.expand)) {
         if (key.includes('(')) {
             let newKey = key.split('(')[0]

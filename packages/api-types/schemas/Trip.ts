@@ -11,7 +11,7 @@ export const TripSchema = z.object({
     expand: z.object({
         teams: z.array(TeamSchema).optional(),
         journey: JourneySchema.optional(),
-    })
+    }).optional()
 })
 
 export type TripType = z.infer<typeof TripSchema>

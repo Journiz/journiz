@@ -1,5 +1,6 @@
 import {ref, Ref, onUnmounted} from 'vue'
 import {z, ZodObject} from 'zod'
+import {flattenExpands} from '@journiz/api-types'
 import {usePocketBase} from '../composables/usePocketBase';
 import {makeRecordComposable, RecordComposable, RecordComposableData} from './makeRecordComposable';
 
@@ -15,23 +16,48 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(coll
   const pb = usePocketBase()
 
   return (id: string): RecordComposableData<Schema> => {
-    const {data, loading, refresh} = useRecord(id)
+    const {data, loading, refresh, rawData} = useRecord(id)
 
     const unsubscribes: (() => void)[] = []
+
+    const parseData = () => {
+      if (rawData.value) {
+        const result = flattenExpands(rawData.value)
+        data.value = schema.parse(result)
+      }
+    }
+
     const bind = async () => {
       await refresh()
       const un = await pb.collection(collection).subscribe(id, e => {
         if (e.action === 'update') {
-          data.value = e.record
+          e.record.expand = Object.assign({}, e.record.expand, rawData.value?.expand ?? {})
+          rawData.value = e.record
+          parseData()
         }
       })
+      const expand = rawData.value?.expand ?? {}
+      for (const [key, value] of Object.entries(expand)) {
+        if (Array.isArray(value)) {
+          // watch collection and filter on value
+        } else {
+          // watch single record
+          const eUn = await pb.collection(value.collectionName).subscribe(value.id, data => {
+            if (rawData.value) {
+              rawData.value.expand[key] = data.record
+              parseData()
+            }
+          })
+          unsubscribes.push(eUn)
+        }
+      }
       unsubscribes.push(un)
     }
 
     onUnmounted(() => unsubscribes.forEach(u => u()))
     bind().then()
     return {
-      data, loading, refresh
+      data, loading, refresh, rawData
     }
 
   }
