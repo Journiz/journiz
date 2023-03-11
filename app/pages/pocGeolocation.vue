@@ -1,11 +1,21 @@
 <script lang="ts" setup>
 import BasicMap from "~/components/BasicMap.vue";
-import {useGeolocation} from '#imports';
+import {useGeolocation, useTeam} from '#imports';
 
 const geolocation = useGeolocation()
 
 const startWatchingPosition = () => {
   geolocation.startWatching()
+}
+
+const {data: team, update: updateTeam} = useTeam('bth1emonizvk3bh')
+
+const updateTeamPosition = () => {
+  if (team.value) {
+    team.value.latitude = Math.random()
+    team.value.longitude = Math.random()
+    updateTeam()
+  }
 }
 </script>
 <template>
@@ -15,7 +25,10 @@ const startWatchingPosition = () => {
       <ion-title>POC Geolocation</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <p v-if="team">Equipe: {{ team.name }}</p>
   <BasicMap />
+  <ion-button @click="updateTeamPosition">Update positio</ion-button>
   <ion-button @click="startWatchingPosition">Activer la localisation en background</ion-button>
 </ion-page>
 </template>
