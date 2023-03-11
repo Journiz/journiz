@@ -2,9 +2,10 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl';
 import {reactive} from "vue";
-import {currentLocation} from "~/composables/useGeolocation";
+import {useGeolocation} from '#imports';
 // let positionMarkerCoord = [6.129384, 45.899247]
-defineProps(['positionMarkerCoord'])
+
+const {currentLocation} = useGeolocation()
 
 let currentCenter = reactive({lng: -122.02703037000001, lat: 37.330208800000001})
 let map:MapboxMap = null
