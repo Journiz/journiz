@@ -2,7 +2,7 @@ import {Record} from 'pocketbase'
 import cloneDeep from './cloneDeep';
 
 export function flattenExpands<T extends Record>(data: T): T {
-    if (!data.expand) return data
+    if (!data?.expand) return data
     data = cloneDeep(data)
     for (const [key, value] of Object.entries(data.expand)) {
         if (key.includes('(')) {
