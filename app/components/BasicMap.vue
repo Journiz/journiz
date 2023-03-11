@@ -15,8 +15,20 @@ let map:MapboxMap = null
       :center="[-122.02703037000001, 37.330208800000001]"
       :zoom=14
       @mb-created="(mapInstance) => map = mapInstance" >
-    <MapboxMarker :lng-lat="[currentLocation.lng, currentLocation.lat]" />
+    <MapboxMarker :lng-lat="[currentLocation.lng, currentLocation.lat]">
+      <!--  -->
+      <p class="currentPosition-marker">
+        <svg  width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="15" fill="#4770FF"/>
+          <circle cx="20" cy="20" r="19.5" stroke="#87B7FF"/>
+        </svg>
+      </p>
+    </MapboxMarker>
   </MapboxMap>
 </template>
 <style scoped>
+.currentPosition-marker svg {
+  width: 20px;
+  height: 20px;
+}
 </style>
