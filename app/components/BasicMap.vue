@@ -2,18 +2,26 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl';
 import {reactive} from "vue";
+import {currentLocation} from "~/composables/useGeolocation";
 // let positionMarkerCoord = [6.129384, 45.899247]
 defineProps(['positionMarkerCoord'])
 
 let currentCenter = reactive({lng: -122.02703037000001, lat: 37.330208800000001})
 let map:MapboxMap = null
 
+// Var to use to see the expected behaviour
+let testLocation = reactive({lng: -122.02703037000001, lat: 37.330208800000001})
+
 onMounted(() => {
-  // Catch new position of center after dragging
   map.on('drag', () => {
-    currentCenter = map.getCenter()
+    // Catch new position of center after dragging
+    // currentCenter = map.getCenter()
   });
 })
+
+const changeMarkerPos = () => {
+  testLocation.lng += 1
+}
 
 </script>
 <template>
@@ -24,9 +32,9 @@ onMounted(() => {
       :center="[currentCenter.lng, currentCenter.lat]"
       :zoom=14
       @mb-created="(mapInstance) => map = mapInstance" >
-    <MapboxMarker :lng-lat="positionMarkerCoord" />
+    <MapboxMarker :lng-lat="[currentLocation.lng, currentLocation.lat]" />
   </MapboxMap>
-
+  <ion-button @click="changeMarkerPos">Change marker position</ion-button>
 </template>
 <style scoped>
 </style>
