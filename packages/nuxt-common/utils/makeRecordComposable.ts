@@ -1,9 +1,16 @@
-import {TypeOf, z, ZodObject} from 'zod'
+import {z, ZodObject} from 'zod'
 import {Ref} from 'vue';
 import {flattenExpands} from '@journiz/api-types'
 import {Record} from 'pocketbase';
 
-export type RecordComposableData<Schema extends ZodObject<any>> = { data: Ref<z.infer<Schema> | null>; rawData: Ref<Record | null>; refresh: () => Promise<void>; loading: any }
+export type RecordComposableData<Schema extends ZodObject<any>> = {
+  data: Ref<z.infer<Schema> | null>;
+  rawData: Ref<Record | null>;
+  refresh: () => Promise<void>;
+  update: () => Promise<void>;
+  loading: any;
+  updateLoading: any;
+}
 export type RecordComposable<Schema extends ZodObject<any>> = (id: string) => RecordComposableData<Schema>
 
 /**
@@ -35,6 +42,7 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
 
   return (id: string): RecordComposableData<Schema> => {
     const loading = ref(false)
+    const updateLoading = ref(false)
     const data: Ref<z.infer<Schema> | null> = ref(null)
     const rawData: Ref<Record | null> = ref(null)
 
@@ -57,6 +65,14 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
       loading.value = false
     }
 
+    const update: () => Promise<void> = async () => {
+      if (data.value) {
+        updateLoading.value = true
+        await pb.collection(collection).update(id, data.value)
+        updateLoading.value = false
+      }
+    }
+
     // Initial load
     if (!lazy) {
       refresh().then()
@@ -66,7 +82,9 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
       data,
       rawData,
       refresh,
-      loading
+      update,
+      loading,
+      updateLoading
     }
   }
 }
