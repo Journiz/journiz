@@ -28,7 +28,6 @@ const updateTeamPosition = () => {
 
   <p v-if="team">Equipe: {{ team.name }}</p>
   <BasicMap />
-  <ion-button @click="updateTeamPosition">Update positio</ion-button>
   <ion-button @click="startWatchingPosition">Activer la localisation en background</ion-button>
 </ion-page>
 </template>
