@@ -22,7 +22,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
   const pb = usePocketBase()
 
   return (id: string): RecordComposableData<Schema> => {
-    const {data, loading, refresh, rawData, update} = useRecord(id)
+    const {data, loading, refresh, rawData, update, updateLoading} = useRecord(id)
 
     const unsubscribes: (() => void)[] = []
 
@@ -77,7 +77,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
     onUnmounted(() => unsubscribes.forEach(u => u()))
     bind().then()
     return {
-      data, loading, refresh, rawData, update
+      data, loading, refresh, rawData, update, updateLoading
     }
 
   }
