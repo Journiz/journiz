@@ -40,15 +40,24 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(coll
       for (const [key, value] of Object.entries(expand)) {
         if (Array.isArray(value)) {
           // watch collection and filter on value
+          if (key.includes('(')) {
+            const [collection, itemKey] = key.replace(')', '').split('(')
+            console.log(collection, itemKey)
+            // Handle adds, updates and deletion
+            const unsubscribeCollection = await pb.collection(collection).subscribe('*', data => {
+              console.log(data)
+            })
+            unsubscribes.push(unsubscribeCollection)
+          }
         } else {
           // watch single record
-          const eUn = await pb.collection(value.collectionName).subscribe(value.id, data => {
+          const unsubscribeSingle = await pb.collection(value.collectionName).subscribe(value.id, data => {
             if (rawData.value) {
               rawData.value.expand[key] = data.record
               parseData()
             }
           })
-          unsubscribes.push(eUn)
+          unsubscribes.push(unsubscribeSingle)
         }
       }
       unsubscribes.push(un)

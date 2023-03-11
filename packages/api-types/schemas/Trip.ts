@@ -8,6 +8,7 @@ export const TripSchema = z.object({
     id: z.string(),
     journey: z.string(),
     updated: z.string(),
+    name: z.string(),
     expand: z.object({
         teams: z.array(TeamSchema).optional(),
         journey: JourneySchema.optional(),
