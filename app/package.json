@@ -3,6 +3,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:local": "NUXT_PUBLIC_API_URL=\"http://localhost:8090\" nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -14,7 +15,8 @@
     "@types/mapbox-gl": "^2.7.10",
     "nuxt": "^3.2.3",
     "nuxt-windicss": "^2.6.0",
-    "tailwindcss": "^3.2.7"
+    "tailwindcss": "^3.2.7",
+    "typescript": "^4.9.5"
   },
   "dependencies": {
     "@capacitor-community/background-geolocation": "^1.2.12",
@@ -27,6 +29,9 @@
     "@capacitor/status-bar": "4.1.1",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@studiometa/vue-mapbox-gl": "^2.0.4",
-    "mapbox-gl": "^2.13.0"
+    "mapbox-gl": "^2.13.0",
+    "@journiz/nuxt-common": "workspace:*",
+    "@journiz/api-types": "workspace:*",
+    "pocketbase": "^0.12.0"
   }
 }
