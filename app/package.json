@@ -25,8 +25,9 @@
     "@capacitor/ios": "4.7.0",
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
-    "@journiz/nuxt-common": "workspace:*",
     "@journiz/api-types": "workspace:*",
+    "@journiz/nuxt-common": "workspace:*",
+    "onesignal-cordova-plugin": "^3.3.0",
     "pocketbase": "^0.12.0"
   }
 }

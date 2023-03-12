@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "nuxt-ionic-project",
+  "appId": "com.journiz.app",
+  "appName": "Journiz",
   "webDir": "dist",
   "bundledWebRuntime": false
 }

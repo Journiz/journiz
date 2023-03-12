@@ -31,6 +31,7 @@ importers:
       '@nuxtjs/ionic': ^0.8.1
       nuxt: ^3.2.3
       nuxt-windicss: ^2.6.0
+      onesignal-cordova-plugin: ^3.3.0
       pocketbase: ^0.12.0
       tailwindcss: ^3.2.7
       typescript: ^4.9.5
@@ -44,6 +45,7 @@ importers:
       '@capacitor/status-bar': 4.1.1_@capacitor+core@4.7.0
       '@journiz/api-types': link:../packages/api-types
       '@journiz/nuxt-common': link:../packages/nuxt-common
+      onesignal-cordova-plugin: 3.3.0
       pocketbase: 0.12.0
     devDependencies:
       '@capacitor/cli': 4.7.0
@@ -6697,6 +6699,11 @@ packages:
     dependencies:
       wrappy: 1.0.2
     dev: true
+
+  /onesignal-cordova-plugin/3.3.0:
+    resolution: {integrity: sha512-lq2FzA636m8vgI5miD8em3O/RGxmDR4UbQMctcZrrrOs5oAYx6ay6NYqUMCVFp5qF/Do+Hx3e7wqbipD4oP60Q==}
+    engines: {'0': {name: cordova-android, version: '>=4.0.0'}, '1': {name: apple-xcode, version: '>=8.0.0'}, '2': {name: apple-ios, version: '>=7.0.0'}, '3': {name: cordova, version: '>=6.4.0'}, '4': {name: cordova-ios, version: '>=4.3.0'}}
+    dev: false
 
   /onetime/5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
