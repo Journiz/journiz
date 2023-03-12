@@ -1,5 +1,5 @@
 import OneSignal from 'onesignal-cordova-plugin'
-import { defineNuxtPlugin, navigateTo } from '#app'
+import { defineNuxtPlugin } from '#app'
 
 // Call this function when your app starts
 function oneSignalInit() {
@@ -17,7 +17,7 @@ function oneSignalInit() {
 
 export default defineNuxtPlugin(() => {
   document?.addEventListener('deviceready', () => {
-    oneSignalInit().setNotificationOpenedHandler((jsonData) => {
+    oneSignalInit().setNotificationOpenedHandler(() => {
       useRouter().push('/')
       useRouter().push('/notif')
     })
