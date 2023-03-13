@@ -1,15 +1,33 @@
 <script lang="ts" setup>
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl';
-import {useGeolocation} from '#imports';
+import {useGeolocation, useTeam, watch} from '#imports';
 import { navigateCircleOutline, chevronUpCircle } from 'ionicons/icons';
 
 const {currentLocation} = useGeolocation()
+// Pour le moment on exécute useTeam ici, à terme il serra executé au lancement et sauvegarder en storage (TODO)
+const {data: team, update: updateTeam} = useTeam('bth1emonizvk3bh')
 let map:MapboxMap = null
 
 const recenterMapOnPosition = () => {
   map.setCenter([currentLocation.lng, currentLocation.lat])
 }
+
+/**
+ * Function to test the updating of data in server without running geolocation
+ */
+const fakeChange = () => {
+  currentLocation.lat += 0.1
+}
+
+watch(currentLocation, () => {
+  if (team.value) {
+    console.log('💾Save change on server : [lat: ' + currentLocation.lat + ', lng: ' + currentLocation.lng + ']')
+    team.value.longitude = currentLocation.lng
+    team.value.latitude = currentLocation.lat
+    updateTeam()
+  }
+})
 
 </script>
 <template>
@@ -29,6 +47,7 @@ const recenterMapOnPosition = () => {
       </p>
     </MapboxMarker>
   </MapboxMap>
+  <ion-button @click="fakeChange">Modifier la localisation</ion-button>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button><ion-icon :icon="chevronUpCircle"></ion-icon></ion-fab-button>
     <ion-fab-list side="top">

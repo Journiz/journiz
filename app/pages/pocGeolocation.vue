@@ -8,7 +8,7 @@ const startWatchingPosition = () => {
   geolocation.startWatching()
 }
 
-const {data: team, update: updateTeam} = useTeam('bth1emonizvk3bh')
+/* const {data: team, update: updateTeam} = useTeam('bth1emonizvk3bh')
 
 const updateTeamPosition = () => {
   if (team.value) {
@@ -16,7 +16,7 @@ const updateTeamPosition = () => {
     team.value.longitude = Math.random()
     updateTeam()
   }
-}
+} */
 </script>
 <template>
 <ion-page class="bg-gray-300 flex flex-col items-center">
