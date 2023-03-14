@@ -27,11 +27,13 @@
     "@capacitor/ios": "4.7.0",
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
+    "@journiz/api-types": "workspace:*",
+    "@journiz/nuxt-common": "workspace:*",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "@pinia/nuxt": "^0.4.7",
     "@studiometa/vue-mapbox-gl": "^2.0.4",
     "mapbox-gl": "^2.13.0",
-    "@journiz/nuxt-common": "workspace:*",
-    "@journiz/api-types": "workspace:*",
+    "pinia": "^2.0.33",
     "pocketbase": "^0.12.0"
   }
 }
