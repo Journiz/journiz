@@ -1,14 +1,15 @@
 import { defineStore } from 'pinia'
 import { reactive } from 'vue'
 import { BackgroundGeolocationPlugin } from '@capacitor-community/background-geolocation'
+import { useTeamStore } from '~/store/team'
 
 export const useGeolocationStore = defineStore('geolocation', () => {
   const backgroundLocation = useNuxtApp()
     .$geolocation as BackgroundGeolocationPlugin
 
   const currentLocation = reactive({ lng: 6.129384, lat: 45.899247 })
-  let watcherId: string | null = null
 
+  let watcherId: string | null = null
   const startWatching = () => {
     if (watcherId) return
     backgroundLocation
@@ -58,11 +59,46 @@ export const useGeolocationStore = defineStore('geolocation', () => {
 
   const stopWatching = () => {
     if (watcherId) {
+      stopReporting()
       backgroundLocation.removeWatcher({
         id: watcherId,
       })
       watcherId = null
     }
   }
-  return { startWatching, stopWatching, currentLocation }
+
+  const teamStore = useTeamStore()
+  let unwatch: (() => void) | null = null
+  const startReporting = () => {
+    if (unwatch) {
+      return false
+    }
+    unwatch = watch(currentLocation, async () => {
+      // Save the positon on server
+      if (teamStore.team) {
+        teamStore.team.longitude = currentLocation.lng
+        teamStore.team.latitude = currentLocation.lat
+        await teamStore.update()
+        console.log(
+          '💾Saved change on server : [lat: ' +
+            currentLocation.lat +
+            ', lng: ' +
+            currentLocation.lng +
+            ']'
+        )
+      }
+    })
+  }
+  const stopReporting = () => {
+    unwatch?.()
+    unwatch = null
+  }
+
+  return {
+    startWatching,
+    stopWatching,
+    currentLocation,
+    startReporting,
+    stopReporting,
+  }
 })

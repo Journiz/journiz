@@ -6,6 +6,7 @@ const location = useGeolocationStore()
 
 const startWatchingPosition = () => {
   location.startWatching()
+  location.startReporting()
 }
 /* const {data: team, update: updateTeam} = useTeam('bth1emonizvk3bh')
 

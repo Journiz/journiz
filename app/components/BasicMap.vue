@@ -11,8 +11,6 @@ import { useGeolocationStore } from '~/store/geolocation'
 
 const location = useGeolocationStore()
 
-// Pour le moment on exécute useTeam ici, à terme il serra executé au lancement et sauvegarder en storage (TODO)
-const { data: team, update: updateTeam } = useTeam('bth1emonizvk3bh')
 const map: MapboxMap = null
 const track = reactive({ isTracking: false })
 
@@ -33,26 +31,6 @@ const toggleTracker = () => {
     recenterMapOnPosition()
   }
 }
-
-watch(location.currentLocation, () => {
-  // Save the positon on server
-  if (team.value) {
-    console.log(
-      '💾Save change on server : [lat: ' +
-        location.currentLocation.lat +
-        ', lng: ' +
-        location.currentLocation.lng +
-        ']'
-    )
-    team.value.longitude = location.currentLocation.lng
-    team.value.latitude = location.currentLocation.lat
-    updateTeam()
-  }
-  // Map track current position if is enable
-  if (track.isTracking) {
-    recenterMapOnPosition()
-  }
-})
 </script>
 <template>
   <MapboxMap
