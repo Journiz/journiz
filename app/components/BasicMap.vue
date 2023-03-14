@@ -1,24 +1,30 @@
 <script lang="ts" setup>
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl';
-import {useGeolocation, useTeam, watch} from '#imports';
-import {navigateCircleOutline, chevronDownCircle, magnetOutline} from 'ionicons/icons';
+import 'mapbox-gl/dist/mapbox-gl.css'
+// @ts-ignore
+import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl'
+import {
+  navigateCircleOutline,
+  chevronDownCircle,
+  magnetOutline,
+} from 'ionicons/icons'
+import { useGeolocationStore } from '~/store/geolocation'
 
-const {currentLocation} = useGeolocation()
+const location = useGeolocationStore()
+
 // Pour le moment on exécute useTeam ici, à terme il serra executé au lancement et sauvegarder en storage (TODO)
-const {data: team, update: updateTeam} = useTeam('bth1emonizvk3bh')
-let map:MapboxMap = null
-let track = reactive({isTracking: false})
+const { data: team, update: updateTeam } = useTeam('bth1emonizvk3bh')
+const map: MapboxMap = null
+const track = reactive({ isTracking: false })
 
 const recenterMapOnPosition = () => {
-  map.setCenter([currentLocation.lng, currentLocation.lat])
+  map.setCenter([location.currentLocation.lng, location.currentLocation.lat])
 }
 
 /**
  * Function to test the updating of data in server without running geolocation
  */
 const fakeChange = () => {
-  currentLocation.lat += 0.1
+  location.currentLocation.lat += 0.1
 }
 
 const toggleTracker = () => {
@@ -28,12 +34,18 @@ const toggleTracker = () => {
   }
 }
 
-watch(currentLocation, () => {
+watch(location.currentLocation, () => {
   // Save the positon on server
   if (team.value) {
-    console.log('💾Save change on server : [lat: ' + currentLocation.lat + ', lng: ' + currentLocation.lng + ']')
-    team.value.longitude = currentLocation.lng
-    team.value.latitude = currentLocation.lat
+    console.log(
+      '💾Save change on server : [lat: ' +
+        location.currentLocation.lat +
+        ', lng: ' +
+        location.currentLocation.lng +
+        ']'
+    )
+    team.value.longitude = location.currentLocation.lng
+    team.value.latitude = location.currentLocation.lat
     updateTeam()
   }
   // Map track current position if is enable
@@ -41,31 +53,48 @@ watch(currentLocation, () => {
     recenterMapOnPosition()
   }
 })
-
 </script>
 <template>
   <MapboxMap
-      class="w-full h-full absolute top-0 left-0"
-      access-token="pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg"
-      map-style="mapbox://styles/mapbox/streets-v12"
-      :center="[-122.02703037000001, 37.330208800000001]"
-      :zoom=14
-      @mb-created="(mapInstance) => map = mapInstance" >
-    <MapboxMarker :lng-lat="[currentLocation.lng, currentLocation.lat]">
+    class="w-full h-full absolute top-0 left-0"
+    access-token="pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg"
+    map-style="mapbox://styles/mapbox/streets-v12"
+    :center="[-122.02703037000001, 37.330208800000001]"
+    :zoom="14"
+    @mb-created="(mapInstance) => (map = mapInstance)"
+  >
+    <MapboxMarker
+      :lng-lat="[location.currentLocation.lng, location.currentLocation.lat]"
+    >
       <p class="currentPosition-marker">
-        <svg  width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="20" r="15" fill="#4770FF"/>
-          <circle cx="20" cy="20" r="19.5" stroke="#87B7FF"/>
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="20" cy="20" r="15" fill="#4770FF" />
+          <circle cx="20" cy="20" r="19.5" stroke="#87B7FF" />
         </svg>
       </p>
     </MapboxMarker>
   </MapboxMap>
   <ion-button @click="fakeChange">Modifier la localisation</ion-button>
   <ion-fab slot="fixed" vertical="top" horizontal="start">
-    <ion-fab-button><ion-icon :icon="chevronDownCircle"></ion-icon></ion-fab-button>
+    <ion-fab-button>
+      <ion-icon :icon="chevronDownCircle"></ion-icon>
+    </ion-fab-button>
     <ion-fab-list side="bottom">
-      <ion-fab-button @click="recenterMapOnPosition"><ion-icon :icon="navigateCircleOutline"></ion-icon></ion-fab-button>
-      <ion-fab-button @click="toggleTracker" :color="track.isTracking ? 'primary' : undefined"><ion-icon :icon="magnetOutline"></ion-icon></ion-fab-button>
+      <ion-fab-button @click="recenterMapOnPosition">
+        <ion-icon :icon="navigateCircleOutline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button
+        :color="track.isTracking ? 'primary' : undefined"
+        @click="toggleTracker"
+      >
+        <ion-icon :icon="magnetOutline"></ion-icon>
+      </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
 </template>
