@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import BasicMap from '~/components/BasicMap.vue'
 import { useGeolocationStore } from '~/store/geolocation'
+import { useTeamStore } from '~/store/team'
 
 const location = useGeolocationStore()
 
@@ -8,15 +9,9 @@ const startWatchingPosition = () => {
   location.startWatching()
   location.startReporting()
 }
-/* const {data: team, update: updateTeam} = useTeam('bth1emonizvk3bh')
 
-const updateTeamPosition = () => {
-  if (team.value) {
-    team.value.latitude = Math.random()
-    team.value.longitude = Math.random()
-    updateTeam()
-  }
-} */
+const teamStore = useTeamStore()
+teamStore.setId('bth1emonizvk3bh')
 </script>
 <template>
   <ion-page class="bg-gray-300 flex flex-col items-center">
@@ -26,7 +21,7 @@ const updateTeamPosition = () => {
       </ion-toolbar>
     </ion-header>
 
-    <p v-if="team">Equipe: {{ team.name }}</p>
+    <p v-if="teamStore.team">Equipe: {{ teamStore.team.name }}</p>
     <BasicMap />
     <ion-button @click="startWatchingPosition"
       >Activer la localisation en background</ion-button
