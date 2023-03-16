@@ -1,17 +1,21 @@
-import {z, ZodObject} from 'zod'
-import {Ref} from 'vue';
-import {flattenExpands} from '@journiz/api-types'
-import {Record} from 'pocketbase';
+import { z, ZodObject } from 'zod'
+import { Ref, ref, watch } from 'vue'
+import { flattenExpands } from '@journiz/api-types'
+import { Record } from 'pocketbase'
+import { MaybeRef, resolveUnref } from '@vueuse/shared'
+import { usePocketBase } from '../composables/usePocketBase'
 
 export type RecordComposableData<Schema extends ZodObject<any>> = {
-  data: Ref<z.infer<Schema> | null>;
-  rawData: Ref<Record | null>;
-  refresh: () => Promise<void>;
-  update: () => Promise<void>;
-  loading: any;
-  updateLoading: any;
+  data: Ref<z.infer<Schema> | null>
+  rawData: Ref<Record | null>
+  refresh: () => Promise<void>
+  update: () => Promise<void>
+  loading: any
+  updateLoading: any
 }
-export type RecordComposable<Schema extends ZodObject<any>> = (id: string) => RecordComposableData<Schema>
+export type RecordComposable<Schema extends ZodObject<any>> = (
+  id?: MaybeRef<string | undefined>
+) => RecordComposableData<Schema>
 
 /**
  * This function creates a composable that contains the data from the record if any, the error data, the loading state,
@@ -40,7 +44,9 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
     }
   }
 
-  return (id: string): RecordComposableData<Schema> => {
+  return (
+    idRef?: MaybeRef<string | undefined>
+  ): RecordComposableData<Schema> => {
     const loading = ref(false)
     const updateLoading = ref(false)
     const data: Ref<z.infer<Schema> | null> = ref(null)
@@ -52,11 +58,21 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
         data.value = schema.parse(result)
       }
     }
-    watch(rawData, parseData, {deep: true})
+    watch(rawData, parseData, { deep: true })
 
+    const ensureId = () => {
+      const id = resolveUnref(idRef)
+      if (!id) {
+        throw new Error(
+          `Trying to use composable for collection ${collection} without an id provided.`
+        )
+      }
+      return id
+    }
     const refresh = async () => {
+      const id = ensureId()
       loading.value = true
-      let result = await pb.collection(collection).getOne(id, {expand})
+      const result = await pb.collection(collection).getOne(id, { expand })
       if (!result) {
         rawData.value = null
       }
@@ -66,6 +82,7 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
     }
 
     const update: () => Promise<void> = async () => {
+      const id = ensureId()
       if (data.value) {
         updateLoading.value = true
         await pb.collection(collection).update(id, data.value)
@@ -73,9 +90,15 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
       }
     }
 
-    // Initial load
-    if (!lazy) {
+    // Initial load only if id provided
+    if (!lazy && resolveUnref(idRef)) {
       refresh().then()
+    }
+    if (!lazy && isRef(idRef)) {
+      watch(idRef, async (newId) => {
+        if (!newId) return
+        await refresh()
+      })
     }
 
     return {
@@ -84,7 +107,7 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
       refresh,
       update,
       loading,
-      updateLoading
+      updateLoading,
     }
   }
 }
