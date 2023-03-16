@@ -1,7 +1,7 @@
-import { ref, Ref, onUnmounted } from 'vue'
-import { record, z, ZodObject } from 'zod'
-import { flattenExpands } from '@journiz/api-types'
+import { onUnmounted } from 'vue'
+import { ZodObject } from 'zod'
 import { Record } from 'pocketbase'
+import { MaybeRef, resolveUnref } from '@vueuse/shared'
 import { usePocketBase } from '../composables/usePocketBase'
 import {
   makeRecordComposable,
@@ -21,7 +21,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
   schema: Schema,
   expand = '',
   expandDefaults: { [k: string]: () => any } = {}
-) {
+): RecordComposable<Schema> {
   const useRecord = makeRecordComposable(
     collection,
     schema,
@@ -31,7 +31,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
   )
   const pb = usePocketBase()
 
-  return (id: string): RecordComposableData<Schema> => {
+  return (id?: MaybeRef<string | undefined>): RecordComposableData<Schema> => {
     const { data, loading, refresh, rawData, update, updateLoading } =
       useRecord(id)
 
@@ -39,16 +39,18 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
 
     const bind = async () => {
       await refresh()
-      const un = await pb.collection(collection).subscribe(id, (e) => {
-        if (e.action === 'update') {
-          e.record.expand = Object.assign(
-            {},
-            e.record.expand,
-            rawData.value?.expand ?? {}
-          )
-          rawData.value = e.record
-        }
-      })
+      const un = await pb
+        .collection(collection)
+        .subscribe(resolveUnref(id)!, (e) => {
+          if (e.action === 'update') {
+            e.record.expand = Object.assign(
+              {},
+              e.record.expand,
+              rawData.value?.expand ?? {}
+            )
+            rawData.value = e.record
+          }
+        })
       const expand = rawData.value?.expand
       if (rawData.value && expand) {
         for (const [key, value] of Object.entries(expand)) {
@@ -96,9 +98,20 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
       }
       unsubscribes.push(un)
     }
+    const unsubscribeAll = () => unsubscribes.forEach((u) => u())
+    onUnmounted(unsubscribeAll)
 
-    onUnmounted(() => unsubscribes.forEach((u) => u()))
-    bind().then()
+    if (resolveUnref(id)) {
+      bind().then()
+    }
+    if (isRef(id)) {
+      watch(id, async (newId) => {
+        unsubscribeAll()
+        if (!newId) return
+        await bind()
+      })
+    }
+
     return {
       data,
       loading,

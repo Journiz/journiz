@@ -2,6 +2,7 @@ import { z, ZodObject } from 'zod'
 import { Ref, ref, watch } from 'vue'
 import { flattenExpands } from '@journiz/api-types'
 import { Record } from 'pocketbase'
+import { MaybeRef, resolveUnref } from '@vueuse/shared'
 import { usePocketBase } from '../composables/usePocketBase'
 
 export type RecordComposableData<Schema extends ZodObject<any>> = {
@@ -13,7 +14,7 @@ export type RecordComposableData<Schema extends ZodObject<any>> = {
   updateLoading: any
 }
 export type RecordComposable<Schema extends ZodObject<any>> = (
-  id: string
+  id?: MaybeRef<string | undefined>
 ) => RecordComposableData<Schema>
 
 /**
@@ -43,7 +44,9 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
     }
   }
 
-  return (id: string): RecordComposableData<Schema> => {
+  return (
+    idRef?: MaybeRef<string | undefined>
+  ): RecordComposableData<Schema> => {
     const loading = ref(false)
     const updateLoading = ref(false)
     const data: Ref<z.infer<Schema> | null> = ref(null)
@@ -57,7 +60,17 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
     }
     watch(rawData, parseData, { deep: true })
 
+    const ensureId = () => {
+      const id = resolveUnref(idRef)
+      if (!id) {
+        throw new Error(
+          `Trying to use composable for collection ${collection} without an id provided.`
+        )
+      }
+      return id
+    }
     const refresh = async () => {
+      const id = ensureId()
       loading.value = true
       const result = await pb.collection(collection).getOne(id, { expand })
       if (!result) {
@@ -69,6 +82,7 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
     }
 
     const update: () => Promise<void> = async () => {
+      const id = ensureId()
       if (data.value) {
         updateLoading.value = true
         await pb.collection(collection).update(id, data.value)
@@ -76,9 +90,15 @@ export function makeRecordComposable<Schema extends ZodObject<any>>(
       }
     }
 
-    // Initial load
-    if (!lazy) {
+    // Initial load only if id provided
+    if (!lazy && resolveUnref(idRef)) {
       refresh().then()
+    }
+    if (!lazy && isRef(idRef)) {
+      watch(idRef, async (newId) => {
+        if (!newId) return
+        await refresh()
+      })
     }
 
     return {
