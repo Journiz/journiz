@@ -11,12 +11,20 @@ import { useGeolocationStore } from '~/store/geolocation'
 
 const location = useGeolocationStore()
 
-const map: MapboxMap = null
+let map: MapboxMap = null
 const track = reactive({ isTracking: false })
 
 const recenterMapOnPosition = () => {
   map.setCenter([location.currentLocation.lng, location.currentLocation.lat])
 }
+
+watch(location.currentLocation, () => {
+  // Map track current position if is enable
+  if (track.isTracking) {
+    recenterMapOnPosition()
+  }
+})
+
 
 /**
  * Function to test the updating of data in server without running geolocation
@@ -39,7 +47,7 @@ const toggleTracker = () => {
     map-style="mapbox://styles/mapbox/streets-v12"
     :center="[-122.02703037000001, 37.330208800000001]"
     :zoom="14"
-    @mb-created="(mapInstance) => (map = mapInstance)"
+    @mb-created="(mapInstance) => map = mapInstance"
   >
     <MapboxMarker
       :lng-lat="[location.currentLocation.lng, location.currentLocation.lat]"
