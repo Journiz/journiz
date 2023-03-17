@@ -1,8 +1,0 @@
-
-import { defuFn } from '/Users/leo/gobelins/journiz/journiz/node_modules/.pnpm/defu@6.1.2/node_modules/defu/dist/defu.mjs'
-
-const inlineConfig = {}
-
-
-
-export default defuFn(inlineConfig)
