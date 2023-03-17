@@ -1,0 +1,8 @@
+{
+  "name": "@journiz/app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom",
+  "ionic:serve": "echo hey"
+}
