@@ -8,7 +8,10 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "device": "pnpm run build && npx cap sync"
+    "device": "pnpm run build && npx cap sync",
+    "ios": "ionic cap run ios -l --external --port=4000",
+    "ionic:serve": "pnpm run dev",
+    "ionic:build": "pnpm run build"
   },
   "dependencies": {
     "@capacitor-community/background-geolocation": "^1.2.12",
