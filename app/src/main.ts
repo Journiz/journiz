@@ -1,7 +1,17 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import { IonicVue } from '@ionic/vue'
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonicVue,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/vue'
 import App from './App.vue'
 import router from './router'
 import plugins from '~/plugins'
@@ -29,6 +39,16 @@ const app = createApp(App)
 export const pinia = createPinia()
 
 app.use(IonicVue)
+// Global components
+app.component('IonButton', IonButton)
+app.component('IonButtons', IonButtons)
+app.component('IonBackButton', IonBackButton)
+app.component('IonHeader', IonHeader)
+app.component('IonContent', IonContent)
+app.component('IonPage', IonPage)
+app.component('IonTitle', IonTitle)
+app.component('IonToolbar', IonToolbar)
+
 app.use(pinia)
 app.use(router)
 

@@ -35,7 +35,7 @@ importers:
       '@capacitor/cli': ^4.7.1
       '@capacitor/core': 4.7.0
       '@capacitor/haptics': 4.1.0
-      '@capacitor/ios': 4.7.0
+      '@capacitor/ios': 4.7.1
       '@capacitor/keyboard': 4.1.1
       '@capacitor/status-bar': 4.1.1
       '@ionic/vue': ^6.0.0
@@ -70,7 +70,7 @@ importers:
       '@capacitor/app': 4.1.1_@capacitor+core@4.7.0
       '@capacitor/core': 4.7.0
       '@capacitor/haptics': 4.1.0_@capacitor+core@4.7.0
-      '@capacitor/ios': 4.7.0_@capacitor+core@4.7.0
+      '@capacitor/ios': 4.7.1_@capacitor+core@4.7.0
       '@capacitor/keyboard': 4.1.1_@capacitor+core@4.7.0
       '@capacitor/status-bar': 4.1.1_@capacitor+core@4.7.0
       '@ionic/vue': 6.6.2
@@ -270,10 +270,10 @@ packages:
       '@capacitor/core': 4.7.0
     dev: false
 
-  /@capacitor/ios/4.7.0_@capacitor+core@4.7.0:
-    resolution: {integrity: sha512-GeuPXs4hoyQ5bQaSdBxLIGEd+TvO7IAQe00xe3tpEYsP3987SpkNUnhdW5ikUewFJmOtZIp+A8kCgWOJUmKbUg==}
+  /@capacitor/ios/4.7.1_@capacitor+core@4.7.0:
+    resolution: {integrity: sha512-8VPxVoqj8E8e4lwPphAZ6ZdOtfQNC+DfUNafjyF+Y/hWu7xMBaElDnCqfSIVKtLUoJud8Ke7yONgMTHnNE+C9A==}
     peerDependencies:
-      '@capacitor/core': ^4.6.0
+      '@capacitor/core': ^4.7.0
     dependencies:
       '@capacitor/core': 4.7.0
     dev: false

@@ -6,3 +6,4 @@ import { IonApp, IonRouterOutlet } from '@ionic/vue'
     <IonRouterOutlet />
   </IonApp>
 </template>
+<style></style>

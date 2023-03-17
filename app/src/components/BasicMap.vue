@@ -52,7 +52,7 @@ const toggleTracker = () => {
 </script>
 <template>
   <MapboxMap
-    class="w-full h-full absolute top-0 left-0"
+    class="w-full h-full"
     access-token="pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg"
     map-style="mapbox://styles/mapbox/streets-v12"
     :center="[-122.02703037000001, 37.330208800000001]"
@@ -76,23 +76,23 @@ const toggleTracker = () => {
       </p>
     </MapboxMarker>
   </MapboxMap>
-  <ion-button @click="fakeChange">Modifier la localisation</ion-button>
-  <ion-fab slot="fixed" vertical="top" horizontal="start">
-    <ion-fab-button>
+  <IonButton @click="fakeChange">Modifier la localisation</IonButton>
+  <IonFab slot="fixed" vertical="top" horizontal="start">
+    <IonFabButton>
       <IonIcon :icon="chevronDownCircle"></IonIcon>
-    </ion-fab-button>
-    <ion-fab-list side="bottom">
-      <ion-fab-button @click="recenterMapOnPosition">
-        <ion-icon :icon="navigateCircleOutline"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button
+    </IonFabButton>
+    <IonFabList side="bottom">
+      <IonFabButton @click="recenterMapOnPosition">
+        <IonIcon :icon="navigateCircleOutline"></IonIcon>
+      </IonFabButton>
+      <IonFabButton
         :color="track.isTracking ? 'primary' : undefined"
         @click="toggleTracker"
       >
-        <ion-icon :icon="magnetOutline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
+        <IonIcon :icon="magnetOutline"></IonIcon>
+      </IonFabButton>
+    </IonFabList>
+  </IonFab>
 </template>
 <style scoped>
 .currentPosition-marker svg {

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonButton } from '@ionic/vue'
-import BasicMap from '~/components/BasicMap.vue'
+import {} from '@ionic/vue'
 import { useGeolocationStore } from '~/stores/geolocation'
 import { useTeamStore } from '~/stores/team'
+import BasicMap from '~/components/BasicMap.vue'
 
 const location = useGeolocationStore()
 
@@ -15,17 +15,23 @@ const teamStore = useTeamStore()
 teamStore.setId('bth1emonizvk3bh')
 </script>
 <template>
-  <IonPage class="bg-gray-300 flex flex-col items-center">
+  <IonPage>
     <IonHeader>
-      <ion-toolbar>
-        <ion-title>POC Geolocation</ion-title>
-      </ion-toolbar>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonBackButton default-href="#">Retour</IonBackButton>
+        </IonButtons>
+        <IonTitle>POC Geolocation</IonTitle>
+      </IonToolbar>
     </IonHeader>
-
-    <p v-if="teamStore.team">Equipe: {{ teamStore.team.name }}</p>
-    <BasicMap />
-    <ion-button @click="startWatchingPosition"
-      >Activer la localisation en background</ion-button
-    >
+    <IonContent>
+      <div class="h-full flex flex-col items-center justify-center">
+        <p v-if="teamStore.team">Equipe: {{ teamStore.team.name }}</p>
+        <BasicMap class="w-full flex-grow" />
+        <IonButton @click="startWatchingPosition"
+          >Activer la localisation en background
+        </IonButton>
+      </div>
+    </IonContent>
   </IonPage>
 </template>
