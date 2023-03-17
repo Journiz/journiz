@@ -1,8 +1,8 @@
-import { onUnmounted } from 'vue'
+import { isRef, onUnmounted, watch } from 'vue'
 import { ZodObject } from 'zod'
 import { Record } from 'pocketbase'
 import { MaybeRef, resolveUnref } from '@vueuse/shared'
-import { usePocketBase } from '../composables/usePocketBase'
+import { usePocketBase } from '../src/usePocketBase'
 import {
   makeRecordComposable,
   RecordComposable,

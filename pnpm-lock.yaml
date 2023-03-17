@@ -30,6 +30,7 @@ importers:
       '@ionic/vue': ^6.0.0
       '@ionic/vue-router': ^6.0.0
       '@journiz/api-types': workspace:*
+      '@journiz/composables': workspace:*
       '@journiz/nuxt-common': workspace:*
       '@mapbox/mapbox-gl-geocoder': ^5.0.1
       '@studiometa/vue-mapbox-gl': ^2.0.4
@@ -60,6 +61,7 @@ importers:
       '@ionic/vue': 6.6.2
       '@ionic/vue-router': 6.6.2
       '@journiz/api-types': link:../packages/api-types
+      '@journiz/composables': link:../packages/composables
       '@journiz/nuxt-common': link:../packages/nuxt-common
       '@mapbox/mapbox-gl-geocoder': 5.0.1_mapbox-gl@2.13.0
       '@studiometa/vue-mapbox-gl': 2.0.4_lq3etknjshp77pw7mxyvupg754
@@ -87,9 +89,30 @@ importers:
     dependencies:
       zod: 3.21.3
 
+  packages/composables:
+    specifiers:
+      '@journiz/api-types': workspace:*
+      '@journiz/plugins': workspace:*
+      '@vueuse/shared': ^9.13.0
+      pocketbase: ^0.12.0
+      vue: ^3.2.47
+    dependencies:
+      '@journiz/api-types': link:../api-types
+      '@journiz/plugins': link:../plugins
+      '@vueuse/shared': 9.13.0_vue@3.2.47
+      pocketbase: 0.12.0
+      vue: 3.2.47
+
+  packages/config:
+    specifiers:
+      pocketbase: ^0.12.0
+    dependencies:
+      pocketbase: 0.12.0
+
   packages/nuxt-common:
     specifiers:
       '@journiz/api-types': workspace:*
+      '@journiz/plugins': workspace:*
       '@nuxtjs/eslint-config-typescript': ^12.0.0
       '@vueuse/shared': ^9.13.0
       eslint: ^8.28.0
@@ -100,6 +123,7 @@ importers:
       zod: ^3.21.3
     dependencies:
       '@journiz/api-types': link:../api-types
+      '@journiz/plugins': link:../plugins
       '@vueuse/shared': 9.13.0_vue@3.2.47
       pocketbase: 0.12.0
       zod: 3.21.3
@@ -109,6 +133,14 @@ importers:
       nuxt: 3.2.3_ycpbpc6yetojsgtrx3mwntkhsu
       typescript: 4.9.5
       vue: 3.2.47
+
+  packages/plugins:
+    specifiers:
+      '@journiz/config': workspace:*
+      pocketbase: ^0.12.0
+    dependencies:
+      '@journiz/config': link:../config
+      pocketbase: 0.12.0
 
   web:
     specifiers:

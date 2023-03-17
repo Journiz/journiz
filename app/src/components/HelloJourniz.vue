@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { IonButton } from '@ionic/vue'
 import { computed, ref } from 'vue'
 
 const count = ref(0)
@@ -15,7 +16,7 @@ console.log('👋 Welcome to app')
       Count is: <strong>{{ count }}</strong
       >, doubleCount is <strong class="text-red-600">{{ doubleCount }}</strong>
     </p>
-    <ion-button @click="increment">Increment</ion-button>
-    <ion-button router-link="/pocGeolocation">Go to geolocation</ion-button>
+    <IonButton @click="increment">Increment</IonButton>
+    <ion-button router-link="/geolocation">Go to geolocation</ion-button>
   </div>
 </template>

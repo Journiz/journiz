@@ -1,1 +1,0 @@
-export { default } from "file:///Users/ponk/gobelins/journiz/journiz/node_modules/.pnpm/@nuxt+vite-builder@3.2.3_cvsfxgm4ztd56vnx4opdesknua/node_modules/@nuxt/vite-builder/dist/runtime/vite-node.mjs"

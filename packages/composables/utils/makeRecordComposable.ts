@@ -1,9 +1,9 @@
 import { z, ZodObject } from 'zod'
-import { Ref, ref, watch } from 'vue'
+import { isRef, Ref, ref, watch } from 'vue'
 import { flattenExpands } from '@journiz/api-types'
 import { Record } from 'pocketbase'
 import { MaybeRef, resolveUnref } from '@vueuse/shared'
-import { usePocketBase } from '../composables/usePocketBase'
+import { usePocketBase } from '../src/usePocketBase'
 
 export type RecordComposableData<Schema extends ZodObject<any>> = {
   data: Ref<z.infer<Schema> | null>

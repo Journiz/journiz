@@ -2,7 +2,13 @@
 import 'mapbox-gl/dist/mapbox-gl.css'
 // @ts-ignore
 import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl'
-import { IonIcon } from '@ionic/vue'
+import {
+  IonIcon,
+  IonButton,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+} from '@ionic/vue'
 import {
   navigateCircleOutline,
   chevronDownCircle,
