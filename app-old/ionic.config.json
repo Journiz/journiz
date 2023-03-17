@@ -1,8 +1,0 @@
-{
-  "name": "nuxt-ionic-project",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "custom",
-  "ionic:serve": "echo hey"
-}
