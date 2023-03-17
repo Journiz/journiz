@@ -9,6 +9,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@journiz/api-types": "workspace:*",
+    "@journiz/composables": "workspace:*",
+    "@journiz/config": "workspace:*",
+    "@journiz/plugins": "workspace:*",
+    "typescript": "~4.8.4"
+  },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "eslint": "^8.28.0",
