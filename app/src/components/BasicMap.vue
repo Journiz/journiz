@@ -14,16 +14,19 @@ import {
   chevronDownCircle,
   magnetOutline,
 } from 'ionicons/icons'
-import { reactive, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { useGeolocationStore } from '~/stores/geolocation'
 
 const location = useGeolocationStore()
 
-const map: MapboxMap = null
+const map = ref<MapboxMap>()
 const track = reactive({ isTracking: false })
 
 const recenterMapOnPosition = () => {
-  map.setCenter([location.currentLocation.lng, location.currentLocation.lat])
+  map.value.setCenter([
+    location.currentLocation.lng,
+    location.currentLocation.lat,
+  ])
 }
 
 watch(location.currentLocation, () => {
@@ -54,7 +57,7 @@ const toggleTracker = () => {
     map-style="mapbox://styles/mapbox/streets-v12"
     :center="[-122.02703037000001, 37.330208800000001]"
     :zoom="14"
-    @mb-created="(mapInstance) => (map = mapInstance)"
+    @mb-created="(mapInstance: MapboxMap) => (map = mapInstance)"
   >
     <MapboxMarker
       :lng-lat="[location.currentLocation.lng, location.currentLocation.lat]"
