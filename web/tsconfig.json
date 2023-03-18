@@ -9,8 +9,8 @@
     "isolatedModules": false,
     "preserveValueImports": false,
     "importsNotUsedAsValues": "remove",
-    "target": "ES2020",
-    "lib": ["dom", "ES2020"]
+    "target": "ES2022",
+    "lib": ["dom", "ESNext"]
   },
   "references": [
     {
