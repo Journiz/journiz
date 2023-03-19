@@ -30,15 +30,7 @@ watch(
 
 <template>
   <main>
-    <div>
-      <button
-        class="bg-blue-700 text-white px-4 py-2 rounded-lg"
-        @click="clear"
-      >
-        Clear
-      </button>
-    </div>
-    <div class="w-full h-[700px] relative">
+    <div class="w-full h-[90vh] relative">
       <MapboxMap
         class="w-full h-full"
         access-token="pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg"
