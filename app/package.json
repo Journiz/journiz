@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "dev:local": "VITE_API_URL=http://localhost:8090 pnpm run dev",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
