@@ -1,5 +1,6 @@
 import OneSignal from 'onesignal-cordova-plugin'
 import './capacitorSetup'
+import router from '~/router'
 
 // Call this function when your app starts
 function oneSignalInit() {
@@ -14,11 +15,12 @@ function oneSignalInit() {
   })
   return OneSignal
 }
-export default function pushNotifications () {
-  document?.addEventListener('deviceready', () => {
-    oneSignalInit().setNotificationOpenedHandler(() => {
-      // useRouter().push('/')
-      // useRouter().push('/notif')
+
+export default function pushNotifications() {
+  document.addEventListener('deviceready', () => {
+    oneSignalInit().setNotificationOpenedHandler(async () => {
+      await router.push('/')
+      await router.push('/notif')
     })
   })
 }

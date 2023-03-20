@@ -1,3 +1,5 @@
-export default function plugins() {
+import pushNotifications from '~/plugins/pushNotifications'
 
+export default function plugins() {
+  pushNotifications()
 }
