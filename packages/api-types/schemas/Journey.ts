@@ -15,3 +15,5 @@ export const JourneySchema = z.object({
   updated: z.string(),
   user: z.string(),
 })
+
+export type Journey = z.infer<typeof JourneySchema>
