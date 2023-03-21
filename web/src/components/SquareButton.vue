@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import icons from '~/assets/icons'
 const props = defineProps({
@@ -13,11 +13,9 @@ const props = defineProps({
   icon: {
     type: String,
     required: true,
-    validator(value) {
-      for (const key in icons) {
-        if (value === key) {
-          return true
-        }
+    validator(value: string) {
+      if (Object.keys(icons).includes(value)) {
+        return true
       }
       console.warn(
         '⚠️ The icon name' +
