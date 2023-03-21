@@ -6,29 +6,29 @@ import IconTrip from '~icons/bx/trip'
 </script>
 
 <template>
-  <div class="bg-white fixed left-0 h-full top-0 w-1/12 pt-40">
-    <router-link to="/journeys">
+  <div class="bg-white h-full w-24 pt-40">
+    <router-link to="/dashboard/parcours">
       <div class="text-center text-blue-700 mb-10">
         <icon-trip class="mx-auto mb-2 sidebar-icon" />
-        <span>Vos parcours</span>
+        <span class="text-xs">Vos parcours</span>
       </div>
     </router-link>
-    <router-link to="/community">
+    <router-link to="/dashboard/communaute">
       <div class="text-center text-blue-700 mb-10">
         <icon-group class="mx-auto mb-2 sidebar-icon" />
-        <span>Communauté</span>
+        <span class="text-xs">Communauté</span>
       </div>
     </router-link>
-    <router-link to="/profil">
+    <router-link to="/dashboard/profil">
       <div class="text-center text-blue-700 mb-10">
         <icon-user class="mx-auto mb-2 sidebar-icon" />
-        <span>Profil</span>
+        <span class="text-xs">Profil</span>
       </div>
     </router-link>
-    <router-link to="/settings">
+    <router-link to="/dashboard/parametres">
       <div class="text-center text-blue-700 mb-10">
         <icon-setting class="mx-auto mb-2 sidebar-icon" />
-        <span>Paramètres</span>
+        <span class="text-xs">Paramètres</span>
       </div>
     </router-link>
   </div>
