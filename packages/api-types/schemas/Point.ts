@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const PointSchema = z.object({
+export const basePointSchema = z.object({
   id: z.string(),
   latitude: z.number(),
   longitude: z.number(),
@@ -14,7 +14,12 @@ export const PointSchema = z.object({
     ])
     .optional(),
   score: z.number(),
-  trigger: z.lazy(() => PointSchema).optional(),
   created: z.string(),
   updated: z.string(),
+})
+export type Point = z.infer<typeof basePointSchema> & {
+  trigger?: Point
+}
+export const PointSchema: z.ZodType<Point> = basePointSchema.extend({
+  trigger: z.lazy(() => PointSchema).optional(),
 })
