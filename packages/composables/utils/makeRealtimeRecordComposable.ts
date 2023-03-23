@@ -1,6 +1,7 @@
 import { isRef, onUnmounted, watch } from 'vue'
 import { ZodObject } from 'zod'
 import { Record } from 'pocketbase'
+import { cloneDeep } from '@journiz/api-types'
 import { MaybeRef, resolveUnref } from '@vueuse/shared'
 import { usePocketBase } from '../src/usePocketBase'
 import {
@@ -42,23 +43,27 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
 
     const bind = async () => {
       await refresh()
+      const updateCallbacks: ((oldVal: any) => void)[] = []
+
       const un = await pb
         .collection(collection)
         .subscribe(resolveUnref(id)!, (e) => {
           if (e.action === 'update') {
+            const oldVal = cloneDeep(rawData.value)
             e.record.expand = Object.assign(
               {},
               e.record.expand,
               rawData.value?.expand ?? {}
             )
             rawData.value = e.record
+            updateCallbacks.forEach((c) => c(oldVal))
           }
         })
       unsubscribes.push(un)
 
       const expand = rawData.value?.expand
       if (rawData.value && expand) {
-        for (const [key, value] of Object.entries(expand)) {
+        for (const [key, expandValue] of Object.entries(expand)) {
           if (Array.isArray(expand[key])) {
             // watch collection and filter on value
             if (key.includes('(')) {
@@ -87,9 +92,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
                 })
               unsubscribes.push(unsubscribeCollection)
             } else {
-              // Handle updates of points content
-              // Handle updates of own property (maybe not here)
-              const expandedArray = value as DirectExpandArrayMeta<Record>
+              const expandedArray = expandValue as DirectExpandArrayMeta<Record>
               const collectionName = expandedArray[0]
                 ? expandedArray[0].collectionName
                 : expandedArray.collectionName
@@ -114,10 +117,36 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
                   }
                 })
               unsubscribes.push(unsubscribe)
+              // Handle when relation property changes (added or deleted id)
+              updateCallbacks.push(async (oldVal: any) => {
+                const oldArray = oldVal[key]
+                const newArray = rawData.value![key]
+                const addedIds = newArray.filter(
+                  (x: string) => !oldArray.includes(x)
+                )
+                const removedIds = oldArray.filter(
+                  (x: string) => !newArray.includes(x)
+                )
+                for (const id of removedIds) {
+                  const index = expandValue.findIndex(
+                    (r: Record) => r.id === id
+                  )
+                  expandValue.splice(index, 1)
+                }
+                for (const id of addedIds) {
+                  const record = await pb.collection(collectionName).getOne(id)
+                  expandValue.push(record)
+                }
+                // We sort the expanded array to match the order in the ids array
+                expandValue.sort(
+                  (a: Record, b: Record) =>
+                    newArray.indexOf(a.id) - newArray.indexOf(b.id)
+                )
+              })
             }
           } else {
             // watch single record
-            const v = value as Record
+            const v = expandValue as Record
             const unsubscribeSingle = await pb
               .collection(v.collectionName)
               .subscribe(v.id, (data) => {
