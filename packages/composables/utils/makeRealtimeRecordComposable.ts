@@ -16,6 +16,9 @@ import {
  * @param schema
  * @param lazy
  */
+export interface DirectExpandArrayMeta<T> extends Array<T> {
+  collectionName?: string
+}
 export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
   collection: string,
   schema: Schema,
@@ -35,7 +38,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
     const { data, loading, refresh, rawData, update, updateLoading } =
       useRecord(id)
 
-    const unsubscribes: (() => void)[] = []
+    let unsubscribes: (() => void)[] = []
 
     const bind = async () => {
       await refresh()
@@ -51,6 +54,8 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
             rawData.value = e.record
           }
         })
+      unsubscribes.push(un)
+
       const expand = rawData.value?.expand
       if (rawData.value && expand) {
         for (const [key, value] of Object.entries(expand)) {
@@ -81,6 +86,34 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
                   }
                 })
               unsubscribes.push(unsubscribeCollection)
+            } else {
+              // Handle updates of points content
+              // Handle updates of own property (maybe not here)
+              const expandedArray = value as DirectExpandArrayMeta<Record>
+              const collectionName = expandedArray[0]
+                ? expandedArray[0].collectionName
+                : expandedArray.collectionName
+              if (!collectionName) {
+                throw new Error(
+                  `Error in Realtime Composable: unable to find collection name for expanded field "${key}. Did you provide default with meta ?"`
+                )
+              }
+              const unsubscribe = await pb
+                .collection(collectionName)
+                .subscribe('*', (data) => {
+                  if (data.action !== 'update') return
+                  const isConcerned = rawData.value?.[key].includes(
+                    data.record.id
+                  )
+                  if (isConcerned) {
+                    const existingRecordIndex = expand[key].findIndex(
+                      (r: Record) => r.id === data.record.id
+                    )
+                    ;(expand[key] as Record[])[existingRecordIndex] =
+                      data.record
+                  }
+                })
+              unsubscribes.push(unsubscribe)
             }
           } else {
             // watch single record
@@ -96,9 +129,11 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
           }
         }
       }
-      unsubscribes.push(un)
     }
-    const unsubscribeAll = () => unsubscribes.forEach((u) => u())
+    const unsubscribeAll = () => {
+      unsubscribes.forEach((u) => u())
+      unsubscribes = []
+    }
     onUnmounted(unsubscribeAll)
 
     if (resolveUnref(id)) {

@@ -9,6 +9,8 @@ export const basePointSchema = z.object({
   answerType: z.enum(['image', 'text', 'choice', 'location']),
   answer: z
     .union([
+      z.null(),
+      z.string(),
       z.array(z.string()),
       z.object({ lng: z.number(), lat: z.number() }),
     ])
@@ -16,10 +18,17 @@ export const basePointSchema = z.object({
   score: z.number(),
   created: z.string(),
   updated: z.string(),
+  trigger: z.string().optional(),
 })
 export type Point = z.infer<typeof basePointSchema> & {
-  trigger?: Point
+  expand?: {
+    trigger?: Point
+  }
 }
 export const PointSchema: z.ZodType<Point> = basePointSchema.extend({
-  trigger: z.lazy(() => PointSchema).optional(),
+  expand: z
+    .object({
+      trigger: z.lazy(() => PointSchema).optional(),
+    })
+    .optional(),
 })
