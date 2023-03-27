@@ -18,5 +18,6 @@ console.log('👋 Welcome to app')
     <IonButton @click="increment">Increment</IonButton>
     <IonButton router-link="/geolocation">Go to geolocation</IonButton>
     <IonButton router-link="/notif">Go to notif</IonButton>
+    <IonButton router-link="/user-chat">Chat Prof</IonButton>
   </div>
 </template>
