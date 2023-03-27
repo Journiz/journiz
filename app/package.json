@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^4.7.1",
+    "@ionic/cli": "^6.20.9",
     "@types/mapbox-gl": "^2.7.10",
     "@types/node": "^18.14.2",
     "@vitejs/plugin-vue": "^4.0.0",
