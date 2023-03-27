@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
 import HomeView from '../views/HomeView.vue'
+import UserChat from '../views/UserChat.vue'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
@@ -24,6 +25,11 @@ const router = createRouter({
       path: '/notif',
       name: 'notif',
       component: Notif,
+    },
+    {
+      path: '/user-chat',
+      name: 'user-chat',
+      component: UserChat,
     },
   ],
 })
