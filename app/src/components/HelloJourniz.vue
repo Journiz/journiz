@@ -7,6 +7,7 @@ import { IonButton } from '@ionic/vue'
       <h1 class="font-bold text-center">Bienvenue</h1>
       <IonButton router-link="/user-login">Je suis maître du jeu</IonButton>
       <IonButton router-link="/geolocation">Je suis participant</IonButton>
+      <IonButton router-link="/user/tab2" color="danger">Interdit</IonButton>
       <h1 class="font-bold mt-4 text-center">Les Pocs</h1>
       <IonButton color="light" router-link="/geolocation"
         >Go to geolocation</IonButton

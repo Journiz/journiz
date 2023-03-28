@@ -1,11 +1,17 @@
 <script lang="ts" setup="">
-import { IonItem, IonLabel, IonInput, IonSpinner } from '@ionic/vue'
+import {
+  createAnimation,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonSpinner,
+  useIonRouter,
+} from '@ionic/vue'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 
 const store = useUserStore()
-const router = useRouter()
+const router = useIonRouter()
 
 const email = ref('')
 const password = ref('')
@@ -14,11 +20,11 @@ const loading = ref(false)
 const login = async () => {
   loading.value = true
   const success = await store.login(email.value, password.value)
-  if (!success) {
-    error.value = 'Mot de passe incorrect.'
-    loading.value = false
+  if (success) {
+    return router.navigate('/user/home', 'root', 'replace')
   }
-  await router.replace('/home')
+  error.value = 'Mot de passe incorrect.'
+  loading.value = false
 }
 </script>
 <template>

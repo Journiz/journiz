@@ -4,8 +4,8 @@ import { ref } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
   const pb = usePocketBase()
-  const user = ref()
   const isLoggedIn = () => pb.authStore.isValid
+  const user = ref(isLoggedIn() ? pb.authStore.model : null)
   const refresh = async () => {
     try {
       await pb.collection('users').authRefresh()
@@ -29,10 +29,16 @@ export const useUserStore = defineStore('user', () => {
     return false
   }
 
+  const logout = () => {
+    pb.authStore.clear()
+    user.value = null
+  }
+
   return {
     user,
     refresh,
     login,
     isLoggedIn,
+    logout,
   }
 })
