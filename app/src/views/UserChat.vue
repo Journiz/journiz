@@ -1,7 +1,8 @@
 <script lang="ts" setup="">
 import { useChat } from '@journiz/composables'
 import { IonPage, IonHeader, IonContent } from '@ionic/vue'
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
+import MessageBubble from "~/components/MessageBubble.vue";
 
 const { conversation, sendMessage } = useChat('j92reqddn964eu3', 'user')
 const message = ref('')
@@ -21,9 +22,12 @@ const send = async () => {
       </IonToolbar>
     </IonHeader>
     <IonContent>
-      <pre v-if="conversation">
+      <div v-if="conversation">
+        <MessageBubble v-for="message in conversation.expand.messages" :message="message" user-type="user"/>
+      </div>
+      <!-- <pre v-if="conversation">
         {{ conversation.expand.messages }}
-      </pre>
+      </pre> -->
       <div>
         <input v-model="message" type="text" />
         <button class="bg-red-200" @click="send">Send</button>
