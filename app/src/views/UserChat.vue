@@ -22,7 +22,7 @@ const send = async () => {
     </IonHeader>
     <IonContent>
       <pre v-if="conversation">
-        {{ conversation.expand.messages }}
+        {{ conversation.expand?.messages }}
       </pre>
       <div>
         <input v-model="message" type="text" />

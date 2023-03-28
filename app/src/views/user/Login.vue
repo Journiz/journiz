@@ -1,15 +1,24 @@
 <script lang="ts" setup="">
-import { IonItem, IonLabel, IonInput } from '@ionic/vue'
-import { usePocketBase } from '@journiz/composables'
+import { IonItem, IonLabel, IonInput, IonSpinner } from '@ionic/vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../../stores/user'
 
-const pb = usePocketBase()
+const store = useUserStore()
+const router = useRouter()
 
 const email = ref('')
 const password = ref('')
+const error = ref()
+const loading = ref(false)
 const login = async () => {
-  await pb.collection('users').authWithPassword(email.value, password.value)
-  console.log(pb.authStore.isValid)
+  loading.value = true
+  const success = await store.login(email.value, password.value)
+  if (!success) {
+    error.value = 'Mot de passe incorrect.'
+    loading.value = false
+  }
+  await router.replace('/home')
 }
 </script>
 <template>
@@ -32,7 +41,11 @@ const login = async () => {
           type="password"
         ></ion-input>
       </ion-item>
-      <ion-button @click="login">Connexion</ion-button>
+      <p v-if="error" class="text-red-500 p-2">{{ error }}</p>
+      <ion-button :disabled="loading" @click="login">
+        <ion-spinner v-if="loading" name="dots"></ion-spinner>
+        <span v-else>Connexion</span>
+      </ion-button>
     </IonContent>
   </IonPage>
 </template>
