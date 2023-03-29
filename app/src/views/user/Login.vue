@@ -1,6 +1,5 @@
 <script lang="ts" setup="">
 import {
-  createAnimation,
   IonInput,
   IonItem,
   IonLabel,
