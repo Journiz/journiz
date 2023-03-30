@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 import { useChat } from '@journiz/composables'
-import { IonPage, IonHeader, IonContent } from '@ionic/vue'
-import {onMounted, ref} from 'vue'
+import { IonPage, IonHeader, IonContent, IonInput } from '@ionic/vue'
+import { ref } from 'vue'
 import MessageBubble from "~/components/MessageBubble.vue";
 
 const { conversation, sendMessage } = useChat('j92reqddn964eu3', 'user')
@@ -9,6 +9,10 @@ const message = ref('')
 const send = async () => {
   await sendMessage(message.value)
   message.value = ''
+}
+
+const onInputMessage = (event) => {
+  event.target.parentNode.dataset.replicatedValue = event.target.value
 }
 </script>
 <template>
@@ -21,17 +25,55 @@ const send = async () => {
         <IonTitle>Chat</IonTitle>
       </IonToolbar>
     </IonHeader>
-    <IonContent>
+    <IonContent class="bg-blue-300">
       <div v-if="conversation">
         <MessageBubble v-for="message in conversation.expand.messages" :message="message" user-type="user"/>
       </div>
       <!-- <pre v-if="conversation">
         {{ conversation.expand.messages }}
       </pre> -->
-      <div>
-        <input v-model="message" type="text" />
-        <button class="bg-red-200" @click="send">Send</button>
+      <div class="flex fixed bottom-3 px-4">
+        <div class="grow-wrap">
+          <textarea name="message" id="message" @input="onInputMessage"  placeholder="Écrire..." v-model="message"></textarea>
+        </div>
+        <button class="send-btn bg-blue-600 text-white" @click="send">Send</button>
       </div>
     </IonContent>
   </IonPage>
 </template>
+
+<style>
+/* Below code origin for textarea : https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ */
+.grow-wrap {
+  display: grid;
+}
+.grow-wrap::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+  width: calc(100vw - 84px);
+  max-width: calc(100vw - 84px);
+  max-height: 90px;
+  font-size: 16px;
+  line-height: 16px;
+}
+.grow-wrap > textarea {
+  resize: none;
+  width: calc(100vw - 84px);
+  max-width: calc(100vw - 84px);
+  max-height: 90px;
+  font-size: 16px;
+  line-height: 16px;
+  border-radius: 32px 0 0 32px;
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+  border: 1px solid black;
+  padding: 0.5rem 1rem;
+  grid-area: 1 / 1 / 2 / 2;
+}
+.send-btn {
+  border-radius: 0 32px 32px 0;
+  width: 52px;
+}
+</style>
