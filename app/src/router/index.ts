@@ -4,12 +4,13 @@ import UserChat from '../views/UserChat.vue'
 import Login from '../views/user/Login.vue'
 import UserTabs from '../views/user/UserTabs.vue'
 import { useUserStore } from '../stores/user'
+import JoinTrip from '../views/team/JoinTrip.vue'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
 const redirectIfLoggedIn = () => {
   if (useUserStore().isLoggedIn()) {
-    return { name: 'userHome' }
+    return { name: 'user-home' }
   }
 }
 
@@ -62,7 +63,7 @@ const router = createRouter({
         },
         {
           path: 'home',
-          name: 'userHome',
+          name: 'user-home',
           component: () => import('~/views/user/TabHome.vue'),
         },
         {
@@ -74,6 +75,11 @@ const router = createRouter({
           component: () => import('~/views/user/TabHome.vue'),
         },
       ],
+    },
+    {
+      path: '/join-trip',
+      name: 'join-trip',
+      component: JoinTrip,
     },
   ],
 })

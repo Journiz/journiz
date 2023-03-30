@@ -17,4 +17,4 @@ export const TripSchema = z.object({
     .optional(),
 })
 
-export type TripType = z.infer<typeof TripSchema>
+export type Trip = z.infer<typeof TripSchema>

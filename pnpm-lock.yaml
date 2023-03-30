@@ -34,6 +34,7 @@ importers:
       '@capacitor/app': 4.1.1
       '@capacitor/cli': ^4.7.1
       '@capacitor/core': 4.7.0
+      '@capacitor/dialog': ^4.1.0
       '@capacitor/haptics': 4.1.0
       '@capacitor/ios': 4.7.1
       '@capacitor/keyboard': 4.1.1
@@ -70,6 +71,7 @@ importers:
       '@capacitor/android': 4.7.0_@capacitor+core@4.7.0
       '@capacitor/app': 4.1.1_@capacitor+core@4.7.0
       '@capacitor/core': 4.7.0
+      '@capacitor/dialog': 4.1.0_@capacitor+core@4.7.0
       '@capacitor/haptics': 4.1.0_@capacitor+core@4.7.0
       '@capacitor/ios': 4.7.1_@capacitor+core@4.7.0
       '@capacitor/keyboard': 4.1.1_@capacitor+core@4.7.0
@@ -270,6 +272,14 @@ packages:
     resolution: {integrity: sha512-LkjHnIoufojVjCZXogEbotN2utXxfo6TvpSgWaYndRPm/SrPFCWM8bPf/WNd8MozOkPFgcxlZnZlGHFGTeydWQ==}
     dependencies:
       tslib: 2.5.0
+    dev: false
+
+  /@capacitor/dialog/4.1.0_@capacitor+core@4.7.0:
+    resolution: {integrity: sha512-Uej4+WE6Ec445iTzLVD22fmsPfu8nW+IJyiixtzP5+ZLNhdJ5mjbMUUTUrZTbDUK8hViFRsfLo90qbeGzgMTVA==}
+    peerDependencies:
+      '@capacitor/core': ^4.0.0
+    dependencies:
+      '@capacitor/core': 4.7.0
     dev: false
 
   /@capacitor/haptics/4.1.0_@capacitor+core@4.7.0:
