@@ -36,6 +36,7 @@ const onInputMessage = (event) => {
       <div v-if="conversation">
         <MessageBubble
           v-for="message in conversation.expand.messages"
+          :key="message.id"
           :message="message"
           user-type="user"
         />
