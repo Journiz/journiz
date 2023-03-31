@@ -1,6 +1,7 @@
-import { useRealtimeTeam } from '@journiz/composables'
+import { usePocketBase, useRealtimeTeam } from '@journiz/composables'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useTripStore } from './trip'
 
 export const useTeamStore = defineStore('team', () => {
   // Pour le moment l'id de la team est statique tant qu'on n'a pas la structure globale

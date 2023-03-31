@@ -13,21 +13,6 @@ export const useTripStore = defineStore('team-trip', () => {
   const pb = usePocketBase()
 
   const idRef = ref<string>()
-  const joinTrip = async (shortId: string) => {
-    try {
-      const result: Trip = await pb
-        .collection('trip')
-        .getFirstListItem(`shortId="${shortId}"`)
-      if (result) {
-        // Setting idRef will trigger realtime composable and plug to data
-        idRef.value = result.id
-        return true
-      }
-    } catch (e) {
-      return false
-    }
-  }
-
   const {
     data: trip,
     refresh,
@@ -35,6 +20,22 @@ export const useTripStore = defineStore('team-trip', () => {
     update,
     updateLoading,
   } = useRealtimeTrip(idRef)
+
+  const joinTrip = async (shortId: string) => {
+    try {
+      const result: Trip = await pb
+        .collection('trip')
+        .getFirstListItem(`shortId="${shortId}"`)
+      if (result) {
+        // Setting idRef will trigger realtime composable and plug to data
+        trip.value = result
+        idRef.value = result.id
+        return true
+      }
+    } catch (e) {
+      return false
+    }
+  }
 
   const { data: journey } = useRealtimeJourney(
     computed(() => trip.value?.journey)

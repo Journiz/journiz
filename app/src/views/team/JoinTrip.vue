@@ -19,7 +19,7 @@ const join = async () => {
     })
     return
   }
-  console.log('next here')
+  await router.replace('/join')
 }
 </script>
 <template>

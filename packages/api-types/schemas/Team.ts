@@ -10,4 +10,4 @@ export const TeamSchema = z.object({
   score: z.number(),
   updated: z.string(),
 })
-export type TeamType = z.infer<typeof TeamSchema>
+export type Team = z.infer<typeof TeamSchema>

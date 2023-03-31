@@ -5,6 +5,9 @@ import Login from '../views/user/Login.vue'
 import UserTabs from '../views/user/UserTabs.vue'
 import { useUserStore } from '../stores/user'
 import JoinTrip from '../views/team/JoinTrip.vue'
+import CreateTeam from '../views/team/CreateTeam.vue'
+import { useTripStore } from '../stores/team/trip'
+import JoinTeam from '../views/team/JoinTeam.vue'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
@@ -80,6 +83,46 @@ const router = createRouter({
       path: '/join-trip',
       name: 'join-trip',
       component: JoinTrip,
+    },
+    {
+      path: '/join',
+      redirect: () => {
+        const store = useTripStore()
+        if (store.trip?.status === 'pairing') {
+          return { name: 'create-team' }
+        }
+        if (store.trip?.status === 'playing') {
+          return { name: 'join-team' }
+        }
+        console.log(store.trip)
+        return { name: 'join-trip' }
+      },
+    },
+    {
+      path: '/create-team',
+      name: 'create-team',
+      component: CreateTeam,
+      beforeEnter: () => {
+        const store = useTripStore()
+        if (!store.trip) {
+          return { name: 'join-trip' }
+        }
+        // When playing, we no longer allow to create teams
+        if (store.trip?.status === 'playing') {
+          return { name: 'join-team' }
+        }
+      },
+    },
+    {
+      path: '/join-team',
+      name: 'join-team',
+      component: JoinTeam,
+      beforeEnter: (to) => {
+        const store = useTripStore()
+        if (!store.trip) {
+          return { name: 'join-trip' }
+        }
+      },
     },
   ],
 })
