@@ -15,7 +15,25 @@ const redirectIfLoggedIn = () => {
   if (useUserStore().isLoggedIn()) {
     return { name: 'user-home' }
   }
+  if (useTripStore().trip) {
+    return { name: 'create-team' }
+  }
 }
+
+/**
+ * Arborescence
+ * - Home -> Redirects to UserLogin if not logged in
+ *
+ * - UserLogin -> Redirects to UserLogin if not logged in
+ * - User -> Redirects to UserLogin if not logged in
+ *    - Tabs and all user routes
+ * - Join -> Redirects to UserLogin if not logged in
+ *    - Join Trip
+ *    - Create Team
+ *    - Join Team
+ * - Team -> redirects to Join if not logged in a team
+ *    - Tabs and all teams routes
+ */
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -88,18 +106,14 @@ const router = createRouter({
       path: '/join',
       redirect: () => {
         const store = useTripStore()
-        if (store.trip?.status === 'pairing') {
+        if (store.trip) {
           return { name: 'create-team' }
         }
-        if (store.trip?.status === 'playing') {
-          return { name: 'join-team' }
-        }
-        console.log(store.trip)
         return { name: 'join-trip' }
       },
     },
     {
-      path: '/create-team',
+      path: '/join/create-team',
       name: 'create-team',
       component: CreateTeam,
       beforeEnter: () => {
@@ -114,10 +128,10 @@ const router = createRouter({
       },
     },
     {
-      path: '/join-team',
+      path: '/join/join-team',
       name: 'join-team',
       component: JoinTeam,
-      beforeEnter: (to) => {
+      beforeEnter: () => {
         const store = useTripStore()
         if (!store.trip) {
           return { name: 'join-trip' }

@@ -1,18 +1,18 @@
 import {
-  useJourney,
   usePocketBase,
   useRealtimeJourney,
   useRealtimeTrip,
-  useTrip,
 } from '@journiz/composables'
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { Trip } from '@journiz/api-types'
+import { useStorage } from '@vueuse/core'
+import useRefStorage from '../../composables/useRefStorage'
 
 export const useTripStore = defineStore('team-trip', () => {
   const pb = usePocketBase()
 
-  const idRef = ref<string>()
+  const idRef = useStorage<string | undefined>('team-trip-id', undefined)
   const {
     data: trip,
     refresh,
@@ -20,6 +20,8 @@ export const useTripStore = defineStore('team-trip', () => {
     update,
     updateLoading,
   } = useRealtimeTrip(idRef)
+
+  useRefStorage(trip, 'team-trip-data')
 
   const joinTrip = async (shortId: string) => {
     try {
@@ -42,11 +44,11 @@ export const useTripStore = defineStore('team-trip', () => {
   )
   return {
     joinTrip,
-    trip,
     journey,
     loading,
-    updateLoading,
-    update,
     refresh,
+    trip,
+    update,
+    updateLoading,
   }
 })
