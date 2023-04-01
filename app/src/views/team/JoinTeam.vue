@@ -10,7 +10,7 @@ const store = useTeamStore()
 const { data: teams, refresh } = useTeams({
   filter: `trip="${useTripStore().trip?.id ?? 0}"`,
 })
-const handleRefresh = async (e) => {
+const handleRefresh = async (e: any) => {
   await refresh()
   e.target.complete()
 }
