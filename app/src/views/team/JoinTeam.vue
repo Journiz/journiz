@@ -1,10 +1,19 @@
 <script lang="ts" setup="">
+import { IonRefresher, IonRefresherContent } from '@ionic/vue'
 import { Team } from '@journiz/api-types'
+import { useTeams } from '@journiz/composables'
 import { useTeamStore } from '../../stores/team/team'
+import { useTripStore } from '../../stores/team/trip'
 
 const store = useTeamStore()
-// We will need custom api route for getting just the right teams list data
 
+const { data: teams, refresh } = useTeams({
+  filter: `trip="${useTripStore().trip?.id ?? 0}"`,
+})
+const handleRefresh = async (e) => {
+  await refresh()
+  e.target.complete()
+}
 const joinTeam = (team: Team) => {
   store.setId(team.id)
 }
@@ -13,14 +22,15 @@ const joinTeam = (team: Team) => {
   <IonPage>
     <IonHeader>
       <IonToolbar>
-        <IonTitle>Accueil team</IonTitle>
+        <IonTitle>Rejoindre une équipe</IonTitle>
       </IonToolbar>
     </IonHeader>
-    <IonContent :fullscreen="true" :scroll-y="false" :scroll-x="false">
-      Teams
-      <pre v-if="trip?.expand?.teams">
-        {{ trip.expand.teams }}
-      </pre>
+    <IonContent :fullscreen="true" class="ion-padding">
+      <ion-refresher slot="fixed" @ion-refresh="handleRefresh">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+      Refresh
+      <div>{{ teams }}</div>
     </IonContent>
   </IonPage>
 </template>
