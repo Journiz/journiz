@@ -2,11 +2,11 @@
 import { computed, ref } from 'vue'
 import { IonLabel, IonItem, IonInput, useIonRouter } from '@ionic/vue'
 import { Dialog } from '@capacitor/dialog'
-import { useTripStore } from '../../stores/team/trip'
+import { useTeamStore } from '../../stores/team/team'
 const tripCode = ref('')
 const canSubmit = computed(() => tripCode.value.length === 4)
 
-const store = useTripStore()
+const store = useTeamStore()
 const router = useIonRouter()
 const join = async () => {
   const joined = await store.joinTrip(tripCode.value)

@@ -5,23 +5,26 @@ import {
   IonList,
   IonItem,
   IonLabel,
+  useIonRouter,
 } from '@ionic/vue'
 import { Team } from '@journiz/api-types'
 import { useTeams } from '@journiz/composables'
 import { useTeamStore } from '../../stores/team/team'
-import { useTripStore } from '../../stores/team/trip'
 
 const store = useTeamStore()
 
 const { data: teams, refresh } = useTeams({
-  filter: `trip="${useTripStore().trip?.id ?? 0}"`,
+  filter: `trip="${useTeamStore().trip?.id ?? 0}"`,
 })
 const handleRefresh = async (e: any) => {
   await refresh()
   e.target.complete()
 }
-const joinTeam = (team: Team) => {
-  store.setId(team.id)
+
+const router = useIonRouter()
+const joinTeam = async (team: Team) => {
+  await store.joinTeam(team.id)
+  return router.navigate('/team', 'root', 'replace')
 }
 </script>
 <template>

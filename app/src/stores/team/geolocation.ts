@@ -75,7 +75,7 @@ export const useGeolocationStore = defineStore('geolocation', () => {
       if (teamStore.team) {
         teamStore.team.longitude = currentLocation.lng
         teamStore.team.latitude = currentLocation.lat
-        await teamStore.update()
+        await teamStore.saveTeam()
         console.log(
           '💾Saved change on server : [lat: ' +
             currentLocation.lat +

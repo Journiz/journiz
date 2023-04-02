@@ -6,7 +6,6 @@ import UserTabs from '../views/user/UserTabs.vue'
 import { useUserStore } from '../stores/user'
 import JoinTrip from '../views/join/JoinTrip.vue'
 import CreateTeam from '../views/join/CreateTeam.vue'
-import { useTripStore } from '../stores/team/trip'
 import JoinTeam from '../views/join/JoinTeam.vue'
 import TeamHome from '../views/team/TeamHome.vue'
 import { useTeamStore } from '../stores/team/team'
@@ -17,7 +16,11 @@ const redirectIfLoggedIn = () => {
   if (useUserStore().isLoggedIn()) {
     return { name: 'user-home' }
   }
-  if (useTripStore().trip) {
+  const teamStore = useTeamStore()
+  if (teamStore.team) {
+    return { name: 'team' }
+  }
+  if (teamStore.trip) {
     return { name: 'create-team' }
   }
 }
@@ -98,7 +101,7 @@ const router = createRouter({
       path: '/join',
       redirect: () => {
         // If team logged, redirect to team
-        const store = useTripStore()
+        const store = useTeamStore()
         if (store.trip) {
           return { name: 'create-team' }
         }
@@ -115,7 +118,7 @@ const router = createRouter({
       name: 'create-team',
       component: CreateTeam,
       beforeEnter: () => {
-        const store = useTripStore()
+        const store = useTeamStore()
         if (!store.trip) {
           return { name: 'join-trip' }
         }
@@ -130,7 +133,7 @@ const router = createRouter({
       name: 'join-team',
       component: JoinTeam,
       beforeEnter: () => {
-        const store = useTripStore()
+        const store = useTeamStore()
         if (!store.trip) {
           return { name: 'join-trip' }
         }
