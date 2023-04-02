@@ -53,7 +53,7 @@ export function makeListComposable<Schema extends ZodObject<any>>(
       loading.value = true
       const result = await pb.collection(collection).getFullList(queryParams)
       if (!result) {
-        rawData.value = null
+        rawData.value = []
       }
       rawData.value = result
       parseData()

@@ -1,5 +1,11 @@
 <script lang="ts" setup="">
-import { IonRefresher, IonRefresherContent } from '@ionic/vue'
+import {
+  IonRefresher,
+  IonRefresherContent,
+  IonList,
+  IonItem,
+  IonLabel,
+} from '@ionic/vue'
 import { Team } from '@journiz/api-types'
 import { useTeams } from '@journiz/composables'
 import { useTeamStore } from '../../stores/team/team'
@@ -29,8 +35,17 @@ const joinTeam = (team: Team) => {
       <ion-refresher slot="fixed" @ion-refresh="handleRefresh">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      Refresh
-      <div>{{ teams }}</div>
+      <ion-list>
+        <ion-item
+          v-for="team in teams"
+          :key="team.id"
+          button
+          :detail="false"
+          @click="joinTeam(team)"
+        >
+          <ion-label>{{ team.name }}</ion-label>
+        </ion-item>
+      </ion-list>
     </IonContent>
   </IonPage>
 </template>

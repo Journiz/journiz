@@ -4,10 +4,12 @@ import UserChat from '../views/UserChat.vue'
 import Login from '../views/user/Login.vue'
 import UserTabs from '../views/user/UserTabs.vue'
 import { useUserStore } from '../stores/user'
-import JoinTrip from '../views/team/JoinTrip.vue'
-import CreateTeam from '../views/team/CreateTeam.vue'
+import JoinTrip from '../views/join/JoinTrip.vue'
+import CreateTeam from '../views/join/CreateTeam.vue'
 import { useTripStore } from '../stores/team/trip'
-import JoinTeam from '../views/team/JoinTeam.vue'
+import JoinTeam from '../views/join/JoinTeam.vue'
+import TeamHome from '../views/team/TeamHome.vue'
+import { useTeamStore } from '../stores/team/team'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
@@ -40,7 +42,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/home',
+      redirect: () => redirectIfLoggedIn() ?? '/home',
     },
     {
       path: '/home',
@@ -48,27 +50,18 @@ const router = createRouter({
       component: HomeView,
       beforeEnter: redirectIfLoggedIn,
     },
-    {
-      path: '/geolocation',
-      name: 'geolocation',
-      component: PocGeolocation,
-    },
-    {
-      path: '/notif',
-      name: 'notif',
-      component: Notif,
-    },
-    {
-      path: '/user-chat',
-      name: 'user-chat',
-      component: UserChat,
-    },
+    /**
+     * UserLogin
+     */
     {
       path: '/user-login',
       name: 'user-login',
       component: Login,
       beforeEnter: redirectIfLoggedIn,
     },
+    /**
+     * User
+     */
     {
       path: '/user/',
       component: UserTabs,
@@ -97,20 +90,25 @@ const router = createRouter({
         },
       ],
     },
-    {
-      path: '/join-trip',
-      name: 'join-trip',
-      component: JoinTrip,
-    },
+
+    /**
+     * Join for teams
+     */
     {
       path: '/join',
       redirect: () => {
+        // If team logged, redirect to team
         const store = useTripStore()
         if (store.trip) {
           return { name: 'create-team' }
         }
         return { name: 'join-trip' }
       },
+    },
+    {
+      path: '/join-trip',
+      name: 'join-trip',
+      component: JoinTrip,
     },
     {
       path: '/join/create-team',
@@ -137,6 +135,41 @@ const router = createRouter({
           return { name: 'join-trip' }
         }
       },
+    },
+
+    /**
+     * Team Routes
+     */
+    {
+      path: '/team',
+      name: 'team',
+      component: TeamHome,
+      beforeEnter: () => {
+        const store = useTeamStore()
+        if (!store.team) {
+          return { name: 'join' }
+        }
+      },
+      children: [],
+    },
+
+    /**
+     * POC Routes that will be deleted
+     */
+    {
+      path: '/geolocation',
+      name: 'geolocation',
+      component: PocGeolocation,
+    },
+    {
+      path: '/notif',
+      name: 'notif',
+      component: Notif,
+    },
+    {
+      path: '/user-chat',
+      name: 'user-chat',
+      component: UserChat,
     },
   ],
 })
