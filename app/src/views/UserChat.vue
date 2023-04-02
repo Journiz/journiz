@@ -7,6 +7,7 @@ import MessageBubble from '~/components/MessageBubble.vue'
 const { conversation, sendMessage } = useChat('j92reqddn964eu3', 'user')
 const message = ref('')
 const messageField = ref(null)
+const messagesList = ref(null)
 const send = async () => {
   if (message.value !== '') {
     await sendMessage(message.value)
@@ -20,20 +21,29 @@ const send = async () => {
 const onInputMessage = (event) => {
   // TODO Demander à Léo la meilleur méthode entre les 2 utilisées
   event.target.parentNode.dataset.replicatedValue = event.target.value
+  if (messagesList.value) {
+    messagesList.value.style.paddingBottom =
+      event.target.offsetHeight + 16 + 'px'
+  }
 }
 </script>
 <template>
-  <IonPage>
-    <IonHeader>
+  <IonPage class="max-h-screen overflow-hidden flex flex-col">
+    <IonHeader class="flex-initial">
       <IonToolbar>
         <IonButtons slot="start">
           <IonBackButton default-href="#">Retour</IonBackButton>
         </IonButtons>
-        <IonTitle>Chat</IonTitle>
+        <IonTitle v-if="conversation">Chat {{ conversation.team }}</IonTitle>
       </IonToolbar>
     </IonHeader>
-    <IonContent class="bg-blue-300">
-      <div v-if="conversation">
+    <IonContent class="custom-container-height bg-blue-300">
+      <div
+        v-if="conversation"
+        ref="messagesList"
+        class="flex-1 custom-container-height overflow-scroll"
+        style="padding-bottom: 60px"
+      >
         <MessageBubble
           v-for="message in conversation.expand.messages"
           :key="message.id"
@@ -44,7 +54,7 @@ const onInputMessage = (event) => {
       <!-- <pre v-if="conversation">
         {{ conversation.expand.messages }}
       </pre> -->
-      <div class="flex fixed bottom-3 px-4">
+      <div class="flex fixed flex-auto pb-3 bottom-0 px-4 bg-white">
         <div class="grow-wrap">
           <textarea
             id="message"
@@ -96,5 +106,8 @@ const onInputMessage = (event) => {
 .send-btn {
   border-radius: 0 32px 32px 0;
   width: 52px;
+}
+.custom-container-height {
+  max-height: calc(100vh - 44px);
 }
 </style>
