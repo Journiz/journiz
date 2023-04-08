@@ -9,16 +9,16 @@ import CreateTeam from '../views/join/CreateTeam.vue'
 import JoinTeam from '../views/join/JoinTeam.vue'
 import TeamHome from '../views/team/TeamHome.vue'
 import { useTeamStore } from '../stores/team/team'
-import PickTrip from '../views/user/UserHome.vue'
 import UserHome from '../views/user/UserHome.vue'
+import { pinia } from '../main'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
 const redirectIfLoggedIn = () => {
-  if (useUserStore().isLoggedIn()) {
+  if (useUserStore(pinia).isLoggedIn()) {
     return { name: 'user-home' }
   }
-  const teamStore = useTeamStore()
+  const teamStore = useTeamStore(pinia)
   if (teamStore.team) {
     return { name: 'team' }
   }
@@ -27,7 +27,7 @@ const redirectIfLoggedIn = () => {
   }
 }
 const redirectIfNotLoggedIn = () => {
-  if (!useUserStore().isLoggedIn()) {
+  if (!useUserStore(pinia).isLoggedIn()) {
     return { name: 'user-login' }
   }
 }
@@ -84,7 +84,7 @@ const router = createRouter({
       beforeEnter: [
         redirectIfNotLoggedIn,
         () => {
-          const store = useUserStore()
+          const store = useUserStore(pinia)
           if (!store.trip) {
             return { name: 'user-pick-trip' }
           }
@@ -118,7 +118,7 @@ const router = createRouter({
       path: '/join',
       redirect: () => {
         // If team logged, redirect to team
-        const store = useTeamStore()
+        const store = useTeamStore(pinia)
         if (store.trip) {
           return { name: 'create-team' }
         }
@@ -135,7 +135,7 @@ const router = createRouter({
       name: 'create-team',
       component: CreateTeam,
       beforeEnter: () => {
-        const store = useTeamStore()
+        const store = useTeamStore(pinia)
         if (!store.trip) {
           return { name: 'join-trip' }
         }
@@ -150,7 +150,7 @@ const router = createRouter({
       name: 'join-team',
       component: JoinTeam,
       beforeEnter: () => {
-        const store = useTeamStore()
+        const store = useTeamStore(pinia)
         if (!store.trip) {
           return { name: 'join-trip' }
         }
@@ -165,7 +165,7 @@ const router = createRouter({
       name: 'team',
       component: TeamHome,
       beforeEnter: () => {
-        const store = useTeamStore()
+        const store = useTeamStore(pinia)
         if (!store.team) {
           return { name: 'join-trip' }
         }
