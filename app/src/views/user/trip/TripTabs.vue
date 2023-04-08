@@ -7,7 +7,7 @@ import {
   IonLabel,
   IonTabs,
 } from '@ionic/vue'
-import { triangle, ellipse, square } from 'ionicons/icons'
+import { triangle, ellipse, chatbox } from 'ionicons/icons'
 </script>
 <template>
   <ion-page>
@@ -25,9 +25,9 @@ import { triangle, ellipse, square } from 'ionicons/icons'
             <ion-label>Tab 2</ion-label>
           </ion-tab-button>
 
-          <ion-tab-button tab="tab3" href="/user/trip/tab3">
-            <ion-icon :icon="square" />
-            <ion-label>Tab 3</ion-label>
+          <ion-tab-button tab="chat" href="/user/trip/chat">
+            <ion-icon :icon="chatbox" />
+            <ion-label>Chat</ion-label>
           </ion-tab-button>
         </ion-tab-bar>
       </ion-tabs>

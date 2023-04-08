@@ -11,6 +11,7 @@ import TeamHome from '../views/team/TeamHome.vue'
 import { useTeamStore } from '../stores/team/team'
 import UserHome from '../views/user/UserHome.vue'
 import { pinia } from '../main'
+import ConversationsList from '../views/user/trip/chat/ConversationsList.vue'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
@@ -105,8 +106,14 @@ const router = createRouter({
           component: () => import('../views/user/trip/TabHome.vue'),
         },
         {
-          path: 'tab3',
-          component: () => import('../views/user/trip/TabHome.vue'),
+          path: 'chat',
+          component: () => import('../views/user/trip/TabChat.vue'),
+          children: [
+            {
+              path: '',
+              component: ConversationsList,
+            },
+          ],
         },
       ],
     },
