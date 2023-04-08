@@ -5,7 +5,7 @@ export const MessageSchema = z.object({
   attachment: z.string(),
   content: z.string(),
   conversation: z.string(),
-  direction: z.enum(['userToTeam', 'teamToUser']),
+  sender: z.enum(['user', 'team']),
   read: z.boolean(),
   created: z.string(),
   updated: z.string(),

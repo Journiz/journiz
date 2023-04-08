@@ -10,7 +10,7 @@
     "preserveValueImports": false,
     "importsNotUsedAsValues": "remove",
     "target": "ES2020",
-    "lib": ["dom", "ES2020"]
+    "lib": ["dom", "ES2022"]
   },
   "references": [
     {

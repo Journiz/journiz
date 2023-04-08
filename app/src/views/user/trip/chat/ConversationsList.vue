@@ -1,5 +1,12 @@
 <script lang="ts" setup="">
-import { IonToolbar } from '@ionic/vue'
+import { IonToolbar, IonList } from '@ionic/vue'
+import { useConversations } from '@journiz/composables'
+import ConversationItem from '../../../../components/user/chat/ConversationItem.vue'
+import { useUserStore } from '~/stores/user'
+
+const { data: conversations, loading } = useConversations({
+  filter: `trip="${useUserStore().trip?.id}"`,
+})
 </script>
 <template>
   <IonPage ref="page">
@@ -9,7 +16,17 @@ import { IonToolbar } from '@ionic/vue'
       </IonToolbar>
     </IonHeader>
     <IonContent :fullscreen="true">
-      <div>Conversations</div>
+      <Suspense>
+        <IonList v-if="conversations && !loading">
+          <ConversationItem
+            v-for="conversation in conversations"
+            :key="conversation.id"
+            :conversation="conversation.id"
+            sender="user"
+          />
+        </IonList>
+        <template #fallback>Chargement...</template>
+      </Suspense>
     </IonContent>
   </IonPage>
 </template>

@@ -3,7 +3,8 @@ import { usePocketBase } from './usePocketBase'
 
 export const useChat = (conversationId: string, sender: 'user' | 'team') => {
   const direction = sender === 'user' ? 'userToTeam' : 'teamToUser'
-  const { data: conversation } = useRealtimeConversation(conversationId)
+  const { data: conversation, loading } =
+    useRealtimeConversation(conversationId)
 
   const pb = usePocketBase()
   const sendMessage = async (content: string) => {
@@ -15,6 +16,7 @@ export const useChat = (conversationId: string, sender: 'user' | 'team') => {
   }
 
   return {
+    loading,
     conversation,
     sendMessage,
   }
