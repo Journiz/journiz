@@ -20,7 +20,7 @@ const login = async () => {
   loading.value = true
   const success = await store.login(email.value, password.value)
   if (success) {
-    return router.navigate('/user/home', 'root', 'replace')
+    return router.navigate('/user', 'root', 'replace')
   }
   error.value = 'Mot de passe incorrect.'
   loading.value = false

@@ -2,19 +2,20 @@ import { createRouter, createWebHistory } from '@ionic/vue-router'
 import HomeView from '../views/HomeView.vue'
 import UserChat from '../views/UserChat.vue'
 import Login from '../views/user/Login.vue'
-import UserTabs from '../views/user/UserTabs.vue'
+import TripTabs from '../views/user/trip/TripTabs.vue'
 import { useUserStore } from '../stores/user'
 import JoinTrip from '../views/join/JoinTrip.vue'
 import CreateTeam from '../views/join/CreateTeam.vue'
 import JoinTeam from '../views/join/JoinTeam.vue'
 import TeamHome from '../views/team/TeamHome.vue'
 import { useTeamStore } from '../stores/team/team'
+import PickTrip from '../views/user/PickTrip.vue'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
 const redirectIfLoggedIn = () => {
   if (useUserStore().isLoggedIn()) {
-    return { name: 'user-home' }
+    return { name: 'user' }
   }
   const teamStore = useTeamStore()
   if (teamStore.team) {
@@ -22,6 +23,11 @@ const redirectIfLoggedIn = () => {
   }
   if (teamStore.trip) {
     return { name: 'create-team' }
+  }
+}
+const redirectIfNotLoggedIn = () => {
+  if (!useUserStore().isLoggedIn()) {
+    return { name: 'user-login' }
   }
 }
 
@@ -67,12 +73,14 @@ const router = createRouter({
      */
     {
       path: '/user/',
-      component: UserTabs,
-      beforeEnter: () => {
-        if (!useUserStore().isLoggedIn()) {
-          return { name: 'user-login' }
-        }
-      },
+      component: PickTrip,
+      name: 'user',
+      beforeEnter: redirectIfNotLoggedIn,
+    },
+    {
+      path: '/user/trip',
+      component: TripTabs,
+      beforeEnter: redirectIfNotLoggedIn,
       children: [
         {
           path: '',
@@ -81,15 +89,15 @@ const router = createRouter({
         {
           path: 'home',
           name: 'user-home',
-          component: () => import('~/views/user/TabHome.vue'),
+          component: () => import('../views/user/trip/TabHome.vue'),
         },
         {
           path: 'tab2',
-          component: () => import('~/views/user/TabHome.vue'),
+          component: () => import('../views/user/trip/TabHome.vue'),
         },
         {
           path: 'tab3',
-          component: () => import('~/views/user/TabHome.vue'),
+          component: () => import('../views/user/trip/TabHome.vue'),
         },
       ],
     },

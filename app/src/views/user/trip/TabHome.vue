@@ -1,12 +1,10 @@
 <script lang="ts" setup="">
 import { useIonRouter } from '@ionic/vue'
-import { useUserStore } from '../../stores/user'
+import { useUserStore } from '../../../stores/user'
 
 const userStore = useUserStore()
-const router = useIonRouter()
 const logout = () => {
   userStore.logout()
-  router.navigate('/home', 'root', 'replace')
   // router.replace('/user-login')
 }
 </script>
