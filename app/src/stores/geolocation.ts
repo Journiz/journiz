@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, watch } from 'vue'
-import { useTeamStore } from './team'
-import { backgroundGeolocation } from '~/plugins/capacitorSetup'
+import { backgroundGeolocation } from '../plugins/capacitorSetup'
+import { useTeamStore } from './team/team'
 
 export const useGeolocationStore = defineStore('geolocation', () => {
   const currentLocation = reactive({ lng: 6.129384, lat: 45.899247 })

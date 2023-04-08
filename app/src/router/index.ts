@@ -9,13 +9,14 @@ import CreateTeam from '../views/join/CreateTeam.vue'
 import JoinTeam from '../views/join/JoinTeam.vue'
 import TeamHome from '../views/team/TeamHome.vue'
 import { useTeamStore } from '../stores/team/team'
-import PickTrip from '../views/user/PickTrip.vue'
+import PickTrip from '../views/user/UserHome.vue'
+import UserHome from '../views/user/UserHome.vue'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
 const redirectIfLoggedIn = () => {
   if (useUserStore().isLoggedIn()) {
-    return { name: 'user' }
+    return { name: 'user-home' }
   }
   const teamStore = useTeamStore()
   if (teamStore.team) {
@@ -73,18 +74,26 @@ const router = createRouter({
      */
     {
       path: '/user/',
-      component: PickTrip,
-      name: 'user',
-      beforeEnter: redirectIfNotLoggedIn,
+      component: UserHome,
+      name: 'user-pick-trip',
+      beforeEnter: [redirectIfNotLoggedIn],
     },
     {
       path: '/user/trip',
       component: TripTabs,
-      beforeEnter: redirectIfNotLoggedIn,
+      beforeEnter: [
+        redirectIfNotLoggedIn,
+        () => {
+          const store = useUserStore()
+          if (!store.trip) {
+            return { name: 'user-pick-trip' }
+          }
+        },
+      ],
       children: [
         {
           path: '',
-          redirect: 'home',
+          redirect: '/user/trip/home',
         },
         {
           path: 'home',
@@ -158,7 +167,7 @@ const router = createRouter({
       beforeEnter: () => {
         const store = useTeamStore()
         if (!store.team) {
-          return { name: 'join' }
+          return { name: 'join-trip' }
         }
       },
       children: [],

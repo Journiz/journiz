@@ -1,13 +1,10 @@
 <script lang="ts" setup="">
-import { useIonRouter } from '@ionic/vue'
 import { useTeamStore } from '../../stores/team/team'
 
 const store = useTeamStore()
 
-const router = useIonRouter()
 const logout = async () => {
   try {
-    await router.navigate('/home', 'root', 'replace')
     await store.logout()
   } catch (e) {
     console.error(e)

@@ -1,8 +1,14 @@
 import { defineStore } from 'pinia'
-import { usePocketBase } from '@journiz/composables'
+import {
+  usePocketBase,
+  useRealtimeTripForGameMaster,
+  useTripForGameMaster,
+} from '@journiz/composables'
 import { ref } from 'vue'
 import { User } from '@journiz/api-types'
 import { useIonRouter } from '@ionic/vue'
+import { useStorage } from '@vueuse/core'
+import useRefStorage from '../composables/useRefStorage'
 
 export const useUserStore = defineStore('user', () => {
   const pb = usePocketBase()
@@ -10,7 +16,7 @@ export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(
     isLoggedIn() ? (pb.authStore.model as unknown as User) : null
   )
-  const refresh = async () => {
+  const authRefresh = async () => {
     try {
       await pb.collection('users').authRefresh()
       if (pb.authStore.isValid) {
@@ -33,18 +39,38 @@ export const useUserStore = defineStore('user', () => {
     return false
   }
 
+  /**
+   * Trip persistence
+   */
+  const storedTripId = useStorage<string | null>('user-trip-id', null)
+  const { data: trip, setId: setTripId } = useTripForGameMaster(
+    storedTripId.value
+  )
+  useRefStorage(trip, 'user-trip-data')
+  const setTrip = async (tripId: string) => {
+    try {
+      storedTripId.value = tripId
+      await setTripId(tripId)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
   const logout = () => {
-    const router = useIonRouter()
     pb.authStore.clear()
     user.value = null
-    router.navigate('/home', 'root', 'replace')
+    storedTripId.value = null
+    trip.value = null
   }
 
   return {
     user,
-    refresh,
+    refresh: authRefresh,
     login,
     isLoggedIn,
     logout,
+    trip,
+    setTrip,
   }
 })
