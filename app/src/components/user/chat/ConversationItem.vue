@@ -27,7 +27,7 @@ const lastMessageUnRead = computed(() => {
 await waitForEndLoading(loading)
 </script>
 <template>
-  <IonItem button>
+  <IonItem button :router-link="`/user/trip/chat/${conversation.id}`">
     <div class="flex flex-col py-2">
       <span class="font-bold text-blue-500">{{
         conversation.expand.team.name
