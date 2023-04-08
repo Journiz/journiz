@@ -1,16 +1,21 @@
 import { TripSchema } from '@journiz/api-types'
 import { makeRecordComposable } from '../utils/makeRecordComposable'
 import { makeRealtimeRecordComposable } from '../utils/makeRealtimeRecordComposable'
+import { makeListComposable } from '../utils/makeListComposable'
 
-export const useTrip = makeRecordComposable(
+export const useTrips = makeListComposable('trip', TripSchema)
+
+export const useTrip = makeRecordComposable('trip', TripSchema)
+export const useRealtimeTrip = makeRealtimeRecordComposable('trip', TripSchema)
+export const useTripForGameMaster = makeRecordComposable(
   'trip',
   TripSchema,
-  'journey,team(trip)'
+  'team(trip)'
 )
-export const useRealtimeTrip = makeRealtimeRecordComposable(
+export const useRealtimeTripForGameMaster = makeRealtimeRecordComposable(
   'trip',
   TripSchema,
-  'journey,team(trip)',
+  'team(trip)',
   {
     'team(trip)': () => [],
   }
