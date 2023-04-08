@@ -174,7 +174,6 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
     onUnmounted(unsubscribeAll)
 
     if (initialId && initialId !== 'undefined') {
-      console.log('initial dfetch ' + collection, typeof initialId)
       refresh().then(bind)
     }
     const setId = async (id?: string | null) => {
