@@ -1,6 +1,8 @@
 <script lang="ts" setup="">
 import { IonToolbar } from '@ionic/vue'
 import Conversation from '~/components/chat/Conversation.vue'
+import { useTeamStore } from '~/stores/team/team'
+const store = useTeamStore()
 </script>
 <template>
   <IonPage ref="page" :scroll-x="false" :scroll-y="false">
@@ -10,7 +12,11 @@ import Conversation from '~/components/chat/Conversation.vue'
       </IonToolbar>
     </IonHeader>
     <IonContent>
-      <Conversation :conversation-id="conversationId" sender="user" />
+      <Conversation
+        v-if="store.conversationId"
+        :conversation-id="store.conversationId"
+        sender="team"
+      />
     </IonContent>
   </IonPage>
 </template>

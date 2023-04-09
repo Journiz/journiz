@@ -1,12 +1,12 @@
 <script lang="ts" setup="">
 import { useChat } from '@journiz/composables'
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { Message } from '@journiz/api-types'
 import MessageBubble from '~/components/chat/MessageBubble.vue'
 
 const props = defineProps<{
   conversationId: string
-  sender: Message['sender']
+  sender: 'team' | 'user'
 }>()
 
 const { conversation, sendMessage } = useChat(

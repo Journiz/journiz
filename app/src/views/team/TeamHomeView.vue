@@ -16,6 +16,7 @@ const logout = useLogout(store.logout)
     <IonContent :fullscreen="true">
       <div v-if="store.team">Bonjour {{ store.team.name }}</div>
       <div>
+        <IonButton router-link="/team/chat">Chat</IonButton>
         <IonButton @click="logout">Logout</IonButton>
       </div>
     </IonContent>
