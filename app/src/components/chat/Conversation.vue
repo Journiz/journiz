@@ -1,7 +1,6 @@
 <script lang="ts" setup="">
 import { useChat } from '@journiz/composables'
 import { computed, nextTick, ref, watch } from 'vue'
-import { Message } from '@journiz/api-types'
 import MessageBubble from '~/components/chat/MessageBubble.vue'
 
 const props = defineProps<{
@@ -9,7 +8,7 @@ const props = defineProps<{
   sender: 'team' | 'user'
 }>()
 
-const { conversation, sendMessage } = useChat(
+const { conversation, sendMessage, markAsRead } = useChat(
   props.conversationId,
   props.sender
 )
@@ -73,6 +72,7 @@ watch(messages, () => {
           :key="message.id"
           :message="message"
           :user-type="sender"
+          @message-read="markAsRead(message.id)"
         />
       </transition-group>
     </div>
