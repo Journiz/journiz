@@ -1,15 +1,10 @@
 <script lang="ts" setup="">
 import { useTeamStore } from '~/stores/team/team'
+import { useLogout } from '~/composables/useLogout'
 
 const store = useTeamStore()
 
-const logout = async () => {
-  try {
-    await store.logout()
-  } catch (e) {
-    console.error(e)
-  }
-}
+const logout = useLogout(store.logout)
 </script>
 <template>
   <IonPage>

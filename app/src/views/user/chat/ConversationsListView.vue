@@ -5,7 +5,7 @@ import ConversationItem from '~/components/user/chat/ConversationItem.vue'
 import { useUserStore } from '~/stores/user'
 
 const { data: conversations, loading } = useConversations({
-  filter: `trip="${useUserStore().trip?.id}"`,
+  filter: `team.trip="${useUserStore().trip?.id}"`,
 })
 </script>
 <template>

@@ -6,6 +6,7 @@ import {
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import { Trip } from '@journiz/api-types'
+import { watch } from 'vue'
 import useRefStorage from '../../composables/useRefStorage'
 
 /**
@@ -80,6 +81,25 @@ export const useTeamStore = defineStore('team', () => {
     await setTeamId(undefined)
   }
 
+  const storedConversationId = useStorage<string | null>(
+    'team-conversation-id',
+    null
+  )
+  watch(storedTeamId, async (id) => {
+    try {
+      const conversation = await pb
+        .collection('conversation')
+        .getFirstListItem('team="' + id + '"')
+      if (conversation) {
+        storedConversationId.value = conversation.id
+      } else {
+        storedConversationId.value = null
+      }
+    } catch (e) {
+      storedConversationId.value = null
+    }
+  })
+
   return {
     trip,
     joinTrip,
@@ -87,5 +107,6 @@ export const useTeamStore = defineStore('team', () => {
     joinTeam,
     logout,
     saveTeam,
+    conversationId: storedConversationId,
   }
 })

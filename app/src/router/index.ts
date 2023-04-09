@@ -1,20 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
-import HomeView from '../views/HomeView.vue'
-import UserChat from '../views/UserChat.vue'
-import CreateTeam from '../views/join/CreateTeamView.vue'
 import { useUserStore } from '~/stores/user'
 import { useTeamStore } from '~/stores/team/team'
 import { pinia } from '~/main'
-import ConversationsListView from '~/views/chat/ConversationsListView.vue'
-import ConversationView from '~/views/chat/ConversationView.vue'
-import PocGeolocation from '~/views/PocGeolocation.vue'
-import Notif from '~/views/Notif.vue'
-import LoginView from '~/views/user/LoginView.vue'
-import UserHomeView from '~/views/user/UserHomeView.vue'
-import TripTabsView from '~/views/user/trip/TripTabsView.vue'
-import JoinTripView from '~/views/join/JoinTripView.vue'
-import JoinTeamView from '~/views/join/JoinTeamView.vue'
-import TeamHomeView from '~/views/team/TeamHomeView.vue'
 
 const redirectIfLoggedIn = () => {
   if (useUserStore(pinia).isLoggedIn()) {
@@ -59,7 +46,7 @@ const router = createRouter({
     {
       path: '/home',
       name: 'home',
-      component: HomeView,
+      component: () => import('~/views/HomeView.vue'),
       beforeEnter: redirectIfLoggedIn,
     },
     /**
@@ -68,7 +55,7 @@ const router = createRouter({
     {
       path: '/user-login',
       name: 'user-login',
-      component: LoginView,
+      component: () => import('~/views/user/LoginView.vue'),
       beforeEnter: redirectIfLoggedIn,
     },
     /**
@@ -76,13 +63,13 @@ const router = createRouter({
      */
     {
       path: '/user/',
-      component: UserHomeView,
+      component: () => import('~/views/user/UserHomeView.vue'),
       name: 'user-pick-trip',
       beforeEnter: [redirectIfNotLoggedIn],
     },
     {
       path: '/user/trip',
-      component: TripTabsView,
+      component: () => import('~/views/user/trip/TripTabsView.vue'),
       beforeEnter: [
         redirectIfNotLoggedIn,
         () => {
@@ -100,23 +87,24 @@ const router = createRouter({
         {
           path: 'home',
           name: 'user-home',
-          component: () => import('../views/user/trip/TabHomeView.vue'),
+          component: () => import('~/views/user/trip/TabHomeView.vue'),
         },
         {
           path: 'tab2',
-          component: () => import('../views/user/trip/TabHomeView.vue'),
+          component: () => import('~/views/user/trip/TabHomeView.vue'),
         },
         {
           path: 'chat',
-          component: () => import('../views/user/trip/TabChatView.vue'),
+          component: () => import('~/views/user/trip/TabChatView.vue'),
           children: [
             {
               path: '',
-              component: ConversationsListView,
+              component: () =>
+                import('~/views/user/chat/ConversationsListView.vue'),
             },
             {
               path: ':conversationId',
-              component: ConversationView,
+              component: () => import('~/views/user/chat/ConversationView.vue'),
             },
           ],
         },
@@ -140,12 +128,12 @@ const router = createRouter({
     {
       path: '/join-trip',
       name: 'join-trip',
-      component: JoinTripView,
+      component: () => import('~/views/join/JoinTripView.vue'),
     },
     {
       path: '/join/create-team',
       name: 'create-team',
-      component: CreateTeam,
+      component: () => import('~/views/join/CreateTeamView.vue'),
       beforeEnter: () => {
         const store = useTeamStore(pinia)
         if (!store.trip) {
@@ -160,7 +148,7 @@ const router = createRouter({
     {
       path: '/join/join-team',
       name: 'join-team',
-      component: JoinTeamView,
+      component: () => import('~/views/join/JoinTeamView.vue'),
       beforeEnter: () => {
         const store = useTeamStore(pinia)
         if (!store.trip) {
@@ -175,7 +163,7 @@ const router = createRouter({
     {
       path: '/team',
       name: 'team',
-      component: TeamHomeView,
+      component: () => import('~/views/team/TeamHomeView.vue'),
       beforeEnter: () => {
         const store = useTeamStore(pinia)
         if (!store.team) {
@@ -184,6 +172,17 @@ const router = createRouter({
       },
       children: [],
     },
+    {
+      path: '/team/chat',
+      name: 'team-chat',
+      component: () => import('~/views/team/TeamChatView.vue'),
+      beforeEnter: () => {
+        const store = useTeamStore(pinia)
+        if (!store.team) {
+          return { name: 'join-trip' }
+        }
+      },
+    },
 
     /**
      * POC Routes that will be deleted
@@ -191,17 +190,17 @@ const router = createRouter({
     {
       path: '/geolocation',
       name: 'geolocation',
-      component: PocGeolocation,
+      component: () => import('~/views/PocGeolocation.vue'),
     },
     {
       path: '/notif',
       name: 'notif',
-      component: Notif,
+      component: () => import('~/views/Notif.vue'),
     },
     {
       path: '/user-chat',
       name: 'user-chat',
-      component: UserChat,
+      component: () => import('~/views/UserChat.vue'),
     },
   ],
 })
