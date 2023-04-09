@@ -2,7 +2,6 @@ import { useRealtimeConversation } from './useConversation'
 import { usePocketBase } from './usePocketBase'
 
 export const useChat = (conversationId: string, sender: 'user' | 'team') => {
-  const direction = sender === 'user' ? 'userToTeam' : 'teamToUser'
   const { data: conversation, loading } =
     useRealtimeConversation(conversationId)
 
@@ -11,7 +10,7 @@ export const useChat = (conversationId: string, sender: 'user' | 'team') => {
     await pb.collection('message').create({
       conversation: conversationId,
       content,
-      direction,
+      sender,
     })
   }
 

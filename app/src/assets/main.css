@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+    overflow: hidden;
+}
 /*ion-navbar.toolbar.toolbar-ios.statusbar-padding,*/
 /*ion-navbar.toolbar-ios ion-title.title-ios,*/
 /*ion-toolbar.toolbar.toolbar-ios.statusbar-padding,*/
@@ -10,4 +13,8 @@
 /*}*/
 ion-router-outlet {
     background-color: #000000;
+}
+
+.tab-inner-height {
+    height: calc(100% - 44px - 50px);
 }

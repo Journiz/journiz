@@ -2,7 +2,7 @@
 import { useChat } from '@journiz/composables'
 import { IonPage, IonHeader, IonContent } from '@ionic/vue'
 import { ref } from 'vue'
-import MessageBubble from '~/components/MessageBubble.vue'
+import MessageBubble from '../components/chat/MessageBubble.vue'
 
 const { conversation, sendMessage } = useChat('7i5bi3abxwsgks0', 'user')
 const message = ref('')

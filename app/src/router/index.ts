@@ -12,7 +12,7 @@ import { useTeamStore } from '../stores/team/team'
 import UserHome from '../views/user/UserHome.vue'
 import { pinia } from '../main'
 import ConversationsList from '../views/user/trip/chat/ConversationsList.vue'
-import Conversation from '../views/user/trip/chat/Conversation.vue'
+import ConversationView from '../views/user/trip/chat/ConversationView.vue'
 import PocGeolocation from '~/views/PocGeolocation.vue'
 import Notif from '~/views/Notif.vue'
 
@@ -116,7 +116,7 @@ const router = createRouter({
             },
             {
               path: ':conversationId',
-              component: Conversation,
+              component: ConversationView,
             },
           ],
         },

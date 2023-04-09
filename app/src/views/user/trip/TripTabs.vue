@@ -1,17 +1,17 @@
 <script lang="ts" setup="">
 import {
-  IonRouterOutlet,
   IonIcon,
+  IonLabel,
+  IonRouterOutlet,
   IonTabBar,
   IonTabButton,
-  IonLabel,
   IonTabs,
 } from '@ionic/vue'
-import { triangle, ellipse, chatbox } from 'ionicons/icons'
+import { chatbox, ellipse, triangle } from 'ionicons/icons'
 </script>
 <template>
   <ion-page>
-    <ion-content>
+    <ion-content :fullscreen="false">
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">

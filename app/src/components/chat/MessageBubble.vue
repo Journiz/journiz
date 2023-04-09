@@ -6,7 +6,7 @@ defineProps<{ message: MessageType; userType: MessageType['sender'] }>()
 
 <template>
   <div
-    class="bubble rounded-xl p-4 text-white my-2.5 mx-5"
+    class="bubble rounded-xl p-4 text-white my-2.5 mx-5 whitespace-pre-wrap"
     :class="message.sender === userType ? 'bg-blue-500 ml-auto' : 'bg-blue-400'"
   >
     {{ message.content }}
