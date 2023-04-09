@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { useTeamStore } from '../../stores/team/team'
+import { useTeamStore } from '~/stores/team/team'
 
 const store = useTeamStore()
 

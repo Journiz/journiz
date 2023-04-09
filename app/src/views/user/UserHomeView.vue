@@ -1,9 +1,9 @@
 <script lang="ts" setup="">
-import { useIonRouter, IonModal, IonToolbar, IonButtons } from '@ionic/vue'
-import { ref } from 'vue'
-import { useLogout } from '../../composables/useLogout'
-import PickTrip from '../../components/user/PickTrip.vue'
-import { useUserStore } from '../../stores/user'
+import { IonToolbar, useIonRouter } from '@ionic/vue'
+import PickTrip from '~/components/user/PickTrip.vue'
+import { useLogout } from '~/composables/useLogout'
+import { useUserStore } from '~/stores/user'
+
 const router = useIonRouter()
 const onTripChange = () => {
   router.navigate(`/user/trip`, 'forward', 'replace')

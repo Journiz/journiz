@@ -1,8 +1,8 @@
 <script lang="ts" setup="">
 import { IonButtons, IonModal, IonToolbar } from '@ionic/vue'
 import { ref } from 'vue'
-import { useLogout } from '../../../composables/useLogout'
-import PickTrip from '../../../components/user/PickTrip.vue'
+import { useLogout } from '~/composables/useLogout'
+import PickTrip from '~/components/user/PickTrip.vue'
 import { useUserStore } from '~/stores/user'
 
 const userStore = useUserStore()

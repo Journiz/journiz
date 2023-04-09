@@ -1,8 +1,9 @@
 <script lang="ts" setup="">
 import { computed, ref } from 'vue'
-import { IonLabel, IonItem, IonInput, useIonRouter } from '@ionic/vue'
+import { IonInput, IonItem, IonLabel, useIonRouter } from '@ionic/vue'
 import { Dialog } from '@capacitor/dialog'
-import { useTeamStore } from '../../stores/team/team'
+import { useTeamStore } from '~/stores/team/team'
+
 const tripCode = ref('')
 const canSubmit = computed(() => tripCode.value.length === 4)
 

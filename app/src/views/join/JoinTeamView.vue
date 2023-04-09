@@ -1,15 +1,15 @@
 <script lang="ts" setup="">
 import {
-  IonRefresher,
-  IonRefresherContent,
-  IonList,
   IonItem,
   IonLabel,
+  IonList,
+  IonRefresher,
+  IonRefresherContent,
   useIonRouter,
 } from '@ionic/vue'
 import { Team } from '@journiz/api-types'
 import { useTeams } from '@journiz/composables'
-import { useTeamStore } from '../../stores/team/team'
+import { useTeamStore } from '~/stores/team/team'
 
 const store = useTeamStore()
 

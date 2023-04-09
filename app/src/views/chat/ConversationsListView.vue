@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
-import { IonToolbar, IonList } from '@ionic/vue'
+import { IonList, IonToolbar } from '@ionic/vue'
 import { useConversations } from '@journiz/composables'
-import ConversationItem from '../../../../components/user/chat/ConversationItem.vue'
+import ConversationItem from '~/components/user/chat/ConversationItem.vue'
 import { useUserStore } from '~/stores/user'
 
 const { data: conversations, loading } = useConversations({
