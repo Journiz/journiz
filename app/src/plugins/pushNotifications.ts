@@ -1,5 +1,7 @@
 import OneSignal from 'onesignal-cordova-plugin'
 import './capacitorSetup'
+import { useEventBus } from '@vueuse/core'
+import OSNotification from 'onesignal-cordova-plugin/dist/OSNotification'
 import router from '~/router'
 
 // Call this function when your app starts
@@ -25,11 +27,28 @@ export function setNotificationsId(id: string | null) {
   OneSignal.removeExternalUserId()
 }
 
+export const notificationsEvents = useEventBus('notifications')
+
+async function handleNotificationAction(notification: OSNotification) {
+  const data: any = notification.additionalData
+  if (!data?.event) return
+  if (data.event === 'chatMessage') {
+    const { conversation } = data
+    await router.push(`/notification/chat/${conversation}`)
+  }
+}
+
 export function setupPushNotifications() {
   document.addEventListener('deviceready', () => {
-    oneSignalInit().setNotificationOpenedHandler(async () => {
-      await router.push('/')
-      await router.push('/notif')
+    const oneSignal = oneSignalInit()
+    oneSignal.setNotificationOpenedHandler(async (ev) => {
+      handleNotificationAction(ev.notification)
+    })
+
+    // Notifications when app in foreground
+    oneSignal.setNotificationWillShowInForegroundHandler((e) => {
+      // console.log(e.getNotification())
+      e.complete(e.getNotification())
     })
   })
 }

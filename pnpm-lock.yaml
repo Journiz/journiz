@@ -172,6 +172,9 @@ importers:
       '@journiz/plugins':
         specifier: workspace:*
         version: link:../plugins
+      '@vueuse/core':
+        specifier: ^9.13.0
+        version: 9.13.0(vue@3.2.47)
       '@vueuse/shared':
         specifier: ^9.13.0
         version: 9.13.0(vue@3.2.47)

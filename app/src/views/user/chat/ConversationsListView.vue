@@ -1,11 +1,21 @@
 <script lang="ts" setup="">
-import { IonList, IonToolbar } from '@ionic/vue'
+import { IonList, IonToolbar, onIonViewWillEnter } from '@ionic/vue'
 import { useConversations } from '@journiz/composables'
+import { useEventListener } from '@vueuse/core'
 import ConversationItem from '~/components/user/chat/ConversationItem.vue'
 import { useUserStore } from '~/stores/user'
 
-const { data: conversations, loading } = useConversations({
+const {
+  data: conversations,
+  loading,
+  refresh,
+} = useConversations({
   filter: `team.trip="${useUserStore().trip?.id}"`,
+})
+useEventListener(document, 'visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    refresh()
+  }
 })
 </script>
 <template>

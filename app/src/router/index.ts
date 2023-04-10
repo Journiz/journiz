@@ -183,6 +183,16 @@ const router = createRouter({
         }
       },
     },
+    {
+      path: '/notification/chat/:conversationId',
+      name: 'chat-notif',
+      redirect: (to) => {
+        if (useUserStore(pinia).isLoggedIn() && to.params.conversationId) {
+          return `/user/trip/chat/${to.params.conversationId}`
+        }
+        return '/team/chat'
+      },
+    },
 
     /**
      * POC Routes that will be deleted

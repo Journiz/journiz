@@ -14,7 +14,7 @@ useUserStore().refresh()
 useTeamStore()
 </script>
 <template>
-  <IonApp>
+  <IonApp :scroll-x="false" :scroll-y="false">
     <IonRouterOutlet />
   </IonApp>
 </template>

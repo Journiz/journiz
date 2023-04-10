@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { IonToolbar } from '@ionic/vue'
+import { IonToolbar, IonBackButton, IonButtons } from '@ionic/vue'
 import { useRoute } from 'vue-router'
 import Conversation from '~/components/chat/Conversation.vue'
 
@@ -7,13 +7,18 @@ const route = useRoute()
 const conversationId = route.params.conversationId as string
 </script>
 <template>
-  <IonPage ref="page" :scroll-x="false" :scroll-y="false">
+  <IonPage ref="page">
     <IonHeader>
       <IonToolbar>
-        <IonTitle>Conversations</IonTitle>
+        <IonButtons slot="start">
+          <IonBackButton router-link="/user/trip/chat" router-direction="back"
+            >Conversations
+          </IonBackButton>
+        </IonButtons>
+        <IonTitle>Conversation</IonTitle>
       </IonToolbar>
     </IonHeader>
-    <IonContent>
+    <IonContent :scroll-x="false" :scroll-y="false">
       <Conversation :conversation-id="conversationId" sender="user" />
     </IonContent>
   </IonPage>

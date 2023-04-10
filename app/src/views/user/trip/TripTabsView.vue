@@ -11,7 +11,7 @@ import { chatbox, ellipse, triangle } from 'ionicons/icons'
 </script>
 <template>
   <ion-page>
-    <ion-content :fullscreen="false">
+    <ion-content :fullscreen="false" :scroll-x="false" :scroll-y="false">
       <ion-tabs>
         <ion-router-outlet></ion-router-outlet>
         <ion-tab-bar slot="bottom">

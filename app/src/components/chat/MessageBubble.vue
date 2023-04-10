@@ -12,7 +12,9 @@ const emit = defineEmits(['message-read'])
 
 onMounted(() => {
   if (props.message.sender !== props.userType && !props.message.read) {
-    emit('message-read')
+    if (document.visibilityState === 'visible') {
+      emit('message-read')
+    }
   }
 })
 </script>
