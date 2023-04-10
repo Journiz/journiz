@@ -1,26 +1,23 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { usePocketBase } from '@journiz/composables'
+import { useUserStore } from '../../stores/user'
 
 const invalidInput = ref(false)
 const password = ref('')
 const confirmPassword = ref('')
 
-const pb = usePocketBase()
-// const router = useRouter()
+const store = useUserStore()
 const route = useRoute()
-const token = route.query.token
+const token: any = route.query.token
 
-console.log(token)
-
-async function resetPassword() {
-  console.log('oui')
-  if (password.value !== resetPassword.value) {
-    await pb
-      .collection('users')
-      .confirmPasswordReset(token, password.value, confirmPassword.value)
-
+const resetPassword = async () => {
+  const success = await store.resetPassword(
+    token,
+    password.value,
+    confirmPassword.value
+  )
+  if (success) {
     password.value = ''
     confirmPassword.value = ''
     invalidInput.value = false
@@ -47,7 +44,7 @@ async function resetPassword() {
       <input
         id="confirmPassword"
         v-model="confirmPassword"
-        type="confirmPassword"
+        type="password"
         placeholder="confirmPassword"
       />
     </div>

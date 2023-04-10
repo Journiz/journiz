@@ -1,24 +1,26 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { usePocketBase } from '@journiz/composables'
+import { useUserStore } from '../../stores/user'
 
 const invalidInput = ref(false)
-const email = ref('')
-const password = ref('')
 
-const pb = usePocketBase()
+const store = useUserStore()
 const router = useRouter()
 
-async function login() {
-  email.value = email.value.toLowerCase()
-  try {
-    await pb.collection('users').authWithPassword(email.value, password.value)
+const email = ref('')
+const password = ref('')
+const loading = ref(false)
+
+const login = async () => {
+  loading.value = true
+  const success = await store.login(email.value, password.value)
+  if (success) {
     invalidInput.value = false
-    router.push('/')
-  } catch (err) {
-    invalidInput.value = true
+    return router.push('/')
   }
+  invalidInput.value = true
+  loading.value = false
 }
 </script>
 

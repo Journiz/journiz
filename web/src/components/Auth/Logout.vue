@@ -1,16 +1,12 @@
 <script lang="ts" setup>
-import { usePocketBase } from '@journiz/composables'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../../stores/user'
 
-const pb = usePocketBase()
+const store = useUserStore()
 const router = useRouter()
 
-function logout() {
-  try {
-    pb.authStore.clear()
-  } catch (err) {
-    console.log(err)
-  }
+const logout = async () => {
+  await store.logout()
   router.push('/login')
 }
 </script>

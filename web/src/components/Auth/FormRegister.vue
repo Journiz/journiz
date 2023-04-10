@@ -1,43 +1,35 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { usePocketBase } from '@journiz/composables'
+import { useUserStore } from '../../stores/user'
 
 const invalidInput = ref(false)
 const email = ref('')
 const username = ref('')
 const password = ref('')
 const confirmPassword = ref('')
+const loading = ref(false)
 
-const pb = usePocketBase()
 const router = useRouter()
+const store = useUserStore()
 
-async function register() {
+const register = async () => {
+  loading.value = true
   email.value = email.value.toLowerCase()
-  const data = {
-    username: username.value,
-    email: email.value,
-    emailVisibility: true,
-    password: password.value,
-    passwordConfirm: confirmPassword.value,
-  }
 
-  try {
-    // example create data
-    await pb.collection('users').create(data)
-
-    await pb.collection('users').requestVerification(email.value)
-    // try {
-    //   // (optional) send an email verification request
-    // } catch (e) {
-    //   console.log(e)
-    // }
-
+  const success = await store.register(
+    username.value,
+    email.value,
+    password.value,
+    confirmPassword.value
+  )
+  if (success) {
+    console.log(success)
     invalidInput.value = false
-    router.push('/login')
-  } catch (err) {
-    invalidInput.value = true
+    return router.push('/login')
   }
+  invalidInput.value = true
+  loading.value = false
 }
 </script>
 
@@ -66,7 +58,7 @@ async function register() {
       <input
         id="confirmPassword"
         v-model="confirmPassword"
-        type="confirmPassword"
+        type="password"
         placeholder="confirmPassword"
       />
     </div>
