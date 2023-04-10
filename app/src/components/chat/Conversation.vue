@@ -77,7 +77,9 @@ watch(messages, () => {
         />
       </transition-group>
     </div>
-    <div v-else class="flex-grow">Chargement...</div>
+    <div v-else class="flex-grow">
+      Chargement conversation {{ conversationId }}...
+    </div>
     <div
       class="absolute bottom-0 flex px-4 flex-shrink-0 p-2 backdrop-blur bg-white/40"
     >
