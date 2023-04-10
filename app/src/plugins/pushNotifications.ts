@@ -8,6 +8,7 @@ function oneSignalInit() {
   // OneSignal.setLogLevel(6, 0);
 
   OneSignal.setAppId('5124aae4-c3bc-45ae-b35b-f41791fc22c9')
+  OneSignal.setLocationShared(false)
 
   // Prompts the user for notification permissions.
   OneSignal.promptForPushNotificationsWithUserResponse(function (accepted) {
@@ -16,7 +17,7 @@ function oneSignalInit() {
   return OneSignal
 }
 
-export default function pushNotifications() {
+export function setupPushNotifications() {
   document.addEventListener('deviceready', () => {
     oneSignalInit().setNotificationOpenedHandler(async () => {
       await router.push('/')

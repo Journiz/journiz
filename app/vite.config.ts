@@ -16,3 +16,8 @@ export default defineConfig({
     host: '0.0.0.0',
   },
 })
+console.log(
+  `⚡️ Configuring vite with backend at ${
+    process.env.VITE_API_URL ?? 'https://dev.journiz.leoboyer.dev'
+  }`
+)

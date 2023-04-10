@@ -1,5 +1,5 @@
-import pushNotifications from '~/plugins/pushNotifications'
+import { setupPushNotifications } from '~/plugins/pushNotifications'
 
 export default function plugins() {
-  pushNotifications()
+  setupPushNotifications()
 }
