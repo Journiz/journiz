@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 body {
-    overflow: hidden;
+    overflow: hidden!important;
 }
+ion-content {--overflow: hidden}
 /*ion-navbar.toolbar.toolbar-ios.statusbar-padding,*/
 /*ion-navbar.toolbar-ios ion-title.title-ios,*/
 /*ion-toolbar.toolbar.toolbar-ios.statusbar-padding,*/
