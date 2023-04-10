@@ -1,14 +1,10 @@
 import { defineStore } from 'pinia'
-import {
-  usePocketBase,
-  useRealtimeTripForGameMaster,
-  useTripForGameMaster,
-} from '@journiz/composables'
+import { usePocketBase, useTripForGameMaster } from '@journiz/composables'
 import { ref } from 'vue'
 import { User } from '@journiz/api-types'
-import { useIonRouter } from '@ionic/vue'
 import { useStorage } from '@vueuse/core'
 import useRefStorage from '../composables/useRefStorage'
+import { setNotificationsId } from '~/plugins/pushNotifications'
 
 export const useUserStore = defineStore('user', () => {
   const pb = usePocketBase()
@@ -31,6 +27,7 @@ export const useUserStore = defineStore('user', () => {
       await pb.collection('users').authWithPassword(username, password)
       if (pb.authStore.isValid) {
         user.value = pb.authStore.model as unknown as User
+        setNotificationsId(user.value.id)
         return true
       }
     } catch (e) {
@@ -62,6 +59,7 @@ export const useUserStore = defineStore('user', () => {
     user.value = null
     storedTripId.value = null
     trip.value = null
+    setNotificationsId(null)
   }
 
   return {

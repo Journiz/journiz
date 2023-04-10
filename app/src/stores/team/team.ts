@@ -8,6 +8,7 @@ import { useStorage } from '@vueuse/core'
 import { Trip } from '@journiz/api-types'
 import { watch } from 'vue'
 import useRefStorage from '../../composables/useRefStorage'
+import { setNotificationsId } from '~/plugins/pushNotifications'
 
 /**
  * This store handles storage needed for teams: their team object and a trip object
@@ -64,6 +65,7 @@ export const useTeamStore = defineStore('team', () => {
     try {
       await setTeamId(id)
       storedTeamId.value = id
+      setNotificationsId(id)
       return true
     } catch (e) {
       return false
@@ -75,6 +77,7 @@ export const useTeamStore = defineStore('team', () => {
     trip.value = null
     storedTeamId.value = null
     team.value = null
+    setNotificationsId(null)
 
     // unsubscribe all events
     await setTripId(undefined)

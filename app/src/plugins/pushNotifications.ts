@@ -17,6 +17,14 @@ function oneSignalInit() {
   return OneSignal
 }
 
+export function setNotificationsId(id: string | null) {
+  if (id) {
+    OneSignal.setExternalUserId(id)
+    return
+  }
+  OneSignal.removeExternalUserId()
+}
+
 export function setupPushNotifications() {
   document.addEventListener('deviceready', () => {
     oneSignalInit().setNotificationOpenedHandler(async () => {
