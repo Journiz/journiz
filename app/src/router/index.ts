@@ -202,16 +202,6 @@ const router = createRouter({
       name: 'geolocation',
       component: () => import('~/views/PocGeolocation.vue'),
     },
-    {
-      path: '/notif',
-      name: 'notif',
-      component: () => import('~/views/Notif.vue'),
-    },
-    {
-      path: '/user-chat',
-      name: 'user-chat',
-      component: () => import('~/views/UserChat.vue'),
-    },
   ],
 })
 

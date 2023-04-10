@@ -12,7 +12,6 @@ const startWatchingPosition = () => {
 }
 
 const teamStore = useTeamStore()
-teamStore.setId('bth1emonizvk3bh')
 </script>
 <template>
   <IonPage>

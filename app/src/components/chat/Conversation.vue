@@ -26,12 +26,13 @@ const send = async () => {
   }
 }
 
-const onInputMessage = (event) => {
+const onInputMessage = (event: Event) => {
   // TODO Demander à Léo la meilleur méthode entre les 2 utilisées
-  event.target.parentNode.dataset.replicatedValue = event.target.value
+  if (!event.target) return
+  const target = event.target as HTMLTextAreaElement
+  ;(target.parentNode as HTMLElement).dataset.replicatedValue = target.value
   if (messagesList.value) {
-    messagesList.value.style.paddingBottom =
-      event.target.offsetHeight + 16 + 'px'
+    messagesList.value.style.paddingBottom = target.offsetHeight + 16 + 'px'
   }
 }
 

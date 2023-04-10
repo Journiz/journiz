@@ -12,8 +12,6 @@ import { IonButton } from '@ionic/vue'
       <IonButton color="light" router-link="/geolocation"
         >Go to geolocation</IonButton
       >
-      <IonButton color="light" router-link="/notif">Go to notif</IonButton>
-      <IonButton color="light" router-link="/user-chat">Chat Prof</IonButton>
     </div>
   </div>
 </template>

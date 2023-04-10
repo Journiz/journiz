@@ -2,7 +2,7 @@
 import { IonItem } from '@ionic/vue'
 import { useChat } from '@journiz/composables'
 import { computed } from 'vue'
-import { waitForEndLoading } from '../../../utils/waitForEndLoading'
+import { waitForEndLoading } from '~/utils/waitForEndLoading'
 const props = defineProps<{
   conversation: string
   sender: 'user' | 'team'
@@ -30,7 +30,7 @@ await waitForEndLoading(loading)
   <IonItem button :router-link="`/user/trip/chat/${conversation.id}`">
     <div class="flex flex-col py-2">
       <span class="font-bold text-blue-500">{{
-        conversation.expand.team.name
+        conversation.expand?.team?.name ?? 'Equipe inconnue'
       }}</span>
       <span class="text-sm" :class="{ 'font-bold': lastMessageUnRead }">{{
         lastMessageContent

@@ -39,7 +39,7 @@ const join = async () => {
           type="text"
           enterkeyhint="enter"
           inputmode="numeric"
-          maxlength="4"
+          :maxlength="4"
         ></ion-input>
       </ion-item>
       <IonButton :disabled="!canSubmit" @click="join">Rejoindre</IonButton>
