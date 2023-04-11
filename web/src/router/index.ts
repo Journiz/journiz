@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { usePocketBase } from '@journiz/composables'
 import HomeView from '../views/HomeView.vue'
 import Auth from '../views/Auth.vue'
 import FormForgotPassword from '../views/FormForgotPassword.vue'
+import NewJourney from '../views/NewJourney.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,23 +23,12 @@ const router = createRouter({
       component: FormForgotPassword,
       props: true,
     },
+    {
+      path: '/new-journey',
+      name: 'NewJourney',
+      component: NewJourney,
+    },
   ],
 })
-
-// router.beforeEach(async (to, from) => {
-//   const pb = usePocketBase()
-//   const isAuthenticated = pb.authStore.isValid
-//   // try {
-//   //   await pb.collection('users').authRefresh()
-//   // } catch (err) {
-//   //   console.log(err)
-//   // }
-//   if (to.name !== 'Login' && !isAuthenticated) {
-//     router.push({ name: 'Login' })
-//   }
-//   if (isAuthenticated) {
-//     router.push({ name: 'Home' })
-//   }
-// })
 
 export default router

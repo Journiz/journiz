@@ -12,5 +12,6 @@ import UserData from '~/components/UserData.vue'
     <HelloBackoffice />
     <UserData />
     <Logout />
+    <a href="/new-trip">Créer un Trip</a>
   </main>
 </template>
