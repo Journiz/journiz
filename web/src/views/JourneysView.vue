@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SquareButton from '~/components/SquareButton.vue'
 import JourneyLine from '~/components/JourneyLine.vue'
+import PageTitle from '~/components/PageTitle.vue'
 const testAction = () => {
   console.log('🌼 Click on button')
 }
@@ -8,7 +9,7 @@ const testAction = () => {
 
 <template>
   <article>
-    BONJOUR C4EST MES PARCOURS
+    <page-title>Mes parcours</page-title>
     <JourneyLine
       journey-name="Sortie à Grenoble"
       basecamp-name="Hôtel de ville"
