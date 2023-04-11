@@ -7,11 +7,11 @@ import {
   IonRefresherContent,
   IonSpinner,
   loadingController,
-  useIonRouter,
 } from '@ionic/vue'
 import { computed, ref } from 'vue'
 import { useTrips } from '@journiz/composables'
-import { useUserStore } from '../../stores/user'
+import { useUserStore } from '~/stores/user'
+
 const emit = defineEmits(['tripChange'])
 const userStore = useUserStore()
 const {
