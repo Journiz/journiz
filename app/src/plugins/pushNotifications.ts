@@ -28,13 +28,21 @@ export function setNotificationsId(id: string | null) {
 }
 
 export const notificationsEvents = useEventBus('notifications')
+export const chatEvents = useEventBus('chat')
 
-async function handleNotificationAction(notification: OSNotification) {
+async function handleNotificationAction(
+  notification: OSNotification,
+  isForeground: boolean
+) {
   const data: any = notification.additionalData
   if (!data?.event) return
   if (data.event === 'chatMessage') {
-    const { conversation } = data
-    await router.push(`/notification/chat/${conversation}`)
+    if (isForeground) {
+      chatEvents.emit('newMessage')
+    } else {
+      const { conversation } = data
+      await router.push(`/notification/chat/${conversation}`)
+    }
   }
 }
 
@@ -42,13 +50,13 @@ export function setupPushNotifications() {
   document.addEventListener('deviceready', () => {
     const oneSignal = oneSignalInit()
     oneSignal.setNotificationOpenedHandler(async (ev) => {
-      handleNotificationAction(ev.notification)
+      handleNotificationAction(ev.notification, false)
     })
 
     // Notifications when app in foreground
     oneSignal.setNotificationWillShowInForegroundHandler((e) => {
       // console.log(e.getNotification())
-      e.complete(e.getNotification())
+      handleNotificationAction(e.getNotification(), true)
     })
   })
 }

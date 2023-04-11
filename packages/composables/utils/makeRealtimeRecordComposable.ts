@@ -38,19 +38,25 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
     const {
       data,
       loading,
-      refresh,
+      refresh: refreshSource,
       rawData,
       update,
       updateLoading,
-      setId: staticSetId,
+      setId: setSourceId,
     } = useRecord(initialId)
 
     let unsubscribes: (() => void)[] = []
+    const unsubscribeAll = () => {
+      unsubscribes.forEach((u) => u())
+      unsubscribes = []
+    }
+    onUnmounted(unsubscribeAll)
 
     const bind = async () => {
       if (!data.value) {
         return
       }
+      unsubscribeAll()
 
       const updateCallbacks: ((oldVal: any) => void)[] = []
       const un = await pb
@@ -167,18 +173,20 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
         }
       }
     }
-    const unsubscribeAll = () => {
-      unsubscribes.forEach((u) => u())
-      unsubscribes = []
-    }
-    onUnmounted(unsubscribeAll)
 
     if (initialId && initialId !== 'undefined') {
-      refresh().then(bind)
+      refreshSource().then(bind)
     }
+
+    const refresh = async () => {
+      unsubscribeAll()
+      await refreshSource()
+      await bind()
+    }
+
     const setId = async (id?: string | null) => {
       unsubscribeAll()
-      await staticSetId(id)
+      await setSourceId(id)
       if (id) {
         await bind()
       }
