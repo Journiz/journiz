@@ -20,7 +20,9 @@ const props = defineProps({
 </script>
 <template>
   <div class="w-full">
-    <label :for="name" class="text-blue-900 font-semibold">{{ label }}</label>
+    <label :for="name" class="text-blue-900 font-semibold"
+      >{{ label }}{{ requiredField ? '*' : '' }}</label
+    >
     <input
       :id="name"
       :required="requiredField"
