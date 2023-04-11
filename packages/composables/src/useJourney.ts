@@ -4,6 +4,9 @@ import {
   DirectExpandArrayMeta,
   makeRealtimeRecordComposable,
 } from '../utils/makeRealtimeRecordComposable'
+import { makeListComposable } from '../utils/makeListComposable'
+
+export const useJourneys = makeListComposable('journey', JourneySchema)
 
 export const useJourney = makeRecordComposable(
   'journey',
