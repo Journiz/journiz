@@ -6,9 +6,11 @@ export const TripSchema = z.object({
   created: z.string(),
   date: z.string(),
   id: z.string(),
+  shortId: z.string(),
   journey: z.string(),
   updated: z.string(),
   name: z.string(),
+  status: z.enum(['pairing', 'playing', 'finished']),
   expand: z
     .object({
       teams: z.array(TeamSchema).optional(),
@@ -17,4 +19,4 @@ export const TripSchema = z.object({
     .optional(),
 })
 
-export type TripType = z.infer<typeof TripSchema>
+export type Trip = z.infer<typeof TripSchema>

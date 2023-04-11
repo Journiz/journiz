@@ -15,7 +15,7 @@ import {
   magnetOutline,
 } from 'ionicons/icons'
 import { reactive, ref, watch } from 'vue'
-import { useGeolocationStore } from '~/stores/geolocation'
+import { useGeolocationStore } from '../stores/geolocation'
 
 const location = useGeolocationStore()
 

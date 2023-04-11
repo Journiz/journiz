@@ -1,7 +1,7 @@
-import { isRef, onUnmounted, watch } from 'vue'
+import { onUnmounted } from 'vue'
 import { ZodObject } from 'zod'
 import { Record } from 'pocketbase'
-import { MaybeRef, resolveUnref } from '@vueuse/shared'
+import { cloneDeep } from '@journiz/api-types'
 import { usePocketBase } from '../src/usePocketBase'
 import {
   makeRecordComposable,
@@ -16,6 +16,9 @@ import {
  * @param schema
  * @param lazy
  */
+export interface DirectExpandArrayMeta<T> extends Array<T> {
+  collectionName?: string
+}
 export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
   collection: string,
   schema: Schema,
@@ -31,29 +34,44 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
   )
   const pb = usePocketBase()
 
-  return (id?: MaybeRef<string | undefined>): RecordComposableData<Schema> => {
-    const { data, loading, refresh, rawData, update, updateLoading } =
-      useRecord(id)
+  return (initialId?: string | null): RecordComposableData<Schema> => {
+    const {
+      data,
+      loading,
+      refresh,
+      rawData,
+      update,
+      updateLoading,
+      setId: staticSetId,
+    } = useRecord(initialId)
 
-    const unsubscribes: (() => void)[] = []
+    let unsubscribes: (() => void)[] = []
 
     const bind = async () => {
-      await refresh()
+      if (!data.value) {
+        return
+      }
+
+      const updateCallbacks: ((oldVal: any) => void)[] = []
       const un = await pb
         .collection(collection)
-        .subscribe(resolveUnref(id)!, (e) => {
+        .subscribe(data.value.id, (e) => {
           if (e.action === 'update') {
+            const oldVal = cloneDeep(rawData.value)
             e.record.expand = Object.assign(
               {},
               e.record.expand,
               rawData.value?.expand ?? {}
             )
             rawData.value = e.record
+            updateCallbacks.forEach((c) => c(oldVal))
           }
         })
+      unsubscribes.push(un)
+
       const expand = rawData.value?.expand
       if (rawData.value && expand) {
-        for (const [key, value] of Object.entries(expand)) {
+        for (const [key, expandValue] of Object.entries(expand)) {
           if (Array.isArray(expand[key])) {
             // watch collection and filter on value
             if (key.includes('(')) {
@@ -81,10 +99,62 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
                   }
                 })
               unsubscribes.push(unsubscribeCollection)
+            } else {
+              const expandedArray = expandValue as DirectExpandArrayMeta<Record>
+              const collectionName = expandedArray[0]
+                ? expandedArray[0].collectionName
+                : expandedArray.collectionName
+              if (!collectionName) {
+                throw new Error(
+                  `Error in Realtime Composable: unable to find collection name for expanded field "${key}. Did you provide default with meta ?"`
+                )
+              }
+              const unsubscribe = await pb
+                .collection(collectionName)
+                .subscribe('*', (data) => {
+                  if (data.action !== 'update') return
+                  const isConcerned = rawData.value?.[key].includes(
+                    data.record.id
+                  )
+                  if (isConcerned) {
+                    const existingRecordIndex = expand[key].findIndex(
+                      (r: Record) => r.id === data.record.id
+                    )
+                    ;(expand[key] as Record[])[existingRecordIndex] =
+                      data.record
+                  }
+                })
+              unsubscribes.push(unsubscribe)
+              // Handle when relation property changes (added or deleted id)
+              updateCallbacks.push(async (oldVal: any) => {
+                const oldArray = oldVal[key]
+                const newArray = rawData.value![key]
+                const addedIds = newArray.filter(
+                  (x: string) => !oldArray.includes(x)
+                )
+                const removedIds = oldArray.filter(
+                  (x: string) => !newArray.includes(x)
+                )
+                for (const id of removedIds) {
+                  const index = expandValue.findIndex(
+                    (r: Record) => r.id === id
+                  )
+                  expandValue.splice(index, 1)
+                }
+                for (const id of addedIds) {
+                  const record = await pb.collection(collectionName).getOne(id)
+                  expandValue.push(record)
+                }
+                // We sort the expanded array to match the order in the ids array
+                expandValue.sort(
+                  (a: Record, b: Record) =>
+                    newArray.indexOf(a.id) - newArray.indexOf(b.id)
+                )
+              })
             }
           } else {
             // watch single record
-            const v = value as Record
+            const v = expandValue as Record
             const unsubscribeSingle = await pb
               .collection(v.collectionName)
               .subscribe(v.id, (data) => {
@@ -96,20 +166,22 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
           }
         }
       }
-      unsubscribes.push(un)
     }
-    const unsubscribeAll = () => unsubscribes.forEach((u) => u())
+    const unsubscribeAll = () => {
+      unsubscribes.forEach((u) => u())
+      unsubscribes = []
+    }
     onUnmounted(unsubscribeAll)
 
-    if (resolveUnref(id)) {
-      bind().then()
+    if (initialId && initialId !== 'undefined') {
+      refresh().then(bind)
     }
-    if (isRef(id)) {
-      watch(id, async (newId) => {
-        unsubscribeAll()
-        if (!newId) return
+    const setId = async (id?: string | null) => {
+      unsubscribeAll()
+      await staticSetId(id)
+      if (id) {
         await bind()
-      })
+      }
     }
 
     return {
@@ -119,6 +191,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
       rawData,
       update,
       updateLoading,
+      setId,
     }
   }
 }

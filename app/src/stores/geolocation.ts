@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive, watch } from 'vue'
-import { backgroundGeolocation } from '~/plugins/capacitorSetup'
-import { useTeamStore } from '~/stores/team'
+import { backgroundGeolocation } from '../plugins/capacitorSetup'
+import { useTeamStore } from './team/team'
 
 export const useGeolocationStore = defineStore('geolocation', () => {
   const currentLocation = reactive({ lng: 6.129384, lat: 45.899247 })
@@ -75,7 +75,7 @@ export const useGeolocationStore = defineStore('geolocation', () => {
       if (teamStore.team) {
         teamStore.team.longitude = currentLocation.lng
         teamStore.team.latitude = currentLocation.lat
-        await teamStore.update()
+        await teamStore.saveTeam()
         console.log(
           '💾Saved change on server : [lat: ' +
             currentLocation.lat +

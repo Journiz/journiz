@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {} from '@ionic/vue'
-import { useGeolocationStore } from '~/stores/geolocation'
-import { useTeamStore } from '~/stores/team'
+import { useGeolocationStore } from '../stores/geolocation'
+import { useTeamStore } from '../stores/team/team'
 import BasicMap from '~/components/BasicMap.vue'
 
 const location = useGeolocationStore()
@@ -12,7 +12,6 @@ const startWatchingPosition = () => {
 }
 
 const teamStore = useTeamStore()
-teamStore.setId('bth1emonizvk3bh')
 </script>
 <template>
   <IonPage>
