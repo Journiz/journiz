@@ -21,10 +21,16 @@ function oneSignalInit() {
 
 export function setNotificationsId(id: string | null) {
   if (id) {
-    OneSignal.setExternalUserId(id)
+    try {
+      OneSignal.setExternalUserId(id)
+    } catch (_) {}
     return
   }
-  OneSignal.removeExternalUserId()
+  try {
+    OneSignal.removeExternalUserId()
+  } catch (e) {
+    console.warn('No external id to rmeove')
+  }
 }
 
 export const notificationsEvents = useEventBus('notifications')
