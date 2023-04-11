@@ -5,6 +5,7 @@ import CommunityView from '~/views/CommunityView.vue'
 import ProfilView from '~/views/ProfilView.vue'
 import SettingsView from '~/views/SettingsView.vue'
 import DashboardView from '~/views/DashboardView.vue'
+import CreateJourney from '~/views/CreateJourney.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
           path: 'profil',
           name: 'profil',
           component: ProfilView,
+        },
+        {
+          path: 'creation',
+          name: 'create',
+          component: CreateJourney,
         },
       ],
     },
