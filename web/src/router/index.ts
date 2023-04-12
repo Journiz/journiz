@@ -1,16 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Auth from '../views/LoginView.vue'
-import FormForgotPassword from '../views/FormForgotPassword.vue'
-import NewJourney from '../views/NewJourney.vue'
-import ConfigJourney from '../views/ConfigJourney.vue'
-import JourneysView from '~/views/JourneysView.vue'
-import CommunityView from '~/views/CommunityView.vue'
-import ProfilView from '~/views/ProfilView.vue'
-import SettingsView from '~/views/SettingsView.vue'
-import DashboardView from '~/views/DashboardView.vue'
-import CreateJourney from '~/views/CreateJourney.vue'
-import JourneyCreationBasicInfos from '~/views/JourneyCreationBasicInfos.vue'
-import JourneyChooseModel from '~/views/JourneyChooseModel.vue'
+import DashboardView from '~/views/dashboard/DashboardView.vue'
 import { useUserStore } from '~/stores/user'
 import { pinia } from '~/main'
 
@@ -31,23 +20,23 @@ const router = createRouter({
           return '/dashboard'
         }
       },
-      component: () => import('~/views/LoginView.vue'),
+      component: () => import('~/views/auth/LoginView.vue'),
     },
     {
       path: '/new-password',
       name: 'ResetPassword',
-      component: FormForgotPassword,
+      component: () => import('~/views/FormForgotPassword.vue'),
       props: true,
     },
     {
       path: '/new-journey',
       name: 'NewJourney',
-      component: NewJourney,
+      component: () => import('~/views/NewJourney.vue'),
     },
     {
       path: '/journey',
       name: 'ConfigJourney',
-      component: ConfigJourney,
+      component: () => import('~/views/ConfigJourney.vue'),
       props: true,
     },
     {
@@ -63,42 +52,53 @@ const router = createRouter({
       children: [
         {
           path: '',
+          name: 'dashboard-index',
           redirect: '/dashboard/parcours',
         },
         {
           path: 'parcours',
           name: 'journeys',
-          component: JourneysView,
+          component: () =>
+            import('~/views/dashboard/journey/JourneysListView.vue'),
         },
         {
           path: 'communaute',
           name: 'community',
-          component: CommunityView,
+          component: () => import('~/views/dashboard/CommunityView.vue'),
         },
         {
           path: 'parametres',
           name: 'setting',
-          component: SettingsView,
+          component: () => import('~/views/dashboard/SettingsView.vue'),
         },
         {
           path: 'profil',
           name: 'profil',
-          component: ProfilView,
+          component: () => import('~/views/ProfilView.vue'),
         },
         {
-          path: 'creation',
+          path: 'parcours/creation',
           name: 'create',
-          component: CreateJourney,
+          component: () =>
+            import('~/views/dashboard/journey/CreateJourneyView.vue'),
+        },
+        {
+          path: 'parcours/:journeyId',
+          name: 'single-journey',
+          component: () =>
+            import('~/views/dashboard/journey/SingleJourneyView.vue'),
           children: [
             {
-              path: 'informations',
-              name: 'basic-infos',
-              component: JourneyCreationBasicInfos,
+              name: 'edit-journey',
+              path: '',
+              component: () =>
+                import('~/views/dashboard/journey/JourneyEditorView.vue'),
             },
             {
-              path: 'modele',
-              name: 'model',
-              component: JourneyChooseModel,
+              name: 'basecamp-journey',
+              path: 'depart',
+              component: () =>
+                import('~/views/dashboard/journey/JourneyBasecampView.vue'),
             },
           ],
         },

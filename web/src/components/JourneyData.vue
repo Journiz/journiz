@@ -1,21 +1,18 @@
 <script setup lang="ts">
-  import { useJourney } from '@journiz/composables';
-  import { useRoute } from 'vue-router'
+import { useJourneyStore } from '~/stores/journey'
 
-  const route = useRoute()
-  const id: any = route.query.id
-  const {data: journey, loading} = useJourney(id)
-  
-  // console.log(journey.value)
-  // console.log(test.data)
+const store = useJourneyStore()
+
+// console.log(journey.value)
+// console.log(test.data)
 </script>
 
 <template>
   <section>
     <h1>Data Journey</h1>
-    <div v-if="loading">Chargement...</div>
-    <div v-else-if="journey">
-      <pre>{{ journey }}</pre>
+    <div v-if="store.loading">Chargement...</div>
+    <div v-else-if="store.journey">
+      <pre>{{ store.journey }}</pre>
     </div>
   </section>
 </template>

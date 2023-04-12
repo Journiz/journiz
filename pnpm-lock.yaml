@@ -214,6 +214,9 @@ importers:
       '@mapbox/mapbox-gl-geocoder':
         specifier: ^5.0.1
         version: 5.0.1(mapbox-gl@2.13.0)
+      '@shimyshack/uid':
+        specifier: ^0.1.7
+        version: 0.1.7
       '@studiometa/vue-mapbox-gl':
         specifier: ^2.0.4
         version: 2.0.4(@mapbox/mapbox-gl-geocoder@5.0.1)(mapbox-gl@2.13.0)(vue@3.2.47)
@@ -1043,6 +1046,12 @@ packages:
       tiny-glob: 0.2.9
       tslib: 2.5.0
     dev: true
+
+  /@shimyshack/uid@0.1.7:
+    resolution: {integrity: sha512-RVcLjoNwV7nKPxor9Ua09ilu6aBbaL0YRQV2MmCMUoKidazPKJ9z84l/tQG7fL4TP1sZ9VWfSPDyV1YCWuGmYw==}
+    dependencies:
+      vue: 3.2.47
+    dev: false
 
   /@sindresorhus/is@4.6.0:
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
+import { ref } from 'vue'
+defineProps({
   label: {
     type: String,
     required: true,
+  },
+  modelValue: {
+    type: String,
+    default: '',
   },
   placeholder: {
     type: String,
@@ -17,17 +18,24 @@ const props = defineProps({
     default: true,
   },
 })
+
+const emit = defineEmits(['update:modelValue'])
+
+const input = ref()
 </script>
 <template>
   <div class="w-full">
-    <label :for="name" class="text-blue-900 font-semibold"
+    <label :for="input?.id" class="text-blue-900 font-semibold"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >
     <input
-      :id="name"
+      ref="input"
+      v-uid
+      :value="modelValue"
       :required="requiredField"
       type="text"
       class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
+      @input="emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>

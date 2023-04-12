@@ -1,8 +1,14 @@
-<script setup>
+<script setup lang="ts">
+import { PropType } from 'vue'
+
 const props = defineProps({
   secondaryColor: {
     type: Boolean,
     default: false,
+  },
+  type: {
+    type: String as PropType<'submit' | 'button' | 'reset'>,
+    default: 'button',
   },
 })
 </script>
