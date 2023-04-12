@@ -10,7 +10,7 @@ const testAction = () => {
 </script>
 
 <template>
-  <article>
+  <article class="pt-10 px-16">
     <page-title class="mb-10">Mes parcours</page-title>
     <default-button class="mb-6" @click="router.push('creation/informations')"
       >Nouveau parcours</default-button
