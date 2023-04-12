@@ -2,10 +2,6 @@
 import { computed } from 'vue'
 import icons from '~/assets/icons'
 const props = defineProps({
-  action: {
-    type: Function,
-    required: true,
-  },
   activated: {
     type: Boolean,
     default: false,
@@ -34,7 +30,6 @@ const Icon = computed(() => icons[props.icon])
   <div
     class="w-12 h-12 rounded-lg flex items-center justify-center text-white cursor-pointer transition-all hover:bg-blue-600"
     :class="props.activated ? 'bg-blue-600' : 'bg-blue-400'"
-    @click="props.action"
   >
     <Icon class="h-6 w-6" />
   </div>
