@@ -1,8 +1,18 @@
 <script setup>
+import { useRouter } from 'vue-router'
 import IconGroup from '~icons/uil/users-alt'
 import IconUser from '~icons/uil/user-circle'
 import IconSetting from '~icons/uil/setting'
+import IconSignout from '~icons/uil/sign-out-alt'
 import IconTrip from '~icons/bx/trip'
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
+const router = useRouter()
+const logout = async () => {
+  await userStore.logout()
+  await router.push('/')
+}
 </script>
 
 <template>
@@ -31,6 +41,12 @@ import IconTrip from '~icons/bx/trip'
         <span class="text-xs">Paramètres</span>
       </div>
     </router-link>
+    <button class="w-full" @click="logout">
+      <span class="flex flex-col text-center text-blue-700 mb-10">
+        <icon-signout class="mx-auto mb-2 sidebar-icon" />
+        <span class="text-xs">Déconnexion</span>
+      </span>
+    </button>
   </div>
 </template>
 
