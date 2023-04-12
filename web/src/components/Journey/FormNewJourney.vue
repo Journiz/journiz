@@ -1,7 +1,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../../stores/user'
+import { useJourneyStore } from '../../stores/journey'
+import { usePocketBase } from '@journiz/composables'
+
+const router = useRouter()
+const pb = usePocketBase()
+const store = useJourneyStore()
+
+const id: any = pb.authStore.model?.id
 const invalidInput = ref(false)
 const name = ref('')
 const city = ref('')
@@ -9,10 +16,14 @@ const lang = ref('')
 const level = ref('')
 const theme = ref('')
 
-const router = useRouter()
-const store = useUserStore()
-function newJourney() {}
+const newJourney = async () => {
+  const recordId = await store.newJourney(id, name.value)
+  if (recordId != false && recordId != null && recordId != undefined) {
+    router.push('/journey/?id='+recordId)
+  }
+}
 </script>
+
 <template>
   <h1>Informations du nouveau parcours</h1>
   <form @submit.prevent="newJourney">
