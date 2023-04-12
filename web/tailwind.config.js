@@ -3,6 +3,7 @@ module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      width: { fit: 'fit-content' },
       colors: {
         primary: {
           100: '#F2F9FF', // ex: bg-primary-100

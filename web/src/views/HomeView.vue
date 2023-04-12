@@ -6,7 +6,8 @@ import UserData from '~/components/UserData.vue'
 </script>
 
 <template>
-  <main>
+  <main class="bg-primary-200 w-screen h-screen flex">
+    <Sidebar />
     <AuthStatus />
     <h1>Dashboard</h1>
     <HelloBackoffice />
