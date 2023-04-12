@@ -14,7 +14,7 @@ import Sidebar from '~/components/Sidebar.vue'
     <!--    <h1>Dashboard</h1>-->
     <!--    <HelloBackoffice />-->
     <!--    <UserData />-->
-    <!--    <Logout />-->
+    <Logout />
     <!--    <a href="/new-journey">Créer un Parcour</a>-->
   </main>
 </template>

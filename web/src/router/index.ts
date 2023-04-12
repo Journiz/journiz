@@ -25,7 +25,13 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: Auth,
+      beforeEnter: () => {
+        const store = useUserStore(pinia)
+        if (store.isLoggedIn()) {
+          return '/dashboard'
+        }
+      },
+      component: () => import('~/views/LoginView.vue'),
     },
     {
       path: '/new-password',
@@ -51,10 +57,14 @@ const router = createRouter({
       beforeEnter: () => {
         const store = useUserStore(pinia)
         if (!store.isLoggedIn()) {
-          return { name: 'login' }
+          return '/login'
         }
       },
       children: [
+        {
+          path: '',
+          redirect: '/dashboard/parcours',
+        },
         {
           path: 'parcours',
           name: 'journeys',

@@ -16,8 +16,13 @@ const newPassword = async () => {
   <h1>Nouveau mot de passe</h1>
   <form @submit.prevent="newPassword">
     <div class="form-group">
-      <label for="email">Email</label>
-      <input id="email" v-model="email" type="text" placeholder="email" />
+      <label for="forgot-email">Email</label>
+      <input
+        id="forgot-email"
+        v-model="email"
+        type="text"
+        placeholder="email"
+      />
     </div>
     <button>Confirmer</button>
   </form>

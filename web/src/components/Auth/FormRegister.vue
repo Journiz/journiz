@@ -41,22 +41,27 @@ const register = async () => {
       <input id="username" v-model="username" type="text" placeholder="email" />
     </div>
     <div class="form-group">
-      <label for="email">Email</label>
-      <input id="email" v-model="email" type="text" placeholder="email" />
+      <label for="register-email">Email</label>
+      <input
+        id="register-email"
+        v-model="email"
+        type="text"
+        placeholder="email"
+      />
     </div>
     <div class="form-group">
-      <label for="password">Mot de passe</label>
+      <label for="register-password">Mot de passe</label>
       <input
-        id="password"
+        id="register-password"
         v-model="password"
         type="password"
         placeholder="password"
       />
     </div>
     <div class="form-group">
-      <label for="confirmPassword">Mot de passe</label>
+      <label for="register-confirmPassword">Mot de passe</label>
       <input
-        id="confirmPassword"
+        id="register-confirmPassword"
         v-model="confirmPassword"
         type="password"
         placeholder="confirmPassword"

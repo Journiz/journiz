@@ -17,7 +17,7 @@ const login = async () => {
   const success = await store.login(email.value, password.value)
   if (success) {
     invalidInput.value = false
-    return router.push('/')
+    return router.push('/dashboard')
   }
   invalidInput.value = true
   loading.value = false
@@ -28,13 +28,13 @@ const login = async () => {
   <h1>Form Login</h1>
   <form @submit.prevent="login">
     <div class="form-group">
-      <label for="email">Email</label>
-      <input id="email" v-model="email" type="text" placeholder="email" />
+      <label for="login-email">Email</label>
+      <input id="login-email" v-model="email" type="text" placeholder="email" />
     </div>
     <div class="form-group">
-      <label for="password">Mot de passe</label>
+      <label for="login-password">Mot de passe</label>
       <input
-        id="password"
+        id="login-password"
         v-model="password"
         type="password"
         placeholder="password"
