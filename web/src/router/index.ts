@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import Auth from '../views/Auth.vue'
+import Auth from '../views/LoginView.vue'
 import FormForgotPassword from '../views/FormForgotPassword.vue'
 import NewJourney from '../views/NewJourney.vue'
 import ConfigJourney from '../views/ConfigJourney.vue'
@@ -12,6 +11,8 @@ import DashboardView from '~/views/DashboardView.vue'
 import CreateJourney from '~/views/CreateJourney.vue'
 import JourneyCreationBasicInfos from '~/views/JourneyCreationBasicInfos.vue'
 import JourneyChooseModel from '~/views/JourneyChooseModel.vue'
+import { useUserStore } from '~/stores/user'
+import { pinia } from '~/main'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,7 +20,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'Home',
-      component: HomeView,
+      component: () => import('~/views/HomeView.vue'),
     },
     {
       path: '/login',
@@ -47,6 +48,12 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView,
+      beforeEnter: () => {
+        const store = useUserStore(pinia)
+        if (!store.isLoggedIn()) {
+          return { name: 'login' }
+        }
+      },
       children: [
         {
           path: 'parcours',
