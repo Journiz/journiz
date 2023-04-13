@@ -9,6 +9,7 @@ import IconSlide from '~icons/uil/sliders-v-alt'
 import IconPodium from '~icons/mdi/podium-gold'
 import IconMarker from '~icons/uil/location-point'
 import IconBack from '~icons/uil/arrow-left'
+
 export default {
   play: IconPlay,
   edit: IconEdit,

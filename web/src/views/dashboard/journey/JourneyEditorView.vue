@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import JourneyData from '~/components/JourneyData.vue'
+import JourneyData from '~/components/auth/journey/JourneyData.vue'
 </script>
 <template>
   <div>

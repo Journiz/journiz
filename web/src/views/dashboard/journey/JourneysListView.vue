@@ -2,9 +2,9 @@
 import { useRouter } from 'vue-router'
 import { useJourneys } from '@journiz/composables'
 import PageTitle from '~/components/PageTitle.vue'
-import DefaultButton from '~/components/DefaultButton.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import { useUserStore } from '~/stores/user'
-import JourneyItem from '~/components/JourneyItem.vue'
+import JourneyItem from '~/components/journey/JourneyItem.vue'
 import { waitForEndLoading } from '~/utils/waitForEndLoading'
 
 const router = useRouter()

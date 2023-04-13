@@ -1,6 +1,6 @@
 <script setup>
-import TextInput from '~/components/TextInput.vue'
-import SelectInput from '~/components/SelectInput.vue'
+import TextInput from '~/components/forms/TextInput.vue'
+import SelectInput from '~/components/forms/SelectInput.vue'
 
 const selectChoices = [
   { value: 'français', content: 'Français' },

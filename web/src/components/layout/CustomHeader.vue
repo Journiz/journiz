@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import PageTitle from '~/components/PageTitle.vue'
-import SquareButton from '~/components/SquareButton.vue'
-import DefaultButton from '~/components/DefaultButton.vue'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const router = useRouter()
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     required: true,
