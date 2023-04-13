@@ -89,6 +89,12 @@ const router = createRouter({
               component: () =>
                 import('~/views/dashboard/journey/JourneyBasecampView.vue'),
             },
+            {
+              name: 'export-journey',
+              path: 'export',
+              component: () =>
+                import('~/views/dashboard/journey/JourneyExportView.vue'),
+            },
           ],
         },
       ],

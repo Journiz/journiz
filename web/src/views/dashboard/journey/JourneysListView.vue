@@ -5,18 +5,23 @@ import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/DefaultButton.vue'
 import { useUserStore } from '~/stores/user'
 import JourneyItem from '~/components/JourneyItem.vue'
+import { useJourneyStore } from '~/stores/journey'
 
 const router = useRouter()
-
 const userStore = useUserStore()
+const journeyStore = useJourneyStore()
 
-const { data: journeys } = useJourneys({
+const { data: journeys, refresh } = useJourneys({
   filter: `user="${userStore.user!.id}"`,
   sort: '-created',
 })
 
-const deleteJourney = (id: string) => {
+const deleteJourney = async (id: string) => {
   console.log('delete journey', id)
+  const success = await journeyStore.deleteJourney(id)
+  if (success) {
+    await refresh()
+  }
 }
 </script>
 

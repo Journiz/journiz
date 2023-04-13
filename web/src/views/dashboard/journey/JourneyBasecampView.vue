@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useJourneyStore } from '~/stores/journey'
 
 const invalidInput = ref(false)
 const long = ref('')
 const lat = ref('')
 
+const router = useRouter()
 const store = useJourneyStore()
 
 const setBasecamp = async () => {
-  await store.setBasecamp(parseFloat(long.value), parseFloat(lat.value))
+  const success = await store.setBasecamp(
+    parseFloat(long.value),
+    parseFloat(lat.value)
+  )
+  if (success) {
+    console.log('redirection')
+    router.push('/dashboard/parcours/' + journey.id)
+  }
 }
 </script>
 <template>

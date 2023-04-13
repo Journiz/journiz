@@ -4,9 +4,7 @@ import { Journey as JourneyType } from '@journiz/api-types'
 import SquareButton from '~/components/SquareButton.vue'
 import icons from '~/assets/icons'
 
-const props = defineProps<{
-  journey: JourneyType
-}>()
+defineProps<{ journey: JourneyType }>()
 
 const MarkerIcon = computed(() => icons.marker)
 
@@ -29,7 +27,7 @@ const emit = defineEmits(['deleteJourney', 'editJourney'])
           <MarkerIcon />{{ journey.basecampName }}
         </div>
         <div v-if="journey.tags" class="tags mt-3">
-          <div v-for="tag in journey.tags" class="flex items-center">
+          <div v-for="tag in journey.tags" :key="tag" class="flex items-center">
             {{ tag }}
           </div>
         </div>
