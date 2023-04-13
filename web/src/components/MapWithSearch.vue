@@ -20,8 +20,8 @@ const props = defineProps({
 })
 </script>
 <template>
-  <div>
-    <Geocoding />
+  <div class="relative">
+    <Geocoding class="absolute left-4 top-4 z-1 w-2/5" />
     <Map :map-center="mapCenter" :zoom="zoom" class="w-full h-full">
       <slot />
     </Map>

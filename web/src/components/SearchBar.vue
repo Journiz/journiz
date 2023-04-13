@@ -14,22 +14,19 @@ defineProps({
 </script>
 <template>
   <div>
-    <label for="search">{{ label }}</label>
+    <label for="search" class="text-blue-800 font-bold">{{ label }}</label>
     <div class="relative">
       <input
         id="search"
         ref="searchContent"
         type="text"
-        class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
+        class="w-full border rounded-xl py-4 px-5 mt-2 mb-4 text-blue-400"
       />
       <SquareButton
+        class="absolute right-2 top-3.5"
         icon="play"
         @click="$emit('makeResearch', searchContent.value)"
       />
     </div>
   </div>
 </template>
-<style>
-.mapboxgl-ctrl-top-right {
-}
-</style>

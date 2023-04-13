@@ -15,8 +15,12 @@ const doResearch = async (searchValue) => {
 }
 </script>
 <template>
-  <div>
-    <SearchBar class="mb-3" label="Recherche" @makeResearch="doResearch" />
-    <ResearchResultLine v-for="line in researchResult" :data="line" />
+  <div class="p-7 bg-blue-300 rounded-xl">
+    <SearchBar
+      class="mb-3"
+      label="Rechercher une adresse"
+      @makeResearch="doResearch"
+    />
+    <ResearchResultLine v-for="line in researchResult" :data="line" @click="" />
   </div>
 </template>
