@@ -5,6 +5,7 @@ import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/DefaultButton.vue'
 import { useUserStore } from '~/stores/user'
 import JourneyItem from '~/components/JourneyItem.vue'
+
 const router = useRouter()
 
 const userStore = useUserStore()
