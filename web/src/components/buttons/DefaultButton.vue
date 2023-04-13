@@ -12,11 +12,20 @@ defineProps({
     type: String as PropType<ButtonHTMLAttributes['type']>,
     default: 'button',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 <template>
   <button
-    class="btn-animation py-3 px-6 bg-blue-800 rounded-lg text-white w-fit cursor-pointer transition-all hover:bg-blue-600 flex items-center gap-2"
+    class="btn-animation py-3 px-6 rounded-lg text-white w-fit cursor-pointer transition-all flex items-center gap-2"
+    bg="blue-800 hover:blue-600"
     :class="secondaryColor ? 'bg-blue-300' : ''"
   >
     <SvgSpinners180Ring />
