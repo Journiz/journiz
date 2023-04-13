@@ -1,0 +1,46 @@
+.btn {
+  border: solid 1px transparent;
+  --disabled-color: theme('colors.gray.300');
+  --disabled-text: theme('colors.gray.100');
+
+  // Colors
+  &-primary {
+    --color: theme('colors.blue.800');
+    --color-light: theme('colors.blue.600');
+  }
+
+  &-primary {
+    --color: theme('colors.blue.800');
+    --color-light: theme('colors.blue.600');
+  }
+
+  // Variants
+  &-fill {
+    background-color: var(--color);
+    border-color: var(--color);
+    color: white;
+    &:hover {
+      background-color: var(--color-light);
+      border-color: var(--color-light);
+    }
+    &:disabled {
+      background-color: var(--disabled-color);
+      border-color: var(--disabled-color);
+      color: var(--disabled-text);
+    }
+  }
+
+  &-outline {
+    border: solid var(--color) 1px;
+    color: var(--color);
+    &:hover {
+      background-color: var(--color);
+      color: white;
+    }
+    &:disabled {
+      background-color: var(--disabled-color);
+      color: var(--disabled-text);
+      border-color: var(--disabled-color);
+    }
+  }
+}
