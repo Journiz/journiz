@@ -28,7 +28,12 @@ const doResearch = (searchValue) => {
     <div>
       <SearchBar label="Recherche" @makeResearch="doResearch" />
     </div>
-    <Map :map-center="mapCenter" :zoom="zoom" class="w-full h-full">
+    <Map
+      :map-center="mapCenter"
+      :zoom="zoom"
+      class="w-full h-full"
+      :active-geocoding="true"
+    >
       <slot />
     </Map>
   </div>

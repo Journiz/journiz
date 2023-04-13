@@ -29,3 +29,7 @@ defineProps({
     </div>
   </div>
 </template>
+<style>
+.mapboxgl-ctrl-top-right {
+}
+</style>

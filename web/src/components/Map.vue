@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { PropType, ref, toRaw, watch } from 'vue'
+import { onMounted, PropType, ref, toRaw, watch } from 'vue'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 // @ts-ignore
 import { MapboxMap } from '@studiometa/vue-mapbox-gl'
+// @ts-ignore
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
+import mapboxgl from 'mapbox-gl'
 import { Coordinates } from '~/types/Coordinates'
 const props = defineProps({
   mapCenter: {
@@ -13,10 +17,25 @@ const props = defineProps({
     type: Number as PropType<number>,
     default: 10,
   },
+  activeGeocoding: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
 })
 
 const initialCenter = toRaw(props.mapCenter)
 const map = ref<MapboxMap>()
+
+onMounted(() => {
+  if (props.activeGeocoding) {
+    const geocoder = new MapboxGeocoder({
+      accessToken:
+        'pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg',
+      mapboxgl,
+    })
+    map.value.addControl(geocoder)
+  }
+})
 
 watch(
   () => props.mapCenter,
@@ -27,6 +46,7 @@ watch(
 </script>
 <template>
   <MapboxMap
+    ref="mapboxMap"
     class="w-full h-full"
     access-token="pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg"
     map-style="mapbox://styles/mapbox/streets-v12"
