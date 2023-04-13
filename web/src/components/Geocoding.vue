@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import SearchBar from '~/components/SearchBar.vue'
+import ResearchResultLine from '~/components/ResearchResultLine.vue'
 const accessToken =
   'pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg'
 const researchResult = ref([])
@@ -15,7 +16,7 @@ const doResearch = async (searchValue) => {
 </script>
 <template>
   <div>
-    <SearchBar label="Recherche" @makeResearch="doResearch" />
-    <div v-for="line in researchResult">{{ line.place_name }}</div>
+    <SearchBar class="mb-3" label="Recherche" @makeResearch="doResearch" />
+    <ResearchResultLine v-for="line in researchResult" :data="line" />
   </div>
 </template>
