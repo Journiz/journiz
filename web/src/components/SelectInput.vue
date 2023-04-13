@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Str } from 'windicss/types/lang/tokens'
-
 const props = defineProps({
   name: {
     type: String,

@@ -29,17 +29,6 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/new-journey',
-      name: 'NewJourney',
-      component: () => import('~/views/NewJourney.vue'),
-    },
-    {
-      path: '/journey',
-      name: 'ConfigJourney',
-      component: () => import('~/views/ConfigJourney.vue'),
-      props: true,
-    },
-    {
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView,
