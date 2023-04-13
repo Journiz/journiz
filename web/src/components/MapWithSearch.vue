@@ -4,6 +4,7 @@ import Map from '~/components/Map.vue'
 import { Coordinates } from '~/types/Coordinates'
 import MapMarker from '~/components/MapMarker.vue'
 import SearchBar from '~/components/SearchBar.vue'
+import Geocoding from '~/components/Geocoding.vue'
 
 const searchMarkers: MapMarker[] = null
 
@@ -17,23 +18,11 @@ const props = defineProps({
     default: 10,
   },
 })
-
-const doResearch = (searchValue) => {
-  // TODO
-  console.log('This is the string to research : ' + searchValue)
-}
 </script>
 <template>
   <div>
-    <div>
-      <SearchBar label="Recherche" @makeResearch="doResearch" />
-    </div>
-    <Map
-      :map-center="mapCenter"
-      :zoom="zoom"
-      class="w-full h-full"
-      :active-geocoding="true"
-    >
+    <Geocoding />
+    <Map :map-center="mapCenter" :zoom="zoom" class="w-full h-full">
       <slot />
     </Map>
   </div>
