@@ -12,3 +12,4 @@ import FormRegister from '~/components/Auth/FormRegister.vue'
     <FormRegister />
   </section>
 </template>
+<style></style>

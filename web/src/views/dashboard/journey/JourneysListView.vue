@@ -5,12 +5,13 @@ import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/DefaultButton.vue'
 import { useUserStore } from '~/stores/user'
 import JourneyItem from '~/components/JourneyItem.vue'
+import { waitForEndLoading } from '~/utils/waitForEndLoading'
 
 const router = useRouter()
 
 const userStore = useUserStore()
 
-const { data: journeys } = useJourneys({
+const { data: journeys, loading } = useJourneys({
   filter: `user="${userStore.user!.id}"`,
   sort: '-created',
 })
@@ -18,6 +19,7 @@ const { data: journeys } = useJourneys({
 const deleteJourney = (id: string) => {
   console.log('delete journey', id)
 }
+await waitForEndLoading(loading)
 </script>
 
 <template>
