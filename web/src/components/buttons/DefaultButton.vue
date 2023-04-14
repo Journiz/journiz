@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { ButtonHTMLAttributes, PropType } from 'vue'
+import { ButtonHTMLAttributes, computed, PropType, ref, toRefs } from 'vue'
 // @ts-ignore
 import SvgSpinners180Ring from '~icons/svg-spinners/180-ring'
+import { ButtonColor, ButtonVariant } from '~/types/Button'
 
-defineProps({
-  secondaryColor: {
-    type: Boolean,
-    default: false,
+const props = defineProps({
+  color: {
+    type: String as PropType<ButtonColor>,
+    default: 'primary',
+  },
+  variant: {
+    type: String as PropType<ButtonVariant>,
+    default: 'fill',
   },
   type: {
     type: String as PropType<ButtonHTMLAttributes['type']>,
@@ -21,14 +26,26 @@ defineProps({
     default: false,
   },
 })
+
+const { loading, disabled } = toRefs(props)
+
+const actualDisabled = computed(() => {
+  return loading.value || disabled.value
+})
+const hasBeenClicked = ref(false)
 </script>
 <template>
   <button
-    class="btn-animation py-3 px-6 rounded-lg text-white w-fit cursor-pointer transition-all flex items-center gap-2"
-    bg="blue-800 hover:blue-600"
-    :class="secondaryColor ? 'bg-blue-300' : ''"
+    class="btn px-6 py-3 rounded-lg text-white w-fit transition-all flex items-center gap-2"
+    cursor="pointer disabled:not-allowed"
+    :class="[
+      { 'btn-animation': hasBeenClicked },
+      `btn-${variant} btn-${color}`,
+    ]"
+    :disabled="actualDisabled"
+    @mousedown="hasBeenClicked = true"
   >
-    <SvgSpinners180Ring />
+    <SvgSpinners180Ring v-show="loading" />
     <slot />
   </button>
 </template>

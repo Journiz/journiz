@@ -8,6 +8,10 @@
     --color: theme('colors.blue.800');
     --color-light: theme('colors.blue.600');
   }
+  &-secondary {
+    --color: theme('colors.blue.400');
+    --color-light: theme('colors.blue.300');
+  }
 
   &-primary {
     --color: theme('colors.blue.800');

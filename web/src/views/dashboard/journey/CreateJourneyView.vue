@@ -39,7 +39,13 @@ const newJourney = async () => {
 <template>
   <form class="pt-10 px-16" @submit.prevent="newJourney">
     <CustomHeader title="Informations du nouveau parcours" class="mb-8">
-      <default-button type="submit">Suivant</default-button>
+      <default-button
+        type="submit"
+        :loading="false"
+        variant="fill"
+        color="secondary"
+        >Suivant</default-button
+      >
     </CustomHeader>
 
     <div class="m-w-full w-md bg-blue-200 py-10 px-18 mx-auto rounded-md">
