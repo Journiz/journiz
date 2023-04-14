@@ -2,16 +2,21 @@
 import { useRouter } from 'vue-router'
 import { useJourneys } from '@journiz/composables'
 import PageTitle from '~/components/PageTitle.vue'
-import DefaultButton from '~/components/DefaultButton.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import { useUserStore } from '~/stores/user'
-import JourneyItem from '~/components/JourneyItem.vue'
 import { useJourneyStore } from '~/stores/journey'
+import JourneyItem from '~/components/journey/JourneyItem.vue'
+import { waitForEndLoading } from '~/utils/waitForEndLoading'
 
 const router = useRouter()
 const userStore = useUserStore()
 const journeyStore = useJourneyStore()
 
-const { data: journeys, refresh } = useJourneys({
+const {
+  data: journeys,
+  loading,
+  refresh,
+} = useJourneys({
   filter: `user="${userStore.user!.id}"`,
   sort: '-created',
 })
@@ -23,6 +28,7 @@ const deleteJourney = async (id: string) => {
     await refresh()
   }
 }
+await waitForEndLoading(loading)
 </script>
 
 <template>

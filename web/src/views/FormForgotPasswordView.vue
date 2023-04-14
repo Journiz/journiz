@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FormResetPassword from '~/components/Auth/FormResetPassword.vue'
+import FormResetPassword from '~/components/auth/FormResetPassword.vue'
 </script>
 
 <template>

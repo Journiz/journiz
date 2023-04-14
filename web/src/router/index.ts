@@ -23,9 +23,14 @@ const router = createRouter({
       component: () => import('~/views/auth/LoginView.vue'),
     },
     {
+      path: '/tmp',
+      name: 'tmp',
+      component: () => import('~/views/JourneyChooseModelView.vue'),
+    },
+    {
       path: '/new-password',
       name: 'ResetPassword',
-      component: () => import('~/views/FormForgotPassword.vue'),
+      component: () => import('~/views/FormForgotPasswordView.vue'),
       props: true,
     },
     {

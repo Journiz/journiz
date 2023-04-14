@@ -1,5 +1,5 @@
 import { onUnmounted } from 'vue'
-import { ZodObject } from 'zod'
+import { ZodType } from 'zod'
 import { Record } from 'pocketbase'
 import { cloneDeep } from '@journiz/api-types'
 import { usePocketBase } from '../src/usePocketBase'
@@ -19,7 +19,7 @@ import {
 export interface DirectExpandArrayMeta<T> extends Array<T> {
   collectionName?: string
 }
-export function makeRealtimeRecordComposable<Schema extends ZodObject<any>>(
+export function makeRealtimeRecordComposable<Schema extends ZodType>(
   collection: string,
   schema: Schema,
   expand = '',

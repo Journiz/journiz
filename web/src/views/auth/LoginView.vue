@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import FormLogin from '~/components/Auth/FormLogin.vue'
-import AuthStatus from '~/components/Auth/AuthStatus.vue'
-import FormForgotPassword from '~/components/Auth/FormForgotPassword.vue'
-import FormRegister from '~/components/Auth/FormRegister.vue'
+import FormLogin from '~/components/auth/FormLogin.vue'
+import AuthStatus from '~/components/auth/AuthStatus.vue'
+import FormForgotPassword from '~/components/auth/FormForgotPassword.vue'
+import FormRegister from '~/components/auth/FormRegister.vue'
 </script>
 <template>
   <section>
@@ -12,3 +12,4 @@ import FormRegister from '~/components/Auth/FormRegister.vue'
     <FormRegister />
   </section>
 </template>
+<style></style>

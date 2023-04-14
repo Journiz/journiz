@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import CustomHeader from '~/components/CustomHeader.vue'
-import DefaultButton from '~/components/DefaultButton.vue'
+import CustomHeader from '~/components/layout/CustomHeader.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
 
 import { useJourneyStore } from '~/stores/journey'
-import SelectInput from '~/components/SelectInput.vue'
-import TextInput from '~/components/TextInput.vue'
+import SelectInput from '~/components/forms/SelectInput.vue'
+import TextInput from '~/components/forms/TextInput.vue'
 import { useUserStore } from '~/stores/user'
 
 const selectChoices = [
@@ -39,7 +39,13 @@ const newJourney = async () => {
 <template>
   <form class="pt-10 px-16" @submit.prevent="newJourney">
     <CustomHeader title="Informations du nouveau parcours" class="mb-8">
-      <default-button type="submit">Suivant</default-button>
+      <default-button
+        type="submit"
+        :loading="false"
+        variant="fill"
+        color="secondary"
+        >Suivant</default-button
+      >
     </CustomHeader>
 
     <div class="m-w-full w-md bg-blue-200 py-10 px-18 mx-auto rounded-md">

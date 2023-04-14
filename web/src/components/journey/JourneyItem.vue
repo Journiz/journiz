@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Journey as JourneyType } from '@journiz/api-types'
-import SquareButton from '~/components/SquareButton.vue'
+import { Journey as JourneyType } from '../../../../../packages/api-types'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 import icons from '~/assets/icons'
 
 defineProps<{ journey: JourneyType }>()
