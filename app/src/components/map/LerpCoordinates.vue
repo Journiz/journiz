@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { computed, PropType, toRefs, watch } from 'vue'
+import { computed, PropType } from 'vue'
 import { useLerp } from '@journiz/composables'
 import { Coordinates } from '~/types/Coordinates'
 
