@@ -25,6 +25,17 @@ watch(
     map.value?.setCenter(newCenter)
   }
 )
+
+const flyToPoint = (point: Coordinates, offset = [150, 0]) => {
+  map.value.flyTo({
+    center: point,
+    offset,
+    essential: true,
+  })
+}
+defineExpose({
+  flyToPoint,
+})
 </script>
 <template>
   <MapboxMap
