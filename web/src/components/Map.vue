@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PropType, ref, toRaw, watch } from 'vue'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 // @ts-ignore
 import { MapboxMap } from '@studiometa/vue-mapbox-gl'
 import { Coordinates } from '~/types/Coordinates'
@@ -24,9 +25,21 @@ watch(
     map.value?.setCenter(newCenter)
   }
 )
+
+const flyToPoint = (point: Coordinates, offset = [150, 0]) => {
+  map.value.flyTo({
+    center: point,
+    offset,
+    essential: true,
+  })
+}
+defineExpose({
+  flyToPoint,
+})
 </script>
 <template>
   <MapboxMap
+    ref="mapboxMap"
     class="w-full h-full"
     access-token="pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg"
     map-style="mapbox://styles/mapbox/streets-v12"
