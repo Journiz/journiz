@@ -1,11 +1,10 @@
 <script lang="ts" setup="">
 import { IonToolbar } from '@ionic/vue'
-import { computed, reactive, ref } from 'vue'
-// @ts-ignore
-import { MapboxMap, MapboxMarker } from '@studiometa/vue-mapbox-gl'
+import { computed, ref } from 'vue'
 import Map from '~/components/map/Map.vue'
 import MapMarker from '~/components/map/MapMarker.vue'
 import { useUserStore } from '~/stores/user'
+import LerpCoordinates from '~/components/map/LerpCoordinates.vue'
 
 const page = ref()
 
@@ -22,14 +21,14 @@ const teams = computed(() => store.trip?.expand?.teams ?? [])
     <IonContent :fullscreen="true">
       <div class="w-full h-full">
         <Map :map-center="{ lng: 6.1, lat: 45.91 }" :zoom="14">
-          <MapMarker
+          <LerpCoordinates
             v-for="team in teams"
             :key="team.id"
-            :position="{ lng: team.longitude, lat: team.latitude }"
-            icon="basic"
+            v-slot="{ coordinates }"
+            :coordinates="{ lng: team.longitude, lat: team.latitude }"
           >
-            Hello
-          </MapMarker>
+            <MapMarker :position="coordinates" icon="basic"> Hello </MapMarker>
+          </LerpCoordinates>
         </Map>
       </div>
     </IonContent>
