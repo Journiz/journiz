@@ -1,18 +1,17 @@
-<script setup lang="ts">
+<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
 import { onMounted, PropType, ref } from 'vue'
 // @ts-ignore
 import { MapboxMap } from '@studiometa/vue-mapbox-gl'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import Map from '~/components/Map.vue'
 import { Coordinates } from '~/types/Coordinates'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 // @ts-ignore
 const mapInstance = ref<MapboxMap>()
 const emit = defineEmits(['safeAreaGeometry'])
+let currentDrawId = ''
 const draw = new MapboxDraw({
   displayControlsDefault: false,
-  controls: {
-    trash: true,
-  },
   styles: [
     // ACTIVE (being drawn)
     // line stroke
@@ -155,9 +154,16 @@ const updateArea = (e) => {
   const data = draw.getAll()
   if (data.features[0]) {
     // @ts-expect-error Library wrong type
+    currentDrawId = data.features[0].id
+    // @ts-expect-error Library wrong type
     emit('safeAreaGeometry', data.features[0].geometry.coordinates[0])
   } else {
     emit('safeAreaGeometry', [])
+  }
+}
+const trashDraw = () => {
+  if (currentDrawId) {
+    draw.delete(currentDrawId)
   }
 }
 onMounted(() => {
@@ -168,12 +174,19 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div>
+  <div class="relative">
+    <SquareButton
+      class="absolute right-4 top-4 z-10"
+      icon="trash"
+      @click="trashDraw"
+    />
     <Map
       class="h-full"
       :map-center="mapCenter"
       :zoom="zoom"
       @getMap="(mapData) => (mapInstance = mapData)"
-    />
+    >
+      <slot />
+    </Map>
   </div>
 </template>
