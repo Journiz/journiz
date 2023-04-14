@@ -1,16 +1,16 @@
-import { z, ZodObject } from 'zod'
+import { z, ZodType } from 'zod'
 import { Ref, ref } from 'vue'
 import { flattenExpands } from '@journiz/api-types'
 import { Record, RecordFullListQueryParams } from 'pocketbase'
 import { usePocketBase } from '../src/usePocketBase'
 
-export type ListComposableData<Schema extends ZodObject<any>> = {
+export type ListComposableData<Schema extends ZodType> = {
   data: Ref<z.infer<Schema>[]>
   rawData: Ref<Record[]>
   refresh: () => Promise<void>
   loading: any
 }
-export type ListComposable<Schema extends ZodObject<any>> = (
+export type ListComposable<Schema extends ZodType> = (
   queryParams?: RecordFullListQueryParams
 ) => ListComposableData<Schema>
 
@@ -24,7 +24,7 @@ export type ListComposable<Schema extends ZodObject<any>> = (
  * @param expandDefaults
  */
 
-export function makeListComposable<Schema extends ZodObject<any>>(
+export function makeListComposable<Schema extends ZodType>(
   collection: string,
   schema: Schema,
   lazy = false
