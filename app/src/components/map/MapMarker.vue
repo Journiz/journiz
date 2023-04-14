@@ -31,8 +31,8 @@ const props = defineProps({
 const iconComp = computed(() => markers[props.icon])
 </script>
 <template>
-  <MapboxMarker :lng-lat="position">
-    <p><component :is="iconComp" class="h-5 w-5" /></p>
+  <MapboxMarker :lng-lat="[position.lng, position.lat]">
+    <p><component :is="iconComp as any" class="h-5 w-5" /></p>
     <template v-if="$slots.default" #popup>
       <p><slot /></p>
     </template>

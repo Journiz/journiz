@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { PropType, ref, toRaw, watch } from 'vue'
+import { PropType, ref, watch } from 'vue'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 // @ts-ignore
 import { MapboxMap } from '@studiometa/vue-mapbox-gl'
 import { Coordinates } from '~/types/Coordinates'
+
 const emit = defineEmits(['getMap'])
 const props = defineProps({
   mapCenter: {
@@ -17,13 +18,13 @@ const props = defineProps({
   },
 })
 
-const initialCenter = toRaw(props.mapCenter)
+const initialCenter = [props.mapCenter.lng, props.mapCenter.lat]
 const map = ref<MapboxMap>()
 
 watch(
   () => props.mapCenter,
   (newCenter) => {
-    map.value?.setCenter(newCenter)
+    map.value?.setCenter([newCenter.lng, newCenter.lat])
   }
 )
 
