@@ -41,8 +41,10 @@ const editPoint = async (id: string) => {
           v-for="point in store.journey.expand.points"
           :key="point.id"
           :point="point"
+          @edit-point="
+            $router.push({ name: 'edit-point', params: { pointId: point.id } })
+          "
           @delete-point="deletePoint(point.id)"
-          @edit-point="editPoint(point.id)"
         />
       </div>
     </div>
