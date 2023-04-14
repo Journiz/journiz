@@ -74,6 +74,9 @@ importers:
       '@journiz/api-types':
         specifier: workspace:*
         version: link:../packages/api-types
+      '@journiz/components':
+        specifier: workspace:^
+        version: link:../packages/components
       '@journiz/composables':
         specifier: workspace:*
         version: link:../packages/composables
@@ -160,6 +163,21 @@ importers:
       pocketbase:
         specifier: ^0.12.0
         version: 0.12.0
+
+  packages/components:
+    dependencies:
+      '@studiometa/vue-mapbox-gl':
+        specifier: ^2.0.4
+        version: 2.0.4(@mapbox/mapbox-gl-geocoder@5.0.1)(mapbox-gl@2.13.0)(vue@3.2.47)
+      '@vueuse/core':
+        specifier: ^9.13.0
+        version: 9.13.0(vue@3.2.47)
+      pocketbase:
+        specifier: ^0.12.0
+        version: 0.12.0
+      vue:
+        specifier: ^3.2.47
+        version: 3.2.47
 
   packages/composables:
     dependencies:
