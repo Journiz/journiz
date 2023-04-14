@@ -9,25 +9,14 @@ import { useUserStore } from '~/stores/user'
 
 const page = ref()
 
-const markers = reactive([
-  { lng: 6.12, lat: 45.89 },
-  { lng: 6.12, lat: 45.85 },
-])
-
 const store = useUserStore()
-// setInterval(() => {
-//   markers[0].lat += 0.001
-// }, 300)
-const move = () => {
-  markers.push({ lng: 6.13, lat: 45.9 })
-}
 const teams = computed(() => store.trip?.expand?.teams ?? [])
 </script>
 <template>
   <IonPage ref="page">
     <IonHeader class="">
       <IonToolbar>
-        <IonTitle @click="move">Map</IonTitle>
+        <IonTitle>Map</IonTitle>
       </IonToolbar>
     </IonHeader>
     <IonContent :fullscreen="true">
