@@ -7,7 +7,7 @@ const searchPoint = ref([])
   <MapWithSearch
     :map-center="[6.129384, 45.899247]"
     :zoom="15"
-    class="h-full"
+    class="h-screen"
     :initial-coords="[]"
     @update="searchPoint = $event"
   >

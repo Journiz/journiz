@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue'
-import SquareButton from '~/components/SquareButton.vue'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 
 defineEmits(['makeResearch'])
 const searchContent = ref<HTMLInputElement>()
