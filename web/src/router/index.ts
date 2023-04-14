@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/tmp',
       name: 'tmp',
-      component: () => import('~/views/JourneyChooseModelView.vue'),
+      component: () => import('~/views/TestDrawSafeZoneView.vue'),
     },
     {
       path: '/new-password',
