@@ -12,7 +12,7 @@ const page = ref()
       </IonToolbar>
     </IonHeader>
     <IonContent :fullscreen="true">
-      <div class="bg-red-200">Hello</div>
+      <div class="w-full h-full"></div>
     </IonContent>
   </IonPage>
 </template>
