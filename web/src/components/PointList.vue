@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useJourneys, usePocketBase } from '@journiz/composables'
-import { useJourneyStore } from '~/stores/journey'
 import PointItem from '~/components/PointItem.vue'
 import PageTitle from '~/components/PageTitle.vue'
-import DefaultButton from '~/components/DefaultButton.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import { useJourneyStore } from '~/stores/journey'
 
 const store = useJourneyStore()
 const router = useRouter()
@@ -22,17 +22,17 @@ async function deletePoint(id: string) {
   }
 }
 
-const editPoint = async (id: string) => {
-  console.log('edit point', id)
-}
+// const editPoint = async (id: string) => {
+//   await console.log('edit point', id)
+// }
 </script>
 
 <template>
   <article class="pt-10 px-16">
     <page-title class="mb-10">Points</page-title>
-    <default-button class="mb-6" @click="router.push('point/creation')"
-      >Ajouter un point</default-button
-    >
+    <default-button class="mb-6" @click="router.push({ name: 'create-point' })">
+      Ajouter un point
+    </default-button>
     <div v-if="store.loading">Chargement...</div>
     <div v-else-if="store.journey">
       <div class="flex flex-col gap-4">

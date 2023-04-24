@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useJourney, usePocketBase } from '@journiz/composables'
+import { toRaw } from 'vue'
 
 export const useJourneyStore = defineStore('journey', () => {
   const { data: journey, loading, setId, update } = useJourney()
@@ -70,6 +71,45 @@ export const useJourneyStore = defineStore('journey', () => {
     return false
   }
 
+  const newPoint = async (name: string, long: number, lat: number) => {
+    const data = {
+      latitude: long,
+      longitude: lat,
+      score: 0,
+      answerType: 'image',
+      question: ' ',
+      answer: 'JSON',
+      trigger: '',
+      name,
+    }
+    try {
+      const record = await pb.collection('point').create(data)
+      const success = await addPointToJourney(record.id)
+      if (success) {
+        return record.id
+      }
+      return false
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  }
+
+  const addPointToJourney = async (id: string) => {
+    if (!journey.value) return false
+    const points = journey.value.points
+    const pointsToRaw = toRaw(points)
+    pointsToRaw.push(id)
+    journey.value.points = pointsToRaw
+    try {
+      await update()
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+    return false
+  }
+
   return {
     newJourney,
     setBasecamp,
@@ -78,5 +118,7 @@ export const useJourneyStore = defineStore('journey', () => {
     setId,
     deleteJourney,
     exportJourney,
+    newPoint,
+    addPointToJourney,
   }
 })

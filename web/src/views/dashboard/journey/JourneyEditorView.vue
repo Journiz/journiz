@@ -1,5 +1,7 @@
 <script lang="ts" setup="">
 import { useRouter } from 'vue-router'
+import PointList from '~/components/PointList.vue'
+// import JourneyData from '~/components/journey/JourneyData.vue'
 
 const router = useRouter()
 </script>

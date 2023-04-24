@@ -18,6 +18,9 @@ const emit = defineEmits(['deleteJourney', 'editJourney'])
 </script>
 <template>
   <div class="content w-full flex px-6 py-4 bg-white rounded-xl">
+    <p>
+      {{ journey.id }}
+    </p>
     <div class="flex-1 flex flex-col mr-8">
       <div class="name text-blue-900 font-bold text-base">
         {{ journey.name }}
