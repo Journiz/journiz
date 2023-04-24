@@ -1,4 +1,21 @@
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["unplugin-icons/types/vue"],
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "isolatedModules": false,
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove",
+    "target": "ES2020",
+    "lib": ["dom", "ES2020"]
+  },
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

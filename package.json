@@ -8,5 +8,19 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@journiz/api-types": "workspace:*",
+    "@journiz/composables": "workspace:*",
+    "@journiz/config": "workspace:*",
+    "@journiz/plugins": "workspace:*",
+    "typescript": "~4.8.4"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4"
+  }
 }

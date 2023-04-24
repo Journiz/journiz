@@ -9,13 +9,15 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
+    implementation project(':capacitor-community-background-geolocation')
     implementation project(':capacitor-app')
+    implementation project(':capacitor-dialog')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-status-bar')
-
+    implementation "com.onesignal:OneSignal:4.8.5"
 }
-
+apply from: "../../../node_modules/.pnpm/onesignal-cordova-plugin@3.3.1/node_modules/onesignal-cordova-plugin/build-extras-onesignal.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()
