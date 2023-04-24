@@ -1,7 +1,8 @@
 {
-  "name": "nuxt-ionic-project",
+  "name": "@journiz/app",
   "integrations": {
     "capacitor": {}
   },
-  "type": "vue"
+  "type": "custom",
+  "npmClient": "pnpm"
 }
