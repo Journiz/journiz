@@ -29,7 +29,7 @@ const addSearchMarker = (data) => {
 }
 </script>
 <template>
-  <div class="relative">
+  <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
       @select-marker="addSearchMarker"
