@@ -1,38 +1,33 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useJourneyStore } from '~/stores/journey'
-
-const invalidInput = ref(false)
-const long = ref('')
-const lat = ref('')
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import MapWithSearch from '~/components/MapWithSearch.vue'
+import { Coordinates } from '~/types/Coordinates'
 
 const router = useRouter()
 const store = useJourneyStore()
 
-const setBasecamp = async () => {
-  const success = await store.setBasecamp(
-    parseFloat(long.value),
-    parseFloat(lat.value)
-  )
-  if (success) {
-    console.log('redirection')
-    router.push('/dashboard/parcours/' + journey.id)
-  }
+const setBasecamp = async (coords: Coordinates) => {
+  await store.setBasecamp(coords[0], coords[1])
 }
+const confirm = () => router.push({ name: 'edit-journey' })
+const pointCoords = computed(() => {
+  return store.journey!.basecampLongitude && store.journey!.basecampLatitude
+    ? [store.journey!.basecampLongitude, store.journey!.basecampLatitude]
+    : undefined
+})
 </script>
 <template>
-  <h1>Création du point de raliement</h1>
-  <form @submit.prevent="setBasecamp">
-    <div class="form-group">
-      <label for="long">Longitude</label>
-      <input id="long" v-model="long" type="number" />
-    </div>
-    <div class="form-group">
-      <label for="lat">Latitude</label>
-      <input id="lat" v-model="lat" type="number" />
-    </div>
-    <p v-if="invalidInput">Merci de saisir tous les champs</p>
-    <button>Suivant</button>
-  </form>
+  <div class="w-full h-full flex flex-col">
+    <h1>Création du point de ralliement</h1>
+    <DefaultButton @click="confirm">Suivant</DefaultButton>
+    <MapWithSearch
+      :initial-coords="pointCoords"
+      :map-center="pointCoords"
+      :zoom="16"
+      @update="setBasecamp"
+    />
+  </div>
 </template>
