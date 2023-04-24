@@ -3,7 +3,7 @@ import { useJourney, usePocketBase } from '@journiz/composables'
 import { toRaw } from 'vue'
 
 export const useJourneyStore = defineStore('journey', () => {
-  const { data: journey, loading, setId, update } = useJourney()
+  const { data: journey, loading, setId, update, refresh } = useJourney()
 
   const pb = usePocketBase()
 
@@ -71,16 +71,16 @@ export const useJourneyStore = defineStore('journey', () => {
     return false
   }
 
-  const newPoint = async (name: string, long: number, lat: number) => {
+  const newPoint = async () => {
     const data = {
-      latitude: long,
-      longitude: lat,
+      name: 'Nouveau Point',
+      latitude: 0,
+      longitude: 0,
       score: 0,
-      answerType: 'image',
+      answerType: 'choice',
       question: ' ',
       answer: 'JSON',
       trigger: '',
-      name,
     }
     try {
       const record = await pb.collection('point').create(data)
@@ -115,6 +115,7 @@ export const useJourneyStore = defineStore('journey', () => {
     setBasecamp,
     journey,
     loading,
+    refresh,
     setId,
     deleteJourney,
     exportJourney,

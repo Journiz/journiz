@@ -101,14 +101,8 @@ const router = createRouter({
                 import('~/views/dashboard/journey/JourneyExportView.vue'),
             },
             {
-              name: 'create-point',
-              path: 'creation',
-              component: () =>
-                import('~/views/dashboard/journey/point/PointCreateView.vue'),
-            },
-            {
               name: 'edit-point',
-              path: 'edit/:pointId',
+              path: 'point/:pointId',
               component: () =>
                 import('~/views/dashboard/journey/point/PointEditView.vue'),
             },

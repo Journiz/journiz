@@ -1,16 +1,26 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-// import { useRouter } from 'vue-router'
-// import { useJourneys, usePocketBase } from '@journiz/composables'
-// import { useJourneyStore } from '~/stores/journey'
-import FormEditPointFirstStep from '~/components/point/FormEditPointFirstStep.vue'
-import PageTitle from '~/components/PageTitle.vue'
-// import DefaultButton from '~/components/DefaultButton.vue'
+import { usePoint } from '@journiz/composables'
+import { useRoute } from 'vue-router'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import TextInput from '~/components/forms/TextInput.vue'
+
+const pointId = useRoute().params.pointId as string
+const { data: point, update, updateLoading } = usePoint(pointId)
 </script>
 
 <template>
   <article class="pt-10 px-16">
-    <page-title class="mb-10">Editer le point</page-title>
-    <FormEditPointFirstStep />
+    <section v-if="point">
+      <header class="flex items-center justify-between gap-8">
+        <TextInput v-model="point.name" label="Nom du point"></TextInput>
+        <div class="flex">
+          <DefaultButton :loading="updateLoading" @click="update"
+            >Enregistrer</DefaultButton
+          >
+        </div>
+      </header>
+    </section>
+    <section v-else>Chargement</section>
+    <!--    <FormEditPointFirstStep />-->
   </article>
 </template>

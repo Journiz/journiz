@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useJourneys, usePocketBase } from '@journiz/composables'
+import { usePocketBase } from '@journiz/composables'
+import { ref } from 'vue'
 import PointItem from '~/components/PointItem.vue'
 import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
@@ -9,14 +10,11 @@ import { useJourneyStore } from '~/stores/journey'
 const store = useJourneyStore()
 const router = useRouter()
 const pb = usePocketBase()
-const { data: journeys, refresh } = useJourneys()
 
-// const deletePoint = async (id: string) => {
 async function deletePoint(id: string) {
-  console.log('delete point', id)
   try {
     await pb.collection('point').delete(id)
-    await refresh()
+    await store.refresh()
   } catch (e) {
     console.log(e)
   }
@@ -25,12 +23,26 @@ async function deletePoint(id: string) {
 // const editPoint = async (id: string) => {
 //   await console.log('edit point', id)
 // }
+const addLoading = ref(false)
+const newPoint = async () => {
+  addLoading.value = true
+  try {
+    const newPoint = await store.newPoint()
+    addLoading.value = false
+    if (newPoint) {
+      await router.push({ name: 'edit-point', params: { pointId: newPoint } })
+    }
+  } catch (e) {
+    console.log(e)
+  }
+  addLoading.value = false
+}
 </script>
 
 <template>
   <article class="pt-10 px-16">
     <page-title class="mb-10">Points</page-title>
-    <default-button class="mb-6" @click="router.push({ name: 'create-point' })">
+    <default-button class="mb-6" :loading="addLoading" @click="newPoint">
       Ajouter un point
     </default-button>
     <div v-if="store.loading">Chargement...</div>

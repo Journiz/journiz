@@ -4,8 +4,8 @@ export const basePointSchema = z.object({
   id: z.string(),
   latitude: z.number(),
   longitude: z.number(),
-  name: z.string(),
-  question: z.string(),
+  name: z.string().optional(),
+  question: z.string().optional(),
   answerType: z.enum(['image', 'text', 'choice', 'location']),
   answer: z
     .union([
