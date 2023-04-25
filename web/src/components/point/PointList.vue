@@ -41,19 +41,14 @@ const newPoint = async () => {
 </script>
 
 <template>
-  <article class="pt-10 px-16">
+  <article class="pt-10 pb-6">
     <default-button class="mb-6" :loading="addLoading" @click="newPoint">
       Ajouter un nouveau point
     </default-button>
     <BasecampLine
       v-if="store.journey"
       :basecamp-name="store.journey.basecampName"
-      @editBasecamp="
-        () => {
-          // TODO: Routing to edit of the basecamp
-          return
-        }
-      "
+      @editBasecamp="router.push({ name: 'basecamp-journey' })"
     />
     <div v-if="store.loading">Chargement...</div>
     <div v-else-if="store.journey">
