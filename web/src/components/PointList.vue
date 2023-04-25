@@ -40,7 +40,7 @@ const newPoint = async () => {
 </script>
 
 <template>
-  <article class="pt-10 px-16">
+  <article>
     <page-title class="mb-10">Points</page-title>
     <default-button class="mb-6" :loading="addLoading" @click="newPoint">
       Ajouter un point

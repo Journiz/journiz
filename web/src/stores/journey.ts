@@ -17,7 +17,7 @@ export const useJourneyStore = defineStore('journey', () => {
       indoor: false,
       tags: [],
       duration: null,
-      safeZone: null,
+      safeZone: [],
       points: [],
     }
     try {
@@ -113,6 +113,7 @@ export const useJourneyStore = defineStore('journey', () => {
   return {
     newJourney,
     setBasecamp,
+    update,
     journey,
     loading,
     refresh,

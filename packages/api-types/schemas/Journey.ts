@@ -11,7 +11,7 @@ export const JourneySchema = z.object({
   indoor: z.boolean(),
   name: z.string(),
   points: z.array(z.string()),
-  safeZone: z.null(),
+  safeZone: z.array(z.array(z.number())).optional(),
   tags: z.array(z.string()),
   updated: z.string(),
   user: z.string(),
