@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { usePocketBase } from '@journiz/composables'
 import { ref } from 'vue'
-import PointItem from '~/components/PointItem.vue'
+import { usePocketBase } from '../../../../packages/composables'
+import PointItem from '~/components/point/PointItem.vue'
 import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import { useJourneyStore } from '~/stores/journey'
@@ -41,9 +41,8 @@ const newPoint = async () => {
 
 <template>
   <article class="pt-10 px-16">
-    <page-title class="mb-10">Points</page-title>
     <default-button class="mb-6" :loading="addLoading" @click="newPoint">
-      Ajouter un point
+      Ajouter un nouveau point
     </default-button>
     <div v-if="store.loading">Chargement...</div>
     <div v-else-if="store.journey">
