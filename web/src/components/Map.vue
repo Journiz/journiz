@@ -5,6 +5,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 // @ts-ignore
 import { MapboxMap } from '@studiometa/vue-mapbox-gl'
 import { Coordinates } from '~/types/Coordinates'
+const emit = defineEmits(['getMap'])
 const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
@@ -33,6 +34,12 @@ const flyToPoint = (point: Coordinates, offset = [150, 0]) => {
     essential: true,
   })
 }
+
+const setMap = (mapInstance: MapboxMap) => {
+  map.value = mapInstance
+  emit('getMap', mapInstance)
+}
+
 defineExpose({
   flyToPoint,
 })
@@ -45,7 +52,7 @@ defineExpose({
     map-style="mapbox://styles/mapbox/streets-v12"
     :center="initialCenter"
     :zoom="zoom"
-    @mb-created="(mapInstance: MapboxMap) => (map = mapInstance)"
+    @mb-created="setMap"
   >
     <slot />
   </MapboxMap>
