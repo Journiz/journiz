@@ -6,6 +6,7 @@ import PointItem from '~/components/point/PointItem.vue'
 import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import { useJourneyStore } from '~/stores/journey'
+import BasecampLine from '~/components/BasecampLine.vue'
 
 const store = useJourneyStore()
 const router = useRouter()
@@ -44,6 +45,16 @@ const newPoint = async () => {
     <default-button class="mb-6" :loading="addLoading" @click="newPoint">
       Ajouter un nouveau point
     </default-button>
+    <BasecampLine
+      v-if="store.journey"
+      :basecamp-name="store.journey.basecampName"
+      @editBasecamp="
+        () => {
+          // TODO: Routing to edit of the basecamp
+          return
+        }
+      "
+    />
     <div v-if="store.loading">Chargement...</div>
     <div v-else-if="store.journey">
       <div class="flex flex-col gap-4">
