@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
-import { MapboxMarker } from '@studiometa/vue-mapbox-gl'
-import markers from '~/assets/markers'
-import 'mapbox-gl/dist/mapbox-gl.css'
 // @ts-ignore
-import { Coordinates } from '../../../packages/components/types/Coordinates'
+import { MapboxMarker } from '@studiometa/vue-mapbox-gl'
+import markers from '~/icons/markers'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import { Coordinates } from '~/types/Coordinates'
 
 const props = defineProps({
   icon: {
@@ -31,8 +31,8 @@ const props = defineProps({
 const iconComp = computed(() => markers[props.icon])
 </script>
 <template>
-  <MapboxMarker :lng-lat="position">
-    <p><component :is="iconComp" class="h-5 w-5" /></p>
+  <MapboxMarker :lng-lat="[position.lng, position.lat]">
+    <p><component :is="iconComp as any" class="h-5 w-5" /></p>
     <template v-if="$slots.default" #popup>
       <p><slot /></p>
     </template>

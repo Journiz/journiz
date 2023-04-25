@@ -91,7 +91,7 @@ const router = createRouter({
         },
         {
           path: 'tab2',
-          component: () => import('~/views/user/trip/TabHomeView.vue'),
+          component: () => import('~/views/user/trip/TabMapView.vue'),
         },
         {
           path: 'chat',

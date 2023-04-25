@@ -83,12 +83,15 @@ export const useGeolocationStore = defineStore('geolocation', () => {
             currentLocation.lng +
             ']'
         )
+      } else {
+        stopReporting()
       }
     })
   }
   const stopReporting = () => {
     unwatch?.()
     unwatch = null
+    console.log('🛑 Stopped reporting location')
   }
 
   return {

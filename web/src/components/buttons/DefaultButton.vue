@@ -3,6 +3,7 @@ import { ButtonHTMLAttributes, computed, PropType, ref, toRefs } from 'vue'
 // @ts-ignore
 import SvgSpinners180Ring from '~icons/svg-spinners/180-ring'
 import { ButtonColor, ButtonVariant } from '~/types/Button'
+import useButtonDisabled from '~/composables/useButtonDisabled'
 
 const props = defineProps({
   color: {
@@ -27,12 +28,8 @@ const props = defineProps({
   },
 })
 
-const { loading, disabled } = toRefs(props)
-
-const actualDisabled = computed(() => {
-  return loading.value || disabled.value
-})
 const hasBeenClicked = ref(false)
+const { actualDisabled } = useButtonDisabled(props)
 </script>
 <template>
   <button

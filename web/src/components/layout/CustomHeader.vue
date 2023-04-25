@@ -23,6 +23,7 @@ defineProps({
         v-if="!noDisplayReturn"
         icon="back"
         :action="router.back"
+        color="secondary"
       />
       <slot />
     </div>

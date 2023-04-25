@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
-import { usePocketBase, useTripForGameMaster } from '@journiz/composables'
+import {
+  usePocketBase,
+  useRealtimeTripForGameMaster,
+} from '@journiz/composables'
 import { ref } from 'vue'
 import { User } from '@journiz/api-types'
 import { useStorage } from '@vueuse/core'
@@ -40,7 +43,7 @@ export const useUserStore = defineStore('user', () => {
    * Trip persistence
    */
   const storedTripId = useStorage<string | null>('user-trip-id', null)
-  const { data: trip, setId: setTripId } = useTripForGameMaster(
+  const { data: trip, setId: setTripId } = useRealtimeTripForGameMaster(
     storedTripId.value
   )
   useRefStorage(trip, 'user-trip-data')
