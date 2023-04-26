@@ -12,6 +12,7 @@ jobs:
       - checkout:
           path: ~/journiz
       - run: bundle install
+      - run: bundle exec pod install
       - run:
           name: Fastlane
           command: bundle exec fastlane $FASTLANE_LANE
