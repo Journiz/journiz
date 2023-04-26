@@ -1,6 +1,8 @@
-<script setup>
-import { computed, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { useJourneyStore } from '~/stores/journey'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import UilFileDownload from '~icons/uil/file-download'
 
 const time = ref('00:00')
 const security = ref(false)
@@ -27,7 +29,7 @@ const journeyStore = useJourneyStore()
         @input="exportJourney"
       />
     </div>
-    <div class="form-group">
+    <div class="form-group mb-8">
       <label class="font-semibold text-blue-700 mr-8" for="export-security"
         >Activer le périmètre de sécurité</label
       >
@@ -38,6 +40,17 @@ const journeyStore = useJourneyStore()
         @input="exportJourney"
       />
     </div>
-    {{ journeyStore.journey?.safeZone }}
+    <div class="form-group">
+      <label class="font-semibold text-blue-700 mr-8">
+        Télécharger les documents à distribuer
+      </label>
+      <DefaultButton class="mt-3"
+        ><UilFileDownload />Autorisations de sortie</DefaultButton
+      >
+      <DefaultButton class="mt-3"
+        ><UilFileDownload />Tableau de bord papier</DefaultButton
+      >
+    </div>
+    <div class="mt-4">{{ journeyStore.journey?.safeZone }}</div>
   </div>
 </template>
