@@ -39,11 +39,11 @@ jobs:
       - store_artifacts:
           path: output
 
-
 workflows:
   app-staging:
     jobs:
-      - testflight:
-          filters:
-            branches:
-              only: chore/ci
+
+#      - testflight:
+#          filters:
+#            branches:
+#              only: chore/ci
