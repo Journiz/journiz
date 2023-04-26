@@ -14,6 +14,7 @@ jobs:
       - checkout:
           path: ~/journiz
       - run: bundle install
+      - cocoapods/fetch-specs
       - cocoapods/install
       - run:
           name: Fastlane
