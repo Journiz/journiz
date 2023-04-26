@@ -1,38 +1,29 @@
-# fastlane/Fastfile
-default_platform :ios
 
-platform :ios do
-  before_all do
-    setup_circle_ci
-  end
+APP_ID = "fr.journiz.app"
+PROVISIONING_PROFILE_APPSTORE = "match AppStore fr.journiz.app"
+TEAM_ID = "54PCF2T5ZE"
 
-  desc "Upload to Testflight"
-  lane :upload_testflight do
-    # Get the version number from the project and check against
-    # the latest build already available on TestFlight, then
-    # increase the build number by 1. If no build is available
-    # for that version, then start at 1
-    increment_build_number(
-      build_number: latest_testflight_build_number(
-        initial_build_number: 1,
-        version: get_version_number(xcodeproj: "App.xcodeproj")
-      ) + 1,
-    )
-    # Set up Distribution code signing and build the app
-    match(type: "appstore")
-    gym(scheme: "App")
-    # Upload the binary to TestFlight and automatically publish
-    # to the configured beta testing group
-    app_store_connect_api_key(
-        key_id: $APP_STORE_CONNECT_API_KEY_KEY_ID,
-        issuer_id: $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
-        key_content: $APP_STORE_CONNECT_API_KEY_KEY
+settings_to_override_release = { 
+  :BUNDLE_IDENTIFIER => APP_ID, 
+  :PROVISIONING_PROFILE_SPECIFIER => PROVISIONING_PROFILE_APPSTORE, 
+  :DEVELOPMENT_TEAM => TEAM_ID, 
+}
+
+desc "Export IPA & upload to TestFlight"
+lane :release_ipa do
+  api_key = app_store_connect_api_key(
+    key_id: $APP_STORE_CONNECT_API_KEY_KEY_ID,
+    issuer_id: $APP_STORE_CONNECT_API_KEY_ISSUER_ID,
+    key_content: $APP_STORE_CONNECT_API_KEY_KEY
   )
-    pilot(
-      #distribute_external: true,
-      #notify_external_testers: true,
-      groups: ["Testeurs"],
-      changelog: "This is another new build from CircleCI!"
-    )
-  end
+  increment_build_number(
+        build_number: latest_testflight_build_number(
+          api_key: api_key,
+          initial_build_number: 1,
+          version: get_version_number(xcodeproj: "App.xcodeproj")
+        ) + 1,
+  )
+  match(type: "appstore")
+  gym(scheme: "App")
+
 end
