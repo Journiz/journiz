@@ -28,6 +28,19 @@ lane :upload_testflight do
     readonly: is_ci,
     type: "adhoc"
   )
-  gym(scheme: "App")
+  build_app(
+      scheme:"App",
+      export_method:"ad-hoc",
+      skip_profile_detection:true,
+      configuration: "Release",
+      workspace: "App.xcworkspace",
+      xcargs: settings_to_override_release,
+      export_options: {
+        provisioningProfiles: {
+          APP_ID => PROVISIONING_PROFILE_APPSTORE
+        },
+        # installerSigningCertificate: "your_installer_signing_certificate_name"
+      }
+    )
 
 end
