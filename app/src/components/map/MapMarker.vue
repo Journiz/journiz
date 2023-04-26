@@ -9,7 +9,6 @@ import { Coordinates } from '~/types/Coordinates'
 const props = defineProps({
   icon: {
     type: String,
-    required: true,
     validator(value: string) {
       if (Object.keys(markers).includes(value)) {
         return true
@@ -28,11 +27,14 @@ const props = defineProps({
   },
 })
 
-const iconComp = computed(() => markers[props.icon])
+const iconComp = computed(() => (props.icon ? markers[props.icon] : null))
 </script>
 <template>
   <MapboxMarker :lng-lat="[position.lng, position.lat]">
-    <p><component :is="iconComp as any" class="h-5 w-5" /></p>
+    <p>
+      <component :is="iconComp as any" v-if="iconComp" class="h-5 w-5" />
+      <slot v-else-if="$slots.icon" name="icon" />
+    </p>
     <template v-if="$slots.default" #popup>
       <p><slot /></p>
     </template>
