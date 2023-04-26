@@ -23,7 +23,11 @@ lane :upload_testflight do
           version: get_version_number(xcodeproj: "App.xcodeproj")
         ) + 1,
   )
-  match(type: "appstore")
+  match(
+    app_identifier: APP_ID,
+    readonly: is_ci,
+    type: "appstore"
+  )
   gym(scheme: "App")
 
 end
