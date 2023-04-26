@@ -1,7 +1,5 @@
 # .circleci/config.yml
 version: 2.1
-orbs:
-  cocoapods: dantoml/cocoapods@0.0.2
 jobs:
   testflight:
     working_directory: ~/journiz/app/ios/App
@@ -14,8 +12,8 @@ jobs:
       - checkout:
           path: ~/journiz
       - run: bundle install
-      - cocoapods/fetch-specs
-      - cocoapods/install
+      - run: gem install cocoapods
+      - run: pod install
       - run:
           name: Fastlane
           command: bundle exec fastlane $FASTLANE_LANE
