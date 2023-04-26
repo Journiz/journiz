@@ -20,8 +20,8 @@ jobs:
 
 workflows:
   app-staging:
-    filters:
-      branches:
-        only: chore/ci
     jobs:
-      - testflight
+      - testflight:
+          filters:
+            branches:
+              only: chore/ci
