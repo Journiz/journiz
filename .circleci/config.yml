@@ -1,0 +1,27 @@
+# .circleci/config.yml
+version: 2.1
+jobs:
+  testflight:
+    working_directory: ~/journiz/app/ios/App
+    macos:
+      xcode: 14.2.0
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: test
+    steps:
+      - checkout:
+          path: ~/journiz
+      - run: bundle install
+      - run:
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_artifacts:
+          path: output
+
+workflows:
+  app-staging:
+    filters:
+      branches:
+        only: chore/ci
+    jobs:
+      - testflight
