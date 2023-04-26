@@ -32,7 +32,7 @@ lane :upload_testflight do
   build_app(
       scheme:"App",
       export_method:"ad-hoc",
-      skip_profile_detection:true,
+      #skip_profile_detection:true,
       configuration: "Release",
       workspace: "App.xcworkspace",
       xcargs: settings_to_override_release,
