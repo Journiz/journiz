@@ -26,7 +26,7 @@ lane :upload_testflight do
   match(
     app_identifier: APP_ID,
     readonly: is_ci,
-    type: "appstore"
+    type: "adhoc"
   )
   gym(scheme: "App")
 
