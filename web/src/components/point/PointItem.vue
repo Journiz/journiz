@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Point as PointType } from '@journiz/api-types'
+import { Point as PointType } from '../../../../packages/api-types'
 import SquareButton from '~/components/buttons/SquareButton.vue'
 
 defineProps<{ point: PointType }>()

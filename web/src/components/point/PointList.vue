@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { usePocketBase } from '@journiz/composables'
 import { ref } from 'vue'
-import PointItem from '~/components/PointItem.vue'
+import { usePocketBase } from '../../../../packages/composables'
+import PointItem from '~/components/point/PointItem.vue'
 import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import { useJourneyStore } from '~/stores/journey'
+import BasecampLine from '~/components/BasecampLine.vue'
 
 const store = useJourneyStore()
 const router = useRouter()
@@ -40,11 +41,15 @@ const newPoint = async () => {
 </script>
 
 <template>
-  <article>
-    <page-title class="mb-10">Points</page-title>
+  <article class="pt-10 pb-6">
     <default-button class="mb-6" :loading="addLoading" @click="newPoint">
-      Ajouter un point
+      Ajouter un nouveau point
     </default-button>
+    <BasecampLine
+      v-if="store.journey"
+      :basecamp-name="store.journey.basecampName"
+      @editBasecamp="router.push({ name: 'basecamp-journey' })"
+    />
     <div v-if="store.loading">Chargement...</div>
     <div v-else-if="store.journey">
       <div class="flex flex-col gap-4">
