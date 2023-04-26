@@ -31,7 +31,7 @@ jobs:
             - node_modules
       - run: bundle install
       - run: gem install cocoapods
-      - run: pnpm dlx @capacitor/cli sync ios
+      - run: pnpm dlx @capacitor/cli cap sync ios
       - run:
           name: Fastlane
           command: bundle exec fastlane $FASTLANE_LANE
