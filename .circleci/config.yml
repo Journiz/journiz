@@ -31,6 +31,7 @@ jobs:
             - node_modules
       - run: bundle install
       - run: gem install cocoapods
+      - run: pnpm run build
       - run: cd ~/journiz/app && pnpm --package=@capacitor/cli dlx cap sync ios
       - run:
           name: Fastlane
