@@ -11,9 +11,11 @@ const conversationId = route.params.conversationId as string
     <IonHeader>
       <IonToolbar>
         <IonButtons slot="start">
-          <IonBackButton router-link="/user/trip/chat" router-direction="back"
-            >Conversations
-          </IonBackButton>
+          <IonBackButton
+            text="Retour"
+            default-href="/user/trip/chat"
+            router-direction="back"
+          ></IonBackButton>
         </IonButtons>
         <IonTitle>Conversation</IonTitle>
       </IonToolbar>
