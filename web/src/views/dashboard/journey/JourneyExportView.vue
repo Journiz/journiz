@@ -36,11 +36,11 @@ const updateGeometry = async (geo: any) => {
         <label for="export-security">Activer le périmètre de sécurité</label>
         <input id="export-security" v-model="security" type="checkbox" />
       </div>
-      {{ journeyStore.journey?.safeZone }}
       <button>Valider</button>
     </form>
     <MapWithSafeZone
       class="flex-grow"
+      :draw-data="journeyStore.journey?.safeZone"
       :map-center="[journeyStore.journey!.basecampLongitude, journeyStore.journey!.basecampLatitude]"
       @safeAreaGeometry="updateGeometry"
     />

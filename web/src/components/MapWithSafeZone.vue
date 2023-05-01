@@ -140,7 +140,7 @@ const draw = new MapboxDraw({
   ],
   defaultMode: 'draw_polygon',
 })
-defineProps({
+const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
     required: true,
@@ -148,6 +148,10 @@ defineProps({
   zoom: {
     type: Number as PropType<number>,
     default: 10,
+  },
+  drawData: {
+    type: Array,
+    default: null,
   },
 })
 const updateArea = (e) => {
@@ -171,6 +175,10 @@ onMounted(() => {
   mapInstance.value.on('draw.create', updateArea)
   mapInstance.value.on('draw.delete', updateArea)
   mapInstance.value.on('draw.update', updateArea)
+  if (props.drawData) {
+    // @ts-expect-error Library wrong type
+    draw.add({ type: 'Polygon', coordinates: [props.drawData] })
+  }
 })
 </script>
 <template>
