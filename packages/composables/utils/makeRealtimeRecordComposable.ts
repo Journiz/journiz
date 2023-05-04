@@ -2,7 +2,7 @@ import { onUnmounted } from 'vue'
 import { ZodType } from 'zod'
 import { Record } from 'pocketbase'
 import { cloneDeep } from '@journiz/api-types'
-import { usePocketBase } from '../src/usePocketBase'
+import { usePocketBase } from '../src/data/usePocketBase'
 import {
   makeRecordComposable,
   RecordComposable,

@@ -1,10 +1,10 @@
 import { JourneySchema, Point } from '@journiz/api-types'
-import { makeRecordComposable } from '../utils/makeRecordComposable'
+import { makeRecordComposable } from '../../utils/makeRecordComposable'
 import {
   DirectExpandArrayMeta,
   makeRealtimeRecordComposable,
-} from '../utils/makeRealtimeRecordComposable'
-import { makeListComposable } from '../utils/makeListComposable'
+} from '../../utils/makeRealtimeRecordComposable'
+import { makeListComposable } from '../../utils/makeListComposable'
 
 export const useJourneys = makeListComposable('journey', JourneySchema)
 

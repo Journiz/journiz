@@ -1,6 +1,6 @@
 import { computed, toRefs } from 'vue'
 
-export default function useButtonDisabled(props: {
+export function useButtonDisabled(props: {
   disabled: boolean
   loading: boolean
 }) {
