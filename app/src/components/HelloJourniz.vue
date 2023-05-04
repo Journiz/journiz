@@ -2,7 +2,7 @@
 import { IonButton } from '@ionic/vue'
 </script>
 <template>
-  <div class="flex flex-col items-center justify-center">
+  <div class="flex flex-col items-center justify-center bg-red">
     <div class="flex flex-col">
       <h1 class="font-bold text-center">Bienvenue</h1>
       <IonButton router-link="/user-login">Je suis maître du jeu</IonButton>

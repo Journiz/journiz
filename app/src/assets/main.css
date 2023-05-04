@@ -3,8 +3,16 @@
 @tailwind utilities;
 body {
     overflow: hidden!important;
+
 }
-ion-content {--overflow: hidden}
+
+.page {
+    @apply h-full;
+    padding-top: env(safe-area-inset-top);
+}
+ion-content {
+    /*--overflow: hidden*/
+}
 /*ion-navbar.toolbar.toolbar-ios.statusbar-padding,*/
 /*ion-navbar.toolbar-ios ion-title.title-ios,*/
 /*ion-toolbar.toolbar.toolbar-ios.statusbar-padding,*/
