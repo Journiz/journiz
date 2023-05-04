@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useJourneyStore } from '~/stores/journey'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import UilFileDownload from '~icons/uil/file-download'
@@ -7,6 +8,7 @@ import UilFileDownload from '~icons/uil/file-download'
 const time = ref('00:00')
 const security = ref(false)
 
+const router = useRouter()
 const exportJourney = async () => {
   const success = await journeyStore.exportJourney(time.value, security.value)
   if (success) {
@@ -31,7 +33,7 @@ const journeyStore = useJourneyStore()
     </div>
     <div class="form-group mb-8">
       <label class="font-semibold text-blue-700 mr-8" for="export-security"
-        >Activer le périmètre de sécurité</label
+        >Activer la zone de jeu</label
       >
       <input
         id="export-security"
