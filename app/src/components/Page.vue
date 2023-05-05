@@ -3,9 +3,15 @@ import { IonPage } from '@ionic/vue'
 </script>
 <template>
   <IonPage>
-    <div class="page flex flex-col">
-      <slot />
-    </div>
+    <IonContent :scroll-y="false">
+      <div class="page flex flex-col">
+        <slot />
+      </div>
+    </IonContent>
   </IonPage>
 </template>
-<style></style>
+<style>
+ion-content {
+  font-family: 'filson', sans-serif;
+}
+</style>

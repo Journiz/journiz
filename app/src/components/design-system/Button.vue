@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ButtonHTMLAttributes, PropType, ref } from 'vue'
-import { Motion } from 'motion/vue'
-// @ts-ignore
+import { ButtonHTMLAttributes, computed, PropType } from 'vue'
 import { useButtonDisabled } from '@journiz/composables'
+import { RouteLocationRaw, RouterLink } from 'vue-router'
 import { ButtonColor, ButtonVariant } from '~/types/Button'
 
 const props = defineProps({
@@ -26,21 +25,34 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  to: {
+    type: [String, Object] as PropType<RouteLocationRaw>,
+    required: false,
+    default: null,
+  },
 })
 
 const { actualDisabled } = useButtonDisabled(props)
+const component = computed(() => {
+  if (props.to) {
+    return 'router-link'
+  }
+  return 'button'
+})
 </script>
 <template>
-  <button
-    class="btn px-6 py-3 rounded-lg text-white text-center flex items-center justify-center gap-2 font-medium"
+  <component
+    :is="component"
+    class="btn px-6 py-3 rounded-lg text-white text-center flex items-center justify-center gap-2 font-medium text-white text-lg text-center"
     cursor="pointer disabled:not-allowed"
-    text="white lg center"
     :disabled="actualDisabled"
     :class="[`btn-${variant} btn-${color}`]"
+    :type="type"
+    :to="to"
   >
     <div v-show="loading" class="i-svg-spinners:180-ring"></div>
     <slot />
-  </button>
+  </component>
 </template>
 <style scoped lang="scss">
 .btn {
@@ -104,7 +116,7 @@ const { actualDisabled } = useButtonDisabled(props)
 
   // Animation
   $baseTransition: background-color 0.2s;
-  transition: $baseTransition, transform 0.25s cubic-bezier(1, 3.91, 0.21, 1.01);
+  transition: $baseTransition, transform 0.25s cubic-bezier(0.74, 2.32, 0.58, 1);
   &:active:not(:disabled) {
     animation: none;
     transition: $baseTransition, transform 0.07s ease-in;
