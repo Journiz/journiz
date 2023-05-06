@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
+import TextInput from '~/components/forms/TextInput.vue'
 
 const invalidInput = ref(false)
 const email = ref('')
@@ -34,40 +35,47 @@ const register = async () => {
 </script>
 
 <template>
-  <h1>Form Register</h1>
-  <form @submit.prevent="register">
+  <form
+    class="w-full max-w-520px p-13 bg-blue-300 rounded-xl mx-auto"
+    @submit.prevent="register"
+  >
     <div class="form-group">
-      <label for="username">Username</label>
-      <input id="username" v-model="username" type="text" placeholder="email" />
-    </div>
-    <div class="form-group">
-      <label for="register-email">Email</label>
-      <input
-        id="register-email"
-        v-model="email"
+      <TextInput
+        v-model="username"
+        label="Username"
+        placeholder="username"
         type="text"
+      />
+    </div>
+    <div class="form-group">
+      <TextInput
+        v-model="email"
+        label="Email"
         placeholder="email"
+        type="text"
       />
     </div>
     <div class="form-group">
-      <label for="register-password">Mot de passe</label>
-      <input
-        id="register-password"
+      <TextInput
         v-model="password"
-        type="password"
+        label="Mot de passe"
         placeholder="password"
+        type="password"
       />
     </div>
     <div class="form-group">
-      <label for="register-confirmPassword">Mot de passe</label>
-      <input
-        id="register-confirmPassword"
+      <TextInput
         v-model="confirmPassword"
-        type="password"
+        label="Confirmer le mot de passe"
         placeholder="confirmPassword"
+        type="password"
       />
     </div>
     <p v-if="invalidInput">Identifiant ou mot de passe incorrect</p>
-    <button>Je m'inscris</button>
+    <button
+      class="w-fit block bg-blue-800 px-8 py-3 color-white rounded-xl mt-8 mx-auto"
+    >
+      Je m'inscris
+    </button>
   </form>
 </template>
