@@ -23,7 +23,9 @@ onMounted(() => {
   <div
     ref="el"
     class="bubble rounded-xl p-4 text-white my-2.5 mx-5 whitespace-pre-wrap relative"
-    :class="message.sender === userType ? 'bg-blue-500 ml-auto' : 'bg-blue-400'"
+    :class="
+      message.sender === userType ? 'bg-indigo-600 ml-auto' : 'bg-indigo-400'
+    "
   >
     <span>
       {{ message.content }}

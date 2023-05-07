@@ -116,6 +116,7 @@ const router = createRouter({
      */
     {
       path: '/join',
+      name: 'join',
       redirect: () => {
         // If team logged, redirect to team
         const store = useTeamStore(pinia)

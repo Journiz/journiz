@@ -93,7 +93,7 @@ watch(messages, () => {
           @input="onInputMessage"
         ></textarea>
       </div>
-      <button class="send-btn bg-blue-600 text-white" @click="send">
+      <button class="send-btn bg-indigo-600 text-white" @click="send">
         Send
       </button>
     </div>

@@ -11,10 +11,8 @@ import Button from '~/components/design-system/Button.vue'
       Rejoignez votre prochain parcours dès maintenant !
     </p>
     <div class="flex flex-col gap-3 w-full">
-      <Button color="green" :to="{ name: 'user-login' }"
-        >Je suis un élève</Button
-      >
-      <Button>Je suis un prof</Button>
+      <Button color="green" :to="{ name: 'join' }">Je suis un élève</Button>
+      <Button :to="{ name: 'user-login' }">Je suis un prof</Button>
     </div>
   </div>
 </template>
