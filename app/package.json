@@ -39,6 +39,7 @@
     "@studiometa/vue-mapbox-gl": "^2.0.4",
     "@unocss/reset": "^0.51.4",
     "@vueuse/core": "^9.13.0",
+    "gsap": "^3.11.5",
     "ionicons": "^7.0.0",
     "mapbox-gl": "^2.13.0",
     "onesignal-cordova-plugin": "^3.3.0",

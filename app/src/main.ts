@@ -14,6 +14,8 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/vue'
+import gsap from 'gsap'
+import { Flip } from 'gsap/Flip'
 import App from './App.vue'
 import router from './router'
 import plugins from '~/plugins'
@@ -36,6 +38,8 @@ import '@ionic/vue/css/display.css'
 import './assets/main.css'
 
 plugins()
+
+gsap.registerPlugin(Flip)
 
 const app = createApp(App)
 export const pinia = createPinia()

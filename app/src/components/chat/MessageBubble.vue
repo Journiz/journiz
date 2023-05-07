@@ -4,6 +4,7 @@ import type { Message as MessageType } from '@journiz/api-types'
 import { IonIcon } from '@ionic/vue'
 import { usePocketBase } from '@journiz/composables'
 import { checkmarkCircleOutline, ellipseOutline } from 'ionicons/icons'
+import Lightbox from '~/components/design-system/Lightbox.vue'
 
 const props = defineProps<{
   message: MessageType
@@ -46,12 +47,12 @@ const attachment = computed(() => {
       </div>
     </div>
     <div v-if="attachment" class="mt-2">
-      <img
-        :src="attachment"
-        alt=""
-        class="w-3/4 rounded-lg"
+      <Lightbox
+        class="w-3/4"
         :class="message.sender === userType ? 'ml-auto' : ''"
-      />
+      >
+        <img :src="attachment" alt="" class="rounded-lg" />
+      </Lightbox>
     </div>
   </div>
 </template>

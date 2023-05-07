@@ -102,7 +102,7 @@ watch(messages, () => {
     <div v-else class="flex-grow">
       Chargement conversation {{ conversationId }}...
     </div>
-    <div class="flex flex-col absolute bottom-0 backdrop-blur bg-white/40">
+    <div class="flex flex-col absolute bottom-0 backdrop-blur bg-white/40 z-11">
       <div v-if="imageUrl" class="p-4">
         <img :src="imageUrl" alt="Attachment" class="h-24 rounded-lg" />
       </div>
