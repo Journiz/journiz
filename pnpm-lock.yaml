@@ -47,6 +47,9 @@ importers:
       '@capacitor/app':
         specifier: 4.1.1
         version: 4.1.1(@capacitor/core@4.7.0)
+      '@capacitor/camera':
+        specifier: ^5.0.1
+        version: 5.0.1(@capacitor/core@4.7.0)
       '@capacitor/core':
         specifier: 4.7.0
         version: 4.7.0
@@ -435,6 +438,14 @@ packages:
       - supports-color
       - typescript
     dev: true
+
+  /@capacitor/camera@5.0.1(@capacitor/core@4.7.0):
+    resolution: {integrity: sha512-4QZ3GK156DNKmXYVdZ/gAlVy7DTc1lPWYi7bxgTpV9JXP3AvGBLMXn2zA1mIlbCLm9S11zLhYDN0rNrNc5OrSg==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 4.7.0
+    dev: false
 
   /@capacitor/cli@3.9.0:
     resolution: {integrity: sha512-NkbVZhYb0oPdh/XArE2ZmOwPFJbla5meShGhv3DxKCXeKn1rt92ile+2xOgtB/j+mL7f9cqQzTQM/11sGQzMAg==}

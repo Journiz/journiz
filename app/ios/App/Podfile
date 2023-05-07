@@ -13,6 +13,7 @@ def capacitor_pods
   pod 'CapacitorCordova', :path => '../../../node_modules/.pnpm/@capacitor+ios@4.7.1_@capacitor+core@4.7.0/node_modules/@capacitor/ios'
   pod 'CapacitorCommunityBackgroundGeolocation', :path => '../../../node_modules/.pnpm/@capacitor-community+background-geolocation@1.2.12_@capacitor+core@4.7.0/node_modules/@capacitor-community/background-geolocation'
   pod 'CapacitorApp', :path => '../../../node_modules/.pnpm/@capacitor+app@4.1.1_@capacitor+core@4.7.0/node_modules/@capacitor/app'
+  pod 'CapacitorCamera', :path => '../../../node_modules/.pnpm/@capacitor+camera@5.0.1_@capacitor+core@4.7.0/node_modules/@capacitor/camera'
   pod 'CapacitorDialog', :path => '../../../node_modules/.pnpm/@capacitor+dialog@4.1.0_@capacitor+core@4.7.0/node_modules/@capacitor/dialog'
   pod 'CapacitorHaptics', :path => '../../../node_modules/.pnpm/@capacitor+haptics@4.1.0_@capacitor+core@4.7.0/node_modules/@capacitor/haptics'
   pod 'CapacitorKeyboard', :path => '../../../node_modules/.pnpm/@capacitor+keyboard@4.1.1_@capacitor+core@4.7.0/node_modules/@capacitor/keyboard'
