@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import { Flip } from 'gsap/Flip'
 import { createGesture } from '@ionic/core'
+import gsap from 'gsap'
 
 const isOpen = ref(false)
 const translateValue = ref(0)
@@ -20,6 +21,31 @@ watch(isOpen, async () => {
   const state = Flip.getState(el.value)
   await nextTick()
   await Flip.from(state, { duration: 0.3, ease: 'power3.inOut' })
+})
+
+onMounted(() => {
+  const gesture = createGesture({
+    el: el.value,
+    gestureName: 'swipeToClose',
+    threshold: 0,
+    onMove: (detail) => {
+      if (!isOpen.value) return
+      translateValue.value = detail.deltaY
+    },
+    onEnd: (detail) => {
+      if (!isOpen.value) return
+      if (Math.abs(detail.deltaY) > 150) {
+        close()
+      } else {
+        gsap.to(translateValue, {
+          value: 0,
+          duration: 0.3,
+          ease: 'power3.inOut',
+        })
+      }
+    },
+  })
+  gesture.enable()
 })
 </script>
 <template>
@@ -45,10 +71,14 @@ watch(isOpen, async () => {
           ? 'fixed w-full top-1/2 left-1/2 transform -translate-1/2 p-4 z-100'
           : 'relative z-10'
       "
-      draggable="true"
       @click="open"
     >
-      <div ref="el">
+      <div
+        ref="el"
+        :style="{
+          marginTop: translateValue * 2 + 'px',
+        }"
+      >
         <slot />
       </div>
     </div>
