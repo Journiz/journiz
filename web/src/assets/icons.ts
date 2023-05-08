@@ -9,6 +9,8 @@ import IconSlide from '~icons/uil/sliders-v-alt'
 import IconPodium from '~icons/mdi/podium-gold'
 import IconMarker from '~icons/uil/location-point'
 import IconBack from '~icons/uil/arrow-left'
+import IconFolder from '~icons/uil/folder-open'
+import IconJourney from '~icons/bx/trip'
 
 export default {
   play: IconPlay,
@@ -22,4 +24,6 @@ export default {
   podium: IconPodium,
   marker: IconMarker,
   back: IconBack,
+  folder: IconFolder,
+  journey: IconJourney,
 }
