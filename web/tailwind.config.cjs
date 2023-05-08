@@ -24,7 +24,7 @@ module.exports = {
         },
         white: {
           DEFAULT: "#ffffff",
-          off: "FBF9F4",
+          off: "#FBF9F4",
         },
         red : "#FF6147",
       },

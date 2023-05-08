@@ -13,7 +13,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <div class="bg-green-dark h-full w-47 pt-24 pb-10">
+  <div class="relative bg-green-dark h-full w-47 pt-24 pb-10">
     <div class="flex flex-wrap items-end justify-end w-content">
       <SidebarMenuItem
         icon="journey"
@@ -32,5 +32,10 @@ const logout = async () => {
         </div>
       </button> -->
     </div>
+    <img
+      class="absolute bottom-0 left-0 right-0 object-contain"
+      src="../assets/images/svg/bg-navbar.svg"
+      alt="Navbar background"
+    />
   </div>
 </template>
