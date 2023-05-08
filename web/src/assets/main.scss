@@ -1,3 +1,10 @@
+@import './fonts/filson/filson.css';
+
+body {
+    font-family: 'filson', sans-serif;
+    overflow: hidden!important;
+}
+
 @keyframes button-pop {
     0% {
         transform: scale(0.95);
