@@ -3,7 +3,7 @@ import { IonRouterOutlet } from '@ionic/vue'
 </script>
 <template>
   <IonPage ref="page">
-    <IonContent>
+    <IonContent :scroll-y="false">
       <IonRouterOutlet />
     </IonContent>
   </IonPage>
