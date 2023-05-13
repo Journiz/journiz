@@ -44,7 +44,9 @@ gsap.registerPlugin(Flip)
 const app = createApp(App)
 export const pinia = createPinia()
 
-app.use(IonicVue)
+app.use(IonicVue, {
+  // mode: 'ios',
+})
 // Global components
 app.component('IonButton', IonButton)
 app.component('IonButtons', IonButtons)
