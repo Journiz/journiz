@@ -20,7 +20,7 @@
     "@capacitor-community/background-geolocation": "^1.2.12",
     "@capacitor/android": "4.7.0",
     "@capacitor/app": "4.1.1",
-    "@capacitor/camera": "^5.0.1",
+    "@capacitor/camera": "^5.0.2",
     "@capacitor/core": "4.7.0",
     "@capacitor/dialog": "^4.1.0",
     "@capacitor/haptics": "4.1.0",
