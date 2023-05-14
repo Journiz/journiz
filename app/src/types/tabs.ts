@@ -7,7 +7,7 @@ export interface TabData {
 }
 export type TabsProvider = {
   activeTabName: string
-  activeTab: TabData
+  activeTab?: TabData
   tabs: TabData[]
 }
 

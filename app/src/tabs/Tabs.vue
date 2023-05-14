@@ -5,7 +5,7 @@ import TabBar from '~/tabs/TabBar.vue'
 
 const state: TabsProvider = reactive({
   activeTabName: '',
-  activeTab: null,
+  activeTab: undefined,
   tabs: [],
 })
 provide(TabsProviderKey, state)
@@ -22,9 +22,9 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="relative">
+  <div class="relative h-full w-full">
     <slot></slot>
-    <div class="absolute bottom-0 left-0 w-full">
+    <div class="absolute z-10 bottom-0 left-0 w-full">
       <TabBar :tabs-provider="state" @set-active-tab="setActiveTab" />
     </div>
   </div>

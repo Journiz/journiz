@@ -1,6 +1,6 @@
 <script lang="ts" setup="">
 import { computed, inject, onBeforeMount, onMounted } from 'vue'
-import { TabData, TabsProviderKey } from '~/types/tabs'
+import { TabsProviderKey } from '~/types/tabs'
 
 const props = defineProps<{
   title: string
@@ -22,7 +22,7 @@ const isActive = computed(() => {
 })
 </script>
 <template>
-  <div :class="isActive ? '' : 'hidden'">
+  <div class="w-full h-full" :class="isActive ? '' : 'hidden'">
     <slot></slot>
   </div>
 </template>

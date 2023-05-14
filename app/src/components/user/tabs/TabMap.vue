@@ -20,33 +20,24 @@ const colors = [
 ]
 </script>
 <template>
-  <IonPage ref="page">
-    <IonHeader class="">
-      <IonToolbar>
-        <IonTitle>Map</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent :fullscreen="true">
-      <div class="w-full h-full">
-        <Map :map-center="{ lng: 6.1015, lat: 45.9075 }" :zoom="16">
-          <LerpCoordinates
-            v-for="(team, i) in teams"
-            :key="team.id"
-            v-slot="{ coordinates }"
-            :coordinates="{ lng: team.longitude, lat: team.latitude }"
-          >
-            <MapMarker :position="coordinates">
-              <template #icon
-                ><div
-                  class="w-6 h-6 rounded-full shadow-lg"
-                  border="7 white"
-                  :class="colors[i]"
-                ></div
-              ></template>
-            </MapMarker>
-          </LerpCoordinates>
-        </Map>
-      </div>
-    </IonContent>
-  </IonPage>
+  <div class="w-full h-full flex-grow">
+    <Map :map-center="{ lng: 6.1015, lat: 45.9075 }" :zoom="16">
+      <LerpCoordinates
+        v-for="(team, i) in teams"
+        :key="team.id"
+        v-slot="{ coordinates }"
+        :coordinates="{ lng: team.longitude, lat: team.latitude }"
+      >
+        <MapMarker :position="coordinates">
+          <template #icon
+            ><div
+              class="w-6 h-6 rounded-full shadow-lg"
+              border="7 white"
+              :class="colors[i]"
+            ></div
+          ></template>
+        </MapMarker>
+      </LerpCoordinates>
+    </Map>
+  </div>
 </template>

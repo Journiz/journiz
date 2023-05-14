@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, ref, watch } from 'vue'
 import { TabsProvider } from '~/types/tabs'
 import TabBarButton from '~/tabs/TabBarButton.vue'
 
@@ -81,14 +81,6 @@ watch(
         <div class="w-full bg-white flex-grow"></div>
       </div>
     </div>
-    <TabBarButton
-      v-for="tab in tabsProvider.tabs"
-      :key="tab.name"
-      ref="buttons"
-      :tab="tab"
-      :is-active="tabsProvider.activeTabName === tab.name"
-      @click="setActiveTab(tab.name)"
-    />
     <div
       class="absolute top-0 left-0 bg-red rounded-full w-15 h-15 flex items-center justify-center"
       :class="{
@@ -97,29 +89,19 @@ watch(
       :style="{
         transform: `translate(calc(-50% + ${translateValue}px), -50%)`,
       }"
-    >
-      <transition mode="out-in" name="fab-icon">
-        <span
-          :key="tabsProvider.activeTabName"
-          class="text-24px text-white"
-          :class="tabsProvider.activeTab?.icon"
-        ></span>
-      </transition>
-    </div>
+    ></div>
+    <TabBarButton
+      v-for="tab in tabsProvider.tabs"
+      :key="tab.name"
+      ref="buttons"
+      :tab="tab"
+      :is-active="tabsProvider.activeTabName === tab.name"
+      @click="setActiveTab(tab.name)"
+    />
   </div>
 </template>
 <style scoped>
 .tabbar-shadow {
   filter: drop-shadow(0 0px 6px rgba(0, 0, 0, 0.1));
-}
-.fab-icon-enter-active,
-.fab-icon-leave-active {
-  transition: all 0.1s ease;
-}
-
-.fab-icon-enter-from,
-.fab-icon-leave-to {
-  opacity: 0;
-  transform: scale(0.4);
 }
 </style>
