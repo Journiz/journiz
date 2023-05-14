@@ -9,6 +9,7 @@ if (['ios', 'android'].includes(Capacitor.getPlatform())) {
   StatusBar.setStyle({
     style: Style.Light,
   })
+  StatusBar.setBackgroundColor({ color: '#ffffff' })
 }
 useUserStore().refresh()
 useTeamStore()

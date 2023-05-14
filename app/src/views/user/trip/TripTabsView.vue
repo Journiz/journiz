@@ -14,11 +14,11 @@ import { chatbox, map, cog } from 'ionicons/icons'
     <ion-content :fullscreen="true" :scroll-x="false" :scroll-y="false">
       <ion-tabs mode="ios">
         <ion-router-outlet style="--offset-bottom: 50px"></ion-router-outlet>
-        <div class="absolute w-full h-16 bg-blue bottom-2">
+        <div class="absolute w-full h-20 bottom-0 bg-blue/20">
           <ion-tab-bar>
-            <ion-tab-button tab="tab1" href="/user/trip/home" translucen="true">
-              <ion-icon :icon="cog" />
-              <ion-label>Tab 1</ion-label>
+            <ion-tab-button tab="tab1" href="/user/trip/home">
+              <span class="tab-icon i-uil:cog"></span>
+              <span class="tab-text">Paramètres</span>
             </ion-tab-button>
             <ion-tab-button tab="tab2" href="/user/trip/tab2">
               <ion-icon :icon="map" />
@@ -36,7 +36,7 @@ import { chatbox, map, cog } from 'ionicons/icons'
 </template>
 <style lang="scss">
 ion-tab-bar {
-  --background: #00000044;
+  --background: #00000000;
   position: relative;
   height: 100%;
   //  border-radius: 16px;
@@ -44,5 +44,15 @@ ion-tab-bar {
   //  border-top: none;
   //  margin: 0 auto;
   //  height: 55px;
+}
+
+ion-tab-button {
+  --color: #d4d4d4;
+
+  .tab-icon {
+    @apply text-24px mb-2;
+  }
+}
+ion-tab-button.tab-selected {
 }
 </style>
