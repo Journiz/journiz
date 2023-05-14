@@ -81,6 +81,11 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/user/trip/chat/:conversationId',
+      name: 'user-chat-conversation',
+      component: () => import('~/views/user/chat/ConversationView.vue'),
+    },
 
     /**
      * Join for teams
@@ -164,15 +169,6 @@ const router = createRouter({
         }
         return '/team/chat'
       },
-    },
-
-    /**
-     * POC Routes that will be deleted
-     */
-    {
-      path: '/geolocation',
-      name: 'geolocation',
-      component: () => import('~/views/PocGeolocation.vue'),
     },
   ],
 })
