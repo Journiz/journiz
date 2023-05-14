@@ -16,6 +16,9 @@ import TabChat from '~/components/user/tabs/TabChat.vue'
         <Tab title="Carte" name="map" icon="i-uil:map">
           <TabMap />
         </Tab>
+        <Tab title="Validation" name="validation" icon="i-uil:image-question">
+          <div>Hello ici la validation</div>
+        </Tab>
         <Tab title="Messages" name="chat" icon="i-ph:chats-circle-bold">
           <TabChat />
         </Tab>

@@ -1,4 +1,4 @@
-@import './fonts/filson/filson.css';
+@import '../fonts/filson/filson.css';
 
 body {
     font-family: 'filson', sans-serif;
@@ -27,4 +27,15 @@ ion-router-outlet {
 
 .tab-inner-height {
     height: calc(100% - 44px - 50px);
+}
+
+.btn-animation {
+    // Animation
+    transition: transform 0.25s cubic-bezier(0.74, 2.32, 0.58, 1);
+    &:active:not(:disabled) {
+        animation: none;
+        transition: transform 0.07s ease-in;
+        transform: scale(0.95);
+        opacity: 0.96;
+    }
 }

@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { computed, inject, onBeforeMount } from 'vue'
+import { computed, inject, onBeforeMount, onMounted } from 'vue'
 import { TabData, TabsProviderKey } from '~/types/tabs'
 
 const props = defineProps<{
@@ -11,6 +11,9 @@ const props = defineProps<{
 const addTab = inject('addTab') as any
 onBeforeMount(() => {
   addTab(props)
+})
+onMounted(() => {
+  console.log('tab mounted')
 })
 
 const tabsProvider = inject(TabsProviderKey)

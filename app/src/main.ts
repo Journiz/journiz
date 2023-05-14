@@ -35,7 +35,7 @@ import '@ionic/vue/css/flex-utils.css'
 import '@ionic/vue/css/display.css'
 
 // Our custom CSS
-import './assets/main.css'
+import './assets/scss/main.scss'
 
 plugins()
 
