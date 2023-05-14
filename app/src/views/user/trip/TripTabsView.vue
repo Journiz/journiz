@@ -7,7 +7,7 @@ import TabMap from '~/components/user/tabs/TabMap.vue'
 import TabChat from '~/components/user/tabs/TabChat.vue'
 </script>
 <template>
-  <Page class="">
+  <Page id="trip-tabs-page" class="">
     <keep-alive>
       <Tabs class="flex-grow">
         <Tab title="Paramètres" name="settings" icon="i-uil:cog">

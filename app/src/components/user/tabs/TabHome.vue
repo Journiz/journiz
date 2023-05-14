@@ -1,12 +1,15 @@
 <script lang="ts" setup="">
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
+import { IonModal } from '@ionic/vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
+import PickTrip from '~/components/user/PickTrip.vue'
+import usePage from '~/composables/usePage'
 
 const userStore = useUserStore()
 const logout = useLogout(userStore.logout)
 
-const page = ref()
+const page = usePage()
 const switchTripModalOpen = ref(false)
 </script>
 <template>
@@ -20,25 +23,27 @@ const switchTripModalOpen = ref(false)
       <IonButton @click="logout">Logout</IonButton>
     </div>
 
-    <!--    <ion-modal-->
-    <!--      :is-open="switchTripModalOpen"-->
-    <!--      :can-dismiss="true"-->
-    <!--      :presenting-element="page?.$el"-->
-    <!--      @did-dismiss="switchTripModalOpen = false"-->
-    <!--    >-->
-    <!--      <ion-header>-->
-    <!--        <ion-toolbar>-->
-    <!--          <ion-title>Sorties</ion-title>-->
-    <!--          <ion-buttons slot="end">-->
-    <!--            <ion-button @click="switchTripModalOpen = false"-->
-    <!--              >Annuler</ion-button-->
-    <!--            >-->
-    <!--          </ion-buttons>-->
-    <!--        </ion-toolbar>-->
-    <!--      </ion-header>-->
-    <!--      <ion-content class="ion-padding">-->
-    <!--        <PickTrip @trip-change="switchTripModalOpen = false" />-->
-    <!--      </ion-content>-->
-    <!--    </ion-modal>-->
+    <IonModal
+      :is-open="switchTripModalOpen"
+      :can-dismiss="true"
+      :presenting-element="page"
+      @did-dismiss="switchTripModalOpen = false"
+    >
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Sorties</ion-title>
+          <ion-buttons slot="end">
+            <ion-button @click="switchTripModalOpen = false"
+              >Annuler
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <PickTrip @trip-change="switchTripModalOpen = false" />
+      </ion-content>
+    </IonModal>
+    <!--    <teleport to="#trip-tabs-page">-->
+    <!--    </teleport>-->
   </div>
 </template>

@@ -43,7 +43,12 @@ watch(
     updateTranslateValue()
   }
 )
-const paddingClass = Capacitor.getPlatform() === 'ios' ? 'pb-0' : 'pb-4'
+const bottomPadding = getComputedStyle(
+  document.documentElement
+).getPropertyValue('--ion-safe-area-bottom')
+const isRecentIphone =
+  Capacitor.getPlatform() === 'ios' && parseFloat(bottomPadding) > 0
+const paddingClass = isRecentIphone ? 'pb-0' : 'pb-4'
 </script>
 <template>
   <div
