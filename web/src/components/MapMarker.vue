@@ -4,7 +4,7 @@ import { MapboxMarker } from '@studiometa/vue-mapbox-gl'
 import markers from '~/assets/markers'
 import 'mapbox-gl/dist/mapbox-gl.css'
 // @ts-ignore
-import { Coordinates } from '~/types/Coordinates'
+import { Coordinates } from '../../../packages/components/types/Coordinates'
 
 const props = defineProps({
   icon: {

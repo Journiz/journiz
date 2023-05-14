@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'com.journiz.app',
+  appId: 'fr.journiz.app',
   appName: 'Journiz',
   webDir: 'dist',
   bundledWebRuntime: false,

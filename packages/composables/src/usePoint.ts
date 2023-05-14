@@ -6,7 +6,7 @@ import { makeListComposable } from '../utils/makeListComposable'
 export const usePoints = makeListComposable('point', PointSchema)
 
 export const usePoint = makeRecordComposable('point', PointSchema)
-export const useRealtimeJourney = makeRealtimeRecordComposable(
+export const useRealtimePoint = makeRealtimeRecordComposable(
   'point',
   PointSchema
 )

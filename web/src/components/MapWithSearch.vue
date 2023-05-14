@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue'
+import { Coordinates } from '../../../packages/components/types/Coordinates'
 import Map from '~/components/Map.vue'
-import { Coordinates } from '~/types/Coordinates'
 import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
 
@@ -29,7 +29,7 @@ const addSearchMarker = (data) => {
 }
 </script>
 <template>
-  <div class="relative">
+  <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
       @select-marker="addSearchMarker"

@@ -17,6 +17,10 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  type: {
+    type: String,
+    default: 'text',
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -33,7 +37,7 @@ const input = ref()
       v-uid
       :value="modelValue"
       :required="requiredField"
-      type="text"
+      :type="type"
       class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
       @input="emit('update:modelValue', $event.target.value)"
     />
