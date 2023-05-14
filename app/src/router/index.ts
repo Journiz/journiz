@@ -5,7 +5,7 @@ import { pinia } from '~/main'
 
 const redirectIfLoggedIn = () => {
   if (useUserStore(pinia).isLoggedIn()) {
-    return { name: 'user-home' }
+    return { name: 'user-trip-tabs' }
   }
   const teamStore = useTeamStore(pinia)
   if (teamStore.team) {
@@ -69,6 +69,7 @@ const router = createRouter({
     },
     {
       path: '/user/trip',
+      name: 'user-trip-tabs',
       component: () => import('~/views/user/trip/TripTabsView.vue'),
       beforeEnter: [
         redirectIfNotLoggedIn,
@@ -77,36 +78,6 @@ const router = createRouter({
           if (!store.trip) {
             return { name: 'user-pick-trip' }
           }
-        },
-      ],
-      children: [
-        {
-          path: '',
-          redirect: '/user/trip/home',
-        },
-        {
-          path: 'home',
-          name: 'user-home',
-          component: () => import('~/views/user/trip/TabHomeView.vue'),
-        },
-        {
-          path: 'tab2',
-          component: () => import('~/views/user/trip/TabMapView.vue'),
-        },
-        {
-          path: 'chat',
-          component: () => import('~/views/user/trip/TabChatView.vue'),
-          children: [
-            {
-              path: '',
-              component: () =>
-                import('~/views/user/chat/ConversationsListView.vue'),
-            },
-            {
-              path: ':conversationId',
-              component: () => import('~/views/user/chat/ConversationView.vue'),
-            },
-          ],
         },
       ],
     },

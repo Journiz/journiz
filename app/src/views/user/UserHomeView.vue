@@ -6,7 +6,7 @@ import { useUserStore } from '~/stores/user'
 
 const router = useIonRouter()
 const onTripChange = () => {
-  router.navigate(`/user/trip`, 'forward', 'replace')
+  router.navigate({ name: 'user-trip-tabs' }, 'forward', 'replace')
 }
 const logout = useLogout(useUserStore().logout)
 </script>

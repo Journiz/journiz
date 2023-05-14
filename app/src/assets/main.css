@@ -7,7 +7,7 @@ body {
 }
 
 .page {
-    @apply h-full;
+    @apply h-full relative;
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
 }
