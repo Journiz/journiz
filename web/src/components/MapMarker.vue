@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
+// @ts-ignore
 import { MapboxMarker } from '@studiometa/vue-mapbox-gl'
 import markers from '~/assets/markers'
 import 'mapbox-gl/dist/mapbox-gl.css'
-// @ts-ignore
-import { Coordinates } from '../../../packages/components/types/Coordinates'
+import { Coordinates } from '~/types/Coordinates'
 
 const props = defineProps({
   icon: {
@@ -28,7 +28,7 @@ const props = defineProps({
   },
 })
 
-const iconComp = computed(() => markers[props.icon])
+const iconComp = computed(() => (markers as any)[props.icon])
 </script>
 <template>
   <MapboxMarker :lng-lat="position">

@@ -43,7 +43,7 @@ const props = defineProps({
 
 const { actualDisabled } = useButtonDisabled(props)
 
-const Icon = computed(() => icons[props.icon])
+const Icon = computed(() => (icons as any)[props.icon])
 
 const hasBeenClicked = ref(false)
 </script>

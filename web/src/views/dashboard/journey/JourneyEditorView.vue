@@ -17,7 +17,7 @@ const mapCenter = computed(() => {
 <template>
   <div class="flex flex-col h-full">
     <CustomHeader
-      :title="store.journey.name"
+      :title="store.journey!.name"
       :no-display-return="true"
       class="px-16 h-auto mb-7 pt-12"
     >
@@ -30,12 +30,16 @@ const mapCenter = computed(() => {
       <div class="relative flex-grow">
         <Map
           class="w-1/2 rounded-xl overflow-hidden"
-          :map-center="mapCenter"
+          :map-center="mapCenter as any"
           :zoom="14"
         >
-          <MapMarker key="center" :position="mapCenter" icon="basecamp" />
           <MapMarker
-            v-for="point in store.journey.expand.points"
+            key="center"
+            :position="mapCenter as any"
+            icon="basecamp"
+          />
+          <MapMarker
+            v-for="point in store.journey!.expand!.points"
             :key="point.id"
             :position="[point.longitude, point.latitude]"
             icon="basic"

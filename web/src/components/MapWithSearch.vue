@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue'
-import { Coordinates } from '../../../packages/components/types/Coordinates'
 import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
+import { Coordinates } from '~/types/Coordinates'
 
 const emit = defineEmits(['update'])
 const map = ref()
@@ -19,10 +19,11 @@ const props = defineProps({
   initialCoords: {
     type: Array as unknown as PropType<Coordinates>,
     default: () => [],
+    required: false,
   },
 })
 const researchMarkerPosition = ref(props.initialCoords)
-const addSearchMarker = (data) => {
+const addSearchMarker = (data: any) => {
   emit('update', data.center)
   researchMarkerPosition.value = data.center
   map.value.flyToPoint(data.center)

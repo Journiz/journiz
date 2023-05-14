@@ -154,7 +154,7 @@ const props = defineProps({
     default: null,
   },
 })
-const updateArea = (e) => {
+const updateArea = () => {
   const data = draw.getAll()
   if (data.features[0]) {
     // @ts-expect-error Library wrong type

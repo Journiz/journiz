@@ -24,8 +24,8 @@ const pointCoords = computed(() => {
     <h1>Création du point de ralliement</h1>
     <DefaultButton @click="confirm">Suivant</DefaultButton>
     <MapWithSearch
-      :initial-coords="pointCoords"
-      :map-center="pointCoords"
+      :initial-coords="pointCoords as any"
+      :map-center="pointCoords as any"
       :zoom="16"
       @update="setBasecamp"
     />
