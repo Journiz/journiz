@@ -1,6 +1,7 @@
 <script lang="ts" setup="">
 import { onMounted, provide, reactive } from 'vue'
 import { TabData, TabsProvider, TabsProviderKey } from '~/types/tabs'
+import TabBar from '~/tabs/TabBar.vue'
 
 const state: TabsProvider = reactive({
   activeTabName: '',
@@ -22,18 +23,8 @@ onMounted(() => {
   <div class="relative">
     <slot></slot>
     <div class="absolute bottom-0 left-0 w-full p-4">
-      <div class="bg-red/40 flex items-center gap-4">
-        <button
-          v-for="tab in state.tabs"
-          :key="tab.name"
-          class="flex"
-          @click="setActiveTab(tab.name)"
-        >
-          <span class="text-16px" :class="tab.icon"></span>
-          <span>
-            {{ tab.title }}
-          </span>
-        </button>
+      <div class="bg-red/40">
+        <TabBar :tabs="state.tabs" @set-active-tab="setActiveTab" />
       </div>
     </div>
   </div>
