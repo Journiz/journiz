@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { useJourneyStore } from '../stores/journey'
-import JourneyData from '~/components/auth/journey/JourneyData.vue'
+import JourneyData from '~/components/journey/JourneyData.vue'
 
 const store = useJourneyStore()
 

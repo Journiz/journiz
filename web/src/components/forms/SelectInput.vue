@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const props = defineProps({
+import { PropType } from 'vue'
+
+defineProps({
   name: {
     type: String,
     required: true,
@@ -13,7 +15,7 @@ const props = defineProps({
     required: true,
   },
   choices: {
-    type: Array,
+    type: Array as PropType<any[]>,
     required: true,
   },
   requiredField: {

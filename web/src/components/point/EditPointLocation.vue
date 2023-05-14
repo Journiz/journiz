@@ -28,8 +28,8 @@ const mapCenter = computed(() => {
 <template>
   <div class="w-full flex-grow">
     <MapWithSearch
-      :map-center="mapCenter"
-      :initial-coords="pointCoords"
+      :map-center="mapCenter as any"
+      :initial-coords="pointCoords as any"
       :zoom="16"
       @update="updateLocation"
     />

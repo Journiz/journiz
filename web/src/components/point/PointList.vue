@@ -55,7 +55,7 @@ const newPoint = async () => {
       <div class="flex flex-col gap-4">
         <!-- <pre>{{ store.journey.expand.points }}</pre> -->
         <PointItem
-          v-for="point in store.journey.expand.points"
+          v-for="point in store.journey.expand!.points"
           :key="point.id"
           :point="point"
           @edit-point="

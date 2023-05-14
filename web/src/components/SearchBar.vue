@@ -25,7 +25,7 @@ defineProps({
       <SquareButton
         class="absolute right-2 top-3.5"
         icon="play"
-        @click="$emit('makeResearch', searchContent.value)"
+        @click="$emit('makeResearch', searchContent!.value)"
       />
     </div>
   </div>
