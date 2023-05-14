@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, ref, watch } from 'vue'
+import { Capacitor } from '@capacitor/core'
 import { TabsProvider } from '~/types/tabs'
 import TabBarButton from '~/tabs/TabBarButton.vue'
 
@@ -42,18 +43,21 @@ watch(
     updateTranslateValue()
   }
 )
+const paddingClass = Capacitor.getPlatform() === 'ios' ? 'pb-0' : 'pb-4'
 </script>
 <template>
   <div
-    class="relative w-full h-full items-center justify-center gap-2 grid"
-    p="x-4 b-4 t-4"
+    class="relative w-full h-full items-center justify-center gap-2 grid tabbar-shadow"
+    :class="paddingClass"
+    p="x-4 t-4"
     :style="{
       gridTemplateColumns: `repeat(${tabsProvider.tabs.length}, 1fr)`,
     }"
   >
     <div
-      class="absolute top-0 left-0 w-full h-full overflow-hidden tabbar-shadow"
-    >
+      class="absolute pointer-events-none top-full left-0 w-full h-screen bg-white"
+    ></div>
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
       <div
         class="absolute top-0 left-0 h-full flex flex-col"
         :class="{
@@ -102,6 +106,6 @@ watch(
 </template>
 <style scoped>
 .tabbar-shadow {
-  filter: drop-shadow(0 0px 6px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 0px 6px rgba(0, 0, 0, 0.15));
 }
 </style>
