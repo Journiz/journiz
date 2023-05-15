@@ -34,11 +34,13 @@ const logout = async () => {
       />
     </div>
     <div class="relative px-4">
-      <div
-        class="text-center p-2 bg-white-off rounded-lg text-green-dark font-black text-lg"
-      >
-        {{ userStore.user.username }}
-      </div>
+      <router-link to="profil">
+        <div
+          class="text-center p-2 bg-white-off rounded-lg text-green-dark font-black text-lg"
+        >
+          {{ userStore.user.username }}
+        </div>
+      </router-link>
       <div
         class="flex text-white-off font-extralight items-center justify-center mt-5 text-md cursor-pointer"
         @click="logout"
