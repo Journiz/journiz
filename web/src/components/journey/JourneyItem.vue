@@ -63,7 +63,7 @@ const emit = defineEmits(['deleteJourney', 'editJourney'])
   </div>
 </template>
 
-<style>
+<style scoped>
 .content {
   max-width: 822px;
 }
