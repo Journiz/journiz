@@ -24,27 +24,10 @@ async function deletePoint(id: string) {
 // const editPoint = async (id: string) => {
 //   await console.log('edit point', id)
 // }
-const addLoading = ref(false)
-const newPoint = async () => {
-  addLoading.value = true
-  try {
-    const newPoint = await store.newPoint()
-    addLoading.value = false
-    if (newPoint) {
-      await router.push({ name: 'edit-point', params: { pointId: newPoint } })
-    }
-  } catch (e) {
-    console.log(e)
-  }
-  addLoading.value = false
-}
 </script>
 
 <template>
   <article class="pt-10 pb-6">
-    <default-button class="mb-6" :loading="addLoading" @click="newPoint">
-      Ajouter un nouveau point
-    </default-button>
     <BasecampLine
       v-if="store.journey"
       :basecamp-name="store.journey.basecampName"
