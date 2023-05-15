@@ -11,7 +11,10 @@ import { theme } from './tailwind.config.cjs'
 export default defineConfig({
   // ...UnoCSS options
   presets: [presetAttributify(), presetUno(), presetIcons()],
-  rules: [],
+  rules: [
+    ['top-safe', { top: 'env(safe-area-inset-top)' }],
+    ['bottom-safe', { bottom: 'env(safe-area-inset-bottom)' }],
+  ],
   transformers: [transformerDirectives()],
   theme: { ...theme, ...theme.extend },
 })

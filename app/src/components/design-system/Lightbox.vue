@@ -21,8 +21,9 @@ watch(isOpen, async () => {
   const state = Flip.getState(el.value)
   await nextTick()
   await Flip.from(state, {
-    duration: 0.3,
-    ease: 'power3.inOut',
+    duration: 0.4,
+    ease: 'power4.inOut',
+    absolute: true,
   })
 })
 
@@ -57,22 +58,32 @@ onMounted(() => {
       height: closedHeight + 'px',
     }"
   >
-    <transition name="lb-fade">
+    <div
+      class="fixed inset-0 z-100 bg-white/20 transition-opacity duration-300"
+      :class="{
+        'pointer-events-none opacity-0': !isOpen,
+      }"
+      :style="{
+        backdropFilter: isOpen
+          ? `blur(${23 - Math.abs(translateValue * 0.04)}px)`
+          : 'blur(0px)',
+      }"
+      @click="close"
+    >
       <div
-        v-show="isOpen"
-        class="fixed bg-black/70 inset-0 z-100"
-        @click="close"
+        class="absolute top-safe left-0 w-full text-3xl flex items-center p-4 text-black gap-4"
       >
-        <div
-          class="absolute top-26 right-2 text-3xl i-uil:multiply text-white"
-        ></div>
+        <span class="i-uil:multiply"></span>
+        <div>
+          <slot name="header"></slot>
+        </div>
       </div>
-    </transition>
+    </div>
     <div
       :class="
         isOpen
-          ? 'fixed w-full top-1/2 left-1/2 transform -translate-1/2 p-4 z-100'
-          : 'relative z-10'
+          ? 'fixed w-full top-1/2 left-1/2 transform -translate-1/2 p-4 z-100 image-shadow'
+          : 'relative z-10 delay-z'
       "
       @click="open"
     >
@@ -88,13 +99,10 @@ onMounted(() => {
   </div>
 </template>
 <style scoped>
-.lb-fade-enter-active,
-.lb-fade-leave-active {
-  transition: opacity 0.2s ease;
+.delay-z {
+  transition: z-index 0s 0.3s;
 }
-
-.lb-fade-enter-from,
-.lb-fade-leave-to {
-  opacity: 0;
+.image-shadow {
+  filter: drop-shadow(0px 0px 25px #0000004f);
 }
 </style>

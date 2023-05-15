@@ -25,6 +25,7 @@ const attachment = computed(() => {
   if (props.message.attachment) {
     return pb.getFileUrl(props.message, props.message.attachment)
   }
+  return null
 })
 </script>
 
@@ -52,13 +53,12 @@ const attachment = computed(() => {
         class="w-3/4"
         :class="message.sender === userType ? 'ml-auto' : ''"
       >
-        <div class="w-full aspect-square">
-          <img
-            :src="attachment"
-            alt=""
-            class="rounded-lg object-cover w-full"
-          />
-        </div>
+        <img
+          :src="attachment"
+          alt=""
+          class="object-cover w-full aspect-2/3"
+          :class="isOpen ? 'rounded-xl' : 'rounded-2xl'"
+        />
       </Lightbox>
     </div>
   </div>
