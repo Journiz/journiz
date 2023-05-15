@@ -6,6 +6,7 @@ export * from './src/data/useSubscribe'
 export * from './src/data/useConversation'
 export * from './src/data/useChat'
 export * from './src/data/usePoint'
+export * from './src/data/useFileUrl'
 
 export * from './src/utils/useLerp'
 
