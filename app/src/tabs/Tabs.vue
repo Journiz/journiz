@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { onMounted, provide, reactive } from 'vue'
+import { onBeforeMount, onMounted, provide, reactive } from 'vue'
 import { TabData, TabsProvider, TabsProviderKey } from '~/types/tabs'
 import TabBar from '~/tabs/TabBar.vue'
 
@@ -8,9 +8,13 @@ const state: TabsProvider = reactive({
   activeTab: undefined,
   tabs: [],
 })
+let defaultTabName = ''
 provide(TabsProviderKey, state)
-provide('addTab', (tab: TabData) => {
+provide('addTab', (tab: TabData, defaultSelected = false) => {
   state.tabs.push(tab)
+  if (defaultSelected) {
+    defaultTabName = tab.name
+  }
 })
 const setActiveTab = (name: string) => {
   state.activeTabName = name
@@ -18,6 +22,10 @@ const setActiveTab = (name: string) => {
 }
 
 onMounted(() => {
+  if (defaultTabName) {
+    setActiveTab(defaultTabName)
+    return
+  }
   setActiveTab(state.tabs[0].name)
 })
 </script>

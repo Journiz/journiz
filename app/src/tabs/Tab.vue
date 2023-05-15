@@ -6,15 +6,13 @@ const props = defineProps<{
   title: string
   name: string
   icon: string
+  defaultSelected?: boolean
 }>()
-
 const addTab = inject('addTab') as any
 onBeforeMount(() => {
-  addTab(props)
+  addTab(props, props.defaultSelected)
 })
-onMounted(() => {
-  console.log('tab mounted')
-})
+onMounted(() => {})
 
 const tabsProvider = inject(TabsProviderKey)
 const isActive = computed(() => {

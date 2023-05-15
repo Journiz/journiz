@@ -20,7 +20,10 @@ const close = () => {
 watch(isOpen, async () => {
   const state = Flip.getState(el.value)
   await nextTick()
-  await Flip.from(state, { duration: 0.3, ease: 'power3.inOut' })
+  await Flip.from(state, {
+    duration: 0.3,
+    ease: 'power3.inOut',
+  })
 })
 
 onMounted(() => {
@@ -76,10 +79,10 @@ onMounted(() => {
       <div
         ref="el"
         :style="{
-          marginTop: translateValue * 2 + 'px',
+          marginTop: translateValue * 1.8 + 'px',
         }"
       >
-        <slot />
+        <slot :is-open="isOpen" />
       </div>
     </div>
   </div>

@@ -12,8 +12,8 @@ import { useUserStore } from '~/stores/user'
 const store = useUserStore()
 const router = useIonRouter()
 
-const email = ref('')
-const password = ref('')
+const email = ref('mike')
+const password = ref('mikemikemike')
 const error = ref()
 const loading = ref(false)
 const login = async () => {

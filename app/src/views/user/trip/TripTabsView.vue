@@ -13,7 +13,7 @@ import TabChat from '~/components/user/tabs/TabChat.vue'
         <Tab title="Paramètres" name="settings" icon="i-uil:cog">
           <TabHome />
         </Tab>
-        <Tab title="Carte" name="map" icon="i-uil:map">
+        <Tab title="Carte" name="map" icon="i-uil:map" default-selected>
           <TabMap />
         </Tab>
         <Tab title="Validation" name="validation" icon="i-uil:image-question">

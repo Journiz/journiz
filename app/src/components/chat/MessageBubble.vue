@@ -48,10 +48,17 @@ const attachment = computed(() => {
     </div>
     <div v-if="attachment" class="mt-2">
       <Lightbox
+        v-slot="{ isOpen }"
         class="w-3/4"
         :class="message.sender === userType ? 'ml-auto' : ''"
       >
-        <img :src="attachment" alt="" class="rounded-lg" />
+        <div class="w-full aspect-square">
+          <img
+            :src="attachment"
+            alt=""
+            class="rounded-lg object-cover w-full"
+          />
+        </div>
       </Lightbox>
     </div>
   </div>

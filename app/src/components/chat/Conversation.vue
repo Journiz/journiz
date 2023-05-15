@@ -18,8 +18,10 @@ const { conversation, sendMessage, markAsRead } = useChat(
 const imageUrl = ref<string>()
 const takePicture = async () => {
   const image = await Camera.getPhoto({
-    quality: 90,
-    allowEditing: true,
+    quality: 75,
+    width: 1000,
+    height: 1000,
+    allowEditing: false,
     resultType: CameraResultType.DataUrl,
     promptLabelHeader: "Choisir une source d'image",
     promptLabelPhoto: 'Choisir dans mes images',

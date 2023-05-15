@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
 import { IonModal } from '@ionic/vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
