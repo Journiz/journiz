@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <h1 class="relative text-blue-900 font-extrabold text-3xl"><slot /></h1>
+  <h1 class="relative text-black font-bold text-3xl"><slot /></h1>
 </template>
 <style scoped>
 h1::after {
