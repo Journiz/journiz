@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { Point } from '@journiz/api-types'
 import { usePocketBase } from '../../../../packages/composables'
 import PointItem from '~/components/point/PointItem.vue'
-import PageTitle from '~/components/PageTitle.vue'
-import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import { useJourneyStore } from '~/stores/journey'
 import BasecampLine from '~/components/BasecampLine.vue'
 
@@ -21,30 +20,28 @@ async function deletePoint(id: string) {
   }
 }
 
+type PointWithDependents = Point & { dependents?: Point[] }
+const points = computed<PointWithDependents[]>(() => {
+  const sourcePoints = store.journey?.expand?.points ?? []
+  const rootPoints = sourcePoints.filter((p) => !p.trigger)
+
+  const affectDependents = (points: Point[]) => {
+    points.forEach((point: PointWithDependents) => {
+      point.dependents = sourcePoints.filter((p) => p.trigger === point.id)
+      affectDependents(point.dependents)
+    })
+  }
+  affectDependents(rootPoints)
+  return rootPoints
+})
+
 // const editPoint = async (id: string) => {
 //   await console.log('edit point', id)
 // }
-const addLoading = ref(false)
-const newPoint = async () => {
-  addLoading.value = true
-  try {
-    const newPoint = await store.newPoint()
-    addLoading.value = false
-    if (newPoint) {
-      await router.push({ name: 'edit-point', params: { pointId: newPoint } })
-    }
-  } catch (e) {
-    console.log(e)
-  }
-  addLoading.value = false
-}
 </script>
 
 <template>
   <article class="pt-10 pb-6">
-    <default-button class="mb-6" :loading="addLoading" @click="newPoint">
-      Ajouter un nouveau point
-    </default-button>
     <BasecampLine
       v-if="store.journey"
       :basecamp-name="store.journey.basecampName"
@@ -55,7 +52,7 @@ const newPoint = async () => {
       <div class="flex flex-col gap-4">
         <!-- <pre>{{ store.journey.expand.points }}</pre> -->
         <PointItem
-          v-for="point in store.journey.expand!.points"
+          v-for="point in points"
           :key="point.id"
           :point="point"
           @edit-point="

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ButtonHTMLAttributes, computed, PropType, ref } from 'vue'
+import { useButtonDisabled } from '@journiz/composables'
 import icons from '~/assets/icons'
 import { ButtonColor, ButtonVariant } from '~/types/Button'
-import useButtonDisabled from '~/composables/useButtonDisabled'
 const props = defineProps({
   color: {
     type: String as PropType<ButtonColor>,

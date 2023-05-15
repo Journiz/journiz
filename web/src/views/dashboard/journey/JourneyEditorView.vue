@@ -1,6 +1,7 @@
 <script lang="ts" setup="">
 import { useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useJourneys } from '../../../../../packages/composables'
 import PointList from '~/components/point/PointList.vue'
 import CustomHeader from '~/components/layout/CustomHeader.vue'
 import { useJourneyStore } from '~/stores/journey'
@@ -13,6 +14,20 @@ const store = useJourneyStore()
 const mapCenter = computed(() => {
   return [store.journey!.basecampLongitude, store.journey!.basecampLatitude]
 })
+const addLoading = ref(false)
+const newPoint = async () => {
+  addLoading.value = true
+  try {
+    const newPoint = await store.newPoint()
+    addLoading.value = false
+    if (newPoint) {
+      await router.push({ name: 'edit-point', params: { pointId: newPoint } })
+    }
+  } catch (e) {
+    console.log(e)
+  }
+  addLoading.value = false
+}
 </script>
 <template>
   <div class="flex flex-col h-full">
@@ -25,6 +40,11 @@ const mapCenter = computed(() => {
         Exporter
       </defaultButton>
     </CustomHeader>
+    <div class="px-16">
+      <default-button class="mb-6" :loading="addLoading" @click="newPoint">
+        Ajouter un nouveau point
+      </default-button>
+    </div>
     <div class="px-16 flex flex-grow pb-8 overflow-hidden">
       <PointList class="w-1/2 pr-2 max-h-full overflow-scroll" />
       <div class="relative flex-grow">
