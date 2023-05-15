@@ -3,6 +3,7 @@ import { nextTick, onMounted, ref, watch } from 'vue'
 import { Capacitor } from '@capacitor/core'
 import { TabsProvider } from '~/types/tabs'
 import TabBarButton from '~/tabs/TabBarButton.vue'
+import usePage from '~/composables/usePage'
 
 const props = defineProps<{
   tabsProvider: TabsProvider
@@ -20,9 +21,9 @@ const updateTranslateValue = () => {
       button.$el.dataset.tabName === props.tabsProvider.activeTabName
   )
   if (!activeButton) return
-  const rect = activeButton.$el.getBoundingClientRect()
-  translateValue.value = rect.left + rect.width / 2
-  return rect.left !== 0
+  translateValue.value =
+    activeButton.$el.offsetLeft + activeButton.$el.offsetWidth / 2
+  return activeButton.$el.offsetLeft !== 0
 }
 const ready = ref(false)
 const mounted = () => {
