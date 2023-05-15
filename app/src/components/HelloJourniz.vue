@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { IonButton } from '@ionic/vue'
+import logo from '~/assets/logo/text.svg?raw'
+import Button from '~/components/design-system/Button.vue'
 </script>
 <template>
-  <div class="flex flex-col items-center justify-center">
-    <div class="flex flex-col">
-      <h1 class="font-bold text-center">Bienvenue</h1>
-      <IonButton router-link="/user-login">Je suis maître du jeu</IonButton>
-      <IonButton router-link="/join-trip">Je suis participant</IonButton>
-      <IonButton router-link="/user/tab2" color="danger">Interdit</IonButton>
-      <h1 class="font-bold mt-4 text-center">Les Pocs</h1>
-      <IonButton color="light" router-link="/geolocation"
-        >Go to geolocation</IonButton
-      >
+  <div
+    class="flex flex-col items-center px-12 pb-8 justify-end text-green-dark gap-6"
+  >
+    <div class="w-52" v-html="logo"></div>
+    <p class="text-center px-4 font-light">
+      Rejoignez votre prochain parcours dès maintenant !
+    </p>
+    <div class="flex flex-col gap-3 w-full">
+      <Button color="green" :to="{ name: 'join' }">Je suis un élève</Button>
+      <Button :to="{ name: 'user-login' }">Je suis un prof</Button>
     </div>
   </div>
 </template>

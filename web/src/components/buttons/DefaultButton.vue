@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ButtonHTMLAttributes, computed, PropType, ref, toRefs } from 'vue'
+import { ButtonHTMLAttributes, PropType, ref } from 'vue'
 // @ts-ignore
+import { useButtonDisabled } from '@journiz/composables'
 import SvgSpinners180Ring from '~icons/svg-spinners/180-ring'
 import { ButtonColor, ButtonVariant } from '~/types/Button'
-import useButtonDisabled from '~/composables/useButtonDisabled'
 
 const props = defineProps({
   color: {

@@ -14,6 +14,8 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/vue'
+import gsap from 'gsap'
+import { Flip } from 'gsap/Flip'
 import App from './App.vue'
 import router from './router'
 import plugins from '~/plugins'
@@ -33,14 +35,18 @@ import '@ionic/vue/css/flex-utils.css'
 import '@ionic/vue/css/display.css'
 
 // Our custom CSS
-import './assets/main.css'
+import './assets/scss/main.scss'
 
 plugins()
+
+gsap.registerPlugin(Flip)
 
 const app = createApp(App)
 export const pinia = createPinia()
 
-app.use(IonicVue)
+app.use(IonicVue, {
+  // mode: 'ios',
+})
 // Global components
 app.component('IonButton', IonButton)
 app.component('IonButtons', IonButtons)

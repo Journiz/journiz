@@ -1,17 +1,10 @@
 <script lang="ts" setup>
-import { IonPage } from '@ionic/vue'
 import HelloJourniz from '~/components/HelloJourniz.vue'
+import Page from '~/components/Page.vue'
 </script>
 <template>
-  <IonPage>
-    <IonHeader class="">
-      <IonToolbar>
-        <IonTitle>Jouuusssr</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent :fullscreen="true">
-      <HelloJourniz class="h-full" />
-    </IonContent>
-  </IonPage>
+  <Page class="bg-white">
+    <HelloJourniz class="flex-grow" />
+  </Page>
 </template>
 <style></style>
