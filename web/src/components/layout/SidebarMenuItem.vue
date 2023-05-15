@@ -39,14 +39,16 @@ const Icon = computed(() => icons[props.icon])
     <div
       class="flex flex-row items-center p-2 rounded-s-lg relative"
       :class="
-        path === currentPath
+        currentPath.startsWith(path)
           ? 'bg-white-off text-green custom-shadow invert-rounded'
           : 'text-white-off'
       "
     >
       <Icon class="sidebar-icon mr-2" />
       <span
-        :class="path === currentPath ? 'text-base font-extrabold' : 'text-lg'"
+        :class="
+          currentPath.startsWith(path) ? 'text-base font-extrabold' : 'text-lg'
+        "
         >{{ name }}</span
       >
     </div>
