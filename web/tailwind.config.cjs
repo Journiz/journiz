@@ -14,6 +14,19 @@ module.exports = {
           500: '#4770FF', // ex: bg-primary-500
           700: '#0029BA', // ex: bg-primary-700 (Il est bien foncé donc j'ai mis à 700 et pas 600)
         },
+        beige: {
+          DEFAULT: "#f6f0d8",
+          light: "#fbf9f4",
+        },
+        green: {
+          DEFAULT: "#17403b",
+          dark: "#00231e"
+        },
+        white: {
+          DEFAULT: "#ffffff",
+          off: "#FBF9F4",
+        },
+        red : "#FF6147",
       },
     },
   },
