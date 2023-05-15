@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { usePocketBase } from '../../../../packages/composables'
+import { usePocketBase } from '@journiz/composables'
 import PointItem from '~/components/point/PointItem.vue'
 import PageTitle from '~/components/PageTitle.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
