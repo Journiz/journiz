@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { Point } from '@journiz/api-types'
 import { usePocketBase } from '../../../../packages/composables'
-import PointItem from '~/components/point/PointItem.vue'
+import PointItem from '~/components/point/PointLine.vue'
 import { useJourneyStore } from '~/stores/journey'
 import BasecampLine from '~/components/BasecampLine.vue'
 
