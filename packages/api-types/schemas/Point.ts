@@ -24,12 +24,14 @@ export const basePointSchema = z.object({
 export type Point = z.infer<typeof basePointSchema> & {
   expand?: {
     trigger?: Point
+    dependents?: Point[]
   }
 }
 export const PointSchema: z.ZodType<Point> = basePointSchema.extend({
   expand: z
     .object({
       trigger: z.lazy(() => PointSchema).optional(),
+      dependents: z.lazy(() => z.array(PointSchema)).optional(),
     })
     .optional(),
 })
