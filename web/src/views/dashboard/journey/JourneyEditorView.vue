@@ -1,7 +1,6 @@
 <script lang="ts" setup="">
 import { useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
-import { useJourneys } from '../../../../../packages/composables'
 import PointList from '~/components/point/PointList.vue'
 import CustomHeader from '~/components/layout/CustomHeader.vue'
 import { useJourneyStore } from '~/stores/journey'

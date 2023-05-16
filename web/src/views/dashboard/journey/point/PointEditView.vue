@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { usePoint } from '@journiz/composables'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import TextInput from '~/components/forms/TextInput.vue'
 import EditPointLocation from '~/components/point/EditPointLocation.vue'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 
+const router = useRouter()
 const pointId = useRoute().params.pointId as string
 const { data: point, update, updateLoading } = usePoint(pointId)
 const saved = ref(false)
@@ -21,6 +23,7 @@ const save = () => {
       <header class="flex items-center justify-between gap-8">
         <TextInput v-model="point.name" label="Nom du point"></TextInput>
         <div class="flex gap-2">
+          <SquareButton icon="back" color="white" @click="router.back" />
           <DefaultButton :loading="updateLoading" @click="save"
             >Enregistrer
           </DefaultButton>

@@ -30,8 +30,8 @@ const onInput = (e: any) => {
 }
 </script>
 <template>
-  <div class="w-full">
-    <label :for="input?.id" class="text-blue-900 font-semibold"
+  <div class="w-fit">
+    <label :for="input?.id" class="text-black font-medium"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >
     <input
@@ -40,7 +40,7 @@ const onInput = (e: any) => {
       :value="modelValue"
       :required="requiredField"
       :type="type"
-      class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
+      class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-green-dark bg-green-dark/4"
       @input="onInput"
     />
   </div>

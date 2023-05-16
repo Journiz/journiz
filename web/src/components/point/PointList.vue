@@ -41,7 +41,7 @@ const points = computed<PointWithDependents[]>(() => {
 </script>
 
 <template>
-  <article class="pt-10 pb-6">
+  <article class="pb-6">
     <BasecampLine
       v-if="store.journey"
       :basecamp-name="store.journey.basecampName"

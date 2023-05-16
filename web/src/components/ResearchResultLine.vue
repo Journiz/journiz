@@ -13,8 +13,8 @@ defineProps({
 </script>
 <template>
   <div
-    class="rounded-xl px-3 py-4 mb-3 cursor-pointer font-medium text-sm"
-    :class="isSelected ? 'bg-blue-500 text-white' : 'bg-blue-200 text-blue-700'"
+    class="rounded-xl px-3 py-4 mb-3 bg-green-dark/4 cursor-pointer font-medium text-sm text-black transition-alle"
+    :class="isSelected ? 'border-2 border-solid border-red' : ''"
   >
     {{ data.place_name }}
   </div>
