@@ -21,6 +21,13 @@ const redirectIfNotLoggedIn = () => {
   }
 }
 
+const redirectIfNotTeam = () => {
+  const store = useTeamStore(pinia)
+  if (!store.team) {
+    return { name: 'join-trip' }
+  }
+}
+
 /**
  * Arborescence
  * - Home -> Redirects to UserLogin if not logged in
@@ -141,24 +148,19 @@ const router = createRouter({
       path: '/team',
       name: 'team',
       component: () => import('~/views/team/TeamHomeView.vue'),
-      beforeEnter: () => {
-        const store = useTeamStore(pinia)
-        if (!store.team) {
-          return { name: 'join-trip' }
-        }
-      },
-      children: [],
+      beforeEnter: redirectIfNotTeam,
     },
     {
       path: '/team/chat',
       name: 'team-chat',
       component: () => import('~/views/team/TeamChatView.vue'),
-      beforeEnter: () => {
-        const store = useTeamStore(pinia)
-        if (!store.team) {
-          return { name: 'join-trip' }
-        }
-      },
+      beforeEnter: redirectIfNotTeam,
+    },
+    {
+      path: '/team/customize',
+      name: 'team-customize',
+      component: () => import('~/views/team/TeamCustomizeView.vue'),
+      beforeEnter: redirectIfNotTeam,
     },
     {
       path: '/notification/chat/:conversationId',

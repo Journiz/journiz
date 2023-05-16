@@ -1,16 +1,29 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue'
 import { computed, provide, ref } from 'vue'
+import { pageProvideKey, ProvidedPage } from '~/types/Page'
+
+const backgroundColor = ref('white')
+
 const page = ref<typeof IonPage>()
 const pageElement = computed(() => {
   return page.value?.$el
 })
-provide('pageElement', pageElement)
+const providedPage: ProvidedPage = {
+  element: pageElement,
+  setBackgroundColor: (color: string) => {
+    backgroundColor.value = color
+  },
+}
+provide(pageProvideKey, providedPage)
 </script>
 <template>
   <IonPage ref="page">
     <IonContent :scroll-y="false">
-      <div class="page flex flex-col">
+      <div
+        class="page flex flex-col"
+        :style="{ backgroundColor: backgroundColor }"
+      >
         <slot />
       </div>
     </IonContent>

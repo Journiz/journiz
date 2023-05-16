@@ -2,6 +2,7 @@
 import { useTeamStore } from '~/stores/team/team'
 import { useLogout } from '~/composables/useLogout'
 import { useGeolocationStore } from '~/stores/geolocation'
+import Page from '~/components/Page.vue'
 
 const store = useTeamStore()
 const location = useGeolocationStore()
@@ -13,19 +14,13 @@ const startWatchingPosition = () => {
 const logout = useLogout(store.logout)
 </script>
 <template>
-  <IonPage>
-    <IonHeader class="">
-      <IonToolbar>
-        <IonTitle>Accueil team</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent :fullscreen="true">
-      <div v-if="store.team">Bonjour {{ store.team.name }}</div>
-      <div>
-        <IonButton @click="startWatchingPosition">Start track</IonButton>
-        <IonButton router-link="/team/chat">Chat</IonButton>
-        <IonButton @click="logout">Logout</IonButton>
-      </div>
-    </IonContent>
-  </IonPage>
+  <Page>
+    <div v-if="store.team">Bonjour {{ store.team.name }}</div>
+    <div>
+      <IonButton :router-link="{ name: 'team-customize' }">Custom</IonButton>
+      <IonButton @click="startWatchingPosition">Start track</IonButton>
+      <IonButton router-link="/team/chat">Chat</IonButton>
+      <IonButton @click="logout">Logout</IonButton>
+    </div>
+  </Page>
 </template>
