@@ -40,7 +40,10 @@ const colors = [
         </MapMarker>
       </LerpCoordinates>
 
-      <SafeZone></SafeZone>
+      <SafeZone
+        v-if="store.journey.safeZone"
+        :coords="store.journey.safeZone"
+      />
     </Map>
   </div>
 </template>
