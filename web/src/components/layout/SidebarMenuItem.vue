@@ -4,7 +4,9 @@ import { computed } from 'vue'
 import icons from '~/assets/icons'
 
 const route = useRoute()
-const currentPath = computed(() => route.path)
+const currentPath = computed(() => {
+  return route.path
+})
 
 const props = defineProps({
   path: {

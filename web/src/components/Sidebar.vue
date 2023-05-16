@@ -1,23 +1,44 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useFileUrl } from '@journiz/composables'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import IconSignout from '~icons/uil/sign-out-alt'
 import { useUserStore } from '~/stores/user'
 import SidebarMenuItem from '~/components/layout/SidebarMenuItem.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
+const menuData = [
+  {
+    icon: 'journey',
+    name: 'Vos parcours',
+    path: '/dashboard/parcours',
+  },
+  {
+    icon: 'folder',
+    name: 'Modèles',
+    path: '/dashboard/communaute',
+  },
+]
+const menuItems = ref()
+const menuElements = computed(() => menuItems.value?.map((c) => c.$el) ?? [])
+
+const currentItemYTranslate = computed(() => {
+  if (menuElements.value.length !== menuData.length) {
+    return 0
+  }
+  const currentPathIndex = menuData.findIndex((d) => d.path === route.path)
+  if (currentPathIndex < 0) {
+    return -50
+  }
+  return menuElements.value[currentPathIndex].offsetTop
+})
 const logout = async () => {
   await userStore.logout()
   await router.push('/')
 }
 const avatar = useFileUrl(userStore.user, userStore.user.avatar)
-const currentItemYTranslate = ref(0)
-function changeX(event) {
-  console.log(event.currentTarget.offsetTop)
-  currentItemYTranslate.value = event.currentTarget.offsetTop
-}
 </script>
 
 <template>
@@ -40,23 +61,12 @@ function changeX(event) {
         :style="{ transform: 'translateY(' + currentItemYTranslate + 'px)' }"
       />
       <SidebarMenuItem
-        icon="journey"
-        name="Vos parcours"
-        path="/dashboard/parcours"
-        @click="changeX"
-      />
-      <SidebarMenuItem
-        icon="folder"
-        name="Modèles"
-        path="/dashboard/communaute"
-        @click="changeX"
-      />
-
-      <SidebarMenuItem
-        icon="folder"
-        name="Modèles"
-        path="/dashboard/profil"
-        @click="changeX"
+        v-for="item in menuData"
+        ref="menuItems"
+        :key="item.path"
+        :icon="item.icon"
+        :path="item.path"
+        :name="item.name"
       />
     </div>
     <div class="relative px-4">
