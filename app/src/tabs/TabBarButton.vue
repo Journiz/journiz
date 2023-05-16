@@ -12,7 +12,7 @@ defineProps<{
     :data-tab-name="tab.name"
   >
     <span
-      class="text-24px text-black/20 block transition duration-200 transform"
+      class="text-24px block transition duration-200 transform"
       :class="[
         tab.icon,
         isActive ? 'text-white -translate-y-7' : 'text-black/20',
