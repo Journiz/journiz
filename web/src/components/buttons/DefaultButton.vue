@@ -33,7 +33,7 @@ const { actualDisabled } = useButtonDisabled(props)
 </script>
 <template>
   <button
-    class="btn px-6 py-3 rounded-lg text-white w-fit transition-all flex items-center gap-2"
+    class="btn px-6 py-3 rounded-lg text-white w-fit transition-all flex items-center gap-2 text-base leading-4"
     cursor="pointer disabled:not-allowed"
     :class="[
       { 'btn-animation': hasBeenClicked },
