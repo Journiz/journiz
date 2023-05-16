@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { useFileUrl } from '@journiz/composables'
 import IconSignout from '~icons/uil/sign-out-alt'
 import { useUserStore } from '~/stores/user'
 import SidebarMenuItem from '~/components/layout/SidebarMenuItem.vue'
@@ -10,6 +11,7 @@ const logout = async () => {
   await userStore.logout()
   await router.push('/')
 }
+const avatar = useFileUrl(userStore.user, userStore.user.avatar)
 </script>
 
 <template>
@@ -34,11 +36,14 @@ const logout = async () => {
       />
     </div>
     <div class="relative px-4">
-      <div
-        class="text-center p-2 bg-white-off rounded-lg text-green-dark font-black text-lg"
-      >
-        {{ userStore.user.username }}
-      </div>
+      <router-link :to="{ name: 'user-profile' }">
+        <img v-if="avatar" :src="avatar" alt="" />
+        <div
+          class="text-center p-2 bg-white-off rounded-lg text-green-dark font-black text-lg"
+        >
+          {{ userStore.user.username }}
+        </div>
+      </router-link>
       <div
         class="flex text-white-off font-extralight items-center justify-center mt-5 text-md cursor-pointer"
         @click="logout"

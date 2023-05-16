@@ -3,7 +3,7 @@ import {
   usePocketBase,
   useRealtimeTripForGameMaster,
 } from '@journiz/composables'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { User } from '@journiz/api-types'
 import { useStorage } from '@vueuse/core'
 import useRefStorage from '../composables/useRefStorage'
@@ -57,6 +57,8 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const journey = computed(() => trip.value?.expand?.journey)
+
   const logout = () => {
     pb.authStore.clear()
     user.value = null
@@ -73,5 +75,6 @@ export const useUserStore = defineStore('user', () => {
     logout,
     trip,
     setTrip,
+    journey,
   }
 })

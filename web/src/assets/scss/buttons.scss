@@ -5,24 +5,26 @@
 
   // Colors
   &-primary {
-    --color: theme('colors.blue.800');
-    --color-light: theme('colors.blue.600');
+    --color: theme('colors.green.DEFAULT');
+    --color-light: theme('colors.green.dark');
+    --color-text: #FFFFFF;
   }
   &-secondary {
-    --color: theme('colors.blue.400');
-    --color-light: theme('colors.blue.600');
+    --color: theme('colors.red.DEFAULT');
+    --color-light: theme('colors.red.accent');
+    --color-text: #FFFFFF;
   }
-
-  &-primary {
-    --color: theme('colors.blue.800');
-    --color-light: theme('colors.blue.600');
+  &-white {
+    --color: theme('colors.white.DEFAULT');
+    --color-light: theme('colors.beige.DEFAULT');
+    --color-text: theme('colors.green.dark');
   }
 
   // Variants
   &-fill {
     background-color: var(--color);
     border-color: var(--color);
-    color: white;
+    color: var(--color-text);
     &:hover {
       background-color: var(--color-light);
       border-color: var(--color-light);
@@ -39,7 +41,7 @@
     color: var(--color);
     &:hover {
       background-color: var(--color);
-      color: white;
+      color: var(--color-text);
     }
     &:disabled {
       background-color: var(--disabled-color);

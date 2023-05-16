@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ButtonHTMLAttributes, computed, PropType, ref } from 'vue'
+import { useButtonDisabled } from '@journiz/composables'
 import icons from '~/assets/icons'
 import { ButtonColor, ButtonVariant } from '~/types/Button'
-import useButtonDisabled from '~/composables/useButtonDisabled'
 const props = defineProps({
   color: {
     type: String as PropType<ButtonColor>,
@@ -62,3 +62,9 @@ const hasBeenClicked = ref(false)
     <Icon class="h-6 w-6" />
   </div>
 </template>
+
+<style scoped>
+.btn {
+  box-shadow: 0px 1px 3px rgba(0, 35, 30, 0.16);
+}
+</style>

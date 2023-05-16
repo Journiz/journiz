@@ -4,7 +4,7 @@ import Sidebar from '~/components/Sidebar.vue'
 </script>
 
 <template>
-  <main class="bg-primary-200 w-screen h-screen flex">
+  <main class="w-screen h-screen flex bg-white-off">
     <Sidebar />
     <article class="flex-grow">
       <router-view v-slot="{ Component, route }">

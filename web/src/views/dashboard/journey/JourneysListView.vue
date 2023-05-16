@@ -46,9 +46,5 @@ await waitForEndLoading(loading)
         @edit-journey="router.push('/dashboard/parcours/' + journey.id)"
       />
     </div>
-    <!--    <JourneyLine-->
-    <!--      journey-name="Sortie à Grenoble"-->
-    <!--      basecamp-name="Hôtel de ville"-->
-    <!--    />-->
   </article>
 </template>
