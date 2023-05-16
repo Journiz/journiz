@@ -9,5 +9,21 @@ export const TeamSchema = z.object({
   name: z.string(),
   score: z.number(),
   updated: z.string(),
+  color: z
+    .enum([
+      'green',
+      'yellow',
+      'pink',
+      'black',
+      'orange',
+      'red',
+      'purple',
+      'skyblue',
+      'blue',
+      'brown',
+      'gray',
+      '',
+    ])
+    .optional(),
 })
 export type Team = z.infer<typeof TeamSchema>
