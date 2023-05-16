@@ -19,8 +19,9 @@ export const TeamSchema = z.object({
       'red',
       'purple',
       'skyblue',
-      'blue',
       'brown',
+      'violet',
+      'blue',
       'gray',
       '',
     ])
