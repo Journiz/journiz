@@ -30,7 +30,7 @@ const onInput = (e: any) => {
 }
 </script>
 <template>
-  <div class="w-fit">
+  <div class="w-full">
     <label :for="input?.id" class="text-black font-medium"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >

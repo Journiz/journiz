@@ -37,7 +37,7 @@ const avatar = useFileUrl(userStore.user, userStore.user.avatar)
     </div>
     <div class="relative px-4">
       <router-link to="profil">
-        <img :src="avatar" alt="" />
+        <img v-if="avatar" :src="avatar" alt="" />
         <div
           class="text-center p-2 bg-white-off rounded-lg text-green-dark font-black text-lg"
         >

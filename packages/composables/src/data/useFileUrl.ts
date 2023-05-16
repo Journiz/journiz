@@ -4,6 +4,6 @@ import { usePocketBase } from './usePocketBase'
 export const useFileUrl = (record: any, fileName: string) => {
   const pb = usePocketBase()
   return computed(() => {
-    return pb.getFileUrl(record, fileName)
+    return fileName ? pb.getFileUrl(record, fileName) : null
   })
 }

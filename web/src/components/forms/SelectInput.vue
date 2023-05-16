@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { PropType } from 'vue'
+import { PropType, ref } from 'vue'
 
-defineProps({
+const props = defineProps({
   name: {
     type: String,
     required: true,
@@ -22,7 +22,23 @@ defineProps({
     type: Boolean,
     default: true,
   },
+  choice: {
+    type: String,
+    required: false,
+  },
 })
+
+defineEmits(['selected'])
+
+const selectedValue = ref('')
+
+// Trouver l'option sélectionnée en fonction de la valeur de `answerType`
+if (props.choice) {
+  const selectedOption = props.choices.find(
+    (option) => option.value === props.choice
+  )
+  selectedValue.value = selectedOption ? selectedOption.value : ''
+}
 </script>
 <template>
   <label :for="name" class="text-blue-900 font-semibold"
@@ -30,8 +46,10 @@ defineProps({
   >
   <select
     :id="name"
+    v-model="selectedValue"
     :required="requiredField"
     class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
+    @change="$emit('selected', $event.target.value)"
   >
     <option disabled value="">{{ emptyQuote }}</option>
     <option v-for="choice in choices" :key="choice.value" :value="choice.value">
