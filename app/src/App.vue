@@ -4,6 +4,7 @@ import { StatusBar, Style } from '@capacitor/status-bar'
 import { Capacitor } from '@capacitor/core'
 import { useUserStore } from './stores/user'
 import { useTeamStore } from './stores/team/team'
+import { useThemeColor } from '~/globals/colors'
 
 if (['ios', 'android'].includes(Capacitor.getPlatform())) {
   StatusBar.setStyle({
@@ -13,10 +14,15 @@ if (['ios', 'android'].includes(Capacitor.getPlatform())) {
 }
 useUserStore().refresh()
 useTeamStore()
+const { themeColor } = useThemeColor()
 </script>
 <template>
-  <IonApp :scroll-x="false" :scroll-y="false">
+  <IonApp id="journiz-app" :scroll-x="false" :scroll-y="false">
     <IonRouterOutlet />
   </IonApp>
 </template>
-<style></style>
+<style>
+#journiz-app {
+  --color-theme: v-bind(themeColor);
+}
+</style>

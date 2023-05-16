@@ -2,7 +2,7 @@
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { Capacitor } from '@capacitor/core'
 import { TabsProvider } from '~/types/tabs'
-import TabBarButton from '~/tabs/TabBarButton.vue'
+import TabBarButton from '~/components/tabs/TabBarButton.vue'
 
 const props = defineProps<{
   tabsProvider: TabsProvider

@@ -7,7 +7,7 @@ import { ButtonColor, ButtonVariant } from '~/types/Button'
 const props = defineProps({
   color: {
     type: String as PropType<ButtonColor>,
-    default: 'violet',
+    default: 'theme',
   },
   variant: {
     type: String as PropType<ButtonVariant>,

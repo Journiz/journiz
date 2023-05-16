@@ -7,7 +7,7 @@ import CustomizeColor from '~/components/team/customize/CustomizeColor.vue'
 import CustomizeWarCry from '~/components/team/customize/CustomizeWarCry.vue'
 
 const tabs = [CustomizeName, CustomizeColor, CustomizeHat, CustomizeWarCry]
-const currentTab = ref(0)
+const currentTab = ref(1)
 
 const transition = ref('next-step')
 watch(currentTab, (to: number, from: number) => {

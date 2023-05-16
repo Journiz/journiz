@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 import Page from '~/components/Page.vue'
-import Tabs from '~/tabs/Tabs.vue'
-import Tab from '~/tabs/Tab.vue'
+import Tabs from '~/components/tabs/Tabs.vue'
+import Tab from '~/components/tabs/Tab.vue'
 import TabHome from '~/components/user/tabs/TabHome.vue'
 import TabMap from '~/components/user/tabs/TabMap.vue'
 import TabChat from '~/components/user/tabs/TabChat.vue'
