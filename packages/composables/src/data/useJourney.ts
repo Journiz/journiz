@@ -13,6 +13,7 @@ export const useJourney = makeRecordComposable(
   JourneySchema,
   'points'
 )
+
 export const useRealtimeJourney = makeRealtimeRecordComposable(
   'journey',
   JourneySchema,

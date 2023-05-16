@@ -26,7 +26,10 @@ module.exports = {
           DEFAULT: "#ffffff",
           off: "#FBF9F4",
         },
-        red : "#FF6147",
+        red : {
+          DEFAULT: "#FF6147",
+          accent: "#fa472c",
+        },
       },
     },
   },
