@@ -37,18 +37,13 @@ const Icon = computed(() => icons[props.icon])
 <template>
   <router-link :to="path" class="min-w-41 mb-6">
     <div
-      class="flex flex-row items-center p-2 rounded-s-lg relative"
-      :class="
-        currentPath.startsWith(path)
-          ? 'bg-white-off text-green custom-shadow invert-rounded'
-          : 'text-white-off'
-      "
+      class="flex flex-row items-center p-2 relative"
+      :class="currentPath.startsWith(path) ? 'text-green' : 'text-white-off'"
     >
       <Icon class="sidebar-icon mr-2" />
       <span
-        :class="
-          currentPath.startsWith(path) ? 'text-base font-extrabold' : 'text-lg'
-        "
+        class="text-lg"
+        :class="currentPath.startsWith(path) ? 'font-bold' : ''"
         >{{ name }}</span
       >
     </div>
@@ -58,30 +53,5 @@ const Icon = computed(() => icons[props.icon])
 .sidebar-icon {
   height: auto;
   width: 16px;
-}
-.custom-shadow {
-  box-shadow: inset 1px 0px 6px rgba(0, 0, 0, 0.17);
-}
-.invert-rounded::before {
-  content: '';
-  position: absolute;
-  background-color: transparent;
-  top: -16px;
-  right: 0;
-  border-bottom-right-radius: 8px;
-  height: 16px;
-  width: 8px;
-  box-shadow: 0 8px 0 0 #fff;
-}
-.invert-rounded::after {
-  content: '';
-  position: absolute;
-  background-color: transparent;
-  bottom: -16px;
-  right: 0;
-  border-top-right-radius: 8px;
-  height: 16px;
-  width: 8px;
-  box-shadow: 0 -8px 0 0 #fff;
 }
 </style>
