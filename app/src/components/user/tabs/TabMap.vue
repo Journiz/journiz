@@ -5,6 +5,7 @@ import Map from '~/components/map/Map.vue'
 import MapMarker from '~/components/map/MapMarker.vue'
 import { useUserStore } from '~/stores/user'
 import LerpCoordinates from '~/components/map/LerpCoordinates.vue'
+import SafeZone from '~/components/map/SafeZone.vue'
 
 const page = ref()
 
@@ -38,6 +39,8 @@ const colors = [
           ></template>
         </MapMarker>
       </LerpCoordinates>
+
+      <SafeZone></SafeZone>
     </Map>
   </div>
 </template>
