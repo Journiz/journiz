@@ -18,10 +18,32 @@ const colors = [
   'bg-pink',
   'bg-orange',
 ]
+
+// TODO: Check if point marker is complete by the current team and switch to team color
 </script>
 <template>
   <div class="w-full h-full flex-grow">
     <Map :map-center="{ lng: 6.1015, lat: 45.9075 }" :zoom="16">
+      <MapMarker
+        v-for="point in store.journey.expand.points"
+        :key="point.id"
+        :position="{ lng: point.longitude, lat: point.latitude }"
+      >
+        <template #icon>
+          <div
+            class="relative w-18 h-18 rounded-full shadow-lg overflow-hidden flex items-center justify-center"
+          >
+            <div
+              class="w-full h-full absolute top-0 left-0 bg-green-dark/25"
+            ></div>
+            <div
+              class="h-8 w-8 rounded-full bg-green-dark/80 text-6 color-white flex items-center justify-center"
+            >
+              <div class="i-uil:question"></div>
+            </div>
+          </div>
+        </template>
+      </MapMarker>
       <LerpCoordinates
         v-for="(team, i) in teams"
         :key="team.id"
