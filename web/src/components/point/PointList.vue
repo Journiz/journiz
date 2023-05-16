@@ -2,10 +2,11 @@
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { Point } from '@journiz/api-types'
-import { usePocketBase } from '../../../../packages/composables'
+import { usePocketBase } from '@journiz/composables'
 import PointItem from '~/components/point/PointItem.vue'
 import { useJourneyStore } from '~/stores/journey'
 import BasecampLine from '~/components/BasecampLine.vue'
+import { PointWithDependents } from '~/types/points'
 
 const store = useJourneyStore()
 const router = useRouter()
@@ -19,8 +20,6 @@ async function deletePoint(id: string) {
     console.log(e)
   }
 }
-
-type PointWithDependents = Point & { dependents?: Point[] }
 const points = computed<PointWithDependents[]>(() => {
   const sourcePoints = store.journey?.expand?.points ?? []
   const rootPoints = sourcePoints.filter((p) => !p.trigger)
@@ -56,9 +55,9 @@ const points = computed<PointWithDependents[]>(() => {
           :key="point.id"
           :point="point"
           @edit-point="
-            $router.push({ name: 'edit-point', params: { pointId: point.id } })
+            $router.push({ name: 'edit-point', params: { pointId: $event } })
           "
-          @delete-point="deletePoint(point.id)"
+          @delete-point="deletePoint($event)"
         />
       </div>
     </div>

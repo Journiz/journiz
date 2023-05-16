@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Point as PointType } from '../../../../packages/api-types'
 import SquareButton from '~/components/buttons/SquareButton.vue'
+import { PointWithDependents } from '~/types/points'
 
-defineProps<{ point: PointType }>()
+defineProps<{ point: PointWithDependents }>()
 
 const emit = defineEmits(['deletePoint', 'editPoint'])
 </script>
@@ -63,17 +63,25 @@ const emit = defineEmits(['deletePoint', 'editPoint'])
           <SquareButton
             color="secondary"
             icon="edit"
-            @click="emit('editPoint')"
+            @click="emit('editPoint', point.id)"
           />
           <SquareButton
             color="secondary"
             icon="trash"
-            @click="emit('deletePoint')"
+            @click="emit('deletePoint', point.id)"
           />
         </div>
       </div>
     </div>
-    <PointItem v-if="point.dependents[0]" :point="point.dependents[0]" />
+    <div v-if="point.dependents">
+      <PointItem
+        v-for="subPoint in point.dependents"
+        :key="subPoint.id"
+        :point="subPoint"
+        @edit-point="emit('editPoint', $event)"
+        @delete-point="emit('deletePoint', $event)"
+      />
+    </div>
   </div>
 </template>
 
