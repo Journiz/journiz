@@ -15,7 +15,7 @@ export const useTripForGameMaster = makeRecordComposable(
 export const useRealtimeTripForGameMaster = makeRealtimeRecordComposable(
   'trip',
   TripSchema,
-  'journey,team(trip)',
+  'journey,journey.points,team(trip)',
   {
     'team(trip)': () => [],
   }

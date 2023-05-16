@@ -57,7 +57,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const journey = computed(() => trip.value!.expand!.journey!)
+  const journey = computed(() => trip.value?.expand?.journey)
 
   const logout = () => {
     pb.authStore.clear()
