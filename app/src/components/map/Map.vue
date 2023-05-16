@@ -50,7 +50,7 @@ defineExpose({
     ref="mapboxMap"
     class="w-full h-full"
     access-token="pk.eyJ1IjoiY3JldG9udiIsImEiOiJjbGV5b2Fld2QwNnh4M3JvOGIxNHZ5a3VkIn0.WdHz6eP4SsoCqMuejCRpRg"
-    map-style="mapbox://styles/mapbox/streets-v12"
+    map-style="mapbox://styles/journiz/clgcotbx4002b01p2qffjcvv1"
     :center="initialCenter"
     :zoom="zoom"
     @mb-created="setMap"
