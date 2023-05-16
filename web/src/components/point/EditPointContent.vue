@@ -15,9 +15,7 @@ const emit = defineEmits([
 const { point } = toRefs(props)
 const answerType = ref('choice')
 const answers = ref<any[]>([])
-const answerLocation = ref({ long: 0, lat: 0 })
-const long = ref('')
-const lat = ref('')
+const answerLocation = ref({ lng: 0, lat: 0 })
 
 watch(
   answers,
@@ -60,14 +58,9 @@ const selectChoices = [
 ]
 
 function handleSelected(value: string) {
+  console.log(value)
   answerType.value = value
   emit('update:answerType', answerType.value)
-  if (answerType.value === 'image') {
-    console.log('choice')
-  }
-  if (answerType.value === 'location') {
-    console.log('location')
-  }
 }
 
 function addChoiceAnswer() {
@@ -98,7 +91,7 @@ function removeChoiceAnswer(index) {
     <TextInput v-model="point.question" label="Énoncé" />
     <div v-if="answerType == 'image'"></div>
     <div v-if="answerType == 'location'">
-      <input v-model="answerLocation.long" type="number" label="Longitude" />
+      <input v-model="answerLocation.lng" type="number" label="Longitude" />
       <input v-model="answerLocation.lat" type="number" label="Latitude" />
     </div>
     <div v-if="['choice', 'text'].includes(answerType)">

@@ -22,6 +22,7 @@ const step = ref(0)
 const trigger = ref('false')
 
 const handlePointTrigger = (value: string) => {
+  console.log(value)
   pointTrigger.value = value
 }
 
@@ -30,15 +31,14 @@ function nextStep() {
     console.log(step)
   }
   if (step.value === 1) {
-    point.value.answerType = answerType.value
+    if (answerType.value) {
+      point.value.answerType = answerType.value
+    }
     if (answerType.value === 'location') {
       point.value.answer = answerLocation.value
     }
     if (answerType.value === 'text' || answerType.value === 'choice') {
       point.value.answer = answers.value
-    }
-    if (point.value.trigger) {
-      trigger.value = 'true'
     }
   }
   if (step.value === 2) {
@@ -69,6 +69,7 @@ function prevStep() {
 }
 
 async function saveChanges() {
+  console.log(pointTrigger.value)
   try {
     await update()
   } catch (e) {
@@ -106,7 +107,7 @@ async function saveChanges() {
       </header>
       <EditPointContent
         :point="point"
-        @update:answer-type="answerType = $event"
+        @update:answerType="answerType = $event"
         @update:answers="answers = $event"
         @update:answerLocation="answerLocation = $event"
       />
@@ -123,7 +124,11 @@ async function saveChanges() {
           </DefaultButton>
         </div>
       </header>
-      <EditPointTrigger :point="point" @pointTrigger="handlePointTrigger" />
+      <EditPointTrigger
+        :point="point"
+        @pointTrigger="handlePointTrigger"
+        @update:isTrigger="trigger = $event"
+      />
     </section>
     <section v-else>Chargement</section>
   </article>
