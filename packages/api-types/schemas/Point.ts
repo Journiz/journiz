@@ -10,9 +10,8 @@ export const basePointSchema = z.object({
   answerType: z.enum(['image', 'text', 'choice', 'location']),
   answer: z
     .union([
-      z.null(),
       z.string(),
-      z.array(z.string()),
+      z.array(z.tuple([z.string(), z.boolean()])),
       z.object({ lng: z.number(), lat: z.number() }),
     ])
     .optional(),

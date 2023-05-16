@@ -26,8 +26,8 @@ const input = ref()
 <template>
   <div class="w-full">
     <label :for="input?.id" class="text-blue-900 font-semibold"
-      >{{ label }}{{ requiredField ? '*' : '' }}</label
-    >
+      >{{ label }}{{ requiredField ? '*' : '' }}
+    </label>
     <input
       ref="input"
       v-uid

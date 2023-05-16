@@ -79,7 +79,7 @@ export const useJourneyStore = defineStore('journey', () => {
       score: 0,
       answerType: 'choice',
       question: ' ',
-      answer: 'JSON',
+      answer: '',
       trigger: '',
     }
     try {
