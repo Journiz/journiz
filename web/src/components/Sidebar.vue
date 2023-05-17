@@ -28,7 +28,9 @@ const currentItemYTranslate = computed(() => {
   if (menuElements.value.length !== menuData.length) {
     return 0
   }
-  const currentPathIndex = menuData.findIndex((d) => d.path === route.path)
+  const currentPathIndex = menuData.findIndex((d) =>
+    route.path.startsWith(d.path)
+  )
   if (currentPathIndex < 0) {
     return -50
   }
