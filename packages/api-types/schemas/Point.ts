@@ -11,7 +11,9 @@ export const basePointSchema = z.object({
   answer: z
     .union([
       z.string(),
-      z.array(z.tuple([z.string(), z.boolean()])),
+      z.array(
+        z.object({ id: z.string(), text: z.string(), isCorrect: z.boolean() })
+      ),
       z.object({ lng: z.number(), lat: z.number() }),
     ])
     .optional(),

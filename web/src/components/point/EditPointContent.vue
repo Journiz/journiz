@@ -3,6 +3,7 @@ import { ref, toRefs, defineProps, watch, onMounted } from 'vue'
 import { Point as PointType } from '@journiz/api-types'
 import TextInput from '~/components/forms/TextInput.vue'
 import SelectInput from '~/components/forms/SelectInput.vue'
+import ChoicesInputs from '~/views/dashboard/journey/point/editPointInputs/ChoicesInputs.vue'
 
 const props = defineProps<{
   point: PointType
@@ -20,6 +21,7 @@ const answerLocation = ref({ lng: 0, lat: 0 })
 watch(
   answers,
   (newVal) => {
+    console.log('update answers')
     emit('update:answers', newVal)
   },
   {
@@ -42,7 +44,7 @@ onMounted(() => {
   }
   if (point.value.answer) {
     if (answerType.value === 'text' || answerType.value === 'choice') {
-      answers.value = point.value.answer as any[]
+      answers.value = point.value.answer as any
     }
     if (answerType.value === 'location') {
       answerLocation.value = point.value.answer as any
@@ -61,16 +63,6 @@ function handleSelected(value: string) {
   console.log(value)
   answerType.value = value
   emit('update:answerType', answerType.value)
-}
-
-function addChoiceAnswer() {
-  answers.value.push(['', false])
-  point.value.answer = answers.value
-}
-
-function removeChoiceAnswer(index) {
-  answers.value.splice(index, 1)
-  point.value.answer = answers.value
 }
 </script>
 <template>
@@ -95,16 +87,7 @@ function removeChoiceAnswer(index) {
       <input v-model="answerLocation.lat" type="number" label="Latitude" />
     </div>
     <div v-if="['choice', 'text'].includes(answerType)">
-      <label for="">Réponses</label>
-      <div v-for="(answer, index) in answers" :key="index">
-        <TextInput v-model="answer[0]" label="" />
-        <div v-if="answerType === 'choice'">
-          <label for="checkbox">Bonne réponse ? </label>
-          <input v-model="answer[1]" type="checkbox" />
-        </div>
-        <button @click="removeChoiceAnswer(index)">Supprimer la réponse</button>
-      </div>
-      <button @click="addChoiceAnswer">Ajouter une réponse</button>
+      <ChoicesInputs v-model="answers" :answer-type="answerType" />
     </div>
   </div>
 </template>

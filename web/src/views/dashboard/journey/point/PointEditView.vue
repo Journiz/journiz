@@ -15,7 +15,6 @@ const { data: point, update, updateLoading } = usePoint(pointId)
 
 // passer en props
 const answerType = ref('')
-const answers = ref([])
 const answerLocation = ref({})
 
 const pointTrigger = ref('')
@@ -29,7 +28,7 @@ const handlePointTrigger = (value: string) => {
 
 function nextStep() {
   if (step.value === 0) {
-    console.log(step)
+    // console.log(step)
   }
   if (step.value === 1) {
     if (answerType.value) {
@@ -109,7 +108,7 @@ async function saveChanges() {
       <EditPointContent
         :point="point"
         @update:answerType="answerType = $event"
-        @update:answers="answers = $event"
+        @update:answers="point.answer = $event"
         @update:answerLocation="answerLocation = $event"
       />
     </section>
