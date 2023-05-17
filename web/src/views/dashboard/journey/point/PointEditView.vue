@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { usePoint } from '@journiz/composables'
 import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import TextInput from '~/components/forms/TextInput.vue'
 import EditPointLocation from '~/components/point/EditPointLocation.vue'
 import EditPointContent from '~/components/point/EditPointContent.vue'
 import EditPointTrigger from '~/components/point/EditPointTrigger.vue'
 import PageTitle from '~/components/PageTitle.vue'
-import SquareButton from '~/components/buttons/SquareButton.vue'
+import { waitForEndLoading } from '~/utils/waitForEndLoading'
+import { usePointStore } from '~/stores/point'
 
-const pointId = useRoute().params.pointId as string
-const { data: point, update, updateLoading } = usePoint(pointId)
+const store = usePointStore()
+store.setId(useRoute().params.pointId as string)
+const { loading } = storeToRefs(store)
+await waitForEndLoading(loading)
 
 // passer en props
 const answerType = ref('')
@@ -32,21 +35,21 @@ function nextStep() {
   }
   if (step.value === 1) {
     if (answerType.value) {
-      point.value.answerType = answerType.value
+      store.point.answerType = answerType.value
     }
     if (answerType.value === 'location') {
-      point.value.answer = answerLocation.value
+      store.point.answer = answerLocation.value
     }
     if (answerType.value === 'text' || answerType.value === 'choice') {
-      point.value.answer = answers.value
+      store.point.answer = answers.value
     }
   }
   if (step.value === 2) {
     if (trigger.value === 'true') {
-      point.value.trigger = pointTrigger.value
+      store.point.trigger = pointTrigger.value
     }
     if (trigger.value === 'false') {
-      point.value.trigger = null
+      store.point.trigger = null
     }
   }
   step.value += 1
@@ -65,13 +68,13 @@ function prevStep() {
   if (step.value > 2 || step.value < 0) {
     step.value = 0
   }
-  update()
+  store.update()
 }
 
 async function saveChanges() {
   console.log(pointTrigger.value)
   try {
-    await update()
+    await store.update()
   } catch (e) {
     console.log(e)
   }
@@ -81,51 +84,49 @@ async function saveChanges() {
 <template>
   <article class="pt-10 px-16 h-full">
     <section v-if="step == 0" class="h-full">
-      <div v-if="point" class="flex flex-col h-full">
+      <div v-if="store.point" class="flex flex-col h-full">
         <header class="flex items-center justify-between gap-8">
-          <TextInput v-model="point.name" label="Nom du point"></TextInput>
+          <TextInput
+            v-model="store.point.name"
+            label="Nom du point"
+          ></TextInput>
           <div class="flex">
-            <DefaultButton :loading="updateLoading" @click="nextStep"
+            <DefaultButton :loading="store.loading" @click="nextStep"
               >Enregistrer
             </DefaultButton>
           </div>
         </header>
-        <EditPointLocation :point="point" />
+        <EditPointLocation :point="store.point" />
       </div>
     </section>
     <section v-if="step == 1" class="h-full">
       <header class="flex items-center justify-between gap-8">
-        <page-title class="mb-10">{{ point.name }}</page-title>
+        <page-title class="mb-10">{{ store.point.name }}</page-title>
         <div class="flex">
-          <DefaultButton :loading="updateLoading" @click="prevStep"
+          <DefaultButton :loading="store.loading" @click="prevStep"
             >Prev
           </DefaultButton>
-          <DefaultButton :loading="updateLoading" @click="nextStep"
+          <DefaultButton :loading="store.loading" @click="nextStep"
             >Enregistrer
           </DefaultButton>
         </div>
       </header>
-      <EditPointContent
-        :point="point"
-        @update:answerType="answerType = $event"
-        @update:answers="point.answer = $event"
-        @update:answerLocation="answerLocation = $event"
-      />
+      <EditPointContent />
     </section>
     <section v-if="step == 2" class="h-full">
       <header class="flex items-center justify-between gap-8">
-        <page-title class="mb-10">{{ point.name }}</page-title>
+        <page-title class="mb-10">{{ store.point.name }}</page-title>
         <div class="flex">
-          <DefaultButton :loading="updateLoading" @click="prevStep"
+          <DefaultButton :loading="store.loading" @click="prevStep"
             >Prev
           </DefaultButton>
-          <DefaultButton :loading="updateLoading" @click="nextStep"
+          <DefaultButton :loading="store.loading" @click="nextStep"
             >Enregistrer
           </DefaultButton>
         </div>
       </header>
       <EditPointTrigger
-        :point="point"
+        :point="store.point"
         @pointTrigger="handlePointTrigger"
         @update:isTrigger="trigger = $event"
       />
