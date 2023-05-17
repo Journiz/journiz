@@ -20,7 +20,7 @@ const updateColor = async (color: Team['color']) => {
 }
 </script>
 <template>
-  <div class="px-2/20 pt-8 pb-8 flex flex-col text-center">
+  <div class="flex flex-col text-center">
     <div class="my-auto">
       <h1 class="text-2xl font-black">Voyageurs, quelle est votre couleur ?</h1>
       <p class="text-sm">Ahout ! Ahou ! Ahou !</p>

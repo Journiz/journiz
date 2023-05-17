@@ -7,7 +7,7 @@ import CustomizeColor from '~/components/team/customize/CustomizeColor.vue'
 import CustomizeWarCry from '~/components/team/customize/CustomizeWarCry.vue'
 
 const tabs = [CustomizeName, CustomizeColor, CustomizeHat, CustomizeWarCry]
-const currentTab = ref(1)
+const currentTab = ref(0)
 
 const transition = ref('next-step')
 watch(currentTab, (to: number, from: number) => {
@@ -19,7 +19,7 @@ watch(currentTab, (to: number, from: number) => {
     <transition :name="transition">
       <component
         :is="tabs[currentTab]"
-        class="absolute top-0 left-0 w-full h-full"
+        class="absolute top-0 left-0 w-full h-full px-2/20 pt-8 pb-8"
         @next="currentTab++"
         @prev="currentTab--"
       ></component>

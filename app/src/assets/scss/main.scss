@@ -6,6 +6,7 @@ body {
     font-family: 'filson', sans-serif;
     overflow: hidden!important;
     background-color: #fff;
+    --ion-text-color: theme('colors.green.dark');
 }
 
 .page {
