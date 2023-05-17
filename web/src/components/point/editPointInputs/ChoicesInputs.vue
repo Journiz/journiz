@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, PropType, ref } from 'vue'
+import { computed, PropType } from 'vue'
 import { nanoid } from 'nanoid'
 import TextInput from '~/components/forms/TextInput.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
 
 const emit = defineEmits(['addAnswer', 'removeAnswer', 'update:modelValue'])
 const props = defineProps({
@@ -31,26 +32,32 @@ function addChoiceAnswer() {
       isCorrect: false,
     },
   ]
-  // point.value.answer = answers.value
 }
 function removeChoiceAnswer(id: string) {
   answers.value = answers.value.filter((a) => a.id !== id)
-  // point.value.answer = answers.value
 }
 </script>
 <template>
   <div>
-    <label for="">Réponses</label>
-    <div v-for="answer in answers" :key="answer.id">
-      <TextInput v-model="answer.text" label="" />
-      <div v-if="answerType === 'choice'">
-        <label for="checkbox">Bonne réponse ? </label>
+    <div class="font-medium text-sm">Réponses</div>
+    <div
+      v-for="answer in answers"
+      :key="answer.id"
+      class="flex gap-2 items-center bg-beige px-2 rounded-xl mb-2"
+    >
+      <TextInput v-model="answer.text" />
+      <div v-if="answerType === 'choice'" class="gap-2">
+        <label class="whitespace-nowrap font-light" for="checkbox"
+          >Bonne réponse ?
+        </label>
         <input v-model="answer.isCorrect" type="checkbox" />
       </div>
       <button @click="removeChoiceAnswer(answer.id)">
-        Supprimer la réponse
+        <div class="i-uil:trash-alt h-6 text-2xl color-red" />
       </button>
     </div>
-    <button @click="addChoiceAnswer">Ajouter une réponse</button>
+    <DefaultButton class="ml-auto" color="secondary" @click="addChoiceAnswer"
+      >Ajouter une réponse</DefaultButton
+    >
   </div>
 </template>

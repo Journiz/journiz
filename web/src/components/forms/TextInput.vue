@@ -3,7 +3,6 @@ import { ref } from 'vue'
 defineProps({
   label: {
     type: String,
-    required: true,
   },
   modelValue: {
     type: String,
@@ -21,6 +20,10 @@ defineProps({
     type: String,
     default: 'text',
   },
+  alternativeStyle: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -31,7 +34,7 @@ const onInput = (e: any) => {
 </script>
 <template>
   <div class="w-full">
-    <label :for="input?.id" class="text-black font-medium"
+    <label v-if="label" :for="input?.id" class="text-black font-medium"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >
     <input
@@ -40,8 +43,18 @@ const onInput = (e: any) => {
       :value="modelValue"
       :required="requiredField"
       :type="type"
-      class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-green-dark bg-green-dark/4"
+      class="w-full border rounded-md py-4 px-5 mt-2 mb-2 text-green-dark bg-green-dark/4"
+      :class="
+        alternativeStyle
+          ? 'bg-green-dark/4'
+          : 'bg-white custom-shadow border-none'
+      "
       @input="onInput"
     />
   </div>
 </template>
+<style scoped>
+.custom-shadow {
+  filter: drop-shadow(0px 1px 2px rgba(0, 35, 30, 0.16));
+}
+</style>
