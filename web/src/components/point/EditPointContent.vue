@@ -4,6 +4,7 @@ import TextInput from '~/components/forms/TextInput.vue'
 import SelectInput from '~/components/forms/SelectInput.vue'
 import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
 import { usePointStore } from '~/stores/point'
+import TextareaInput from '~/components/forms/TextareaInput.vue'
 
 const store = usePointStore()
 
@@ -37,7 +38,7 @@ function handleSelected(value: string) {
       <input id="point-score" v-model="store.point.score" type="number" />
     </div>
     <!-- Mettre un Textarea -->
-    <TextInput v-model="store.point.question" label="Énoncé" />
+    <TextareaInput v-model="store.point.question" label="Énoncé" />
     <div v-if="answerType == 'image'"></div>
     <div v-if="answerType == 'location'">
       <input v-model="answerLocation.lng" type="number" label="Longitude" />
