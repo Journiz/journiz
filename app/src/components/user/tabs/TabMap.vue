@@ -23,7 +23,7 @@ const colors = [
 // TODO: Check if point marker is complete by the current team and switch to team color
 </script>
 <template>
-  <div class="w-full h-full flex-grow">
+  <div v-if="store.journey" class="w-full h-full flex-grow">
     <Map :map-center="{ lng: 6.1015, lat: 45.9075 }" :zoom="16">
       <MapMarker
         :position="{
@@ -44,7 +44,7 @@ const colors = [
           </div> </template
       ></MapMarker>
       <MapMarker
-        v-for="point in store.journey.expand.points"
+        v-for="point in store.journey.expand?.points ?? []"
         :key="point.id"
         :position="{ lng: point.longitude, lat: point.latitude }"
       >
@@ -81,7 +81,7 @@ const colors = [
       </LerpCoordinates>
 
       <SafeZone
-        v-if="store.journey.safeZone"
+        v-if="store.journey?.safeZone"
         :coords="store.journey.safeZone"
       />
     </Map>
