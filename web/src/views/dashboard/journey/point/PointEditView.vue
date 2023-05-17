@@ -10,6 +10,7 @@ import EditPointTrigger from '~/components/point/EditPointTrigger.vue'
 import PageTitle from '~/components/PageTitle.vue'
 import { waitForEndLoading } from '~/utils/waitForEndLoading'
 import { usePointStore } from '~/stores/point'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const store = usePointStore()
 store.setId(useRoute().params.pointId as string)
@@ -83,48 +84,37 @@ async function saveChanges() {
 
 <template>
   <article class="pt-10 px-16 h-full">
+    <header class="flex items-center justify-between gap-8">
+      <page-title v-if="step !== 0" class="mb-10">{{
+        store.point.name
+      }}</page-title>
+      <TextInput
+        v-if="step == 0"
+        v-model="store.point.name"
+        label="Nom du point"
+      ></TextInput>
+      <div class="flex">
+        <SquareButton
+          class="mr-3"
+          icon="back"
+          color="white"
+          :loading="store.loading"
+          @click="prevStep"
+        />
+        <DefaultButton :loading="store.loading" @click="nextStep"
+          >Enregistrer
+        </DefaultButton>
+      </div>
+    </header>
     <section v-if="step == 0" class="h-full">
       <div v-if="store.point" class="flex flex-col h-full">
-        <header class="flex items-center justify-between gap-8">
-          <TextInput
-            v-model="store.point.name"
-            label="Nom du point"
-          ></TextInput>
-          <div class="flex">
-            <DefaultButton :loading="store.loading" @click="nextStep"
-              >Enregistrer
-            </DefaultButton>
-          </div>
-        </header>
         <EditPointLocation :point="store.point" />
       </div>
     </section>
     <section v-if="step == 1" class="h-full">
-      <header class="flex items-center justify-between gap-8">
-        <page-title class="mb-10">{{ store.point.name }}</page-title>
-        <div class="flex">
-          <DefaultButton :loading="store.loading" @click="prevStep"
-            >Prev
-          </DefaultButton>
-          <DefaultButton :loading="store.loading" @click="nextStep"
-            >Enregistrer
-          </DefaultButton>
-        </div>
-      </header>
       <EditPointContent />
     </section>
     <section v-if="step == 2" class="h-full">
-      <header class="flex items-center justify-between gap-8">
-        <page-title class="mb-10">{{ store.point.name }}</page-title>
-        <div class="flex">
-          <DefaultButton :loading="store.loading" @click="prevStep"
-            >Prev
-          </DefaultButton>
-          <DefaultButton :loading="store.loading" @click="nextStep"
-            >Enregistrer
-          </DefaultButton>
-        </div>
-      </header>
       <EditPointTrigger
         :point="store.point"
         @pointTrigger="handlePointTrigger"
