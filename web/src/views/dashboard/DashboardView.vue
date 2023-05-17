@@ -5,7 +5,7 @@ import Sidebar from '~/components/Sidebar.vue'
 
 <template>
   <main class="w-screen h-screen flex bg-white-off">
-    <Sidebar />
+    <Sidebar class="flex-shrink-0" />
     <article class="flex-grow">
       <router-view v-slot="{ Component, route }">
         <transition mode="out-in">
