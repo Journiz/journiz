@@ -10,7 +10,7 @@ const store = useTeamStore()
 const takenColors = computed(
   () =>
     store.trip?.expand?.teams
-      ?.filter((team) => team.id !== store.team?.id && team.color)
+      ?.filter((team) => team.id !== store.team?.ixzd && team.color)
       .map((team) => team.color) ?? []
 )
 
@@ -40,7 +40,7 @@ const updateColor = async (color: Team['color']) => {
             <span class="i-uil:check text-32px"></span>
           </div>
           <div
-            v-if="takenColors.includes(name)"
+            v-if="name !== store.team?.color && takenColors.includes(name)"
             class="grid place-content-center w-full h-full text-white bg-black/10"
           >
             <span class="i-uil:ban text-28px"></span>
