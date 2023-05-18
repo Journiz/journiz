@@ -35,32 +35,30 @@ watch(takenColors, async (newVal) => {
 </script>
 <template>
   <div class="flex flex-col text-center">
-    <div>
-      <h1 class="text-2xl font-black">Voyageurs, quelle est votre couleur ?</h1>
-      <p class="text-sm">Ahout ! Ahou ! Ahou !</p>
-      <div class="grid grid-cols-3 m-8 gap-9">
-        <button
-          v-for="(hex, name) in themeColors"
-          :key="name"
-          class="w-full aspect-square rounded-lg relative overflow-hidden"
-          :style="{ backgroundColor: hex }"
-          :disabled="takenColors.includes(name)"
-          @click="updateColor(name)"
+    <h1 class="text-2xl font-black">Voyageurs, quelle est votre couleur ?</h1>
+    <p class="text-sm">Ahout ! Ahou ! Ahou !</p>
+    <div class="grid grid-cols-3 m-8 gap-9">
+      <button
+        v-for="(hex, name) in themeColors"
+        :key="name"
+        class="w-full aspect-square rounded-lg relative overflow-hidden"
+        :style="{ backgroundColor: hex }"
+        :disabled="takenColors.includes(name)"
+        @click="updateColor(name)"
+      >
+        <div
+          v-if="store.team?.color && name === store.team?.color"
+          class="grid place-content-center text-white"
         >
-          <div
-            v-if="store.team?.color && name === store.team?.color"
-            class="grid place-content-center text-white"
-          >
-            <span class="i-uil:check text-32px"></span>
-          </div>
-          <div
-            v-if="name !== store.team?.color && takenColors.includes(name)"
-            class="grid place-content-center w-full h-full text-white bg-black/10"
-          >
-            <span class="i-uil:ban text-28px"></span>
-          </div>
-        </button>
-      </div>
+          <span class="i-uil:check text-32px"></span>
+        </div>
+        <div
+          v-if="name !== store.team?.color && takenColors.includes(name)"
+          class="grid place-content-center w-full h-full text-white bg-black/10"
+        >
+          <span class="i-uil:ban text-28px"></span>
+        </div>
+      </button>
     </div>
     <div class="mt-auto">
       <Button
