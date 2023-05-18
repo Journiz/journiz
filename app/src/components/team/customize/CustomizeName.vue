@@ -12,8 +12,8 @@ const name = ref(store.team?.name || '')
 const isSaving = ref(false)
 const confirm = async () => {
   isSaving.value = true
-  // store.team!.name = name.value
-  // await store.saveTeam()
+  store.team!.name = name.value
+  await store.saveTeam()
   isSaving.value = false
   emit('next')
 }
