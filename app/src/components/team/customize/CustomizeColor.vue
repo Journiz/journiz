@@ -1,6 +1,7 @@
 <script lang="ts" setup="">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { Team } from '@journiz/api-types'
+import { Dialog } from '@capacitor/dialog'
 import { useTeamStore } from '~/stores/team/team'
 import Button from '~/components/design-system/Button.vue'
 import { themeColors } from '~/composables/useThemeColor'
@@ -10,7 +11,7 @@ const store = useTeamStore()
 const takenColors = computed(
   () =>
     store.trip?.expand?.teams
-      ?.filter((team) => team.id !== store.team?.ixzd && team.color)
+      ?.filter((team) => team.id !== store.team?.id && team.color)
       .map((team) => team.color) ?? []
 )
 
@@ -18,6 +19,18 @@ const updateColor = async (color: Team['color']) => {
   store.team!.color = color
   await store.saveTeam()
 }
+
+watch(takenColors, async (newVal) => {
+  if (newVal.includes(store.team?.color)) {
+    store.team!.color = ''
+    await store.saveTeam()
+    await Dialog.alert({
+      title: 'Oups !',
+      message:
+        'Vous avez choisi une couleur en même temps qu’une autre équipe. Choisissez-en une autre !',
+    })
+  }
+})
 </script>
 <template>
   <div class="flex flex-col text-center">
