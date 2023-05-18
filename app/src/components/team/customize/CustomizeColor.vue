@@ -35,7 +35,7 @@ watch(takenColors, async (newVal) => {
 </script>
 <template>
   <div class="flex flex-col text-center">
-    <div class="my-auto">
+    <div>
       <h1 class="text-2xl font-black">Voyageurs, quelle est votre couleur ?</h1>
       <p class="text-sm">Ahout ! Ahou ! Ahou !</p>
       <div class="grid grid-cols-3 m-8 gap-9">
