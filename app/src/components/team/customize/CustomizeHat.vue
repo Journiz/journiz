@@ -5,6 +5,11 @@ import { useTeamStore } from '~/stores/team/team'
 
 const emit = defineEmits(['next'])
 const store = useTeamStore()
+
+const confirm = async () => {
+  await store.saveTeam()
+  emit('next')
+}
 </script>
 <template>
   <div class="flex flex-col text-center">
@@ -14,7 +19,7 @@ const store = useTeamStore()
     <p class="text-sm">Choisissez un couvre-chef qui vous représente</p>
     <HatPicker v-model="store.team!.hat" class="my-auto" />
     <div class="mt-auto">
-      <Button class="w-full" @click="emit('next')">Suivant</Button>
+      <Button class="w-full" @click="confirm">Suivant</Button>
     </div>
   </div>
 </template>
