@@ -5,6 +5,8 @@ import CustomizeHat from '~/components/team/customize/CustomizeHat.vue'
 import CustomizeName from '~/components/team/customize/CustomizeName.vue'
 import CustomizeColor from '~/components/team/customize/CustomizeColor.vue'
 import CustomizeWarCry from '~/components/team/customize/CustomizeWarCry.vue'
+import Back from '~/components/router/Back.vue'
+import BackButton from '~/components/router/BackButton.vue'
 
 const tabs = [CustomizeName, CustomizeColor, CustomizeHat, CustomizeWarCry]
 const currentTab = ref(0)
@@ -19,11 +21,15 @@ watch(currentTab, (to: number, from: number) => {
     <transition :name="transition">
       <component
         :is="tabs[currentTab]"
-        class="absolute top-0 left-0 w-full h-full px-2/20 pt-8 pb-8"
+        class="absolute top-0 left-0 w-full h-full px-2/20 pt-10 pb-8"
         @next="currentTab++"
         @prev="currentTab--"
       ></component>
     </transition>
+    <div class="absolute top-safe mt-2 left-6">
+      <Back v-if="currentTab === 0" :default-to="{ name: 'team' }" />
+      <BackButton v-else @click="currentTab--" />
+    </div>
   </Page>
 </template>
 <style scoped>

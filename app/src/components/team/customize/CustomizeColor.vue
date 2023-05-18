@@ -6,6 +6,7 @@ import { useTeamStore } from '~/stores/team/team'
 import Button from '~/components/design-system/Button.vue'
 import { themeColors } from '~/composables/useThemeColor'
 
+const emit = defineEmits(['next'])
 const store = useTeamStore()
 
 const takenColors = computed(
@@ -62,7 +63,12 @@ watch(takenColors, async (newVal) => {
       </div>
     </div>
     <div class="mt-auto">
-      <Button :disabled="!store.team?.color" class="w-full">Suivant</Button>
+      <Button
+        :disabled="!store.team?.color"
+        class="w-full"
+        @click="emit('next')"
+        >Suivant</Button
+      >
     </div>
   </div>
 </template>
