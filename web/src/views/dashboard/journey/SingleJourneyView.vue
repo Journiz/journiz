@@ -11,5 +11,5 @@ const { loading } = storeToRefs(store)
 await waitForEndLoading(loading)
 </script>
 <template>
-  <RouterView v-if="store.journey" />
+  <RouterView />
 </template>

@@ -55,7 +55,10 @@ const points = computed<PointWithDependents[]>(() => {
           :key="point.id"
           :point="point"
           @edit-point="
-            $router.push({ name: 'edit-point', params: { pointId: $event } })
+            $router.push({
+              name: 'edit-point',
+              params: { pointId: $event },
+            })
           "
           @delete-point="deletePoint($event)"
         />

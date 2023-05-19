@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import TextInput from '~/components/forms/TextInput.vue'
-import EditPointLocation from '~/components/point/EditPointLocation.vue'
-import EditPointContent from '~/components/point/EditPointContent.vue'
-import EditPointTrigger from '~/components/point/EditPointTrigger.vue'
+import PointNavbar from '~/components/point/PointNavbar.vue'
 import PageTitle from '~/components/PageTitle.vue'
 import { waitForEndLoading } from '~/utils/waitForEndLoading'
 import { usePointStore } from '~/stores/point'
 import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const store = usePointStore()
+const router = useRouter()
 store.setId(useRoute().params.pointId as string)
 const { loading } = storeToRefs(store)
 await waitForEndLoading(loading)
@@ -24,11 +23,6 @@ const answerLocation = ref({})
 const pointTrigger = ref('')
 const step = ref(0)
 const trigger = ref('false')
-
-const handlePointTrigger = (value: string) => {
-  console.log(value)
-  pointTrigger.value = value
-}
 
 function nextStep() {
   if (step.value === 0) {
@@ -106,21 +100,14 @@ async function saveChanges() {
         </DefaultButton>
       </div>
     </header>
-    <section v-if="step == 0" class="h-full">
-      <div v-if="store.point" class="flex flex-col h-full">
-        <EditPointLocation :point="store.point" />
-      </div>
-    </section>
-    <section v-if="step == 1" class="h-full">
-      <EditPointContent />
-    </section>
-    <section v-if="step == 2" class="h-full">
-      <EditPointTrigger
-        :point="store.point"
-        @pointTrigger="handlePointTrigger"
-        @update:isTrigger="trigger = $event"
-      />
-    </section>
-    <section v-else>Chargement</section>
+    <PointNavbar
+      class="mb-2"
+      @routeToPath="
+        (pathName) => {
+          router.push({ name: pathName })
+        }
+      "
+    />
+    <RouterView />
   </article>
 </template>

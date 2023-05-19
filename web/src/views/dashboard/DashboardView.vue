@@ -8,14 +8,14 @@ import Sidebar from '~/components/Sidebar.vue'
     <Sidebar class="flex-shrink-0" />
     <article class="flex-grow">
       <router-view v-slot="{ Component, route }">
-        <transition mode="out-in">
-          <Suspense>
-            <component :is="Component" :key="route.path" />
-            <template #fallback>
-              <div>Loading...</div>
-            </template>
-          </Suspense>
-        </transition>
+        <!-- <transition mode="out-in"> -->
+        <Suspense>
+          <component :is="Component" :key="route.path" />
+          <template #fallback>
+            <div>Loading...</div>
+          </template>
+        </Suspense>
+        <!-- </transition> -->
       </router-view>
     </article>
   </main>
