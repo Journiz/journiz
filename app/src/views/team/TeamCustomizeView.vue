@@ -9,7 +9,7 @@ import Back from '~/components/router/Back.vue'
 import BackButton from '~/components/router/BackButton.vue'
 
 const tabs = [CustomizeName, CustomizeColor, CustomizeHat, CustomizeWarCry]
-const currentTab = ref(0)
+const currentTab = ref(3)
 
 const transition = ref('next-step')
 watch(currentTab, (to: number, from: number) => {
@@ -21,7 +21,7 @@ watch(currentTab, (to: number, from: number) => {
     <transition :name="transition">
       <component
         :is="tabs[currentTab]"
-        class="absolute top-0 left-0 w-full h-full px-2/20 pt-16 pb-8"
+        class="absolute top-0 left-0 w-full h-full px-2/20 pt-28 pb-8"
         @next="currentTab++"
         @prev="currentTab--"
       ></component>
