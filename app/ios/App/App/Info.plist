@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>L&apos;accès au micro est utilisé pour enregistrer le cri de guerre et répondre à certaines énigmes </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Autoriser l&apos;accès aux images permet d&apos;envoyer des photos dans le chat et de répondre aux énigmes</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
