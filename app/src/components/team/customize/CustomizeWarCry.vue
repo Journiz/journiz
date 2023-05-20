@@ -1,14 +1,19 @@
 <script lang="ts" setup="">
 import { computed, onMounted, ref, watch } from 'vue'
 import { VoiceRecorder } from 'capacitor-voice-recorder'
+import { usePocketBase } from '@journiz/composables'
 import {
   AndroidSettings,
   IOSSettings,
   NativeSettings,
 } from 'capacitor-native-settings'
-import { useTimestamp } from '@vueuse/core'
+import { useRafFn, useTimestamp } from '@vueuse/core'
 import Button from '~/components/design-system/Button.vue'
 import { base64ToArrayBuffer } from '~/utils/base64ToArrayBuffer'
+import { useTeamStore } from '~/stores/team/team'
+import dataURItoBlob from '~/utils/dataURIToBlob'
+
+const store = useTeamStore()
 
 const refused = ref(false)
 const openSettings = () => {
@@ -26,11 +31,25 @@ onMounted(async () => {
   }
 })
 
+const audioContext = new AudioContext()
 const audioData = ref()
+const audio: HTMLAudioElement = new Audio()
+const canPlay = ref(false)
+audio.oncanplay = () => {
+  canPlay.value = true
+}
+const isPlaying = ref(false)
+audio.onplay = () => (isPlaying.value = true)
+audio.onpause = () => (isPlaying.value = false)
+audio.onended = () => (isPlaying.value = false)
+const currentPlayPercentage = ref(0)
+useRafFn(() => {
+  currentPlayPercentage.value = audio.currentTime / audio.duration
+})
 
 const samplesNum = 40
 const emptySamples: number[] = []
-for (let i = 0; i <= samplesNum; i++) {
+for (let i = 0; i < samplesNum; i++) {
   emptySamples.push(0)
 }
 const samples = ref(emptySamples)
@@ -49,10 +68,12 @@ const startRecording = async () => {
   }
   samples.value = emptySamples
   audioData.value = ''
+  canPlay.value = false
   isRecording.value = true
   startTime.value = timestamp.value
   await VoiceRecorder.startRecording()
 }
+
 const stopRecording = async () => {
   if (!isRecording.value) {
     return
@@ -61,8 +82,10 @@ const stopRecording = async () => {
   isRecording.value = false
   const result = await VoiceRecorder.stopRecording()
   if (duration > 400) {
-    audioData.value = result.value.recordDataBase64
+    audioData.value = `data:${result.value.mimeType};base64,${result.value.recordDataBase64}`
     samples.value = await computeSamples(result.value.recordDataBase64)
+    audio.src = audioData.value
+    audio.load()
   }
 }
 
@@ -88,7 +111,6 @@ const normalizeData = (filteredData: number[]) => {
 
 const computeSamples = async (base64Audio: string) => {
   const arrayBuffer = base64ToArrayBuffer(base64Audio)
-  const audioContext = new AudioContext()
   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
   const filteredData = filterData(audioBuffer)
   return normalizeData(filteredData)
@@ -99,6 +121,26 @@ watch(recordingDuration, (duration) => {
     stopRecording()
   }
 })
+const togglePlay = async () => {
+  if (!audio) {
+    return
+  }
+  if (audio.paused) {
+    await audio.play()
+  } else {
+    await audio.pause()
+  }
+}
+
+const pb = usePocketBase()
+const confirm = async () => {
+  if (!audioData.value) return
+  const blob = dataURItoBlob(audioData.value)
+  const data = new FormData()
+  data.append('warCry', blob)
+  const result = await pb.collection('team').update(store.team!.id, data)
+  console.log(result)
+}
 </script>
 <template>
   <div class="flex flex-col text-center">
@@ -116,11 +158,19 @@ watch(recordingDuration, (duration) => {
         <div class="relative w-full h-8 flex">
           <button
             class="flex-shrink-0 text-red transition-all duration-200 transform"
-            :class="audioData ? 'w-5 mr-3' : 'opacity-0 scale-0 w-0 mr-0'"
+            :class="canPlay ? 'w-5 mr-3' : 'opacity-0 scale-0 w-0 mr-0'"
+            @click="togglePlay"
           >
-            <span
-              class="block text-20px i-fluent:triangle-right-32-filled"
-            ></span>
+            <transition name="playpause" mode="out-in">
+              <span
+                v-if="isPlaying"
+                class="block text-24px i-fluent:pause-32-filled text-green"
+              ></span>
+              <span
+                v-else
+                class="block text-24px i-fluent:triangle-right-32-filled"
+              ></span>
+            </transition>
           </button>
           <div class="flex-grow flex items-center justify-between">
             <div
@@ -128,9 +178,15 @@ watch(recordingDuration, (duration) => {
               :key="i"
               class="rounded-full w-3px max-h-full min-h-3px transition-all duration-200"
               :class="
-                audioData && !isRecording
-                  ? 'bg-red'
-                  : i / samplesNum < recordingDuration / maxRecordingDuration
+                isRecording
+                  ? i / samplesNum < recordingDuration / maxRecordingDuration
+                    ? 'bg-red'
+                    : 'bg-gray-300'
+                  : isPlaying
+                  ? i / samplesNum < currentPlayPercentage
+                    ? 'bg-green'
+                    : 'bg-red'
+                  : audioData
                   ? 'bg-red'
                   : 'bg-gray-300'
               "
@@ -159,8 +215,22 @@ watch(recordingDuration, (duration) => {
         >
       </div>
     </div>
-    <Button class="w-full" :disabled="!refused && !audioData"
+    <Button class="w-full" :disabled="!refused && !audioData" @click="confirm"
       >C'est parti !</Button
     >
   </div>
 </template>
+<style scoped>
+.playpause-enter-active,
+.playpause-leave-active {
+  @apply transition duration-150 ease-in-quad;
+}
+.playpause-enter-active {
+  @apply ease-out-quad;
+}
+.playpause-enter-from,
+.playpause-leave-to {
+  transform: scale(0);
+  opacity: 0;
+}
+</style>

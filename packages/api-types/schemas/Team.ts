@@ -27,5 +27,6 @@ export const TeamSchema = z.object({
     ])
     .optional(),
   hat: z.enum(['crown', 'headset', 'party', 'bucket', '']),
+  warCry: z.string().optional(),
 })
 export type Team = z.infer<typeof TeamSchema>
