@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import TextInput from '~/components/forms/TextInput.vue'
 import SelectInput from '~/components/forms/SelectInput.vue'
 import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
 import { usePointStore } from '~/stores/point'
 import TextareaInput from '~/components/forms/TextareaInput.vue'
+import NumberInput from '~/components/forms/NumberInput.vue'
 
 const store = usePointStore()
 
@@ -37,6 +37,13 @@ function handleSelected(value: string) {
       <label for="point-score">Score</label>
       <input id="point-score" v-model="store.point.score" type="number" />
     </div>
+    <NumberInput
+      :model-value="store.point.score.toString()"
+      label="Score"
+      @update:modelValue="
+        (newScore) => (store.point.score = newScore.toString())
+      "
+    />
     <!-- Mettre un Textarea -->
     <TextareaInput v-model="store.point.question" label="Énoncé" />
     <div v-if="answerType == 'image'"></div>

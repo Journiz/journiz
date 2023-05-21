@@ -3,6 +3,7 @@ import IconEdit from '~icons/uil/edit'
 import IconShare from '~icons/uil/share-alt'
 import IconTrash from '~icons/uil/trash-alt'
 import IconPlus from '~icons/uil/plus'
+import IconMinus from '~icons/uil/minus'
 import IconComment from '~icons/uil/comment-alt-lines'
 import IconQr from '~icons/uil/qrcode-scan'
 import IconSlide from '~icons/uil/sliders-v-alt'
@@ -26,4 +27,5 @@ export default {
   back: IconBack,
   folder: IconFolder,
   journey: IconJourney,
+  minus: IconMinus,
 }
