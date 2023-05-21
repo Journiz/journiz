@@ -41,19 +41,25 @@ if (props.choice) {
 }
 </script>
 <template>
-  <label :for="name" class="text-blue-900 font-semibold"
-    >{{ label }}{{ requiredField ? '*' : '' }}</label
-  >
-  <select
-    :id="name"
-    v-model="selectedValue"
-    :required="requiredField"
-    class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
-    @change="$emit('selected', $event.target.value)"
-  >
-    <option disabled value="">{{ emptyQuote }}</option>
-    <option v-for="choice in choices" :key="choice.value" :value="choice.value">
-      {{ choice.content }}
-    </option>
-  </select>
+  <div>
+    <label :for="name" class="text-blue-900 font-semibold"
+      >{{ label }}{{ requiredField ? '*' : '' }}</label
+    >
+    <select
+      :id="name"
+      v-model="selectedValue"
+      :required="requiredField"
+      class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
+      @change="$emit('selected', $event.target.value)"
+    >
+      <option disabled value="">{{ emptyQuote }}</option>
+      <option
+        v-for="choice in choices"
+        :key="choice.value"
+        :value="choice.value"
+      >
+        {{ choice.content }}
+      </option>
+    </select>
+  </div>
 </template>

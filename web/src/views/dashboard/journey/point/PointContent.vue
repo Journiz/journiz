@@ -1,8 +1,35 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import EditPointContent from '~/components/point/EditPointContent.vue'
+import Map from '~/components/Map.vue'
+import { useJourneyStore } from '~/stores/journey'
+import MapMarker from '~/components/MapMarker.vue'
+import { usePointStore } from '~/stores/point'
+
+const journeyStore = useJourneyStore()
+const currentPointStore = usePointStore()
+
+const mapCenter = computed(() => {
+  return [
+    journeyStore.journey!.basecampLongitude,
+    journeyStore.journey!.basecampLatitude,
+  ]
+})
 </script>
 <template>
-  <section class="h-full">
-    <EditPointContent />
+  <section class="h-full flex">
+    <EditPointContent class="pr-4 w-5/12" />
+    <div class="w-7/12">
+      <Map zoom="14" :map-center="mapCenter">
+        <MapMarker key="center" :position="mapCenter as any" icon="basecamp" />
+        <MapMarker
+          :position="[
+            currentPointStore.point.longitude,
+            currentPointStore.point.latitude,
+          ]"
+          icon="basic"
+        />
+      </Map>
+    </div>
   </section>
 </template>

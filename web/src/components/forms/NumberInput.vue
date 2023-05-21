@@ -36,7 +36,7 @@ const changeValue = (typeOfChange: string) => {
 }
 </script>
 <template>
-  <div class="w-full">
+  <div>
     <label v-if="label" :for="input?.id" class="text-black font-medium"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >

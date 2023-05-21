@@ -25,25 +25,26 @@ function handleSelected(value: string) {
 </script>
 <template>
   <div>
-    <SelectInput
-      :choice="store.point.answerType"
-      :choices="selectChoices"
-      empty-quote="Choisir un mode de réponse"
-      label="Type de réponse"
-      name="answer"
-      @selected="handleSelected"
-    />
-    <div>
-      <label for="point-score">Score</label>
-      <input id="point-score" v-model="store.point.score" type="number" />
+    <div class="flex gap-12">
+      <SelectInput
+        class="w-full"
+        :choice="store.point.answerType"
+        :choices="selectChoices"
+        empty-quote="Choisir un mode de réponse"
+        label="Type de réponse"
+        name="answer"
+        @selected="handleSelected"
+      />
+      <NumberInput
+        class="w-fit"
+        :model-value="store.point.score.toString()"
+        label="Score"
+        @update:modelValue="
+          (newScore) => (store.point.score = newScore.toString())
+        "
+      />
     </div>
-    <NumberInput
-      :model-value="store.point.score.toString()"
-      label="Score"
-      @update:modelValue="
-        (newScore) => (store.point.score = newScore.toString())
-      "
-    />
+
     <!-- Mettre un Textarea -->
     <TextareaInput v-model="store.point.question" label="Énoncé" />
     <div v-if="answerType == 'image'"></div>
