@@ -1,8 +1,9 @@
 import { z } from 'zod'
 import { TeamSchema } from './Team'
 import { JourneySchema } from './Journey'
+import { BaseSchema } from './Base'
 
-export const TripSchema = z.object({
+export const TripSchema = BaseSchema.extend({
   created: z.string(),
   date: z.string(),
   id: z.string(),
