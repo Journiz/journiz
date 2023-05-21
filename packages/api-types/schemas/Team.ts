@@ -1,6 +1,7 @@
 import { z } from 'zod'
+import { BaseSchema } from './Base'
 
-export const TeamSchema = z.object({
+export const TeamSchema = BaseSchema.extend({
   created: z.string(),
   id: z.string(),
   latitude: z.number(),

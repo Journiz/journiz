@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { VoiceRecorder } from 'capacitor-voice-recorder'
-import { usePocketBase } from '@journiz/composables'
+import { useFileUrl, usePocketBase } from '@journiz/composables'
 import {
   AndroidSettings,
   IOSSettings,
@@ -12,6 +12,7 @@ import Button from '~/components/design-system/Button.vue'
 import { base64ToArrayBuffer } from '~/utils/base64ToArrayBuffer'
 import { useTeamStore } from '~/stores/team/team'
 import dataURItoBlob from '~/utils/dataURIToBlob'
+import fetchAsBase64 from '~/utils/fetchAsBase64'
 
 const store = useTeamStore()
 
@@ -22,14 +23,6 @@ const openSettings = () => {
     optionAndroid: AndroidSettings.Application,
   })
 }
-onMounted(async () => {
-  if (!(await VoiceRecorder.hasAudioRecordingPermission()).value) {
-    const result = await VoiceRecorder.requestAudioRecordingPermission()
-    if (!result.value) {
-      refused.value = true
-    }
-  }
-})
 
 const audioContext = new AudioContext()
 const audioData = ref()
@@ -141,6 +134,24 @@ const confirm = async () => {
   const result = await pb.collection('team').update(store.team!.id, data)
   console.log(result)
 }
+
+onMounted(async () => {
+  if (!(await VoiceRecorder.hasAudioRecordingPermission()).value) {
+    const result = await VoiceRecorder.requestAudioRecordingPermission()
+    if (!result.value) {
+      refused.value = true
+    }
+  }
+})
+const warCryUrl = useFileUrl(store.team, store.team?.warCry)
+onBeforeMount(async () => {
+  if (warCryUrl.value) {
+    const data = (await fetchAsBase64(warCryUrl.value)) as string
+    audioData.value = data
+    samples.value = await computeSamples(data.split(',')[1])
+    audio.src = audioData.value
+  }
+})
 </script>
 <template>
   <div class="flex flex-col text-center">
