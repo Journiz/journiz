@@ -7,6 +7,8 @@ import { useJourneyStore } from '~/stores/journey'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
+import PointMarker from '~/components/map/PointMarker.vue'
+import Basceamp from '~/components/map/Basecamp.vue'
 
 const router = useRouter()
 const store = useJourneyStore()
@@ -53,16 +55,15 @@ const newPoint = async () => {
           :zoom="14"
         >
           <MapMarker
-            key="center"
-            :position="mapCenter as any"
-            icon="basecamp"
-          />
-          <MapMarker
             v-for="point in store.journey!.expand!.points"
             :key="point.id"
             :position="[point.longitude, point.latitude]"
-            icon="basic"
-          />
+          >
+            <template #icon> <PointMarker /> </template>
+          </MapMarker>
+          <MapMarker key="center" :position="mapCenter as any">
+            <template #icon> <Basceamp /> </template>
+          </MapMarker>
         </Map>
       </div>
     </div>
