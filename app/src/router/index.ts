@@ -157,6 +157,12 @@ const router = createRouter({
       beforeEnter: redirectIfNotTeam,
     },
     {
+      path: '/team/chat',
+      name: 'team-chat',
+      component: () => import('~/views/team/TeamChatView.vue'),
+      beforeEnter: redirectIfNotTeam,
+    },
+    {
       path: '/team/customize',
       name: 'team-customize',
       component: () => import('~/views/team/TeamCustomizeView.vue'),
@@ -170,7 +176,7 @@ const router = createRouter({
           return `/user/trip/chat/${to.params.conversationId}`
         }
         return {
-          name: 'team',
+          name: 'team-chat',
         }
       },
     },

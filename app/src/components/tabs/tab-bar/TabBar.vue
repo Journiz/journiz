@@ -1,15 +1,21 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { Capacitor } from '@capacitor/core'
-import { TabsProvider } from '~/types/tabs'
+import { useRouter } from 'vue-router'
+import { TabData, TabsProvider } from '~/types/tabs'
 import TabBarButton from '~/components/tabs/tab-bar/TabBarButton.vue'
 
 const props = defineProps<{
   tabsProvider: TabsProvider
 }>()
 const emit = defineEmits(['setActiveTab'])
-const setActiveTab = (name: string) => {
-  emit('setActiveTab', name)
+const router = useRouter()
+const onClick = (tab: TabData) => {
+  if (tab.isButtonOnly && tab.to) {
+    router.push(tab.to)
+    return
+  }
+  emit('setActiveTab', tab.name)
 }
 
 const buttons = ref()
@@ -105,7 +111,7 @@ const paddingClass = isRecentIphone ? 'pb-0' : 'pb-4'
       ref="buttons"
       :tab="tab"
       :is-active="tabsProvider.activeTabName === tab.name"
-      @click="setActiveTab(tab.name)"
+      @click="onClick(tab)"
     />
   </div>
 </template>

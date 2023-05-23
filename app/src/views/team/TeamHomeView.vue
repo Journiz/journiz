@@ -3,7 +3,7 @@ import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
 import TabSettings from '~/components/team/tabs/TabSettings.vue'
-import TabChat from '~/components/team/tabs/TabChat.vue'
+import ButtonOnlyTab from '~/components/tabs/tab-bar/ButtonOnlyTab.vue'
 </script>
 <template>
   <Page id="trip-tabs-page">
@@ -17,9 +17,13 @@ import TabChat from '~/components/team/tabs/TabChat.vue'
       <Tab title="Validation" name="validation" icon="i-uil:image-question">
         Score
       </Tab>
-      <Tab title="Messages" name="chat" icon="i-ph:chats-circle-bold">
-        <TabChat />
-      </Tab>
+      <ButtonOnlyTab
+        title="Messages"
+        name="chat"
+        icon="i-ph:chats-circle-bold"
+        :to="{ name: 'team-chat' }"
+      >
+      </ButtonOnlyTab>
     </Tabs>
   </Page>
 </template>
