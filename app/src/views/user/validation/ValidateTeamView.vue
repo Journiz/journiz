@@ -1,16 +1,21 @@
 <script lang="ts" setup="">
-import CollapseTransition from '@ivanv/vue-collapse-transition/src/CollapseTransition.vue'
-import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
 import { useUserStore } from '~/stores/user'
 import Header from '~/components/design-system/Header.vue'
 import Page from '~/components/Page.vue'
 import ValidateQuestionItem from '~/components/user/validate/ValidateQuestionItem.vue'
 
 const store = useUserStore()
+
+const route = useRoute()
+const team = computed(() => {
+  return store.trip?.expand?.teams?.find((t) => t.id === route.params.teamId)
+})
 </script>
 <template>
   <Page>
-    <div class="flex-grow h-full flex flex-col bg-beige-light">
+    <div v-if="team" class="flex-grow h-full flex flex-col bg-beige-light">
       <Header
         :title="store.trip.name"
         subtitle="Validation"
