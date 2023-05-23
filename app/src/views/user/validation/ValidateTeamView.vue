@@ -1,6 +1,6 @@
 <script lang="ts" setup="">
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { useRealtimeTeam } from '@journiz/composables'
 import { useUserStore } from '~/stores/user'
 import Header from '~/components/design-system/Header.vue'
 import Page from '~/components/Page.vue'
@@ -9,9 +9,7 @@ import ValidateQuestionItem from '~/components/user/validate/ValidateQuestionIte
 const store = useUserStore()
 
 const route = useRoute()
-const team = computed(() => {
-  return store.trip?.expand?.teams?.find((t) => t.id === route.params.teamId)
-})
+const { data: team } = useRealtimeTeam(route.params.teamId as string)
 </script>
 <template>
   <Page>
@@ -23,6 +21,7 @@ const team = computed(() => {
       />
       <div class="px-6 pt-8 pb-32 overflow-y-auto flex flex-col gap-4">
         <ValidateQuestionItem />
+        {{ team.expand.answers }}
       </div>
     </div>
   </Page>

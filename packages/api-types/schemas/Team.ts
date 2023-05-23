@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { BaseSchema } from './Base'
+import { AnswerSchema } from './Answer'
 
 export const TeamSchema = BaseSchema.extend({
   created: z.string(),
@@ -29,5 +30,10 @@ export const TeamSchema = BaseSchema.extend({
     .optional(),
   hat: z.enum(['crown', 'headset', 'party', 'bucket', '']),
   warCry: z.string().optional(),
+  expand: z
+    .object({
+      answers: z.array(AnswerSchema).optional(),
+    })
+    .optional(),
 })
 export type Team = z.infer<typeof TeamSchema>
