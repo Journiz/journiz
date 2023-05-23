@@ -30,6 +30,7 @@
     "@ionic/core": "^7.0.6",
     "@ionic/vue": "^7.0.6",
     "@ionic/vue-router": "^7.0.6",
+    "@ivanv/vue-collapse-transition": "^1.0.2",
     "@journiz/api-types": "workspace:*",
     "@journiz/components": "workspace:^",
     "@journiz/composables": "workspace:*",

@@ -24,3 +24,6 @@ export const useThemeColor = () => {
     return themeColors[colorName]
   })
 }
+export const getColor = (colorName: keyof typeof themeColors) => {
+  return themeColors[colorName]
+}

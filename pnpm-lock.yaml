@@ -77,6 +77,9 @@ importers:
       '@ionic/vue-router':
         specifier: ^7.0.6
         version: 7.0.6
+      '@ivanv/vue-collapse-transition':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@journiz/api-types':
         specifier: workspace:*
         version: link:../packages/api-types
@@ -1357,6 +1360,10 @@ packages:
     dependencies:
       '@ionic/core': 7.0.6
       ionicons: 7.1.0
+    dev: false
+
+  /@ivanv/vue-collapse-transition@1.0.2:
+    resolution: {integrity: sha512-eWEameFXJM/1khcoKbITvKjYYXDP1WKQ/Xf9ItJVPoEjCiOdocR3AgDAERzDrNNg4oWK28gRGi+0ft8Te27zxw==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:

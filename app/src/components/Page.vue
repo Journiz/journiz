@@ -22,7 +22,7 @@ provide(pageProvideKey, providedPage)
 <template>
   <IonPage ref="page">
     <IonContent :scroll-y="false">
-      <div class="page flex flex-col bg-beige-light" :class="props.class">
+      <div class="page flex flex-col" :class="props.class">
         <slot />
       </div>
     </IonContent>
