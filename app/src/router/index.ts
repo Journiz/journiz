@@ -89,6 +89,12 @@ const router = createRouter({
       ],
     },
     {
+      path: '/user/trip/validate/:teamId',
+      name: 'user-trip-validate-team',
+      component: () => import('~/views/user/validation/ValidateTeamView.vue'),
+      beforeEnter: [redirectIfNotLoggedIn],
+    },
+    {
       path: '/user/trip/chat/:conversationId',
       name: 'user-chat-conversation',
       component: () => import('~/views/user/chat/ConversationView.vue'),
