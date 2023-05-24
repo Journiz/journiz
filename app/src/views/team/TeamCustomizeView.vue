@@ -15,11 +15,11 @@ const currentTab = ref(0)
 const transitionName = useSlideTransition(currentTab)
 </script>
 <template>
-  <Page>
+  <Page class="bg-beige-light">
     <transition :name="transitionName">
       <component
         :is="tabs[currentTab]"
-        class="absolute top-0 left-0 w-full h-full px-2/20 pt-28 pb-8"
+        class="absolute top-0 left-0 w-full h-full px-2/20 pt-28 pb-8 overflow-y-auto"
         @next="currentTab++"
         @prev="currentTab--"
       ></component>

@@ -46,7 +46,6 @@ onMounted(() => {
       isDragging.value = true
     },
     onMove: (detail) => {
-      console.log(detail.deltaX)
       if (detail.deltaX > 0 && currentHatIndex.value === 0) {
         additionalTranslateValue.value = detail.deltaX / 4
       } else if (
