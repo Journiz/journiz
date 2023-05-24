@@ -26,7 +26,7 @@ const switchTripModalOpen = ref(false)
     <IonModal
       :is-open="switchTripModalOpen"
       :can-dismiss="true"
-      :presenting-element="page"
+      :presenting-element="page?.element"
       @did-dismiss="switchTripModalOpen = false"
     >
       <ion-header>

@@ -5,13 +5,9 @@ import { makeListComposable } from '../../utils/makeListComposable'
 
 export const useTeams = makeListComposable('team', TeamSchema)
 
-export const useTeam = makeRecordComposable(
-  'team',
-  TeamSchema,
-  'conversation(team)'
-)
+export const useTeam = makeRecordComposable('team', TeamSchema, 'answer(team)')
 export const useRealtimeTeam = makeRealtimeRecordComposable(
   'team',
   TeamSchema,
-  'conversation(team)'
+  'answer(team)'
 )

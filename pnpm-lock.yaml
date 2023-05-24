@@ -77,6 +77,9 @@ importers:
       '@ionic/vue-router':
         specifier: ^7.0.6
         version: 7.0.6
+      '@ivanv/vue-collapse-transition':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@journiz/api-types':
         specifier: workspace:*
         version: link:../packages/api-types
@@ -104,6 +107,12 @@ importers:
       '@vueuse/core':
         specifier: ^9.13.0
         version: 9.13.0(vue@3.2.47)
+      capacitor-native-settings:
+        specifier: ^5.0.0
+        version: 5.0.0(@capacitor/core@5.0.3)
+      capacitor-voice-recorder:
+        specifier: ^5.0.0
+        version: 5.0.0(@capacitor/core@5.0.3)
       gsap:
         specifier: ^3.11.5
         version: 3.11.5
@@ -400,6 +409,12 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': 7.21.5
+
+  /@babel/runtime@7.11.2:
+    resolution: {integrity: sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==}
+    dependencies:
+      regenerator-runtime: 0.13.11
+    dev: false
 
   /@babel/types@7.21.2:
     resolution: {integrity: sha512-3wRZSs7jiFaB8AjxiiD+VqN5DTG2iRvJGQ+qYFrs/654lg6kGTQWIOFjlBo5RaXuAZjBmP3+OQH4dmhqiiyYxw==}
@@ -1345,6 +1360,10 @@ packages:
     dependencies:
       '@ionic/core': 7.0.6
       ionicons: 7.1.0
+    dev: false
+
+  /@ivanv/vue-collapse-transition@1.0.2:
+    resolution: {integrity: sha512-eWEameFXJM/1khcoKbITvKjYYXDP1WKQ/Xf9ItJVPoEjCiOdocR3AgDAERzDrNNg4oWK28gRGi+0ft8Te27zxw==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
@@ -4105,6 +4124,23 @@ packages:
     resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
     engines: {node: '>=6'}
 
+  /capacitor-native-settings@5.0.0(@capacitor/core@5.0.3):
+    resolution: {integrity: sha512-dP9N2XsohWdKdRj97aB3LTQ0x4IDB9brNJEnsWwmEWQ7VE7ZBZfDUJCR7OsjqRqp0TZMvVnJP9dHPtCMo5S7gQ==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.0.3
+    dev: false
+
+  /capacitor-voice-recorder@5.0.0(@capacitor/core@5.0.3):
+    resolution: {integrity: sha512-rCZgbmdmj9eXlotziRnIXWoo+7/aGKM1dSeSrgaEmayu9aTs8xkwhpx9eeVe24VDC6sfMHTnwMl5311Ryr/yFA==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.0.3
+      get-blob-duration: 1.2.0
+    dev: false
+
   /chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
     engines: {node: '>=4'}
@@ -5645,6 +5681,12 @@ packages:
 
   /geojson-vt@3.2.1:
     resolution: {integrity: sha512-EvGQQi/zPrDA6zr6BnJD/YhwAkBP8nnJ9emh3EnHQKVMfg/MRVtPbMYdgVy/IaEmn4UfagD2a6fafPDL5hbtwg==}
+    dev: false
+
+  /get-blob-duration@1.2.0:
+    resolution: {integrity: sha512-2xNJa+oKznR21eC2ThMzw4a1931a3ogA8aHoY92xruZufc/02G7pl/P793GJZytkyI8xMJ2DepEQ7MWvg/tn/Q==}
+    dependencies:
+      '@babel/runtime': 7.11.2
     dev: false
 
   /get-caller-file@2.0.5:
@@ -7797,6 +7839,10 @@ packages:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
+
+  /regenerator-runtime@0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+    dev: false
 
   /regexp-to-ast@0.5.0:
     resolution: {integrity: sha512-tlbJqcMHnPKI9zSrystikWKwHkBqu2a/Sgw01h3zFjvYrMxEDYHzzoMZnUrbIfpTFEsoRnnviOXNCzFiSc54Qw==}

@@ -37,6 +37,9 @@ import '@ionic/vue/css/display.css'
 // Our custom CSS
 import './assets/scss/main.scss'
 
+// @ts-expect-error Fixing Safari quirk
+window.AudioContext = window.AudioContext || window.webkitAudioContext
+
 plugins()
 
 gsap.registerPlugin(Flip)

@@ -1,11 +1,12 @@
 @import '../fonts/filson/filson.css';
 :root {
-
+    --color-theme: theme('colors.red')
 }
 body {
     font-family: 'filson', sans-serif;
     overflow: hidden!important;
     background-color: #fff;
+    --ion-text-color: theme('colors.green.dark');
 }
 
 .page {
@@ -41,3 +42,4 @@ ion-router-outlet {
         opacity: 0.96;
     }
 }
+@import './transitions';

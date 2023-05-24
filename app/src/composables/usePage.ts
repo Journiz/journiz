@@ -1,5 +1,6 @@
-import { inject, Ref } from 'vue'
+import { inject } from 'vue'
+import { pageProvideKey } from '~/types/Page'
 
-export default function usePage(): Ref<HTMLElement> | undefined {
-  return inject('pageElement')
+export default function usePage() {
+  return inject(pageProvideKey)
 }

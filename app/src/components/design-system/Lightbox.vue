@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { Flip } from 'gsap/Flip'
 import { createGesture } from '@ionic/core'
 import gsap from 'gsap'
@@ -50,6 +50,9 @@ onMounted(() => {
     },
   })
   gesture.enable()
+  onUnmounted(() => {
+    gesture.destroy()
+  })
 })
 </script>
 <template>

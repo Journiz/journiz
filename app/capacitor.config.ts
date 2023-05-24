@@ -4,6 +4,8 @@ const config: CapacitorConfig = {
   appId: 'fr.journiz.app',
   appName: 'Journiz',
   webDir: 'dist',
-  bundledWebRuntime: false,
+  server: {
+    iosScheme: 'https',
+  },
 }
 export default config

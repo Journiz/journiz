@@ -4,7 +4,7 @@ import { IonInput, IonItem, IonLabel, useIonRouter } from '@ionic/vue'
 import { Dialog } from '@capacitor/dialog'
 import { useTeamStore } from '~/stores/team/team'
 
-const tripCode = ref('')
+const tripCode = ref('0000')
 const canSubmit = computed(() => tripCode.value.length === 4)
 
 const store = useTeamStore()

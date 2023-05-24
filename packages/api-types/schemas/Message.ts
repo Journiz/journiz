@@ -1,6 +1,7 @@
 import { z } from 'zod'
+import { BaseSchema } from './Base'
 
-export const MessageSchema = z.object({
+export const MessageSchema = BaseSchema.extend({
   id: z.string(),
   attachment: z.string(),
   content: z.string(),
@@ -9,7 +10,5 @@ export const MessageSchema = z.object({
   read: z.boolean(),
   created: z.string(),
   updated: z.string(),
-  collectionId: z.string(),
-  collectionName: z.string(),
 })
 export type Message = z.infer<typeof MessageSchema>

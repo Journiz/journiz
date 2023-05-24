@@ -1,6 +1,7 @@
 import { z } from 'zod'
+import { BaseSchema } from './Base'
 
-export const basePointSchema = z.object({
+export const basePointSchema = BaseSchema.extend({
   id: z.string(),
   latitude: z.number(),
   longitude: z.number(),

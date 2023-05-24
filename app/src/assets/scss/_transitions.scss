@@ -1,0 +1,25 @@
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+.next-step-enter-active,
+.next-step-leave-active,
+.prev-step-enter-active,
+.prev-step-leave-active {
+  @apply transition duration-300 ease-out-quint;
+}
+
+.next-step-enter-from,
+.prev-step-leave-to {
+  transform: translateX(100%);
+}
+.next-step-leave-to,
+.prev-step-enter-from {
+  transform: translateX(-100%);
+}
