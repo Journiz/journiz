@@ -186,6 +186,9 @@ importers:
       windicss:
         specifier: ^3.5.6
         version: 3.5.6
+      zod:
+        specifier: ^3.21.3
+        version: 3.21.3
 
   packages/api-types:
     dependencies:
@@ -9469,4 +9472,3 @@ packages:
 
   /zod@3.21.3:
     resolution: {integrity: sha512-tz1QgJomEhMTQhOBvQxnnrTo8q77EjpGLlaWicCoEEkMzScuONzDkJKIHr83CS89fGY24iGCStj2ZOCHpPOEyA==}
-    dev: false

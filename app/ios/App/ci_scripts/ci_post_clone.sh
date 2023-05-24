@@ -26,4 +26,4 @@ brew install pnpm # optional, you can also install yarn if you use it
 
 pnpm install --frozen-lockfile
 # build and sync
-npm run device
+npm run device-ci
