@@ -5,7 +5,9 @@ export const AnswerSchema = BaseSchema.extend({
   id: z.string(),
   point: z.string(),
   team: z.string(),
-  answerData: z.union([z.string(), z.null()]).optional(),
+  answerData: z.string().optional(),
   answerMedia: z.string().optional(),
+  isCorrect: z.boolean(),
+  hasBeenValidated: z.boolean(),
 })
-export type Team = z.infer<typeof AnswerSchema>
+export type Answer = z.infer<typeof AnswerSchema>

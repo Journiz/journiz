@@ -1,9 +1,15 @@
-import { computed } from 'vue'
+import { computed, Ref } from 'vue'
 import { usePocketBase } from './usePocketBase'
 
-export const useFileUrl = (record?: any, fileName?: string) => {
+export function useFileUrl<T>(record?: Ref<T>, fileName?: keyof T) {
   const pb = usePocketBase()
   return computed(() => {
-    return record && fileName ? pb.getFileUrl(record, fileName) : null
+    return record && fileName
+      ? pb.getFileUrl(record.value as any, record.value[fileName] as string)
+      : null
   })
+}
+export const getFileUrl = (record?: any, fileName?: string) => {
+  const pb = usePocketBase()
+  return record && fileName ? pb.getFileUrl(record, fileName) : null
 }

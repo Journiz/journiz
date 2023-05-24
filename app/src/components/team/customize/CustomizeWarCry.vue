@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { VoiceRecorder } from 'capacitor-voice-recorder'
-import { useFileUrl, usePocketBase } from '@journiz/composables'
+import { getFileUrl, usePocketBase } from '@journiz/composables'
 import {
   AndroidSettings,
   IOSSettings,
@@ -143,10 +143,10 @@ onMounted(async () => {
     }
   }
 })
-const warCryUrl = useFileUrl(store.team, store.team?.warCry)
+const warCryUrl = getFileUrl(store.team, store.team?.warCry)
 onBeforeMount(async () => {
-  if (warCryUrl.value) {
-    const data = (await fetchAsBase64(warCryUrl.value)) as string
+  if (warCryUrl) {
+    const data = (await fetchAsBase64(warCryUrl)) as string
     audioData.value = data
     samples.value = await computeSamples(data.split(',')[1])
     audio.src = audioData.value

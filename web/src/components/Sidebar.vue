@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import { useFileUrl } from '@journiz/composables'
+import { getFileUrl } from '@journiz/composables'
 import IconSignout from '~icons/uil/sign-out-alt'
 import { useUserStore } from '~/stores/user'
 import SidebarMenuItem from '~/components/layout/SidebarMenuItem.vue'
@@ -11,7 +11,7 @@ const logout = async () => {
   await userStore.logout()
   await router.push('/')
 }
-const avatar = useFileUrl(userStore.user, userStore.user.avatar)
+const avatar = getFileUrl(userStore.user, userStore.user.avatar)
 </script>
 
 <template>

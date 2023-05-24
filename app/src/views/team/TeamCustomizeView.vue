@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import Page from '~/components/Page.vue'
 import CustomizeHat from '~/components/team/customize/CustomizeHat.vue'
 import CustomizeName from '~/components/team/customize/CustomizeName.vue'
@@ -7,18 +7,16 @@ import CustomizeColor from '~/components/team/customize/CustomizeColor.vue'
 import CustomizeWarCry from '~/components/team/customize/CustomizeWarCry.vue'
 import Back from '~/components/router/Back.vue'
 import BackButton from '~/components/router/BackButton.vue'
+import useSlideTransition from '~/composables/useSlideTransition'
 
 const tabs = [CustomizeName, CustomizeColor, CustomizeHat, CustomizeWarCry]
 const currentTab = ref(0)
 
-const transition = ref('next-step')
-watch(currentTab, (to: number, from: number) => {
-  transition.value = to > from ? 'next-step' : 'prev-step'
-})
+const transitionName = useSlideTransition(currentTab)
 </script>
 <template>
   <Page>
-    <transition :name="transition">
+    <transition :name="transitionName">
       <component
         :is="tabs[currentTab]"
         class="absolute top-0 left-0 w-full h-full px-2/20 pt-28 pb-8"
@@ -32,20 +30,3 @@ watch(currentTab, (to: number, from: number) => {
     </div>
   </Page>
 </template>
-<style scoped>
-.next-step-enter-active,
-.next-step-leave-active,
-.prev-step-enter-active,
-.prev-step-leave-active {
-  @apply transition duration-300 ease-out-quart;
-}
-
-.next-step-enter-from,
-.prev-step-leave-to {
-  transform: translateX(100%);
-}
-.next-step-leave-to,
-.prev-step-enter-from {
-  transform: translateX(-100%);
-}
-</style>
