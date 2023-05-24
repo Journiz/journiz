@@ -1,4 +1,5 @@
 <script lang="ts" setup="">
+// @ts-expect-error Lib not typed
 import CollapseTransition from '@ivanv/vue-collapse-transition/src/CollapseTransition.vue'
 import { ref, toRefs } from 'vue'
 import { Answer, Point } from '@journiz/api-types'
@@ -6,7 +7,7 @@ import { useFileUrl } from '@journiz/composables'
 import Button from '~/components/design-system/Button.vue'
 
 const props = defineProps<{
-  answer: Answer & { pointData: Point }
+  answer: Answer & { pointData?: Point }
   updateLoading: boolean
 }>()
 const { answer } = toRefs(props)
@@ -22,7 +23,7 @@ const mediaUrl = useFileUrl(answer, 'answerMedia')
         class="w-full py-4 px-8 text-center text-lg font-medium relative"
         @click="detailOpen = !detailOpen"
       >
-        {{ answer.pointData.name }}
+        {{ answer.pointData?.name }}
         <span
           class="absolute block right-3 top-1/2 transform -translate-y-1/2 i-fluent:caret-down-24-filled text-28px transition duration-200"
           :class="detailOpen ? 'rotate-180' : ''"
@@ -34,14 +35,14 @@ const mediaUrl = useFileUrl(answer, 'answerMedia')
       >
         <div v-show="detailOpen">
           <div class="mx-6 my-4">
-            {{ answer.pointData.question }}
+            {{ answer.pointData?.question }}
           </div>
         </div>
       </CollapseTransition>
     </div>
     <div class="font-light text-center flex flex-col gap-2">
       <p class="text-sm italic">L'équipe a répondu:</p>
-      <div v-if="answer.pointData.answerType === 'image'">
+      <div v-if="answer.pointData?.answerType === 'image'">
         <img :src="mediaUrl" class="rounded-lg w-full" />
       </div>
       <div v-else-if="answer.answerData">

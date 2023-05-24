@@ -84,7 +84,7 @@ const goBack = useGoBack({ name: 'user-trip-tabs' })
   <Page>
     <div v-if="team" class="flex-grow flex h-full flex-col bg-beige-light">
       <Header
-        :title="store.trip.name"
+        :title="store.trip?.name ?? 'Sortie'"
         subtitle="Validation"
         :back-to="{ name: 'user-trip-tabs' }"
       />

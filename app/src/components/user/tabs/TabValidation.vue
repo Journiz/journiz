@@ -11,7 +11,10 @@ const store = useUserStore()
       subtitle="Validation"
       :back-to="{ name: 'user-trip-tabs' }"
     />
-    <div class="px-6 pt-6 pb-32 overflow-y-auto flex flex-col gap-4">
+    <div
+      v-if="store.trip?.expand?.teams"
+      class="px-6 pt-6 pb-32 overflow-y-auto flex flex-col gap-4"
+    >
       <ValidateTeamItem
         v-for="team in store.trip.expand.teams"
         :key="team.id"

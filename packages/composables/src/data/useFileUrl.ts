@@ -6,10 +6,10 @@ export function useFileUrl<T>(record?: Ref<T>, fileName?: keyof T) {
   return computed(() => {
     return record && fileName
       ? pb.getFileUrl(record.value as any, record.value[fileName] as string)
-      : null
+      : undefined
   })
 }
 export const getFileUrl = (record?: any, fileName?: string) => {
   const pb = usePocketBase()
-  return record && fileName ? pb.getFileUrl(record, fileName) : null
+  return record && fileName ? pb.getFileUrl(record, fileName) : undefined
 }
