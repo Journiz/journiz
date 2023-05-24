@@ -49,7 +49,7 @@ if (props.choice) {
       :id="name"
       v-model="selectedValue"
       :required="requiredField"
-      class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
+      class="relative w-full rounded-md py-4 px-5 mt-2 mb-2 text-green-dark bg-white custom-shadow border-none"
       @change="$emit('selected', $event.target.value)"
     >
       <option disabled value="">{{ emptyQuote }}</option>
@@ -63,3 +63,24 @@ if (props.choice) {
     </select>
   </div>
 </template>
+<style scoped>
+.custom-shadow {
+  filter: drop-shadow(0px 1px 2px rgba(0, 35, 30, 0.16));
+}
+select {
+  /* for Firefox */
+  -moz-appearance: none;
+  /* for Chrome */
+  -webkit-appearance: none;
+}
+/* For IE10 */
+select::-ms-expand {
+  display: none;
+}
+select {
+  background-image: url('../../assets/images/svg/arrow-select.svg');
+  background-position: calc(100% - 16px) 50%;
+  background-size: 14px 8px;
+  background-repeat: no-repeat;
+}
+</style>
