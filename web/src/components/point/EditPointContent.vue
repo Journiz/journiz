@@ -24,7 +24,7 @@ function handleSelected(value: string) {
 }
 </script>
 <template>
-  <div>
+  <div class="pb-6 flex-col">
     <div class="flex gap-12">
       <SelectInput
         class="w-full"
@@ -44,16 +44,17 @@ function handleSelected(value: string) {
         "
       />
     </div>
-
-    <!-- Mettre un Textarea -->
     <TextareaInput v-model="store.point.question" label="Énoncé" />
     <div v-if="answerType == 'image'"></div>
     <div v-if="answerType == 'location'">
       <input v-model="answerLocation.lng" type="number" label="Longitude" />
       <input v-model="answerLocation.lat" type="number" label="Latitude" />
     </div>
-    <div v-if="['choice', 'text'].includes(answerType)">
-      <ChoicesInputs v-model="store.point.answer" :answer-type="answerType" />
-    </div>
+    <ChoicesInputs
+      v-if="['choice', 'text'].includes(answerType)"
+      v-model="store.point.answer"
+      class="overflow-auto"
+      :answer-type="answerType"
+    />
   </div>
 </template>

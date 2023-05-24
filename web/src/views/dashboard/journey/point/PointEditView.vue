@@ -77,8 +77,8 @@ async function saveChanges() {
 </script>
 
 <template>
-  <article class="pt-10 px-16 h-full">
-    <header class="flex items-center justify-between gap-8">
+  <article class="pt-10 px-16 h-full flex flex-col h-full">
+    <header class="flex items-center justify-between gap-8 h-auto">
       <page-title v-if="step !== 0" class="mb-10">{{
         store.point.name
       }}</page-title>
@@ -101,7 +101,7 @@ async function saveChanges() {
       </div>
     </header>
     <PointNavbar
-      class="mb-2"
+      class="mb-2 h-auto"
       @routeToPath="
         (pathName) => {
           router.push({ name: pathName })

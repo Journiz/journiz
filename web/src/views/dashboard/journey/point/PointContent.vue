@@ -19,8 +19,8 @@ const mapCenter = computed(() => {
 })
 </script>
 <template>
-  <section class="h-full flex">
-    <EditPointContent class="pr-4 w-5/12" />
+  <section class="flex flex-grow pb-8 overflow-hidden">
+    <EditPointContent class="pr-4 w-5/12 max-h-full overflow-scroll" />
     <div class="w-7/12">
       <Map zoom="14" :map-center="mapCenter">
         <MapMarker key="center" :position="mapCenter as any">
