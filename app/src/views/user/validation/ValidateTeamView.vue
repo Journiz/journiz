@@ -1,13 +1,15 @@
 <script lang="ts" setup="">
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { usePocketBase, useRealtimeTeam } from '@journiz/composables'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { until } from '@vueuse/core'
 import { useUserStore } from '~/stores/user'
 import Header from '~/components/design-system/Header.vue'
 import Page from '~/components/Page.vue'
 import ValidateQuestionItem from '~/components/user/validate/ValidateQuestionItem.vue'
 import useSlideTransition from '~/composables/useSlideTransition'
-import { delay } from '~/utils/delay'
+import Button from '~/components/design-system/Button.vue'
+import useGoBack from '~/composables/useGoBack'
 
 const store = useUserStore()
 const pb = usePocketBase()
@@ -31,6 +33,7 @@ const currentAnswer = computed(() => {
   return answers.value[currentAnswerIndex.value]
 })
 const transitionName = useSlideTransition(currentAnswerIndex)
+const isTransitionning = ref(false)
 
 const nextAnswer = () => {
   if (currentAnswerIndex.value === answers.value.length - 1) {
@@ -63,19 +66,29 @@ const allAnswersValidated = computed(() => {
   return answers.value.every((answer) => answer.hasBeenValidated)
 })
 
-const isTransitionning = ref(false)
+onMounted(async () => {
+  await until(currentAnswer).not.toBe(undefined)
+  if (currentAnswer.value.hasBeenValidated) {
+    const nextAnswerIndex = answers.value.findIndex(
+      (answer) => !answer.hasBeenValidated
+    )
+    if (nextAnswerIndex > -1) {
+      currentAnswerIndex.value = nextAnswerIndex
+    }
+  }
+})
+
+const goBack = useGoBack({ name: 'user-trip-tabs' })
 </script>
 <template>
   <Page>
-    <div v-if="team" class="flex-grow h-full flex flex-col bg-beige-light">
+    <div v-if="team" class="flex-grow flex h-full flex-col bg-beige-light">
       <Header
         :title="store.trip.name"
         subtitle="Validation"
         :back-to="{ name: 'user-trip-tabs' }"
       />
-      <div
-        class="py-8 overflow-y-auto overflow-x-hidden flex flex-col gap-6 min-h-full"
-      >
+      <div class="py-8 overflow-y-auto overflow-x-hidden flex flex-col gap-6">
         <div v-if="answers[currentAnswerIndex]" class="relative">
           <transition
             :name="transitionName"
@@ -143,6 +156,14 @@ const isTransitionning = ref(false)
             </button>
           </div>
         </div>
+        <transition>
+          <div v-show="allAnswersValidated" class="px-6 flex flex-col gap-4">
+            <p class="text-sm font-light italic text-center">
+              Cette équipe n'a plus de réponses en attente !
+            </p>
+            <Button @click="goBack"> Retour aux équipes </Button>
+          </div>
+        </transition>
       </div>
     </div>
   </Page>

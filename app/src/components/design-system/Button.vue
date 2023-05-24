@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ButtonHTMLAttributes, computed, PropType } from 'vue'
 import { useButtonDisabled } from '@journiz/composables'
-import { RouteLocationRaw, RouterLink } from 'vue-router'
+import { RouteLocationRaw } from 'vue-router'
 import { ButtonColor, ButtonVariant } from '~/types/Button'
 
 const props = defineProps({
@@ -46,7 +46,10 @@ const component = computed(() => {
     class="btn px-6 py-3 rounded-lg text-white text-center flex items-center justify-center gap-2 font-medium text-white text-lg text-center"
     cursor="pointer disabled:not-allowed"
     :disabled="actualDisabled"
-    :class="[`btn-${variant} btn-${color}`]"
+    :class="[
+      `btn-${variant} btn-${color}`,
+      actualDisabled ? 'disabled cursor-not-allowed' : '',
+    ]"
     :type="type"
     :to="to"
   >
@@ -59,6 +62,9 @@ const component = computed(() => {
   border: solid 1px transparent;
   --disabled-color: theme('colors.gray.300');
   --disabled-text: theme('colors.gray.100');
+  &.disabled {
+    pointer-events: none;
+  }
 
   // Colors
   &-theme {
@@ -91,7 +97,8 @@ const component = computed(() => {
     border-color: var(--color);
     color: white;
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       background-color: var(--disabled-color);
       border-color: var(--disabled-color);
       color: var(--disabled-text);
@@ -107,7 +114,8 @@ const component = computed(() => {
       color: white;
     }
 
-    &:disabled {
+    &:disabled,
+    &.disabled {
       background-color: var(--disabled-color);
       color: var(--disabled-text);
       border-color: var(--disabled-color);
@@ -117,7 +125,7 @@ const component = computed(() => {
   // Animation
   $baseTransition: background-color 0.2s;
   transition: $baseTransition, transform 0.25s cubic-bezier(0.74, 2.32, 0.58, 1);
-  &:active:not(:disabled) {
+  &:active:not(:disabled):not(.disabled) {
     animation: none;
     transition: $baseTransition, transform 0.07s ease-in;
     transform: scale(0.95);

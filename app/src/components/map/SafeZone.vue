@@ -22,7 +22,6 @@ const masked = mask(poly, worldMask)
 const map = useMap().map as Ref<Map>
 ;(async () => {
   await until(map).not.toBe(undefined)
-  console.log(map.value)
   map.value.addSource('safeZone-features', {
     type: 'geojson',
     data: masked,
