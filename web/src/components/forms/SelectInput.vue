@@ -8,7 +8,7 @@ const props = defineProps({
   },
   label: {
     type: String,
-    required: true,
+    default: null,
   },
   emptyQuote: {
     type: String,
@@ -42,7 +42,7 @@ if (props.choice) {
 </script>
 <template>
   <div>
-    <label :for="name" class="text-black font-medium"
+    <label v-if="label" :for="name" class="text-black font-medium"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >
     <select
