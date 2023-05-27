@@ -5,6 +5,7 @@ import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
 import { usePointStore } from '~/stores/point'
 import TextareaInput from '~/components/forms/TextareaInput.vue'
 import NumberInput from '~/components/forms/NumberInput.vue'
+import MediaSlider from '~/components/point/editPointInputs/MediaSlider.vue'
 
 const store = usePointStore()
 
@@ -44,6 +45,7 @@ function handleSelected(value: string) {
         "
       />
     </div>
+    <MediaSlider label="Visuel de la question" class="mt-2 mb-5" />
     <TextareaInput v-model="store.point.question" label="Énoncé" />
     <div v-if="answerType == 'image'"></div>
     <div v-if="answerType == 'location'">
