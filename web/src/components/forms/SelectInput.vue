@@ -42,7 +42,7 @@ if (props.choice) {
 </script>
 <template>
   <div>
-    <label :for="name" class="text-blue-900 font-semibold"
+    <label :for="name" class="text-black font-medium"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >
     <select
