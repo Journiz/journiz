@@ -15,7 +15,7 @@ const tabs: Component[] = [
   CustomizeHat,
   CustomizeWarCry,
 ]
-const currentTab = ref(3)
+const currentTab = ref(0)
 
 const transitionName = useSlideTransition(currentTab)
 </script>
