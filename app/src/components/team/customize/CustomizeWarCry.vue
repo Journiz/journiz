@@ -17,7 +17,6 @@ const confirm = async () => {
   const data = new FormData()
   data.append('warCry', blob)
   const result = await pb.collection('team').update(store.team!.id, data)
-  console.log(result)
 }
 
 const warCryUrl = getFileUrl(store.team, store.team?.warCry)
@@ -41,19 +40,3 @@ onBeforeMount(async () => {
     >
   </div>
 </template>
-<style scoped>
-.playpause-enter-active,
-.playpause-leave-active {
-  @apply transition duration-150 ease-in-quad;
-}
-
-.playpause-enter-active {
-  @apply ease-out-quad;
-}
-
-.playpause-enter-from,
-.playpause-leave-to {
-  transform: scale(0);
-  opacity: 0;
-}
-</style>

@@ -16,6 +16,10 @@ const props = defineProps({
     default:
       "Tu as refusé l'accès à ton micro, ton équipe ne pourra pas avoir de cri de guerre... C'est pas très fun.",
   },
+  maxDuration: {
+    type: Number,
+    default: 3000,
+  },
 })
 const audioData = defineModel<string>()
 
@@ -56,8 +60,6 @@ for (let i = 0; i < samplesNum; i++) {
   emptySamples.push(0)
 }
 const samples = ref(emptySamples)
-
-const maxRecordingDuration = 3000
 
 const isRecording = ref(false)
 const timestamp = useTimestamp()
@@ -125,7 +127,7 @@ const computeSamples = async (base64Audio: string) => {
 }
 
 watch(recordingDuration, (duration) => {
-  if (duration > maxRecordingDuration) {
+  if (duration > props.maxDuration) {
     stopRecording()
   }
 })
@@ -152,14 +154,14 @@ const togglePlay = async () => {
       <div class="p-4 bg-white shadow-lg rounded-xl">
         <div class="relative w-full h-8 flex">
           <button
-            class="flex-shrink-0 text-red transition-all duration-200 transform"
+            class="flex-shrink-0 text-theme transition-all duration-200 transform"
             :class="canPlay ? 'w-5 mr-3' : 'opacity-0 scale-0 w-0 mr-0'"
             @click="togglePlay"
           >
             <transition name="playpause" mode="out-in">
               <span
                 v-if="isPlaying"
-                class="block text-24px i-fluent:pause-32-filled text-green"
+                class="block text-24px i-fluent:pause-32-filled"
               ></span>
               <span
                 v-else
@@ -174,15 +176,15 @@ const togglePlay = async () => {
               class="rounded-full w-3px max-h-full min-h-3px transition-all duration-200"
               :class="
                 isRecording
-                  ? i / samplesNum < recordingDuration / maxRecordingDuration
-                    ? 'bg-red'
+                  ? i / samplesNum < recordingDuration / maxDuration
+                    ? 'bg-theme'
                     : 'bg-gray-300'
                   : isPlaying
                   ? i / samplesNum < currentPlayPercentage
-                    ? 'bg-green'
-                    : 'bg-red'
+                    ? 'bg-theme'
+                    : 'bg-gray-300'
                   : audioData
-                  ? 'bg-red'
+                  ? 'bg-theme'
                   : 'bg-gray-300'
               "
               :style="{
@@ -212,3 +214,19 @@ const togglePlay = async () => {
     </div>
   </div>
 </template>
+<style scoped>
+.playpause-enter-active,
+.playpause-leave-active {
+  @apply transition duration-150 ease-in-quad;
+}
+
+.playpause-enter-active {
+  @apply ease-out-quad;
+}
+
+.playpause-enter-from,
+.playpause-leave-to {
+  transform: scale(0);
+  opacity: 0;
+}
+</style>
