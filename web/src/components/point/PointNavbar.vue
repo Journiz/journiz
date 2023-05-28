@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const emit = defineEmits(['routeToPath'])
 const currentUnderlineWidth = ref()
 const currentUnderlineTranslate = ref('0px')
 const itemRefs = ref()
+const route = useRoute()
 const items = [
   {
     name: 'Emplacement',
@@ -29,7 +31,6 @@ function goToTab(item) {
 }
 onMounted(() => {
   currentUnderlineWidth.value = itemRefs.value[0].offsetWidth + 'px'
-  console.log(currentUnderlineWidth.value)
 })
 </script>
 <template>
@@ -45,7 +46,8 @@ onMounted(() => {
       v-for="item in items"
       ref="itemRefs"
       :key="item.name"
-      class="nav-item flex items-center p-3 cursor-pointer"
+      :class="item.pathName === route.name ? 'active' : ''"
+      class="nav-item relative flex items-center p-3 cursor-pointer"
       @click="goToTab(item)"
     >
       <div class="h-3 text-base" :class="item.icon" />
@@ -53,7 +55,16 @@ onMounted(() => {
     </div>
   </div>
 </template>
-<style scoped>
-.nav-item {
+<style lang="scss" scoped>
+.nav-item.active {
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 8px;
+    background-color: #ff6147;
+    left: 0;
+    bottom: 0;
+  }
 }
 </style>

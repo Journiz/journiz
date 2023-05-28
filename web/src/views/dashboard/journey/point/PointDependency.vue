@@ -26,7 +26,7 @@ const mapCenter = computed(() => {
 })
 </script>
 <template>
-  <section class="flex flex-grow pb-8 overflow-hidden">
+  <section class="flex flex-grow pb-8 overflow-hidden pt-8">
     <EditPointTrigger
       :point="store.point"
       class="pr-4 w-5/12 max-h-full overflow-scroll"
