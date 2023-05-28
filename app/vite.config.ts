@@ -8,7 +8,11 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      script: {
+        defineModel: true,
+      },
+    }),
     UnoCSS(),
     Icons({
       compiler: 'vue3',
