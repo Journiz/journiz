@@ -2,8 +2,9 @@
 import { useRafFn, useTimestamp } from '@vueuse/core';
 import { AndroidSettings, IOSSettings, NativeSettings } from 'capacitor-native-settings';
 import { VoiceRecorder } from 'capacitor-voice-recorder';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { base64ToArrayBuffer } from '~/utils/base64ToArrayBuffer';
+import Button from '../design-system/Button.vue';
 
 const props = defineProps({
     noPermissionMessage: {
@@ -137,12 +138,12 @@ const togglePlay = async () => {
 
 </script>
 <template>
-    <div>
+    <div class="relative">
         <p v-if="refused" class="text-red mt-12 flex flex-col">
             {{ noPermissionMessage }}
             <Button color="green" class="mt-4" @click="openSettings">Réglons ça !</Button>
         </p>
-        <div v-else class="flex flex-col flex-grow justify-between mt-24 mb-8">
+        <div v-else class="flex flex-col justify-between h-full">
             <div class="p-4 bg-white shadow-lg rounded-xl">
                 <div class="relative w-full h-8 flex">
                     <button

@@ -1,18 +1,11 @@
 <script lang="ts" setup="">
-import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
-import { VoiceRecorder } from 'capacitor-voice-recorder'
 import { getFileUrl, usePocketBase } from '@journiz/composables'
-import {
-  AndroidSettings,
-  IOSSettings,
-  NativeSettings,
-} from 'capacitor-native-settings'
-import { useRafFn, useTimestamp } from '@vueuse/core'
+import { onBeforeMount, ref } from 'vue'
 import Button from '~/components/design-system/Button.vue'
-import { base64ToArrayBuffer } from '~/utils/base64ToArrayBuffer'
 import { useTeamStore } from '~/stores/team/team'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import fetchAsBase64 from '~/utils/fetchAsBase64'
+import AudioRecorder from '~/components/audio/AudioRecorder.vue'
 
 const store = useTeamStore()
 const audioData = ref()
@@ -39,9 +32,9 @@ onBeforeMount(async () => {
   <div class="flex flex-col text-center">
     <h1 class="text-2xl font-black">Faites du bruit !</h1>
     <p class="text-sm">Enregistrez le cri de guerre de votre équipe !</p>
-    <Button class="w-full" :disabled="!audioData" @click="confirm"
-      >C'est parti !</Button
-    >
+    <AudioRecorder
+                   class="flex-grow justify-between mt-24 mb-8"></AudioRecorder>
+    <Button class="w-full" :disabled="!audioData" @click="confirm">C'est parti !</Button>
   </div>
 </template>
 <style scoped>
@@ -49,9 +42,11 @@ onBeforeMount(async () => {
 .playpause-leave-active {
   @apply transition duration-150 ease-in-quad;
 }
+
 .playpause-enter-active {
   @apply ease-out-quad;
 }
+
 .playpause-enter-from,
 .playpause-leave-to {
   transform: scale(0);
