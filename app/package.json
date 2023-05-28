@@ -16,7 +16,7 @@
     "android": "ionic cap run android -l --external --port=4000",
     "ionic:serve": "pnpm run dev",
     "ionic:build": "pnpm run build",
-    "deploy:staging": "./ios/bump.sh"
+    "deploy:staging": "./ios/bump.sh && git ckeckout staging && git pull && git merge develop && git push && git checkout develop"
   },
   "dependencies": {
     "@capacitor-community/background-geolocation": "^1.2.14",
