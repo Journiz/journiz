@@ -18,7 +18,9 @@ const pts = store.journey.expand.points
 const selectPoints: any = []
 
 pts.forEach((element: any) => {
-  selectPoints.push({ value: element.id, content: element.name })
+  if (props.point.id !== element.id) {
+    selectPoints.push({ value: element.id, content: element.name })
+  }
 })
 
 onMounted(() => {
@@ -76,7 +78,6 @@ function pointSelected(value: string) {
         </div>
       </div>
       <div :class="trigger == 'true' ? '' : 'opacity-40 pointer-events-none'">
-        <!-- TODO: Mettre select avec tous les point du journey exept this -->
         <SelectInput
           :choice="point.trigger"
           :choices="selectPoints"
