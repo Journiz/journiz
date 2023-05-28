@@ -1,6 +1,6 @@
-import { ref, Ref, watch } from 'vue'
+import { ComputedRef, ref, Ref, watch } from 'vue'
 
-export function useLerp(source: Ref<number>, lerpFactor = 0.1) {
+export function useLerp(source: Ref, lerpFactor = 0.1) {
   const target = ref(source.value)
   const lerp = () => {
     if (Math.abs(source.value - target.value) < 0.00000001) {

@@ -3,12 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "main": "./index.ts",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
-    "@journiz/config":  "workspace:*",
-    "pocketbase": "^0.12.0"
-  },
-  "devDependencies": {
+    "@journiz/config": "workspace:*",
+    "pocketbase": "^0.12.1"
   }
 }

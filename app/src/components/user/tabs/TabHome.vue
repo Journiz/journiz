@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { ref } from 'vue'
+import { ComputedRef, ref } from 'vue'
 import { IonModal } from '@ionic/vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
@@ -26,7 +26,7 @@ const switchTripModalOpen = ref(false)
     <IonModal
       :is-open="switchTripModalOpen"
       :can-dismiss="true"
-      :presenting-element="page?.element"
+      :presenting-element="page?.element as any"
       @did-dismiss="switchTripModalOpen = false"
     >
       <ion-header>
