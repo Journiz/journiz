@@ -16,7 +16,7 @@ const confirm = async () => {
   const blob = dataURItoBlob(audioData.value)
   const data = new FormData()
   data.append('warCry', blob)
-  const result = await pb.collection('team').update(store.team!.id, data)
+  await pb.collection('team').update(store.team!.id, data)
 }
 
 const warCryUrl = getFileUrl(store.team, store.team?.warCry)
