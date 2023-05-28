@@ -2,32 +2,34 @@
 import { ref } from 'vue'
 import { usePoint } from '@journiz/composables'
 import { useRoute } from 'vue-router'
+import { Point } from '@journiz/api-types'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import TextInput from '~/components/forms/TextInput.vue'
 import EditPointLocation from '~/components/point/EditPointLocation.vue'
 import EditPointContent from '~/components/point/EditPointContent.vue'
 import EditPointTrigger from '~/components/point/EditPointTrigger.vue'
 import PageTitle from '~/components/PageTitle.vue'
-import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const pointId = useRoute().params.pointId as string
 const { data: point, update, updateLoading } = usePoint(pointId)
 
 // passer en props
-const answerType = ref('')
+const answerType = ref<Point['answerType']>()
 const answers = ref([])
-const answerLocation = ref({})
+const answerLocation = ref<{ lng: number; lat: number }>()
 
 const pointTrigger = ref('')
 const step = ref(0)
 const trigger = ref('false')
 
 const handlePointTrigger = (value: string) => {
-  console.log(value)
   pointTrigger.value = value
 }
 
 function nextStep() {
+  if (!point.value) {
+    return
+  }
   if (step.value === 0) {
     console.log(step)
   }
@@ -47,7 +49,7 @@ function nextStep() {
       point.value.trigger = pointTrigger.value
     }
     if (trigger.value === 'false') {
-      point.value.trigger = null
+      point.value.trigger = undefined
     }
   }
   step.value += 1
@@ -61,6 +63,7 @@ function nextStep() {
     // redirection view liste de points
   }
 }
+
 function prevStep() {
   step.value -= 1
   if (step.value > 2 || step.value < 0) {
@@ -80,7 +83,7 @@ async function saveChanges() {
 </script>
 
 <template>
-  <article class="pt-10 px-16 h-full">
+  <article v-if="point" class="pt-10 px-16 h-full">
     <section v-if="step == 0" class="h-full">
       <div v-if="point" class="flex flex-col h-full">
         <header class="flex items-center justify-between gap-8">

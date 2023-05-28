@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRefs, defineProps, watch, onMounted } from 'vue'
+import { ref, toRefs, watch, onMounted } from 'vue'
 import { Point as PointType } from '@journiz/api-types'
 import TextInput from '~/components/forms/TextInput.vue'
 import SelectInput from '~/components/forms/SelectInput.vue'
@@ -58,7 +58,6 @@ const selectChoices = [
 ]
 
 function handleSelected(value: string) {
-  console.log(value)
   answerType.value = value
   emit('update:answerType', answerType.value)
 }
@@ -68,7 +67,7 @@ function addChoiceAnswer() {
   point.value.answer = answers.value
 }
 
-function removeChoiceAnswer(index) {
+function removeChoiceAnswer(index: number) {
   answers.value.splice(index, 1)
   point.value.answer = answers.value
 }

@@ -28,7 +28,7 @@ const props = defineProps({
   },
 })
 
-defineEmits(['selected'])
+const emit = defineEmits(['selected'])
 
 const selectedValue = ref('')
 
@@ -38,6 +38,10 @@ if (props.choice) {
     (option) => option.value === props.choice
   )
   selectedValue.value = selectedOption ? selectedOption.value : ''
+}
+const onChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  emit('selected', target.value)
 }
 </script>
 <template>
@@ -49,7 +53,7 @@ if (props.choice) {
     v-model="selectedValue"
     :required="requiredField"
     class="w-full border rounded-md py-4 px-5 mt-2 mb-4 text-blue-400"
-    @change="$emit('selected', $event.target.value)"
+    @change="onChange"
   >
     <option disabled value="">{{ emptyQuote }}</option>
     <option v-for="choice in choices" :key="choice.value" :value="choice.value">

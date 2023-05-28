@@ -9,8 +9,8 @@ export type RecordComposableData<Schema extends ZodType<any>> = {
   rawData: Ref<Record | null>
   refresh: () => Promise<void>
   update: () => Promise<void>
-  loading: any
-  updateLoading: any
+  loading: Ref<boolean>
+  updateLoading: Ref<boolean>
   setId: (id?: string | null) => Promise<void>
 }
 export type RecordComposable<Schema extends ZodType<any>> = (
