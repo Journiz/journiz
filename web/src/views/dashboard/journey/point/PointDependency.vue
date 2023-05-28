@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import EditPointTrigger from '~/components/point/EditPointTrigger.vue'
 import { usePointStore } from '~/stores/point'
+import Basceamp from '~/components/map/Basecamp.vue'
+import MapMarker from '~/components/MapMarker.vue'
+import Map from '~/components/Map.vue'
+import PointMarker from '~/components/map/PointMarker.vue'
+import { useJourneyStore } from '~/stores/journey'
 const store = usePointStore()
 
 const pointTrigger = ref('')
@@ -10,13 +15,42 @@ const handlePointTrigger = (value: string) => {
   console.log(value)
   pointTrigger.value = value
 }
+const journeyStore = useJourneyStore()
+const currentPointStore = usePointStore()
+
+const mapCenter = computed(() => {
+  return [
+    journeyStore.journey!.basecampLongitude,
+    journeyStore.journey!.basecampLatitude,
+  ]
+})
 </script>
 <template>
-  <section class="h-full">
+  <section class="flex flex-grow pb-8 overflow-hidden">
     <EditPointTrigger
       :point="store.point"
+      class="pr-4 w-5/12 max-h-full overflow-scroll"
       @pointTrigger="handlePointTrigger"
       @update:isTrigger="trigger = $event"
     />
+    <div class="w-7/12">
+      <Map zoom="14" :map-center="mapCenter">
+        <MapMarker key="center" :position="mapCenter as any">
+          <template #icon>
+            <Basceamp />
+          </template>
+        </MapMarker>
+        <MapMarker
+          :position="[
+            currentPointStore.point.longitude,
+            currentPointStore.point.latitude,
+          ]"
+        >
+          <template #icon>
+            <PointMarker />
+          </template>
+        </MapMarker>
+      </Map>
+    </div>
   </section>
 </template>

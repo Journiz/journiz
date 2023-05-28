@@ -76,7 +76,7 @@ function pointSelected(value: string) {
         </div>
       </div>
       <div :class="trigger == 'true' ? '' : 'opacity-40 pointer-events-none'">
-        <!-- Mettre select avec tous les point du journey exept this -->
+        <!-- TODO: Mettre select avec tous les point du journey exept this -->
         <SelectInput
           :choice="point.trigger"
           :choices="selectPoints"
