@@ -15,7 +15,8 @@
     "ios:tn": "VITE_API_URL=\"https://pb.tn.leoboyer.dev\" ionic cap run ios -l --external --port=4000",
     "android": "ionic cap run android -l --external --port=4000",
     "ionic:serve": "pnpm run dev",
-    "ionic:build": "pnpm run build"
+    "ionic:build": "pnpm run build",
+    "deploy:staging": "./ios/bump.sh"
   },
   "dependencies": {
     "@capacitor-community/background-geolocation": "^1.2.14",
