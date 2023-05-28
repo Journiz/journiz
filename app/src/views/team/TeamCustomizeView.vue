@@ -10,7 +10,7 @@ import BackButton from '~/components/router/BackButton.vue'
 import useSlideTransition from '~/composables/useSlideTransition'
 
 const tabs = [CustomizeName, CustomizeColor, CustomizeHat, CustomizeWarCry]
-const currentTab = ref(0)
+const currentTab = ref(3)
 
 const transitionName = useSlideTransition(currentTab)
 </script>

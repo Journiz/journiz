@@ -28,9 +28,9 @@ const audioContext = new AudioContext()
 const audioData = ref()
 const audio: HTMLAudioElement = new Audio()
 const canPlay = ref(false)
-audio.oncanplay = () => {
+audio.addEventListener('loadedmetadata', () => {
   canPlay.value = true
-}
+}, { once: true })
 const isPlaying = ref(false)
 audio.onplay = () => (isPlaying.value = true)
 audio.onpause = () => (isPlaying.value = false)
