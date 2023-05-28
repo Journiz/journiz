@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTimestamp } from '@vueuse/core'
+import { clamp, useRafFn, useTimestamp } from '@vueuse/core'
 import {
   AndroidSettings,
   IOSSettings,
@@ -37,6 +37,7 @@ onMounted(async () => {
       refused.value = true
     }
   }
+  await initVolumeMeter()
 })
 
 const isRecording = ref(false)
@@ -74,6 +75,40 @@ watch(recordingDuration, (duration) => {
     stopRecording()
   }
 })
+
+const volumeValue = ref(0)
+const recordingVolume = computed(() => {
+  return isRecording.value ? clamp(volumeValue.value * 5, 0, 1) : 0
+})
+let volumeMeterInitialized = false
+
+let analyserNode: AnalyserNode
+let pcmData: Float32Array
+const initVolumeMeter = async () => {
+  if (volumeMeterInitialized) {
+    return
+  }
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: false,
+  })
+  const audioContext = new AudioContext()
+  const mediaStreamAudioSourceNode =
+    audioContext.createMediaStreamSource(stream)
+  analyserNode = audioContext.createAnalyser()
+  mediaStreamAudioSourceNode.connect(analyserNode)
+  pcmData = new Float32Array(analyserNode.fftSize)
+  volumeMeterInitialized = true
+}
+useRafFn(() => {
+  if (!analyserNode) return
+  analyserNode.getFloatTimeDomainData(pcmData)
+  let sumSquares = 0.0
+  for (const amplitude of pcmData) {
+    sumSquares += amplitude * amplitude
+  }
+  volumeValue.value = Math.sqrt(sumSquares / pcmData.length)
+})
 </script>
 <template>
   <div class="relative">
@@ -90,12 +125,18 @@ watch(recordingDuration, (duration) => {
       />
       <div class="flex items-center flex-col gap-6">
         <button
-          class="btn-animation select-none"
+          class="btn-animation select-none relative"
           @touchstart="startRecording"
           @touchend="stopRecording"
         >
           <span
-            class="text-white w-20 h-20 flex items-center justify-center rounded-full transition duration-150"
+            class="bg-red/50 absolute inset-0 w-full h-full rounded-full"
+            :style="{
+              transform: `scale(${1 + recordingVolume * 1.1})`,
+            }"
+          ></span>
+          <span
+            class="text-white w-20 h-20 flex items-center justify-center rounded-full transition duration-150 relative"
             :class="isRecording ? 'bg-red' : 'bg-green'"
           >
             <span class="i-uil:microphone block text-32px"></span>
