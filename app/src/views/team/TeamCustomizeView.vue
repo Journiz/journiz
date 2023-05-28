@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { ref } from 'vue'
+import { Component, ref } from 'vue'
 import Page from '~/components/Page.vue'
 import CustomizeHat from '~/components/team/customize/CustomizeHat.vue'
 import CustomizeName from '~/components/team/customize/CustomizeName.vue'
@@ -9,7 +9,12 @@ import Back from '~/components/router/Back.vue'
 import BackButton from '~/components/router/BackButton.vue'
 import useSlideTransition from '~/composables/useSlideTransition'
 
-const tabs = [CustomizeName, CustomizeColor, CustomizeHat, CustomizeWarCry]
+const tabs: Component[] = [
+  CustomizeName,
+  CustomizeColor,
+  CustomizeHat,
+  CustomizeWarCry,
+]
 const currentTab = ref(2)
 
 const transitionName = useSlideTransition(currentTab)
