@@ -33,8 +33,12 @@ onBeforeMount(async () => {
     <h1 class="text-2xl font-black">Faites du bruit !</h1>
     <p class="text-sm">Enregistrez le cri de guerre de votre équipe !</p>
     <AudioRecorder
-                   class="flex-grow justify-between mt-24 mb-8"></AudioRecorder>
-    <Button class="w-full" :disabled="!audioData" @click="confirm">C'est parti !</Button>
+      v-model="audioData"
+      class="flex-grow justify-between mt-24 mb-8"
+    ></AudioRecorder>
+    <Button class="w-full" :disabled="!audioData" @click="confirm"
+      >C'est parti !</Button
+    >
   </div>
 </template>
 <style scoped>
