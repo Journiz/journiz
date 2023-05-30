@@ -16,6 +16,7 @@ const mapCenter = computed(() => {
   return [store.journey!.basecampLongitude, store.journey!.basecampLatitude]
 })
 const addLoading = ref(false)
+const currentItemId = ref('')
 const newPoint = async () => {
   addLoading.value = true
   try {
@@ -28,6 +29,9 @@ const newPoint = async () => {
     console.log(e)
   }
   addLoading.value = false
+}
+function hoverMarker(pointId: string) {
+  currentItemId.value = pointId
 }
 </script>
 <template>
@@ -47,7 +51,10 @@ const newPoint = async () => {
       </default-button>
     </div>
     <div class="px-16 flex flex-grow pb-8 overflow-hidden">
-      <PointList class="w-1/2 pr-2 max-h-full overflow-scroll" />
+      <PointList
+        class="w-1/2 pr-2 max-h-full overflow-scroll"
+        :current-item-id="currentItemId"
+      />
       <div class="relative flex-grow">
         <Map
           class="w-1/2 rounded-xl overflow-hidden"
@@ -59,7 +66,9 @@ const newPoint = async () => {
             :key="point.id"
             :position="[point.longitude, point.latitude]"
           >
-            <template #icon> <PointMarker /> </template>
+            <template #icon>
+              <PointMarker @mouseover="hoverMarker(point.id)" />
+            </template>
           </MapMarker>
           <MapMarker key="center" :position="mapCenter as any">
             <template #icon> <Basceamp /> </template>
