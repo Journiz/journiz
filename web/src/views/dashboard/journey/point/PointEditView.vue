@@ -25,46 +25,23 @@ const pointTrigger = ref('')
 const step = ref(0)
 const trigger = ref('false')
 
-function nextStep() {
-  if (step.value === 0) {
-    // console.log(step)
-  }
-  if (step.value === 1) {
-    if (answerType.value) {
-      store.point.answerType = answerType.value
-    }
-    if (answerType.value === 'location') {
-      store.point.answer = answerLocation.value
-    }
-    if (answerType.value === 'text' || answerType.value === 'choice') {
-      store.point.answer = answers.value
-    }
-  }
-  if (step.value === 2) {
-    if (trigger.value === 'true') {
-      store.point.trigger = pointTrigger.value
-    }
-    if (trigger.value === 'false') {
-      store.point.trigger = null
-    }
-  }
-  step.value += 1
-  if (step.value > 2 || step.value < 0) {
-    step.value = 0
-  }
-
+function save() {
   saveChanges()
-  if (step.value === 2) {
-    console.log('end')
-    // redirection view liste de points
+  if (route.name === 'point-dependency') {
+    router.push({ name: 'edit-journey' })
+  } else if (route.name === 'point-position') {
+    router.push({ name: 'point-content' })
+  } else if (route.name === 'point-content') {
+    router.push({ name: 'point-dependency' })
   }
 }
-function prevStep() {
-  step.value -= 1
-  if (step.value > 2 || step.value < 0) {
-    step.value = 0
+function quit() {
+  const result = confirm(
+    'Vos changements ne serront pas sauvegardé. Voulez-vous vraiment quitter la page ?'
+  )
+  if (result) {
+    router.push({ name: 'edit-journey' })
   }
-  store.update()
 }
 
 async function saveChanges() {
@@ -94,10 +71,10 @@ async function saveChanges() {
           icon="back"
           color="white"
           :loading="store.loading"
-          @click="prevStep"
+          @click="quit"
         />
-        <DefaultButton :loading="store.loading" @click="nextStep"
-          >Enregistrer
+        <DefaultButton :loading="store.loading" @click="save">
+          {{ route.name == 'point-dependency' ? 'Enregistrer' : 'Suivant' }}
         </DefaultButton>
       </div>
     </header>
