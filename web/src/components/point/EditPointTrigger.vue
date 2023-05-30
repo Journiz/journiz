@@ -19,7 +19,12 @@ const selectPoints: any = []
 
 pts.forEach((element: any) => {
   if (props.point.id !== element.id) {
-    selectPoints.push({ value: element.id, content: element.name })
+    selectPoints.push({
+      value: element.id,
+      content: element.name,
+      lat: element.latitude,
+      long: element.longitude,
+    })
   }
 })
 
@@ -34,8 +39,11 @@ watch(trigger, (newVal) => {
 })
 
 function pointSelected(value: string) {
-  console.log(value)
-  emit('pointTrigger', value)
+  selectPoints.forEach((point) => {
+    if (point.value === value) {
+      emit('pointTrigger', point)
+    }
+  })
 }
 </script>
 

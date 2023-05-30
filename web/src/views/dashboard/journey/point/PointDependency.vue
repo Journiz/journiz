@@ -9,9 +9,9 @@ import PointMarker from '~/components/map/PointMarker.vue'
 import { useJourneyStore } from '~/stores/journey'
 const store = usePointStore()
 
-const pointTrigger = ref('')
+const pointTrigger = ref({})
 const trigger = ref('false')
-const handlePointTrigger = (value: string) => {
+const handlePointTrigger = (value: object) => {
   console.log(value)
   pointTrigger.value = value
 }
@@ -48,6 +48,14 @@ const mapCenter = computed(() => {
         >
           <template #icon>
             <PointMarker />
+          </template>
+        </MapMarker>
+        <MapMarker
+          v-if="pointTrigger.value"
+          :position="[pointTrigger.long, pointTrigger.lat]"
+        >
+          <template #icon>
+            <PointMarker class="opacity-50" />
           </template>
         </MapMarker>
       </Map>
