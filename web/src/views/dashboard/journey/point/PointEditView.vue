@@ -12,7 +12,8 @@ import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const store = usePointStore()
 const router = useRouter()
-store.setId(useRoute().params.pointId as string)
+const route = useRoute()
+store.setId(route.params.pointId as string)
 const { loading } = storeToRefs(store)
 await waitForEndLoading(loading)
 
@@ -79,11 +80,11 @@ async function saveChanges() {
 <template>
   <article class="pt-10 px-16 h-full flex flex-col h-full">
     <header class="flex items-center justify-between gap-8 h-auto">
-      <page-title v-if="step !== 0" class="mb-10">{{
+      <page-title v-if="route.name !== 'point-position'" class="mb-10">{{
         store.point.name
       }}</page-title>
       <TextInput
-        v-if="step == 0"
+        v-if="route.name == 'point-position'"
         v-model="store.point.name"
         label="Nom du point"
       ></TextInput>
