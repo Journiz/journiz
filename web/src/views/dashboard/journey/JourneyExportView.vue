@@ -5,6 +5,9 @@ import MapWithSafeZone from '~/components/MapWithSafeZone.vue'
 import JourneyExportForm from '~/components/journey/JourneyExportForm.vue'
 import CustomHeader from '~/components/layout/CustomHeader.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import Basceamp from '~/components/map/Basecamp.vue'
+import MapMarker from '~/components/MapMarker.vue'
+import PointMarker from '~/components/map/PointMarker.vue'
 
 const journeyStore = useJourneyStore()
 const router = useRouter()
@@ -29,8 +32,25 @@ const updateGeometry = async (geo: any) => {
           class="flex-grow w-1/2 rounded-xl overflow-hidden"
           :draw-data="journeyStore.journey?.safeZone"
           :map-center="[journeyStore.journey!.basecampLongitude, journeyStore.journey!.basecampLatitude]"
+          zoom="14"
           @safeAreaGeometry="updateGeometry"
-        />
+        >
+          <MapMarker
+            v-for="point in journeyStore.journey!.expand!.points"
+            :key="point.id"
+            :position="[point.longitude, point.latitude]"
+          >
+            <template #icon>
+              <PointMarker />
+            </template>
+          </MapMarker>
+          <MapMarker
+            key="center"
+            :position="[journeyStore.journey!.basecampLongitude, journeyStore.journey!.basecampLatitude]"
+          >
+            <template #icon> <Basceamp /> </template>
+          </MapMarker>
+        </MapWithSafeZone>
       </div>
     </div>
   </div>

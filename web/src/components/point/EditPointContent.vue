@@ -48,10 +48,6 @@ function handleSelected(value: string) {
     <MediaSlider label="Visuel de la question" class="mt-2 mb-5" />
     <TextareaInput v-model="store.point.question" label="Énoncé" />
     <div v-if="answerType == 'image'"></div>
-    <div v-if="answerType == 'location'">
-      <input v-model="answerLocation.lng" type="number" label="Longitude" />
-      <input v-model="answerLocation.lat" type="number" label="Latitude" />
-    </div>
     <ChoicesInputs
       v-if="['choice', 'text'].includes(answerType)"
       v-model="store.point.answer"
