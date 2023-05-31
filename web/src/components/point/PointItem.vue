@@ -2,7 +2,7 @@
 import SquareButton from '~/components/buttons/SquareButton.vue'
 import { PointWithDependents } from '~/types/points'
 
-defineProps<{ point: PointWithDependents }>()
+defineProps<{ point: PointWithDependents; currentItemId: String }>()
 
 const emit = defineEmits(['deletePoint', 'editPoint'])
 </script>
@@ -45,7 +45,12 @@ const emit = defineEmits(['deletePoint', 'editPoint'])
           stroke-width="2"
         />
       </svg>
-      <div class="content w-full flex px-3 py-3 bg-green-dark/4 rounded-xl">
+      <div
+        class="content w-full flex px-3 py-3 bg-green-dark/4 rounded-xl overflow-visible -outline-offset-1 transition-all"
+        :class="
+          point.id === currentItemId ? 'outline-red outline outline-1' : ''
+        "
+      >
         <div class="flex-1 flex flex-col mr-8">
           <div class="name text-black font-medium text-base">
             {{ point.name }}
@@ -78,6 +83,7 @@ const emit = defineEmits(['deletePoint', 'editPoint'])
         v-for="subPoint in point.dependents"
         :key="subPoint.id"
         :point="subPoint"
+        :current-item-id="currentItemId"
         @edit-point="emit('editPoint', $event)"
         @delete-point="emit('deletePoint', $event)"
       />

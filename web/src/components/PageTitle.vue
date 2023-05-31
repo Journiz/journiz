@@ -3,7 +3,7 @@
   <h1 class="relative text-black font-bold text-3xl w-fit">
     <slot />
     <svg
-      class="absolute left-0 bottom-0 w-full h-auto translate-y-6/8"
+      class="absolute left-0 bottom-0 w-full h-auto translate-y-7/8"
       width="213"
       height="9"
       viewBox="0 0 213 9"

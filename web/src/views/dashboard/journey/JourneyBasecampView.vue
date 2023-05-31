@@ -5,6 +5,7 @@ import { useJourneyStore } from '~/stores/journey'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import MapWithSearch from '~/components/MapWithSearch.vue'
 import { Coordinates } from '~/types/Coordinates'
+import CustomHeader from '~/components/layout/CustomHeader.vue'
 
 const router = useRouter()
 const store = useJourneyStore()
@@ -20,14 +21,20 @@ const pointCoords = computed(() => {
 })
 </script>
 <template>
-  <div class="w-full h-full flex flex-col">
-    <h1>Création du point de ralliement</h1>
-    <DefaultButton @click="confirm">Suivant</DefaultButton>
-    <MapWithSearch
-      :initial-coords="pointCoords as any"
-      :map-center="pointCoords as any"
-      :zoom="16"
-      @update="setBasecamp"
-    />
+  <div class="flex flex-col h-full">
+    <CustomHeader
+      title="Création du point de ralliement"
+      class="px-16 h-auto mb-7 pt-12"
+    >
+      <DefaultButton @click="confirm">Valider</DefaultButton>
+    </CustomHeader>
+    <div class="px-16 h-auto mb-7 h-full">
+      <MapWithSearch
+        :initial-coords="pointCoords as any"
+        :map-center="pointCoords as any"
+        :zoom="16"
+        @update="setBasecamp"
+      />
+    </div>
   </div>
 </template>

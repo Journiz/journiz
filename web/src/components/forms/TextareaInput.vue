@@ -16,13 +16,13 @@ defineProps({
     type: Boolean,
     default: true,
   },
-  type: {
-    type: String,
-    default: 'text',
-  },
   alternativeStyle: {
     type: Boolean,
     default: false,
+  },
+  rows: {
+    type: Number,
+    default: 4,
   },
 })
 
@@ -37,13 +37,13 @@ const onInput = (e: any) => {
     <label v-if="label" :for="input?.id" class="text-black font-medium"
       >{{ label }}{{ requiredField ? '*' : '' }}</label
     >
-    <input
+    <textarea
       ref="input"
       v-uid
       :value="modelValue"
       :required="requiredField"
-      :type="type"
-      class="w-full border rounded-md py-4 px-5 mt-2 mb-2 text-green-dark bg-green-dark/4"
+      :rows="rows"
+      class="w-full border rounded-md py-3 px-4 mt-2 mb-2 text-green-dark bg-green-dark/4"
       :class="
         alternativeStyle
           ? 'bg-green-dark/4'

@@ -4,6 +4,7 @@ import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
 import { Coordinates } from '~/types/Coordinates'
+import PointMarker from '~/components/map/PointMarker.vue'
 
 const emit = defineEmits(['update'])
 const map = ref()
@@ -39,8 +40,11 @@ const addSearchMarker = (data: any) => {
       <MapMarker
         v-if="researchMarkerPosition && researchMarkerPosition.length > 0"
         :position="researchMarkerPosition as Coordinates"
-        icon="searched"
-      ></MapMarker>
+      >
+        <template #icon>
+          <PointMarker />
+        </template>
+      </MapMarker>
       <slot />
     </Map>
   </div>

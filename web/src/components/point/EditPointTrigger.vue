@@ -18,7 +18,14 @@ const pts = store.journey?.expand?.points ?? []
 const selectPoints: any[] = []
 
 pts.forEach((element: any) => {
-  selectPoints.push({ value: element.id, content: element.name })
+  if (props.point.id !== element.id) {
+    selectPoints.push({
+      value: element.id,
+      content: element.name,
+      lat: element.latitude,
+      long: element.longitude,
+    })
+  }
 })
 
 onMounted(() => {
@@ -32,43 +39,57 @@ watch(trigger, (newVal) => {
 })
 
 function pointSelected(value: string) {
-  console.log(value)
-  emit('pointTrigger', value)
+  selectPoints.forEach((point) => {
+    if (point.value === value) {
+      emit('pointTrigger', point)
+    }
+  })
 }
 </script>
 
 <template>
   <div>
-    <div>
+    <div class="flex bg-green color-white py-6 px-4 rounded-lg justify-between">
       <p>{{ point.name }} - {{ point.answerType }}</p>
       <p>{{ point.score }} pts</p>
     </div>
     <div>
-      <p>Ce point devient visible pour les participants quand</p>
+      <p class="mt-8 mb-5 font-bold">
+        Ce point devient visible pour les participants quand :
+      </p>
       <div>
-        <pre>{{ trigger }}</pre>
-        <input
-          v-model="trigger"
-          type="radio"
-          name="dependance-false"
-          value="false"
-        />
-        <label for="dependance-false">la partie commence</label>
-        <input
-          v-model="trigger"
-          type="radio"
-          name="dependance-true"
-          value="true"
-        />
-        <label for="dependance-true">un autre point a été résolu</label>
+        <div class="flex mb-3">
+          <input
+            id="dependance-false"
+            v-model="trigger"
+            class="mr-3"
+            type="radio"
+            name="dependance-false"
+            value="false"
+          />
+          <label class="font-light cursor-pointer" for="dependance-false"
+            >la partie commence</label
+          >
+        </div>
+        <div class="flex">
+          <input
+            id="dependance-true"
+            v-model="trigger"
+            class="mr-3"
+            type="radio"
+            name="dependance-true"
+            value="true"
+          />
+          <label class="font-light cursor-pointer" for="dependance-true"
+            >un autre point a été résolu</label
+          >
+        </div>
       </div>
-      <div v-if="trigger == 'true'">
-        <!-- Mettre select avec tous les point du journey exept this -->
+      <div :class="trigger == 'true' ? '' : 'opacity-40 pointer-events-none'">
         <SelectInput
           :choice="point.trigger"
           :choices="selectPoints"
           empty-quote="Choisir"
-          label=""
           name="dependance"
           @selected="pointSelected"
         />

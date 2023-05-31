@@ -1,81 +1,52 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { usePoint } from '@journiz/composables'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { Point } from '@journiz/api-types'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import TextInput from '~/components/forms/TextInput.vue'
-import EditPointLocation from '~/components/point/EditPointLocation.vue'
-import EditPointContent from '~/components/point/EditPointContent.vue'
-import EditPointTrigger from '~/components/point/EditPointTrigger.vue'
+import PointNavbar from '~/components/point/PointNavbar.vue'
 import PageTitle from '~/components/PageTitle.vue'
+import { waitForEndLoading } from '~/utils/waitForEndLoading'
+import { usePointStore } from '~/stores/point'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 
-const pointId = useRoute().params.pointId as string
-const { data: point, update, updateLoading } = usePoint(pointId)
+const store = usePointStore()
+const router = useRouter()
+const route = useRoute()
+store.setId(route.params.pointId as string)
+const { loading } = storeToRefs(store)
+await waitForEndLoading(loading)
 
 // passer en props
 const answerType = ref<Point['answerType']>()
-const answers = ref([])
 const answerLocation = ref<{ lng: number; lat: number }>()
 
 const pointTrigger = ref('')
-const step = ref(0)
-const trigger = ref('false')
 
-const handlePointTrigger = (value: string) => {
-  pointTrigger.value = value
-}
-
-function nextStep() {
-  if (!point.value) {
-    return
-  }
-  if (step.value === 0) {
-    console.log(step)
-  }
-  if (step.value === 1) {
-    if (answerType.value) {
-      point.value.answerType = answerType.value
-    }
-    if (answerType.value === 'location') {
-      point.value.answer = answerLocation.value
-    }
-    if (answerType.value === 'text' || answerType.value === 'choice') {
-      point.value.answer = answers.value
-    }
-  }
-  if (step.value === 2) {
-    if (trigger.value === 'true') {
-      point.value.trigger = pointTrigger.value
-    }
-    if (trigger.value === 'false') {
-      point.value.trigger = undefined
-    }
-  }
-  step.value += 1
-  if (step.value > 2 || step.value < 0) {
-    step.value = 0
-  }
-
+function save() {
   saveChanges()
-  if (step.value === 2) {
-    console.log('end')
-    // redirection view liste de points
+  if (route.name === 'point-dependency') {
+    router.push({ name: 'edit-journey' })
+  } else if (route.name === 'point-position') {
+    router.push({ name: 'point-content' })
+  } else if (route.name === 'point-content') {
+    router.push({ name: 'point-dependency' })
   }
 }
-
-function prevStep() {
-  step.value -= 1
-  if (step.value > 2 || step.value < 0) {
-    step.value = 0
+function quit() {
+  const result = confirm(
+    'Vos changements ne serront pas sauvegardé. Voulez-vous vraiment quitter la page ?'
+  )
+  if (result) {
+    router.push({ name: 'edit-journey' })
   }
-  update()
 }
 
 async function saveChanges() {
   console.log(pointTrigger.value)
   try {
-    await update()
+    await store.update()
   } catch (e) {
     console.log(e)
   }
@@ -83,57 +54,37 @@ async function saveChanges() {
 </script>
 
 <template>
-  <article v-if="point" class="pt-10 px-16 h-full">
-    <section v-if="step == 0" class="h-full">
-      <div v-if="point" class="flex flex-col h-full">
-        <header class="flex items-center justify-between gap-8">
-          <TextInput v-model="point.name" label="Nom du point"></TextInput>
-          <div class="flex">
-            <DefaultButton :loading="updateLoading" @click="nextStep"
-              >Enregistrer
-            </DefaultButton>
-          </div>
-        </header>
-        <EditPointLocation :point="point" />
+  <article v-if="store.point" class="pt-10 px-16 h-full flex flex-col h-full">
+    <header class="flex items-center justify-between gap-8 h-auto">
+      <page-title v-if="route.name !== 'point-position'" class="mb-10">{{
+        store.point.name
+      }}</page-title>
+      <TextInput
+        v-if="route.name == 'point-position'"
+        v-model="store.point.name"
+        label="Nom du point"
+      ></TextInput>
+      <div class="flex">
+        <SquareButton
+          class="mr-3"
+          icon="back"
+          color="white"
+          :loading="store.loading"
+          @click="quit"
+        />
+        <DefaultButton :loading="store.loading" @click="save">
+          {{ route.name == 'point-dependency' ? 'Enregistrer' : 'Suivant' }}
+        </DefaultButton>
       </div>
-    </section>
-    <section v-if="step == 1" class="h-full">
-      <header class="flex items-center justify-between gap-8">
-        <page-title class="mb-10">{{ point.name }}</page-title>
-        <div class="flex">
-          <DefaultButton :loading="updateLoading" @click="prevStep"
-            >Prev
-          </DefaultButton>
-          <DefaultButton :loading="updateLoading" @click="nextStep"
-            >Enregistrer
-          </DefaultButton>
-        </div>
-      </header>
-      <EditPointContent
-        :point="point"
-        @update:answerType="answerType = $event"
-        @update:answers="answers = $event"
-        @update:answerLocation="answerLocation = $event"
-      />
-    </section>
-    <section v-if="step == 2" class="h-full">
-      <header class="flex items-center justify-between gap-8">
-        <page-title class="mb-10">{{ point.name }}</page-title>
-        <div class="flex">
-          <DefaultButton :loading="updateLoading" @click="prevStep"
-            >Prev
-          </DefaultButton>
-          <DefaultButton :loading="updateLoading" @click="nextStep"
-            >Enregistrer
-          </DefaultButton>
-        </div>
-      </header>
-      <EditPointTrigger
-        :point="point"
-        @pointTrigger="handlePointTrigger"
-        @update:isTrigger="trigger = $event"
-      />
-    </section>
-    <section v-else>Chargement</section>
+    </header>
+    <PointNavbar
+      class="mb-2 h-auto"
+      @routeToPath="
+        (pathName) => {
+          router.push({ name: pathName })
+        }
+      "
+    />
+    <RouterView />
   </article>
 </template>

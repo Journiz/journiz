@@ -12,6 +12,12 @@ const store = useJourneyStore()
 const router = useRouter()
 const pb = usePocketBase()
 
+const props = defineProps({
+  currentItemId: {
+    type: String,
+    default: '',
+  },
+})
 async function deletePoint(id: string) {
   try {
     await pb.collection('point').delete(id)
@@ -54,8 +60,12 @@ const points = computed<PointWithDependents[]>(() => {
           v-for="point in points"
           :key="point.id"
           :point="point"
+          :current-item-id="currentItemId"
           @edit-point="
-            $router.push({ name: 'edit-point', params: { pointId: $event } })
+            $router.push({
+              name: 'edit-point',
+              params: { pointId: $event },
+            })
           "
           @delete-point="deletePoint($event)"
         />
