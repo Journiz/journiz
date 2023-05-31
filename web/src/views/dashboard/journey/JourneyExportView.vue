@@ -32,7 +32,7 @@ const updateGeometry = async (geo: any) => {
           class="flex-grow w-1/2 rounded-xl overflow-hidden"
           :draw-data="journeyStore.journey?.safeZone"
           :map-center="[journeyStore.journey!.basecampLongitude, journeyStore.journey!.basecampLatitude]"
-          zoom="14"
+          :zoom="14"
           @safeAreaGeometry="updateGeometry"
         >
           <MapMarker

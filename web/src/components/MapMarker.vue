@@ -27,7 +27,7 @@ const props = defineProps({
   },
 })
 
-const iconComp = computed(() => (markers as any)[props.icon])
+const iconComp = computed(() => markers[props.icon as keyof typeof markers])
 </script>
 <template>
   <MapboxMarker :lng-lat="position">

@@ -1,8 +1,9 @@
 import { z } from 'zod'
 import { MessageSchema } from './Message'
 import { TeamSchema } from './Team'
+import { BaseSchema } from './Base'
 
-export const ConversationSchema = z.object({
+export const ConversationSchema = BaseSchema.extend({
   id: z.string(),
   created: z.string(),
   team: z.string(),

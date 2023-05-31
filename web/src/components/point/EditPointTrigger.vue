@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRefs, defineEmits, watch, onMounted } from 'vue'
+import { ref, toRefs, watch, onMounted } from 'vue'
 import { Point as PointType } from '@journiz/api-types'
 import { useJourneyStore } from '~/stores/journey'
 import SelectInput from '~/components/forms/SelectInput.vue'
@@ -11,11 +11,11 @@ const emit = defineEmits(['pointTrigger', 'update:isTrigger'])
 
 const { point } = toRefs(props)
 const trigger = ref('false')
-const pointTrigger = ref('')
+// const pointTrigger = ref('')
 
 const store = useJourneyStore()
-const pts = store.journey.expand.points
-const selectPoints: any = []
+const pts = store.journey?.expand?.points ?? []
+const selectPoints: any[] = []
 
 pts.forEach((element: any) => {
   if (props.point.id !== element.id) {

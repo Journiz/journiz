@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import { Point } from '@journiz/api-types'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import TextInput from '~/components/forms/TextInput.vue'
 import PointNavbar from '~/components/point/PointNavbar.vue'
@@ -18,12 +19,10 @@ const { loading } = storeToRefs(store)
 await waitForEndLoading(loading)
 
 // passer en props
-const answerType = ref('')
-const answerLocation = ref({})
+const answerType = ref<Point['answerType']>()
+const answerLocation = ref<{ lng: number; lat: number }>()
 
 const pointTrigger = ref('')
-const step = ref(0)
-const trigger = ref('false')
 
 function save() {
   saveChanges()
@@ -55,7 +54,7 @@ async function saveChanges() {
 </script>
 
 <template>
-  <article class="pt-10 px-16 h-full flex flex-col h-full">
+  <article v-if="store.point" class="pt-10 px-16 h-full flex flex-col h-full">
     <header class="flex items-center justify-between gap-8 h-auto">
       <page-title v-if="route.name !== 'point-position'" class="mb-10">{{
         store.point.name

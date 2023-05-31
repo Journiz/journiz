@@ -1,6 +1,6 @@
 <script setup>
+import { getFileUrl } from '@journiz/composables'
 import { useRoute, useRouter } from 'vue-router'
-import { useFileUrl } from '@journiz/composables'
 import { computed, ref } from 'vue'
 import IconSignout from '~icons/uil/sign-out-alt'
 import { useUserStore } from '~/stores/user'
@@ -40,7 +40,7 @@ const logout = async () => {
   await userStore.logout()
   await router.push('/')
 }
-const avatar = useFileUrl(userStore.user, userStore.user.avatar)
+const avatar = getFileUrl(userStore.user, userStore.user.avatar)
 </script>
 
 <template>

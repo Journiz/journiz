@@ -34,7 +34,7 @@ const props = defineProps({
   },
 })
 
-const Icon = computed(() => icons[props.icon])
+const Icon = computed(() => icons[props.icon as keyof typeof icons])
 </script>
 <template>
   <router-link :to="path" class="min-w-41 mb-6">

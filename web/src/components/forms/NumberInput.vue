@@ -32,7 +32,7 @@ const changeValue = (typeOfChange: string) => {
     input.value.value = parseInt(input.value.value) - 1
   }
   console.log(typeof input.value.value)
-  emit('update:modelValue', (input as unknown as HTMLInputElement).value.value)
+  emit('update:modelValue', (input as unknown as HTMLInputElement).value)
 }
 </script>
 <template>

@@ -1,7 +1,8 @@
 import { z } from 'zod'
 import { PointSchema } from './Point'
+import { BaseSchema } from './Base'
 
-export const JourneySchema = z.object({
+export const JourneySchema = BaseSchema.extend({
   basecampLatitude: z.number(),
   basecampLongitude: z.number(),
   basecampName: z.string(),

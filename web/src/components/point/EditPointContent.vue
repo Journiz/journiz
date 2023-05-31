@@ -10,7 +10,6 @@ import MediaSlider from '~/components/point/editPointInputs/MediaSlider.vue'
 const store = usePointStore()
 
 const answerType = ref('choice')
-const answerLocation = ref({ lng: 0, lat: 0 })
 
 const selectChoices = [
   { value: 'image', content: 'Image' },
@@ -20,12 +19,17 @@ const selectChoices = [
 ]
 
 function handleSelected(value: string) {
-  console.log(value)
   answerType.value = value
+}
+
+function handleScoreChange(newScore: number) {
+  if (store.point?.score) {
+    store.point.score = newScore
+  }
 }
 </script>
 <template>
-  <div class="pb-6 flex-col">
+  <div v-if="store.point" class="pb-6 flex-col">
     <div class="flex gap-12">
       <SelectInput
         class="w-full"
@@ -40,13 +44,15 @@ function handleSelected(value: string) {
         class="w-fit"
         :model-value="store.point.score.toString()"
         label="Score"
-        @update:modelValue="
-          (newScore) => (store.point.score = newScore.toString())
-        "
+        @update:modelValue="handleScoreChange"
       />
     </div>
     <MediaSlider label="Visuel de la question" class="mt-2 mb-5" />
-    <TextareaInput v-model="store.point.question" label="Énoncé" />
+    <TextareaInput
+      v-if="store.point.question"
+      v-model="store.point.question"
+      label="Énoncé"
+    />
     <div v-if="answerType == 'image'"></div>
     <ChoicesInputs
       v-if="['choice', 'text'].includes(answerType)"

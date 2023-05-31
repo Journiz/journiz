@@ -51,7 +51,7 @@ const mapCenter = computed(() => {
           </template>
         </MapMarker>
         <MapMarker
-          v-if="pointTrigger.value"
+          v-if="pointTrigger"
           :position="[pointTrigger.long, pointTrigger.lat]"
         >
           <template #icon>
