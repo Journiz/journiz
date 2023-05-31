@@ -28,7 +28,17 @@ export const TeamSchema = BaseSchema.extend({
       '',
     ])
     .optional(),
-  hat: z.enum(['crown', 'headset', 'party', 'bucket', '']),
+  hat: z.enum([
+    'crown',
+    'headset',
+    'party',
+    'cap',
+    'sunhat',
+    'degree',
+    'cook',
+    'propeller',
+    'bonnet',
+  ]),
   warCry: z.string().optional(),
   expand: z
     .object({
