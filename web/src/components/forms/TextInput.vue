@@ -78,7 +78,7 @@ const togglePasswordVisibility = () => {
     <div
       v-if="type === 'password'"
       :toggle="'#' + input?.id"
-      class="i-uil:eye h-4 w-4 color-red field-icon toggle-password cursor-pointer absolute right-4 bottom-7"
+      class="i-uil:eye hover:scale-125 transition-all h-4 w-4 color-red field-icon toggle-password cursor-pointer absolute right-4 bottom-7"
       @click="togglePasswordVisibility"
     ></div>
   </div>
@@ -92,5 +92,9 @@ input.got-icon {
   background-position: 16px 50%;
   background-size: 18px auto;
   background-repeat: no-repeat;
+  transition: background-size 0.5s;
+}
+input.got-icon:focus {
+  background-size: 14px auto;
 }
 </style>
