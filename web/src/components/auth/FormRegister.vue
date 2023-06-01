@@ -35,10 +35,7 @@ const register = async () => {
 </script>
 
 <template>
-  <form
-    class="w-full max-w-520px p-13 bg-blue-300 rounded-xl mx-auto"
-    @submit.prevent="register"
-  >
+  <form class="w-full max-w-520px p-13 mx-auto" @submit.prevent="register">
     <div class="form-group">
       <TextInput
         v-model="username"

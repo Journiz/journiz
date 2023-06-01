@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import TextInput from '~/components/forms/TextInput.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
 
 const invalidInput = ref(false)
 
@@ -13,7 +14,7 @@ const email = ref('')
 const password = ref('')
 const loading = ref(false)
 
-const emit = defineEmits(['displayMissingPassword', 'displaySubscribe'])
+const emit = defineEmits(['displayMissingPassword'])
 
 const login = async () => {
   loading.value = true
@@ -29,12 +30,16 @@ const login = async () => {
 </script>
 
 <template>
-  <form
-    class="w-full max-w-520px p-13 bg-blue-300 rounded-xl mx-auto"
-    @submit.prevent="login"
-  >
+  <form class="w-full max-w-520px p-13 mx-auto" @submit.prevent="login">
+    <h2 class="mx-auto w-fit font-black text-3xl mb-8">Connexion</h2>
     <div class="form-group">
-      <TextInput v-model="email" label="Email" placeholder="email" />
+      <TextInput
+        v-model="email"
+        class="mb-6"
+        label="Email"
+        placeholder="email"
+        :no-display-required-stars="true"
+      />
     </div>
     <div class="form-group">
       <TextInput
@@ -42,27 +47,16 @@ const login = async () => {
         label="Mot de passe"
         placeholder="password"
         type="password"
+        :no-display-required-stars="true"
       />
     </div>
     <div
-      class="w-full flex justify-end text-blue-700 font-semibold cursor-pointer"
+      class="w-full flex justify-end font-semibold cursor-pointer mt-2 hover:color-green"
       @click="emit('displayMissingPassword')"
     >
       Mot de passe oublié ?
     </div>
-    <div class="w-full flex justify-end text-blue-500 font-semibold">
-      Vous ne possédez pas de compte ?
-      <span
-        class="cursor-pointer text-blue-700 ml-1"
-        @click="emit('displaySubscribe')"
-        >S'inscrire !</span
-      >
-    </div>
     <p v-if="invalidInput">Identifiant ou mot de passe incorrect</p>
-    <button
-      class="w-fit block bg-blue-800 px-8 py-3 color-white rounded-xl mt-8 mx-auto"
-    >
-      Connexion
-    </button>
+    <DefaultButton class="mx-auto mt-6">Connexion</DefaultButton>
   </form>
 </template>

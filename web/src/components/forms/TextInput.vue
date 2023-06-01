@@ -24,6 +24,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  noDisplayRequiredStars: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -35,7 +39,8 @@ const onInput = (e: any) => {
 <template>
   <div class="w-full">
     <label v-if="label" :for="input?.id" class="text-black font-medium"
-      >{{ label }}{{ requiredField ? '*' : '' }}</label
+      >{{ label
+      }}{{ requiredField && !noDisplayRequiredStars ? '*' : '' }}</label
     >
     <input
       ref="input"
