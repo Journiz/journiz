@@ -58,6 +58,8 @@ const login = async () => {
       Mot de passe oublié ?
     </div>
     <p v-if="invalidInput">Identifiant ou mot de passe incorrect</p>
-    <DefaultButton class="mx-auto mt-6">Connexion</DefaultButton>
+    <DefaultButton class="mx-auto mt-6" color="secondary"
+      >Connexion</DefaultButton
+    >
   </form>
 </template>

@@ -41,28 +41,34 @@ const register = async () => {
     <div class="form-group">
       <TextInput
         v-model="username"
-        label="Username"
-        placeholder="username"
+        class="mb-5"
+        label="Identifiant"
+        placeholder="Identifiant"
         type="text"
         svg-name="people"
+        :no-display-required-stars="true"
       />
     </div>
     <div class="form-group">
       <TextInput
         v-model="email"
+        class="mb-5"
         label="Email"
         placeholder="email"
         type="text"
         svg-name="email"
+        :no-display-required-stars="true"
       />
     </div>
     <div class="form-group">
       <TextInput
         v-model="password"
+        class="mb-5"
         label="Mot de passe"
         placeholder="password"
         type="password"
         svg-name="lock"
+        :no-display-required-stars="true"
       />
     </div>
     <div class="form-group">
@@ -72,9 +78,12 @@ const register = async () => {
         placeholder="confirmPassword"
         type="password"
         svg-name="lock"
+        :no-display-required-stars="true"
       />
     </div>
     <p v-if="invalidInput">Identifiant ou mot de passe incorrect</p>
-    <DefaultButton class="mx-auto mt-6">S'inscrire </DefaultButton>
+    <DefaultButton class="mx-auto mt-6" color="secondary"
+      >S'inscrire
+    </DefaultButton>
   </form>
 </template>

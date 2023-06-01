@@ -25,7 +25,7 @@ const displayRegister = ref(false)
         :class="displayRegister ? 'translate-x-0' : 'translate-x-full'"
       >
         <DefaultButton @click="displayRegister = !displayRegister">
-          S'inscrire
+          {{ !displayRegister ? "S'inscrire" : 'Se connecter' }}
         </DefaultButton>
       </div>
     </div>
