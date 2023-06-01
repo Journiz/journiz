@@ -45,9 +45,16 @@ onMounted(() => {
     imageURL = "'src/assets/images/svg/inputsIcons/" + props.svgName + ".svg'"
   }
 })
+const togglePasswordVisibility = () => {
+  if (input.value.type === 'password') {
+    input.value.type = 'text'
+  } else {
+    input.value.type = 'password'
+  }
+}
 </script>
 <template>
-  <div class="w-full">
+  <div class="w-full relative">
     <label v-if="label" :for="input?.id" class="text-black font-medium"
       >{{ label
       }}{{ requiredField && !noDisplayRequiredStars ? '*' : '' }}</label
@@ -68,6 +75,12 @@ onMounted(() => {
       :style="{ backgroundImage: 'url(' + imageURL + ')' }"
       @input="onInput"
     />
+    <div
+      v-if="type === 'password'"
+      :toggle="'#' + input?.id"
+      class="i-uil:eye h-4 w-4 color-red field-icon toggle-password cursor-pointer absolute right-4 bottom-7"
+      @click="togglePasswordVisibility"
+    ></div>
   </div>
 </template>
 <style scoped>
