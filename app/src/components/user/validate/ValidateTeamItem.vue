@@ -4,6 +4,7 @@ import { useRealtimeTeam } from '@journiz/composables'
 import { computed } from 'vue'
 import Button from '~/components/design-system/Button.vue'
 import { getColor } from '~/composables/useThemeColor'
+import TeamAvatar from '~/components/team/TeamAvatar.vue'
 
 const props = defineProps<{
   team: Team
@@ -23,12 +24,7 @@ const pendingAnswersCount = computed(() => {
 <template>
   <div class="bg-white p-3 rounded-lg shadow-sm flex flex-col gap-4">
     <div class="flex items-center gap-3">
-      <div
-        class="w-8 h-8 rounded-full"
-        :style="{
-          backgroundColor: getColor(team.color as any ?? 'red'),
-        }"
-      ></div>
+      <TeamAvatar class="w-8 h-8" :team="team" />
       <span class="font-bold">{{ team.name }}</span>
     </div>
     <div class="relative">

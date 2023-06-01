@@ -25,5 +25,8 @@ export const useThemeColor = () => {
   })
 }
 export const getColor = (colorName: keyof typeof themeColors) => {
+  if (!colorName) {
+    colorName = defaultColor
+  }
   return themeColors[colorName]
 }
