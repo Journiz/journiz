@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../../stores/user'
 import TextInput from '~/components/forms/TextInput.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
 
 const invalidInput = ref(false)
 const email = ref('')
@@ -36,12 +37,14 @@ const register = async () => {
 
 <template>
   <form class="w-full max-w-520px p-13 mx-auto" @submit.prevent="register">
+    <h2 class="mx-auto w-fit font-black text-3xl mb-8">Inscription</h2>
     <div class="form-group">
       <TextInput
         v-model="username"
         label="Username"
         placeholder="username"
         type="text"
+        svg-name="people"
       />
     </div>
     <div class="form-group">
@@ -50,6 +53,7 @@ const register = async () => {
         label="Email"
         placeholder="email"
         type="text"
+        svg-name="email"
       />
     </div>
     <div class="form-group">
@@ -58,6 +62,7 @@ const register = async () => {
         label="Mot de passe"
         placeholder="password"
         type="password"
+        svg-name="lock"
       />
     </div>
     <div class="form-group">
@@ -66,13 +71,10 @@ const register = async () => {
         label="Confirmer le mot de passe"
         placeholder="confirmPassword"
         type="password"
+        svg-name="lock"
       />
     </div>
     <p v-if="invalidInput">Identifiant ou mot de passe incorrect</p>
-    <button
-      class="w-fit block bg-blue-800 px-8 py-3 color-white rounded-xl mt-8 mx-auto"
-    >
-      Je m'inscris
-    </button>
+    <DefaultButton class="mx-auto mt-6">S'inscrire </DefaultButton>
   </form>
 </template>
