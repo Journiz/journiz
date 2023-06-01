@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-defineProps({
+import { onMounted, ref } from 'vue'
+let imageURL = ''
+const props = defineProps({
   label: {
     type: String,
   },
@@ -28,6 +29,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  svgName: {
+    type: String,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -35,6 +40,11 @@ const input = ref()
 const onInput = (e: any) => {
   emit('update:modelValue', (e.target as HTMLInputElement).value)
 }
+onMounted(() => {
+  if (props.svgName) {
+    imageURL = "'src/assets/images/svg/inputsIcons/" + props.svgName + ".svg'"
+  }
+})
 </script>
 <template>
   <div class="w-full">
@@ -49,11 +59,13 @@ const onInput = (e: any) => {
       :required="requiredField"
       :type="type"
       class="w-full border rounded-md py-4 px-5 mt-2 mb-2 text-green-dark bg-green-dark/4"
-      :class="
+      :class="[
         alternativeStyle
           ? 'bg-green-dark/4'
-          : 'bg-white custom-shadow border-none'
-      "
+          : 'bg-white custom-shadow border-none',
+        svgName ? 'got-icon' : '',
+      ]"
+      :style="{ backgroundImage: 'url(' + imageURL + ')' }"
       @input="onInput"
     />
   </div>
@@ -61,5 +73,11 @@ const onInput = (e: any) => {
 <style scoped>
 .custom-shadow {
   filter: drop-shadow(0px 1px 2px rgba(0, 35, 30, 0.16));
+}
+input.got-icon {
+  padding-left: 40px;
+  background-position: 16px 50%;
+  background-size: 18px auto;
+  background-repeat: no-repeat;
 }
 </style>

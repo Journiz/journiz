@@ -38,6 +38,7 @@ const login = async () => {
         class="mb-6"
         label="Email"
         placeholder="email"
+        svg-name="people"
         :no-display-required-stars="true"
       />
     </div>
