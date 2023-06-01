@@ -13,7 +13,7 @@ export const themeColors = {
   brown: '#8D4A0D',
   violet: '#E8B8FF',
   blue: '#1D609D',
-  gray: '#4D4D4D',
+  teal: '#AEE4BA',
 }
 
 const defaultColor = 'red'

@@ -24,7 +24,7 @@ export const TeamSchema = BaseSchema.extend({
       'brown',
       'violet',
       'blue',
-      'gray',
+      'teal',
       '',
     ])
     .optional(),
