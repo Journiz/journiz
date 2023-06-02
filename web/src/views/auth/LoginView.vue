@@ -24,7 +24,16 @@ const displayRegister = ref(false)
         class="absolute z-1 bg-red left-0 top-0 w-1/2 h-full transition flex items-center justify-center duration-700"
         :class="displayRegister ? 'translate-x-0' : 'translate-x-full'"
       >
-        <DefaultButton @click="displayRegister = !displayRegister">
+        <img
+          class="object-cover object-center w-full h-full absolute top-0 left-0"
+          src="../../assets/images/backgroundImage/bg-login.jpg"
+          alt="Illustration login"
+        />
+        <DefaultButton
+          class="relative"
+          color="white"
+          @click="displayRegister = !displayRegister"
+        >
           {{ !displayRegister ? "S'inscrire" : 'Se connecter' }}
         </DefaultButton>
       </div>
