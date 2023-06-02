@@ -72,13 +72,13 @@ onMounted(mounted)
         ref="buttons"
         :key="tab.name"
         :data-tab-name="tab.name"
-        class="flex-grow pb-5 font-medium"
+        class="flex-grow pb-5 font-medium btn-animation"
         @click="setActiveTab(tab.name)"
       >
         {{ tab.title }}
       </button>
     </div>
-    <div class="relative w-full flex-grow bg-blue">
+    <div class="relative w-full flex-grow">
       <slot></slot>
     </div>
   </div>
