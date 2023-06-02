@@ -5,7 +5,7 @@ import { TabsProviderKey } from '~/types/tabs'
 const props = defineProps<{
   title: string
   name: string
-  icon: string
+  icon?: string
   defaultSelected?: boolean
 }>()
 const addTab = inject('addTab') as any

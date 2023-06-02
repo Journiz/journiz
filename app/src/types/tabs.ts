@@ -3,7 +3,7 @@ import { InjectionKey } from 'vue'
 export interface TabData {
   name: string
   title: string
-  icon: string
+  icon?: string
 }
 export type TabsProvider = {
   activeTabName: string

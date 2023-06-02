@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
-import { onBeforeMount, onMounted, provide, reactive } from 'vue'
+import { onMounted, provide, reactive } from 'vue'
 import { TabData, TabsProvider, TabsProviderKey } from '~/types/tabs'
-import TabBar from '~/components/tabs/TabBar.vue'
+import TabBar from '~/components/tabs/tab-bar/TabBar.vue'
 
 const state: TabsProvider = reactive({
   activeTabName: '',
