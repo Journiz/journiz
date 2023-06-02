@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
+</script>
 
 <template>
   <main class="bg-beige w-screen h-screen flex items-center justify-center">
@@ -58,8 +60,10 @@
           </defs>
         </svg>
       </div>
-
       Landing page
+      <DefaultButton class="mx-auto mt-4" @click="$router.push('/dashboard')">
+        Dashboard
+      </DefaultButton>
     </div>
     <!--    <Sidebar />-->
     <!--    <AuthStatus />-->

@@ -65,7 +65,7 @@ const togglePasswordVisibility = () => {
       :value="modelValue"
       :required="requiredField"
       :type="type"
-      class="w-full border rounded-md py-4 px-5 mt-2 mb-2 text-green-dark bg-green-dark/4"
+      class="w-full border rounded-md py-3 px-5 mt-2 mb-2 text-green-dark bg-green-dark/4"
       :class="[
         alternativeStyle
           ? 'bg-green-dark/4'
@@ -78,7 +78,7 @@ const togglePasswordVisibility = () => {
     <div
       v-if="type === 'password'"
       :toggle="'#' + input?.id"
-      class="i-uil:eye hover:scale-125 transition-all h-4 w-4 color-red field-icon toggle-password cursor-pointer absolute right-4 bottom-7"
+      class="i-uil:eye hover:scale-125 transition-all h-4 w-4 color-red field-icon toggle-password cursor-pointer absolute right-4 bottom-6"
       @click="togglePasswordVisibility"
     ></div>
   </div>

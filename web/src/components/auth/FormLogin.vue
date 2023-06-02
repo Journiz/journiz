@@ -48,6 +48,7 @@ const login = async () => {
         label="Mot de passe"
         placeholder="password"
         type="password"
+        svg-name="lock"
         :no-display-required-stars="true"
       />
     </div>
