@@ -29,7 +29,7 @@ const warn = async () => {
         actionName: 'cancel',
       },
     ],
-    'test2'
+    'test'
   )
   console.log(result)
 }
