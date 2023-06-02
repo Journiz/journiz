@@ -95,6 +95,9 @@ importers:
       '@mapbox/mapbox-gl-geocoder':
         specifier: ^5.0.1
         version: 5.0.1(mapbox-gl@2.15.0)
+      '@rive-app/canvas':
+        specifier: ^1.1.9
+        version: 1.1.9
       '@studiometa/vue-mapbox-gl':
         specifier: ^2.1.1
         version: 2.1.1(@mapbox/mapbox-gl-geocoder@5.0.1)(mapbox-gl@2.15.0)(vue@3.3.4)
@@ -167,10 +170,10 @@ importers:
         version: 5.0.4
       unocss:
         specifier: ^0.51.13
-        version: 0.51.13(vite@4.3.9)
+        version: 0.51.13(postcss@8.4.23)(vite@4.3.9)
       unplugin-icons:
         specifier: ^0.15.3
-        version: 0.15.3
+        version: 0.15.3(@vue/compiler-sfc@3.3.4)
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@18.16.16)(sass@1.62.1)
@@ -320,7 +323,7 @@ importers:
         version: 4.8.4
       unocss:
         specifier: ^0.51.13
-        version: 0.51.13(vite@4.3.9)
+        version: 0.51.13(postcss@8.4.23)(vite@4.3.9)
       unplugin-icons:
         specifier: ^0.15.3
         version: 0.15.3(@vue/compiler-sfc@3.3.4)
@@ -1412,6 +1415,10 @@ packages:
       '@xml-tools/parser': 1.0.11
       prettier: 2.8.8
     dev: true
+
+  /@rive-app/canvas@1.1.9:
+    resolution: {integrity: sha512-PsHDCtte999FToHb6H1+0sU+DYZEDU8Ph6m1qZcIM8d5a9NQtH9ic71rFJvzeI4de5ET/kzj0V/JUaSo16DMrg==}
+    dev: false
 
   /@rollup/pluginutils@5.0.2:
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
@@ -2883,9 +2890,11 @@ packages:
       sirv: 2.0.3
     dev: true
 
-  /@unocss/postcss@0.51.13:
+  /@unocss/postcss@0.51.13(postcss@8.4.23):
     resolution: {integrity: sha512-V1QJ7md9jYtBwRc6NGep1Atc+QhaR3115B1wCo8CNM+v+ZOQzpxNsAshvOfyPzfzTj+KLtp4u4zqqaTbYGX2cw==}
     engines: {node: '>=14'}
+    peerDependencies:
+      postcss: ^8.4.21
     dependencies:
       '@unocss/config': 0.51.13
       '@unocss/core': 0.51.13
@@ -4066,17 +4075,6 @@ packages:
       ms: 2.0.0
     dev: true
 
-  /debug@3.2.7:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.3
-    dev: true
-
   /debug@3.2.7(supports-color@5.5.0):
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
     peerDependencies:
@@ -4478,7 +4476,7 @@ packages:
   /eslint-import-resolver-node@0.3.7:
     resolution: {integrity: sha512-gozW2blMLJCeFpBwugLTGyvVjNoeo1knonXAcatC6bjPBZitotxdWf7Gimr25N4c0AAOo4eOUfaG82IJPDpqCA==}
     dependencies:
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       is-core-module: 2.11.0
       resolve: 1.22.1
     transitivePeerDependencies:
@@ -4527,7 +4525,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 5.54.1(eslint@8.41.0)(typescript@4.8.4)
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       eslint: 8.41.0
       eslint-import-resolver-node: 0.3.7
       eslint-import-resolver-typescript: 3.5.3(eslint-plugin-import@2.27.5)(eslint@8.41.0)
@@ -4571,7 +4569,7 @@ packages:
       array-includes: 3.1.6
       array.prototype.flat: 1.3.1
       array.prototype.flatmap: 1.3.1
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       doctrine: 2.1.0
       eslint: 8.41.0
       eslint-import-resolver-node: 0.3.7
@@ -8179,7 +8177,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unocss@0.51.13(vite@4.3.9):
+  /unocss@0.51.13(postcss@8.4.23)(vite@4.3.9):
     resolution: {integrity: sha512-EAhuQ97D7E+EsTdlCL+xoWEsvz46Se9ZAtHhJ+1W+DzMky9qrDLRyR8Caf2TPbz8dw/z0qYhoPr6/aJARG4r0g==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -8192,7 +8190,7 @@ packages:
       '@unocss/cli': 0.51.13
       '@unocss/core': 0.51.13
       '@unocss/extractor-arbitrary-variants': 0.51.13
-      '@unocss/postcss': 0.51.13
+      '@unocss/postcss': 0.51.13(postcss@8.4.23)
       '@unocss/preset-attributify': 0.51.13
       '@unocss/preset-icons': 0.51.13
       '@unocss/preset-mini': 0.51.13
@@ -8209,6 +8207,7 @@ packages:
       '@unocss/transformer-variant-group': 0.51.13
       '@unocss/vite': 0.51.13(vite@4.3.9)
     transitivePeerDependencies:
+      - postcss
       - rollup
       - supports-color
       - vite
@@ -8217,34 +8216,6 @@ packages:
   /unpipe@1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
     engines: {node: '>= 0.8'}
-    dev: true
-
-  /unplugin-icons@0.15.3:
-    resolution: {integrity: sha512-YWgJqv5AahrokeOnta8uX/m1damZA6Rf6zPClgHg2Fa/45iyOe3Lj+Wn/Ba+CSsq9yBffn17YfKfJNyWCNZPvw==}
-    peerDependencies:
-      '@svgr/core': '>=5.5.0'
-      '@vue/compiler-sfc': ^3.0.2 || ^2.7.0
-      vue-template-compiler: ^2.6.12
-      vue-template-es2015-compiler: ^1.9.0
-    peerDependenciesMeta:
-      '@svgr/core':
-        optional: true
-      '@vue/compiler-sfc':
-        optional: true
-      vue-template-compiler:
-        optional: true
-      vue-template-es2015-compiler:
-        optional: true
-    dependencies:
-      '@antfu/install-pkg': 0.1.1
-      '@antfu/utils': 0.7.2
-      '@iconify/utils': 2.1.5
-      debug: 4.3.4
-      kolorist: 1.7.0
-      local-pkg: 0.4.3
-      unplugin: 1.3.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /unplugin-icons@0.15.3(@vue/compiler-sfc@3.3.4):
