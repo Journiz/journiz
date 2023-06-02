@@ -23,7 +23,7 @@ const closeModal = () => {
     </div>
   </transition>
 </template>
-<style scoped lang="scss">
+<style lang="scss">
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.2s ease;

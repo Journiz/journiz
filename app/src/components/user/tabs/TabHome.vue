@@ -1,16 +1,38 @@
 <script lang="ts" setup="">
-import { ComputedRef, ref } from 'vue'
+import { ref } from 'vue'
 import { IonModal } from '@ionic/vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
 import PickTrip from '~/components/user/PickTrip.vue'
 import usePage from '~/composables/usePage'
+import { showModal } from '~/composables/useModal'
 
 const userStore = useUserStore()
 const logout = useLogout(userStore.logout)
 
 const page = usePage()
 const switchTripModalOpen = ref(false)
+
+const warn = async () => {
+  const result = await showModal(
+    'Hello',
+    'This is a test',
+    [
+      {
+        title: 'Ok',
+        color: 'red',
+        actionName: 'ok',
+      },
+      {
+        title: 'Cancel',
+        color: 'green',
+        actionName: 'cancel',
+      },
+    ],
+    'test2'
+  )
+  console.log(result)
+}
 </script>
 <template>
   <div class="flex-grow h-full bg-red/40">
@@ -21,6 +43,7 @@ const switchTripModalOpen = ref(false)
     <div>
       <IonButton @click="switchTripModalOpen = true">Switch trip</IonButton>
       <IonButton @click="logout">Logout</IonButton>
+      <IonButton @click="warn">Warn me</IonButton>
     </div>
 
     <IonModal

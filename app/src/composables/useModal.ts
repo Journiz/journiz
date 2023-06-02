@@ -3,19 +3,56 @@ import { ButtonColor } from '~/types/Button'
 
 const title = ref('Titre')
 const text = ref('Texte')
-const key = ref(0)
+const animationName = ref('')
 const isOpen = ref(false)
-const buttons: Ref<{
-  [key: string]: {
-    text: string
+const buttons: Ref<
+  {
+    actionName: string
     color: ButtonColor
-  }
-}> = ref({})
+    title: string
+  }[]
+> = ref([
+  {
+    actionName: 'cancel',
+    color: 'red',
+    title: 'Annuler',
+  },
+])
 
-export const useAppModal = () => ({
-  isOpen,
-  title,
-  text,
-  key,
-  buttons,
-})
+let closeCallback: (action: string) => void
+export const useAppModal = () => {
+  const closeWithAction = (action: string) => {
+    closeCallback?.(action)
+    isOpen.value = false
+  }
+  return {
+    isOpen,
+    title,
+    text,
+    buttons,
+    animationName,
+    closeWithAction,
+  }
+}
+
+export const showModal = (
+  modalTitle: string,
+  modaltext: string,
+  btns: typeof buttons.value,
+  animation = ''
+) => {
+  title.value = modalTitle
+  text.value = modaltext
+  animationName.value = animation
+  buttons.value = btns
+
+  // key.value++
+  isOpen.value = true
+
+  return new Promise((resolve) => {
+    closeCallback = (action: string) => {
+      isOpen.value = false
+      resolve(action)
+    }
+  })
+}
