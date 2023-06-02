@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Team } from '@journiz/api-types'
 import { createGesture } from '@ionic/core'
-import gsap from 'gsap'
+import hatBg from '~/assets/img/hat-bg.png'
 const props = defineProps<{
   modelValue: Team['hat']
 }>()
@@ -17,7 +17,17 @@ const hat = computed({
   },
 })
 
-const hats: Team['hat'][] = ['crown', 'headset', 'party', 'bucket']
+const hats: Team['hat'][] = [
+  'crown',
+  'headset',
+  'party',
+  'cap',
+  'sunhat',
+  'degree',
+  'cook',
+  'propeller',
+  'bonnet',
+]
 
 const initialHatIndex = hats.indexOf(props.modelValue)
 const currentHatIndex = ref(initialHatIndex > -1 ? initialHatIndex : 0)
@@ -88,6 +98,7 @@ onMounted(() => {
     <div
       class="flex-grow bg-theme rounded-full aspect-square overflow-hidden relative"
     >
+      <img :src="hatBg" class="absolute inset-0 w-full h-full opacity-30" />
       <div
         ref="el"
         class="absolute h-full top-0 left-0 flex"
@@ -104,12 +115,16 @@ onMounted(() => {
         <div
           v-for="hat in hats"
           :key="hat"
-          class="h-full flex items-center justify-center text-white"
+          class="h-full flex items-center justify-center text-white p-4"
           :style="{
             width: 100 / hats.length + '%',
           }"
         >
-          {{ hat }}
+          <img
+            :src="`/img/hats/${hat}.png`"
+            alt=""
+            class="w-full h-full object-contain object-center"
+          />
         </div>
       </div>
     </div>
