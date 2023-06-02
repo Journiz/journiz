@@ -11,9 +11,12 @@ const store = usePointStore()
 
 const pointTrigger = ref({})
 const trigger = ref('false')
-const handlePointTrigger = (value: object) => {
-  console.log(value)
-  pointTrigger.value = value
+const handlePointTrigger = (value: string) => {
+  console.log(typeof value)
+  // pointTrigger.value = value
+  if (store.point) {
+    store.point.trigger = value
+  }
 }
 const journeyStore = useJourneyStore()
 const currentPointStore = usePointStore()
@@ -34,7 +37,7 @@ const mapCenter = computed(() => {
       @update:isTrigger="trigger = $event"
     />
     <div class="w-7/12">
-      <Map zoom="14" :map-center="mapCenter">
+      <Map :zoom="14" :map-center="mapCenter">
         <MapMarker key="center" :position="mapCenter as any">
           <template #icon>
             <Basceamp />

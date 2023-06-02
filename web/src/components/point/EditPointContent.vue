@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useFileUrl } from '@journiz/composables'
+import { useFileUrl, usePoint } from '@journiz/composables'
+import { any } from 'zod'
 import SelectInput from '~/components/forms/SelectInput.vue'
 import HintInputs from '~/components/point/editPointInputs/HintInputs.vue'
 import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
@@ -22,12 +23,23 @@ const selectChoices = [
 ]
 
 function handleSelected(value: string) {
-  answerType.value = value
+  if (store.point) {
+    store.point.answerType = value as 'image' | 'text' | 'choice' | 'location'
+    save()
+  }
 }
 
 function handleScoreChange(newScore: number) {
-  if (store.point?.score) {
+  if (store.point) {
     store.point.score = newScore
+    save()
+  }
+}
+async function save() {
+  try {
+    await store.update()
+  } catch (e) {
+    console.log(e)
   }
 }
 
@@ -49,7 +61,7 @@ function addMedia(type: string) {
       />
       <NumberInput
         class="w-fit"
-        :model-value="store.point.score.toString()"
+        :model-value="store.point.score"
         label="Score"
         @update:modelValue="handleScoreChange"
       />

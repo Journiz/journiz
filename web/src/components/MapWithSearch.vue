@@ -31,6 +31,10 @@ const addSearchMarker = (data: any) => {
 }
 </script>
 <template>
+  <!-- <pre> 
+    https://docs.mapbox.com/playground/geocoding/?search_text=paquier&proximity=ip
+    place_name => nom location point 
+    </pre> -->
   <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"

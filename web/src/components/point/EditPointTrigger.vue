@@ -39,11 +39,13 @@ watch(trigger, (newVal) => {
 })
 
 function pointSelected(value: string) {
-  selectPoints.forEach((point) => {
-    if (point.value === value) {
-      emit('pointTrigger', point)
-    }
-  })
+  // selectPoints.forEach((point) => {
+  //   if (point.value === value) {
+  //     console.log(point)
+  //     emit('pointTrigger', point.value)
+  //   }
+  // })
+  emit('pointTrigger', value)
 }
 </script>
 

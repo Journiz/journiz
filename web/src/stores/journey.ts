@@ -77,7 +77,7 @@ export const useJourneyStore = defineStore('journey', () => {
       latitude: 0,
       longitude: 0,
       score: 0,
-      answerType: 'choice',
+      answerType: 'image',
       question: ' ',
       answer: '',
       trigger: '',

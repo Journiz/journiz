@@ -44,7 +44,6 @@ function quit() {
 }
 
 async function saveChanges() {
-  console.log(pointTrigger.value)
   try {
     await store.update()
   } catch (e) {

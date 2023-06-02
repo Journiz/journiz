@@ -6,8 +6,8 @@ defineProps({
     type: String,
   },
   modelValue: {
-    type: String,
-    default: '0',
+    type: Number,
+    default: 0,
     required: true,
   },
   requiredField: {
@@ -27,13 +27,17 @@ const onInput = (e: any) => {
 }
 const changeValue = (typeOfChange: string) => {
   if (typeOfChange === 'increment') {
-    input.value.value = parseInt(input.value.value) + 1
+    input.value.stepUp()
+    // input.value.value = parseInt(input.value.value) + 1
   } else if (typeOfChange === 'decrement') {
-    input.value.value = parseInt(input.value.value) - 1
+    input.value.stepDown()
+    // input.value.value = parseInt(input.value.value) - 1
   }
+
   console.log(typeof input.value.value)
-  emit('update:modelValue', (input as unknown as HTMLInputElement).value.value)
+  emit('update:modelValue', Number(input.value.value))
 }
+// console.log(input.value.value)
 </script>
 <template>
   <div>
