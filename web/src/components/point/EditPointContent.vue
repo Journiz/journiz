@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useFileUrl } from '@journiz/composables'
 import SelectInput from '~/components/forms/SelectInput.vue'
+import HintInputs from '~/components/point/editPointInputs/HintInputs.vue'
 import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
 import { usePointStore } from '~/stores/point'
 import TextareaInput from '~/components/forms/TextareaInput.vue'
 import NumberInput from '~/components/forms/NumberInput.vue'
 import MediaSlider from '~/components/point/editPointInputs/MediaSlider.vue'
+import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const store = usePointStore()
 
@@ -26,6 +29,10 @@ function handleScoreChange(newScore: number) {
   if (store.point?.score) {
     store.point.score = newScore
   }
+}
+
+function addMedia(type: string) {
+  console.log(type)
 }
 </script>
 <template>
@@ -48,11 +55,31 @@ function handleScoreChange(newScore: number) {
       />
     </div>
     <MediaSlider label="Visuel de la question" class="mt-2 mb-5" />
-    <TextareaInput
-      v-if="store.point.question"
-      v-model="store.point.question"
-      label="Énoncé"
-    />
+    <div class="flex">
+      <p>Ou remplacer le visuel par &nbsp;</p>
+      <SquareButton
+        class="mr-2"
+        color="secondary"
+        icon="minus"
+        @click="addMedia('photo')"
+      />
+      <p>ou &nbsp;</p>
+      <SquareButton
+        class="mr-2"
+        color="secondary"
+        icon="minus"
+        @click="addMedia('audio')"
+      />
+      <p>ou &nbsp;</p>
+      <SquareButton
+        class="mr-2"
+        color="secondary"
+        icon="minus"
+        @click="addMedia('video')"
+      />
+    </div>
+    <TextareaInput v-model="store.point.description" label="Énoncé" />
+    <TextareaInput v-model="store.point.question" label="Question" />
     <div v-if="answerType == 'image'"></div>
     <ChoicesInputs
       v-if="['choice', 'text'].includes(answerType)"
@@ -60,5 +87,6 @@ function handleScoreChange(newScore: number) {
       class="overflow-auto"
       :answer-type="answerType"
     />
+    <HintInputs v-model="store.point.hint" class="overflow-auto" />
   </div>
 </template>

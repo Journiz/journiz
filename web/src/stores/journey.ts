@@ -81,6 +81,7 @@ export const useJourneyStore = defineStore('journey', () => {
       question: ' ',
       answer: '',
       trigger: '',
+      hint: [],
     }
     try {
       const record = await pb.collection('point').create(data)
