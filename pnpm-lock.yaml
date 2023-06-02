@@ -83,6 +83,9 @@ importers:
       '@journiz/api-types':
         specifier: workspace:*
         version: link:../packages/api-types
+      '@journiz/components':
+        specifier: workspace:*
+        version: link:../packages/components
       '@journiz/composables':
         specifier: workspace:*
         version: link:../packages/composables
@@ -196,6 +199,31 @@ importers:
       pocketbase:
         specifier: ^0.12.1
         version: 0.12.1
+
+  packages/components:
+    dependencies:
+      '@journiz/api-types':
+        specifier: workspace:*
+        version: link:../api-types
+      '@journiz/plugins':
+        specifier: workspace:*
+        version: link:../plugins
+      '@vueuse/core':
+        specifier: ^9.13.0
+        version: 9.13.0(vue@3.3.4)
+      '@vueuse/shared':
+        specifier: ^9.13.0
+        version: 9.13.0(vue@3.3.4)
+      pocketbase:
+        specifier: ^0.12.1
+        version: 0.12.1
+      vue:
+        specifier: ^3.3.4
+        version: 3.3.4
+    devDependencies:
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
 
   packages/composables:
     dependencies:

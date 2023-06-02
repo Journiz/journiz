@@ -35,6 +35,7 @@
     "@ivanv/vue-collapse-transition": "^1.0.2",
     "@journiz/api-types": "workspace:*",
     "@journiz/composables": "workspace:*",
+    "@journiz/components": "workspace:*",
     "@journiz/config": "workspace:*",
     "@journiz/plugins": "workspace:*",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
