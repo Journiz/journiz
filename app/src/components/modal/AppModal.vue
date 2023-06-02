@@ -1,18 +1,15 @@
 <script lang="ts" setup="">
-import { ref } from 'vue'
 import Modal from '~/components/modal/Modal.vue'
 import Button from '~/components/design-system/Button.vue'
 import RiveAnimation from '~/components/modal/RiveAnimation.vue'
+import { useAppModal } from '~/composables/useModal'
 
-const title = ref('titre')
-const text = ref(
-  `Gardez toujours un œil sur votre environnement et assurez-vous d'être à l'arrêt en toute sécurité avant de consulter votre téléphone.`
-)
+const { title, text, key, isOpen } = useAppModal()
 </script>
 <template>
-  <Modal>
+  <Modal :key="key" :is-open="isOpen">
     <div class="w-full flex flex-col gap-6">
-      <h1 class="text-base font-black m-0 text-center">{{ title }}</h1>
+      <h1 class="text-base font-black m-0 text-center mb-8">{{ title }}</h1>
       <div class="w-full h-48 grid place-content-center">
         <RiveAnimation class="h-full w-full" name="test" />
       </div>

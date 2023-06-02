@@ -1,40 +1,46 @@
 <script lang="ts" setup="">
-import { onMounted, ref, watch } from 'vue'
+import { toRefs } from 'vue'
 
-const isOpen = ref(true)
-const dialog = ref()
-const updateOpen = () => {
-  if (isOpen.value) {
-    dialog.value.showModal()
-  } else {
-    dialog.value.close()
-  }
-}
-watch(isOpen, updateOpen)
-onMounted(() => {
-  updateOpen()
-})
+const props = defineProps<{
+  isOpen: boolean
+}>()
+const { isOpen } = toRefs(props)
 const closeModal = () => {
   isOpen.value = false
 }
 </script>
 <template>
-  <dialog ref="dialog">
-    <slot v-if="isOpen" :close-modal="closeModal"></slot>
-  </dialog>
+  <transition name="modal">
+    <div
+      v-if="isOpen"
+      class="fixed inset-0 w-full h-full z-50 flex items-center justify-center px-2 bg-black/30"
+    >
+      <div
+        class="modal-dialog outline-none bg-white rounded-lg w-full px-6 py-6"
+      >
+        <slot :close-modal="closeModal"></slot>
+      </div>
+    </div>
+  </transition>
 </template>
 <style scoped lang="scss">
-dialog {
-  @apply outline-none bg-white rounded-lg w-full px-6 pb-4
-    transition duration-400 ease-out-back;
-  scale: 0.2;
-  opacity: 0;
-  &::backdrop {
-    @apply bg-black/30;
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+
+  .modal-dialog {
+    @apply transition duration-200 ease-out-quart;
   }
-  &[open] {
-    scale: 1;
-    opacity: 1;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from {
+  .modal-dialog {
+    transform: scale(0.9);
   }
 }
 </style>
