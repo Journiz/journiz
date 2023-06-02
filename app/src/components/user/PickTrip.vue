@@ -20,14 +20,9 @@ const {
   refresh,
 } = useTrips({
   filter: `journey.user="${userStore.user?.id ?? ''}"`,
+  expand: 'journey',
 })
 const isRefreshing = ref(false)
-const handleRefresh = async (e: any) => {
-  isRefreshing.value = true
-  await refresh()
-  isRefreshing.value = false
-  e.target.complete()
-}
 
 const initialLoading = computed(() => loading.value && !isRefreshing.value)
 
@@ -43,22 +38,29 @@ const openTrip = async (tripId: string) => {
 </script>
 <template>
   <div>
-    <ion-refresher slot="fixed" @ion-refresh="handleRefresh">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
     <div v-if="initialLoading" class="flex justify-center py-8">
       <ion-spinner />
     </div>
-    <ion-list v-else>
-      <ion-item
+    <div v-else class="grid grid-cols-2 grid-rows-auto trips-container gap-3">
+      <div
         v-for="trip in trips"
         :key="trip.id"
-        button
-        :detail="false"
+        class="trip-item flex items-center bg-red color-white rounded-xl px-4 py-3 justify-center w-full [&:nth-child(4n-1)]:bg-green [&:nth-child(4n-2)]:bg-green"
         @click="openTrip(trip.id)"
       >
-        <ion-label>{{ trip.name }}</ion-label>
-      </ion-item>
-    </ion-list>
+        <div class="text-center flex flex-col items-center">
+          <div class="text-base font-medium">{{ trip.name }}</div>
+          <div class="flex items-center w-fit">
+            <div class="i-uil:map-pin-alt mr-2 h-4 text-base"></div>
+            <div class="text-left">{{ trip.expand.journey.basecampName }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+<style lang="scss" scoped>
+.trips-container {
+  grid-auto-rows: 1fr;
+}
+</style>

@@ -57,7 +57,7 @@ const login = async () => {
         svg-name="lock"
         :no-display-required-stars="true"
       />
-      <p v-if="error" class="text-red-500 p-2">{{ error }}</p>
+      <p v-if="error" class="relative text-red p-2">{{ error }}</p>
       <Button class="relative w-full mt-6" color="theme" @click="login"
         >Connexion</Button
       >
