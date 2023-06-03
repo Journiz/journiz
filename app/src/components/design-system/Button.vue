@@ -59,6 +59,7 @@ const component = computed(() => {
 </template>
 <style scoped lang="scss">
 .btn {
+  outline: none !important;
   border: solid 1px transparent;
   --disabled-color: theme('colors.gray.300');
   --disabled-text: theme('colors.gray.100');
