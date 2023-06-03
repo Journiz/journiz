@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { IonToolbar, useIonRouter } from '@ionic/vue'
+import { useIonRouter } from '@ionic/vue'
 import PickTrip from '~/components/user/PickTrip.vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
@@ -8,7 +8,7 @@ import Button from '~/components/design-system/Button.vue'
 
 const router = useIonRouter()
 const onTripChange = () => {
-  router.navigate({ name: 'user-trip-tabs' }, 'forward', 'replace')
+  router.navigate({ name: 'user-trip-recap' }, 'forward', 'replace')
 }
 const logout = useLogout(useUserStore().logout)
 </script>

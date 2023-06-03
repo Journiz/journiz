@@ -75,6 +75,12 @@ const router = createRouter({
       beforeEnter: [redirectIfNotLoggedIn],
     },
     {
+      path: '/user/trip-recap',
+      component: () => import('~/views/user/TripRecapView.vue'),
+      name: 'user-trip-recap',
+      beforeEnter: [redirectIfNotLoggedIn],
+    },
+    {
       path: '/user/trip',
       name: 'user-trip-tabs',
       component: () => import('~/views/user/trip/TripTabsView.vue'),
