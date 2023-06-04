@@ -1,26 +1,24 @@
 <script lang="ts" setup="">
-import { useTeamStore } from '~/stores/team/team'
-import { useLogout } from '~/composables/useLogout'
-import { useGeolocationStore } from '~/stores/geolocation'
 import Page from '~/components/Page.vue'
-
-const store = useTeamStore()
-const location = useGeolocationStore()
-const startWatchingPosition = () => {
-  location.startWatching()
-  location.startReporting()
-}
-
-const logout = useLogout(store.logout)
+import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
+import Tab from '~/components/tabs/Tab.vue'
+import TabSettings from '~/components/team/tabs/TabSettings.vue'
 </script>
 <template>
-  <Page>
-    <div v-if="store.team">Bonjour {{ store.team.name }}</div>
-    <div>
-      <IonButton :router-link="{ name: 'team-customize' }">Custom</IonButton>
-      <IonButton @click="startWatchingPosition">Start track</IonButton>
-      <IonButton router-link="/team/chat">Chat</IonButton>
-      <IonButton @click="logout">Logout</IonButton>
-    </div>
+  <Page id="trip-tabs-page">
+    <Tabs class="flex-grow">
+      <Tab title="Paramètres" name="settings" icon="i-uil:cog">
+        <TabSettings />
+      </Tab>
+      <Tab title="Carte" name="map" icon="i-uil:map" default-selected>
+        Map
+      </Tab>
+      <Tab title="Validation" name="validation" icon="i-uil:image-question">
+        Score
+      </Tab>
+      <Tab title="Messages" name="chat" icon="i-ph:chats-circle-bold">
+        CHat
+      </Tab>
+    </Tabs>
   </Page>
 </template>
