@@ -3,6 +3,7 @@ import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
 import TabSettings from '~/components/team/tabs/TabSettings.vue'
+import TabChat from '~/components/team/tabs/TabChat.vue'
 </script>
 <template>
   <Page id="trip-tabs-page">
@@ -17,7 +18,7 @@ import TabSettings from '~/components/team/tabs/TabSettings.vue'
         Score
       </Tab>
       <Tab title="Messages" name="chat" icon="i-ph:chats-circle-bold">
-        CHat
+        <TabChat />
       </Tab>
     </Tabs>
   </Page>
