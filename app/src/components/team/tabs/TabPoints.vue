@@ -9,10 +9,10 @@ const store = useTeamStore()
 <template>
   <div
     v-if="store.trip && store.team"
-    class="w-full h-full flex-grow flex flex-col"
+    class="w-full h-full flex flex-col relative"
   >
     <Header :title="store.trip?.name" :subtitle="store.team?.name" />
-    <TopTabs>
+    <TopTabs class="flex-shrink">
       <Tab title="Enigmes" name="list" default-selected>
         <PointsList />
       </Tab>

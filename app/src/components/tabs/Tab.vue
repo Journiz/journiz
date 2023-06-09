@@ -20,7 +20,7 @@ const isActive = computed(() => {
 })
 </script>
 <template>
-  <div class="w-full h-full" :class="isActive ? '' : 'hidden'">
+  <div class="w-full h-full relative" :class="isActive ? '' : 'hidden'">
     <slot></slot>
   </div>
 </template>

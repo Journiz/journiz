@@ -53,7 +53,7 @@ const mounted = () => {
 onMounted(mounted)
 </script>
 <template>
-  <div class="flex-grow flex flex-col">
+  <div class="flex-grow col h-full">
     <div class="px-8 bg-white flex justify-around gap-8 relative">
       <div
         class="absolute bottom-0 left-0 bg-theme h-1 rounded-full transition-all duration-200 ease-out-quint"
@@ -73,7 +73,7 @@ onMounted(mounted)
         {{ tab.title }}
       </button>
     </div>
-    <div class="relative w-full flex-grow">
+    <div class="relative w-full flex-grow flex-shrink max-h-full">
       <slot></slot>
     </div>
   </div>

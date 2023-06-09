@@ -169,6 +169,12 @@ const router = createRouter({
       beforeEnter: redirectIfNotTeam,
     },
     {
+      path: '/team/point/:pointId',
+      name: 'team-point',
+      component: () => import('~/views/team/TeamPointView.vue'),
+      beforeEnter: redirectIfNotTeam,
+    },
+    {
       path: '/notification/chat/:conversationId',
       name: 'chat-notif',
       redirect: (to) => {
