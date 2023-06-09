@@ -15,6 +15,9 @@ export default defineConfig({
     ['top-safe', { top: 'env(safe-area-inset-top)' }],
     ['bottom-safe', { bottom: 'env(safe-area-inset-bottom)' }],
   ],
+  shortcuts: {
+    col: 'flex flex-col',
+  },
   transformers: [transformerDirectives()],
   theme: { ...theme, ...theme.extend },
 })
