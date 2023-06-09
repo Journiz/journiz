@@ -17,7 +17,6 @@ const mediaUrl = useFileUrl(point, 'media')
       class="w-full h-50 object-contain"
     />
     <div v-else class="w-full h-50 bg-red/50"></div>
-
     <p class="font-light">{{ point.description }}</p>
     <p class="font-bold text-theme">{{ point.question }}</p>
   </div>

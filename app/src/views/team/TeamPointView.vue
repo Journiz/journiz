@@ -20,7 +20,9 @@ if (!point) {
       :subtitle="store.team.name"
       :title="point.name"
     />
-    <div class="flex-grow col bg-beige-light px-4 py-2">
+    <div
+      class="flex-grow flex-shrink col bg-beige-light px-4 py-2 overflow-y-scroll"
+    >
       <PointQuestion :point="point" />
     </div>
   </Page>
