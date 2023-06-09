@@ -97,7 +97,7 @@ const paddingClass = isRecentIphone ? 'pb-0' : 'pb-4'
       </div>
     </div>
     <div
-      class="absolute top-0 left-0 bg-red rounded-full w-15 h-15 flex items-center justify-center"
+      class="absolute top-0 left-0 bg-theme rounded-full w-15 h-15 flex items-center justify-center"
       :class="{
         'transition duration-200': ready,
       }"

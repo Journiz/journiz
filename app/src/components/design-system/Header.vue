@@ -13,7 +13,7 @@ defineProps<{
       <Back :default-to="backTo" />
     </div>
     <div class="flex flex-col flex-grow items-center text-center">
-      <span class="font-light">{{ subtitle }}</span>
+      <span class="font-light text-sm">{{ subtitle }}</span>
       <span class="text-xl font-black">{{ title }}</span>
     </div>
     <div class="w-9 flex-shrink-0"></div>
