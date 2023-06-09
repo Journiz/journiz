@@ -9,7 +9,7 @@ import { useUserStore } from '~/stores/user'
 const store = useUserStore()
 </script>
 <template>
-  <div class="w-full h-full flex-grow flex flex-col">
+  <div v-if="store.trip" class="w-full h-full flex-grow flex flex-col">
     <Header :title="store.trip.name" subtitle="Carte" />
     <TopTabs>
       <Tab title="Equipes" name="list">

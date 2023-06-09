@@ -7,8 +7,11 @@ import PointsList from '~/components/team/points/PointsList.vue'
 const store = useTeamStore()
 </script>
 <template>
-  <div class="w-full h-full flex-grow flex flex-col">
-    <Header :title="store.trip.name" :subtitle="store.team.name" />
+  <div
+    v-if="store.trip && store.team"
+    class="w-full h-full flex-grow flex flex-col"
+  >
+    <Header :title="store.trip?.name" :subtitle="store.team?.name" />
     <TopTabs>
       <Tab title="Enigmes" name="list" default-selected>
         <PointsList />
