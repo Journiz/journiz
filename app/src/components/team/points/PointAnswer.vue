@@ -3,6 +3,7 @@ import { Point } from '@journiz/api-types'
 import { type Component, computed } from 'vue'
 import ChoiceAnswer from '~/components/team/points/answer-types/ChoiceAnswer.vue'
 import TextAnswer from '~/components/team/points/answer-types/TextAnswer.vue'
+import PhotoAnswer from '~/components/team/points/answer-types/PhotoAnswer.vue'
 
 const props = defineProps<{
   point: Point
@@ -16,6 +17,8 @@ const answerComponent = computed<Component>(() => {
       return ChoiceAnswer
     case 'text':
       return TextAnswer
+    case 'image':
+      return PhotoAnswer
     default:
       return null
   }
