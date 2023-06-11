@@ -1,11 +1,5 @@
 <script lang="ts" setup="">
-import {
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonSpinner,
-  useIonRouter,
-} from '@ionic/vue'
+import { useIonRouter } from '@ionic/vue'
 import { ref } from 'vue'
 import { useUserStore } from '~/stores/user'
 import TextInput from '~/components/forms/TextInput.vue'
