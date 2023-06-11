@@ -32,6 +32,6 @@ const getPhoto = async (gallery = false) => {
     <Button color="theme" class="mb-2" @click="getPhoto">
       Prendre une photo
     </Button>
-    <Button color="green" class="" @click="getPhoto(true)"> Galerie</Button>
+    <Button color="green" @click="getPhoto(true)"> Galerie</Button>
   </div>
 </template>

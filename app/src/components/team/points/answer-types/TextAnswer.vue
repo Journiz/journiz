@@ -5,6 +5,7 @@ import Button from '~/components/design-system/Button.vue'
 
 const props = defineProps<{
   point: Point
+  validationLoading: boolean
 }>()
 const emit = defineEmits<{
   answer: [data: string]
@@ -22,6 +23,7 @@ const answer = ref('')
       color="theme"
       class="mt-4"
       :disabled="!answer"
+      :loading="validationLoading"
       @click="emit('answer', answer)"
       >Valider</Button
     >

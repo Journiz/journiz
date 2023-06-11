@@ -118,7 +118,7 @@ useRafFn(() => {
         >Réglons ça !
       </Button>
     </p>
-    <div v-else class="flex flex-col justify-between gap-8 h-full">
+    <div v-else class="flex flex-col justify-between gap-6 h-full">
       <AudioPlayer
         :audio-data="audioData"
         :recording-progress="recordingProgress"

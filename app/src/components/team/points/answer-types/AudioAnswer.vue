@@ -6,6 +6,7 @@ import AudioRecorder from '~/components/audio/AudioRecorder.vue'
 
 const props = defineProps<{
   point: Point
+  validationLoading: boolean
 }>()
 const emit = defineEmits<{
   answer: [data: string]
@@ -20,6 +21,8 @@ const audioData = ref('')
       :max-duration="10000"
       class="flex-grow justify-between mt-2 mb-2"
     ></AudioRecorder>
-    <Button color="theme">Valider</Button>
+    <Button color="theme" class="mt-4" :loading="validationLoading"
+      >Valider</Button
+    >
   </div>
 </template>

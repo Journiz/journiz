@@ -1,7 +1,18 @@
 <script lang="ts" setup="">
+import { computed } from 'vue'
+import { Point } from '@journiz/api-types'
 import { useTeamStore } from '~/stores/team/team'
 
 const store = useTeamStore()
+const points = computed<(Point & { hasAnswer: boolean })[]>(
+  () =>
+    store.journey?.expand?.points?.map((p) => {
+      return {
+        ...p,
+        hasAnswer: !!store.team?.expand?.answers?.find((a) => a.point === p.id),
+      }
+    }) ?? []
+)
 </script>
 <template>
   <div
@@ -18,8 +29,9 @@ const store = useTeamStore()
     </div>
     <div class="col gap-3">
       <router-link
-        v-for="point in store.journey.expand.points"
+        v-for="point in points"
         :key="point.id"
+        :class="point.hasAnswer ? 'opacity-50 pointer-events-none' : ''"
         :to="{ name: 'team-point', params: { pointId: point.id } }"
       >
         <div
