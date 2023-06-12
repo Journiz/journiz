@@ -1,5 +1,6 @@
 <script lang="ts" setup="">
 import { type Component, ref } from 'vue'
+import { useIonRouter } from '@ionic/vue'
 import Page from '~/components/Page.vue'
 import CustomizeHat from '~/components/team/customize/CustomizeHat.vue'
 import CustomizeName from '~/components/team/customize/CustomizeName.vue'
@@ -8,6 +9,7 @@ import CustomizeWarCry from '~/components/team/customize/CustomizeWarCry.vue'
 import Back from '~/components/router/Back.vue'
 import BackButton from '~/components/router/BackButton.vue'
 import useSlideTransition from '~/composables/useSlideTransition'
+import { backWithDefault } from '~/utils/routerUtils'
 
 const tabs: Component[] = [
   CustomizeName,
@@ -18,6 +20,14 @@ const tabs: Component[] = [
 const currentTab = ref(0)
 
 const transitionName = useSlideTransition(currentTab)
+const router = useIonRouter()
+const next = () => {
+  if (currentTab.value === tabs.length - 1) {
+    backWithDefault(router, { name: 'team-waiting' })
+    return
+  }
+  currentTab.value++
+}
 </script>
 <template>
   <Page class="bg-beige-light">
@@ -25,7 +35,7 @@ const transitionName = useSlideTransition(currentTab)
       <component
         :is="tabs[currentTab]"
         class="absolute top-0 left-0 w-full h-full px-2/20 pt-28 pb-8 overflow-y-auto"
-        @next="currentTab++"
+        @next="next"
         @prev="currentTab--"
       ></component>
     </transition>

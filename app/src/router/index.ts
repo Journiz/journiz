@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
+import { Trip } from '@journiz/api-types'
 import { useUserStore } from '~/stores/user'
 import { useTeamStore } from '~/stores/team/team'
 import { pinia } from '~/main'
@@ -21,10 +22,25 @@ const redirectIfNotLoggedIn = () => {
   }
 }
 
-const redirectIfNotTeam = () => {
+const teamGuard = () => {
   const store = useTeamStore(pinia)
   if (!store.team) {
     return { name: 'join-trip' }
+  }
+}
+
+const teamPhaseRedirects = {
+  pairing: 'team-waiting',
+  playing: 'team',
+  finishing: 'team',
+  finished: 'team-podium',
+}
+const teamPhaseGuard = (allowedPhases: Trip['status'][]) => {
+  return () => {
+    const store = useTeamStore(pinia)
+    if (store.trip?.status && !allowedPhases.includes(store.trip.status)) {
+      return { name: teamPhaseRedirects[store.trip.status] }
+    }
   }
 }
 
@@ -157,28 +173,34 @@ const router = createRouter({
      * Team Routes
      */
     {
+      path: '/team/waiting',
+      name: 'team-waiting',
+      component: () => import('~/views/team/TeamWaitingView.vue'),
+      beforeEnter: [teamGuard, teamPhaseGuard(['pairing'])],
+    },
+    {
       path: '/team',
       name: 'team',
       component: () => import('~/views/team/TeamHomeView.vue'),
-      beforeEnter: redirectIfNotTeam,
+      beforeEnter: [teamGuard, teamPhaseGuard(['playing', 'finishing'])],
     },
     {
       path: '/team/chat',
       name: 'team-chat',
       component: () => import('~/views/team/TeamChatView.vue'),
-      beforeEnter: redirectIfNotTeam,
+      beforeEnter: [teamGuard],
     },
     {
       path: '/team/customize',
       name: 'team-customize',
       component: () => import('~/views/team/TeamCustomizeView.vue'),
-      beforeEnter: redirectIfNotTeam,
+      beforeEnter: [teamGuard, teamPhaseGuard(['pairing'])],
     },
     {
       path: '/team/point/:pointId',
       name: 'team-point',
       component: () => import('~/views/team/TeamPointView.vue'),
-      beforeEnter: redirectIfNotTeam,
+      beforeEnter: [teamGuard, teamPhaseGuard(['playing'])],
     },
     {
       path: '/notification/chat/:conversationId',
