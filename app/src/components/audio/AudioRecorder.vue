@@ -85,7 +85,7 @@ let volumeMeterInitialized = false
 let analyserNode: AnalyserNode
 let pcmData: Float32Array
 const initVolumeMeter = async () => {
-  if (volumeMeterInitialized) {
+  if (volumeMeterInitialized || !navigator?.mediaDevices?.getUserMedia) {
     return
   }
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -118,7 +118,7 @@ useRafFn(() => {
         >Réglons ça !
       </Button>
     </p>
-    <div v-else class="flex flex-col justify-between h-full">
+    <div v-else class="flex flex-col justify-between gap-6 h-full">
       <AudioPlayer
         :audio-data="audioData"
         :recording-progress="recordingProgress"

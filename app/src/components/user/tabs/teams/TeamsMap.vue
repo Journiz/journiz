@@ -5,17 +5,10 @@ import MapMarker from '~/components/map/MapMarker.vue'
 import { useUserStore } from '~/stores/user'
 import LerpCoordinates from '~/components/map/LerpCoordinates.vue'
 import SafeZone from '~/components/map/SafeZone.vue'
+import { getColor } from '~/composables/useThemeColor'
 
 const store = useUserStore()
 const teams = computed(() => store.trip?.expand?.teams ?? [])
-const colors = [
-  'bg-#E8B8FF',
-  'bg-#FF6147',
-  'bg-blue',
-  'bg-yellow',
-  'bg-pink',
-  'bg-orange',
-]
 // TODO: Check if point marker is complete by the current team and switch to team color (pas ici)
 </script>
 <template>
@@ -63,7 +56,7 @@ const colors = [
       </template>
     </MapMarker>
     <LerpCoordinates
-      v-for="(team, i) in teams"
+      v-for="team in teams"
       :key="team.id"
       v-slot="{ coordinates }"
       :coordinates="{ lng: team.longitude, lat: team.latitude }"
@@ -73,7 +66,7 @@ const colors = [
           ><div
             class="w-6 h-6 rounded-full shadow-lg"
             border="7 white"
-            :class="colors[i]"
+            :style="{ backgroundColor: getColor(team.color as any) }"
           ></div
         ></template>
       </MapMarker>

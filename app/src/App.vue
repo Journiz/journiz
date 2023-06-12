@@ -5,6 +5,7 @@ import { Capacitor } from '@capacitor/core'
 import { useUserStore } from './stores/user'
 import { useTeamStore } from './stores/team/team'
 import { useThemeColor } from '~/composables/useThemeColor'
+import AppModal from '~/components/modal/AppModal.vue'
 
 if (['ios', 'android'].includes(Capacitor.getPlatform())) {
   StatusBar.setStyle({
@@ -19,6 +20,7 @@ const themeColor = useThemeColor()
 <template>
   <IonApp id="journiz-app" :scroll-x="false" :scroll-y="false">
     <IonRouterOutlet />
+    <AppModal />
   </IonApp>
 </template>
 <style>

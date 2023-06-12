@@ -6,7 +6,7 @@ import {
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import { Trip } from '@journiz/api-types'
-import { watch } from 'vue'
+import { computed, watch } from 'vue'
 import useRefStorage from '../../composables/useRefStorage'
 import { setNotificationsId } from '~/plugins/pushNotifications'
 
@@ -103,6 +103,8 @@ export const useTeamStore = defineStore('team', () => {
     }
   })
 
+  const journey = computed(() => trip.value?.expand?.journey)
+
   return {
     trip,
     joinTrip,
@@ -111,5 +113,6 @@ export const useTeamStore = defineStore('team', () => {
     logout,
     saveTeam,
     conversationId: storedConversationId,
+    journey,
   }
 })

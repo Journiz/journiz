@@ -1,10 +1,6 @@
 <script lang="ts" setup="">
 import { onMounted, provide, reactive, ref } from 'vue'
 import { TabData, TabsProvider, TabsProviderKey } from '~/types/tabs'
-import Header from '~/components/design-system/Header.vue'
-import { useUserStore } from '~/stores/user'
-
-const store = useUserStore()
 
 const state: TabsProvider = reactive({
   activeTabName: '',
@@ -57,8 +53,7 @@ const mounted = () => {
 onMounted(mounted)
 </script>
 <template>
-  <div class="h-full w-full flex flex-col">
-    <Header :title="store.trip.name" subtitle="Carte" />
+  <div class="flex-grow col h-full">
     <div class="px-8 bg-white flex justify-around gap-8 relative">
       <div
         class="absolute bottom-0 left-0 bg-theme h-1 rounded-full transition-all duration-200 ease-out-quint"
@@ -78,7 +73,7 @@ onMounted(mounted)
         {{ tab.title }}
       </button>
     </div>
-    <div class="relative w-full flex-grow">
+    <div class="relative w-full flex-grow flex-shrink max-h-full">
       <slot></slot>
     </div>
   </div>
