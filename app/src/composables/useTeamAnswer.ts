@@ -72,6 +72,7 @@ export default function useTeamAnswer(
     await pb.collection('answer').create(data)
     loading.value = false
     successModal(isCorrect)
+    store.refreshAll()
   }
   return { sendAnswer, loading }
 }

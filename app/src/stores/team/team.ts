@@ -22,7 +22,7 @@ export const useTeamStore = defineStore('team', () => {
   const storedTripId = useStorage<string | null>('team-trip-id', null)
   const {
     data: trip,
-    // refresh,
+    refresh: refreshTrip,
     // loading,
     // update,
     // updateLoading,
@@ -53,7 +53,7 @@ export const useTeamStore = defineStore('team', () => {
 
   const {
     data: team,
-    // refresh,
+    refresh: refreshTeam,
     // loading,
     update: saveTeam,
     // updateLoading,
@@ -105,6 +105,7 @@ export const useTeamStore = defineStore('team', () => {
 
   const journey = computed(() => trip.value?.expand?.journey)
 
+  const refreshAll = () => Promise.all([refreshTrip(), refreshTeam()])
   return {
     trip,
     joinTrip,
@@ -112,6 +113,7 @@ export const useTeamStore = defineStore('team', () => {
     joinTeam,
     logout,
     saveTeam,
+    refreshAll,
     conversationId: storedConversationId,
     journey,
   }
