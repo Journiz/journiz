@@ -30,7 +30,7 @@ let members: string[]
       @get-owner="(value) => (owner = value)"
     />
     <Button class="relative mb-4">Valider</Button>
-    <Button class="relative mb-9" router-link="/join/join-team"
+    <Button class="relative mb-9" to="/join/join-team"
       >Rejoindre une équipe existante</Button
     >
   </Page>

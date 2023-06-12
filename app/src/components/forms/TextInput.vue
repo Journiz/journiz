@@ -64,7 +64,6 @@ const togglePasswordVisibility = () => {
     >
     <input
       ref="input"
-      v-uid
       :value="modelValue"
       :required="requiredField"
       :type="type"

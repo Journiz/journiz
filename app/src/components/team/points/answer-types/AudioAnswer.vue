@@ -35,6 +35,7 @@ const submit = async () => {
       color="theme"
       class="mt-4"
       :loading="validationLoading"
+      :disabled="!audioData"
       @click="submit"
     >
       Valider

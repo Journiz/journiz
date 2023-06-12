@@ -2,9 +2,10 @@ import { Ref, ref } from 'vue'
 import { ButtonColor } from '~/types/Button'
 
 const title = ref('Titre')
-const text = ref('Texte')
+const content = ref('Texte')
 const animationName = ref('')
 const isOpen = ref(false)
+const layout = ref<'window' | 'fullscreen'>('window')
 const buttons: Ref<
   {
     actionName: string
@@ -28,23 +29,26 @@ export const useAppModal = () => {
   return {
     isOpen,
     title,
-    text,
+    content,
     buttons,
     animationName,
+    layout,
     closeWithAction,
   }
 }
 
 export const showModal = (
   modalTitle: string,
-  modaltext: string,
+  modalContent: string,
   btns: typeof buttons.value,
-  animation = ''
+  animation = '',
+  modalLayout: typeof layout.value = 'window'
 ) => {
   title.value = modalTitle
-  text.value = modaltext
+  content.value = modalContent
   animationName.value = animation
   buttons.value = btns
+  layout.value = modalLayout
 
   // key.value++
   isOpen.value = true
