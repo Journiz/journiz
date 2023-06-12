@@ -30,14 +30,13 @@ watch(currentTabIndex, (index) => {
   currentUnderlineTranslate.value = itemRefs.value[index]?.offsetLeft
 })
 onMounted(() => {
-  console.log(itemRefs.value[0].offsetWidth)
   currentUnderlineWidth.value = itemRefs.value[0].offsetWidth
 })
 </script>
 <template>
   <div class="relative w-full flex gap-2 border-b border-black/25">
     <div
-      class="absolute bottom-0 left-0 bg-red h-2 transition-all duration-300 ease-out-quart"
+      class="absolute bottom-0 left-0 bg-red h-2 transition-all duration-300 ease-in-out-quad"
       :style="{
         transform: 'translateX(' + currentUnderlineTranslate + 'px)',
         width: currentUnderlineWidth + 'px',
