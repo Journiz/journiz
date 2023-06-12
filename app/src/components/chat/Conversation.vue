@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 import { useChat } from '@journiz/composables'
 import { computed, nextTick, ref, watch } from 'vue'
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
+import { Camera, CameraResultType } from '@capacitor/camera'
 import MessageBubble from '~/components/chat/MessageBubble.vue'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 
