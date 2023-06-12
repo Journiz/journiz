@@ -23,19 +23,24 @@ const avatarUrl = computed(() => {
 })
 </script>
 <template>
-  <div
-    class="aspect-square relative overflow-hidden rounded-full"
-    :class="border ? 'outline outline-1 outline-beige outline-offset-4' : ''"
-    :style="{
+  <div class="relative">
+    <div
+      v-if="border"
+      class="absolute w-full h-full top-0 left-0 border border-1 border-beige rounded-full scale-110"
+    />
+    <div
+      class="aspect-square relative overflow-hidden rounded-full"
+      :style="{
           backgroundColor: getColor(team.color as any ?? 'red'),
         }"
-  >
-    <img :src="hatBg" class="absolute inset-0 w-full h-full opacity-30" />
-    <img
-      v-if="avatarUrl"
-      :src="avatarUrl"
-      class="w-full h-full object-contain object-center transform scale-90"
-      alt=""
-    />
+    >
+      <img :src="hatBg" class="absolute inset-0 w-full h-full opacity-30" />
+      <img
+        v-if="avatarUrl"
+        :src="avatarUrl"
+        class="w-full h-full object-contain object-center transform scale-90"
+        alt=""
+      />
+    </div>
   </div>
 </template>
