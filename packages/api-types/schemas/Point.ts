@@ -7,8 +7,9 @@ export const basePointSchema = BaseSchema.extend({
   longitude: z.number(),
   name: z.string().optional(),
   question: z.string().optional(),
+  description: z.string().optional(),
   media: z.string().optional(),
-  answerType: z.enum(['image', 'text', 'choice', 'location']),
+  answerType: z.enum(['image', 'text', 'choice', 'location', 'audio']),
   answer: z
     .union([
       z.string(),

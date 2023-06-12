@@ -175,13 +175,21 @@ const router = createRouter({
       beforeEnter: redirectIfNotTeam,
     },
     {
+      path: '/team/point/:pointId',
+      name: 'team-point',
+      component: () => import('~/views/team/TeamPointView.vue'),
+      beforeEnter: redirectIfNotTeam,
+    },
+    {
       path: '/notification/chat/:conversationId',
       name: 'chat-notif',
       redirect: (to) => {
         if (useUserStore(pinia).isLoggedIn() && to.params.conversationId) {
           return `/user/trip/chat/${to.params.conversationId}`
         }
-        return '/team/chat'
+        return {
+          name: 'team-chat',
+        }
       },
     },
   ],
