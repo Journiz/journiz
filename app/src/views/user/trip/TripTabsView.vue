@@ -1,4 +1,5 @@
 <script lang="ts" setup="">
+import { watch } from 'vue'
 import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
@@ -6,6 +7,29 @@ import TabHome from '~/components/user/tabs/TabHome.vue'
 import TabTeams from '~/components/user/tabs/TabTeams.vue'
 import TabChat from '~/components/user/tabs/TabChat.vue'
 import TabValidation from '~/components/user/tabs/TabValidation.vue'
+import { useUserStore } from '~/stores/user'
+import { showModal } from '~/composables/useModal'
+const store = useUserStore()
+watch(
+  () => store.trip?.status,
+  async (status) => {
+    if (status === 'finishing') {
+      await showModal(
+        "C'est fini !",
+        `<p>Le chrono est fini !</p>
+<p>Les équipes ont reçu une notification et se rendent au point de ralliement</p>`,
+        [
+          {
+            title: 'Ok',
+            actionName: 'ok',
+            color: 'theme',
+          },
+        ],
+        'alarm'
+      )
+    }
+  }
+)
 </script>
 <template>
   <keep-alive>
