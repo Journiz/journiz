@@ -75,6 +75,18 @@ export const useUserStore = defineStore('user', () => {
       await updateTrip()
     }
   }
+  const endTrip = async () => {
+    if (trip.value) {
+      trip.value.status = 'finishing'
+      await updateTrip()
+    }
+  }
+  const showTripScores = async () => {
+    if (trip.value) {
+      trip.value.status = 'finished'
+      await updateTrip()
+    }
+  }
 
   return {
     user,
@@ -86,5 +98,7 @@ export const useUserStore = defineStore('user', () => {
     setTrip,
     journey,
     startTrip,
+    endTrip,
+    showTripScores,
   }
 })
