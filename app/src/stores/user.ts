@@ -43,9 +43,11 @@ export const useUserStore = defineStore('user', () => {
    * Trip persistence
    */
   const storedTripId = useStorage<string | null>('user-trip-id', null)
-  const { data: trip, setId: setTripId } = useRealtimeTripForGameMaster(
-    storedTripId.value
-  )
+  const {
+    data: trip,
+    setId: setTripId,
+    update: updateTrip,
+  } = useRealtimeTripForGameMaster(storedTripId.value)
   useRefStorage(trip, 'user-trip-data')
   const setTrip = async (tripId: string) => {
     try {
@@ -67,6 +69,13 @@ export const useUserStore = defineStore('user', () => {
     setNotificationsId(null)
   }
 
+  const startTrip = async () => {
+    if (trip.value) {
+      trip.value.status = 'playing'
+      await updateTrip()
+    }
+  }
+
   return {
     user,
     refresh: authRefresh,
@@ -76,5 +85,6 @@ export const useUserStore = defineStore('user', () => {
     trip,
     setTrip,
     journey,
+    startTrip,
   }
 })

@@ -29,6 +29,20 @@ const teamGuard = () => {
   }
 }
 
+const userPhaseRedirects = {
+  pairing: 'user-trip-recap',
+  playing: 'user-trip-tabs',
+  finishing: 'user-trip-tabs',
+  finished: 'user-end',
+}
+const userPhaseGuard = (allowedPhases: Trip['status'][]) => {
+  return () => {
+    const store = useUserStore(pinia)
+    if (store.trip?.status && !allowedPhases.includes(store.trip.status)) {
+      return { name: userPhaseRedirects[store.trip.status] }
+    }
+  }
+}
 const teamPhaseRedirects = {
   pairing: 'team-waiting',
   playing: 'team',
@@ -92,9 +106,9 @@ const router = createRouter({
     },
     {
       path: '/user/trip-recap',
-      component: () => import('~/views/user/TripRecapView.vue'),
+      component: () => import('~/views/user/trip/TripRecapView.vue'),
       name: 'user-trip-recap',
-      beforeEnter: [redirectIfNotLoggedIn],
+      beforeEnter: [redirectIfNotLoggedIn, userPhaseGuard(['pairing'])],
     },
     {
       path: '/user/trip',
@@ -108,18 +122,29 @@ const router = createRouter({
             return { name: 'user-pick-trip' }
           }
         },
+        userPhaseGuard(['playing', 'finishing']),
       ],
     },
     {
       path: '/user/trip/validate/:teamId',
       name: 'user-trip-validate-team',
       component: () => import('~/views/user/validation/ValidateTeamView.vue'),
-      beforeEnter: [redirectIfNotLoggedIn],
+      beforeEnter: [
+        redirectIfNotLoggedIn,
+        userPhaseGuard(['playing', 'finishing']),
+      ],
     },
     {
       path: '/user/trip/chat/:conversationId',
       name: 'user-chat-conversation',
       component: () => import('~/views/user/chat/ConversationView.vue'),
+    },
+
+    {
+      path: '/user/trip/end',
+      name: 'user-end',
+      component: () => import('~/views/user/trip/TripFinishedView.vue'),
+      beforeEnter: [redirectIfNotLoggedIn, userPhaseGuard(['finished'])],
     },
 
     /**

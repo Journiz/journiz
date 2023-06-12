@@ -7,8 +7,8 @@ import Button from '~/components/design-system/Button.vue'
 import { useTeamStore } from '~/stores/team/team'
 import { useLogout } from '~/composables/useLogout'
 import { tripIsToday } from '~/utils/dates'
-import Modal from '~/components/modal/Modal.vue'
 import { useGeolocationStore } from '~/stores/geolocation'
+import GoCountdown from '~/components/time/GoCountdown.vue'
 
 const store = useTeamStore()
 
@@ -18,16 +18,14 @@ const isToday = computed(() => {
 })
 const logout = useLogout(store.logout)
 const router = useIonRouter()
-const rawCounter = ref(3.99)
-const counter = computed(() => Math.floor(rawCounter.value))
-const modalOpen = ref(false)
+
+const countdownRunning = ref(false)
+const onCountdownEnd = () => router.replace({ name: 'team' })
 watch(
   () => store.trip?.status,
-  async () => {
+  () => {
     if (store.trip?.status === 'playing') {
-      modalOpen.value = true
-      await gsap.to(rawCounter, { value: 0, duration: 4, ease: 'linear' })
-      router.replace({ name: 'team' })
+      countdownRunning.value = true
     }
   }
 )
@@ -45,8 +43,6 @@ onMounted(() => {
       >
       <Button @click="logout">Déconnexion</Button>
     </div>
-    <Modal layout="window" :is-open="modalOpen">
-      <div>{{ counter > 0 ? counter : 'Go !' }}</div>
-    </Modal>
+    <GoCountdown :open="countdownRunning" @end="onCountdownEnd" />
   </Page>
 </template>
