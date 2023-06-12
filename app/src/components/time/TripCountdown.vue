@@ -8,11 +8,9 @@ const props = defineProps<{
   trip: TripType
 }>()
 const endDate = computed(() => {
-  if (!props.trip?.expand?.journey) return null
+  if (!props.trip?.duration) return null
   const start = new Date(Date.parse(props.trip.date))
-  return new Date(
-    start.getTime() + props.trip.expand.journey.duration * 60 * 1000
-  )
+  return new Date(start.getTime() + props.trip.duration * 60 * 1000)
 })
 const now = useNow()
 const remaining = computed(() => {

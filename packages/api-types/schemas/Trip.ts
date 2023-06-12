@@ -11,6 +11,7 @@ export const TripSchema = BaseSchema.extend({
   journey: z.string(),
   updated: z.string(),
   name: z.string(),
+  duration: z.number(),
   status: z.enum(['pairing', 'playing', 'finishing', 'finished']),
   expand: z
     .object({
