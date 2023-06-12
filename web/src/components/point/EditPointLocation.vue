@@ -4,6 +4,7 @@ import { computed, toRefs } from 'vue'
 import MapWithSearch from '~/components/MapWithSearch.vue'
 import { useJourneyStore } from '~/stores/journey'
 import { Coordinates } from '~/types/Coordinates'
+
 const store = useJourneyStore()
 const props = defineProps<{
   point: PointType

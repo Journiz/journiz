@@ -11,7 +11,6 @@ const emit = defineEmits(['pointTrigger', 'update:isTrigger'])
 
 const { point } = toRefs(props)
 const trigger = ref('false')
-// const pointTrigger = ref('')
 
 const store = useJourneyStore()
 const pts = store.journey?.expand?.points ?? []

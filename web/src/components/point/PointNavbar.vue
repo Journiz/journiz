@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router'
 const emit = defineEmits(['routeToPath'])
 const currentUnderlineWidth = ref()
 const currentUnderlineTranslate = ref('0px')
-const itemRefs = ref()
+const itemRefs = ref([])
 const route = useRoute()
 const items = [
   {
