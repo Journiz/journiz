@@ -12,11 +12,12 @@ const store = useTeamStore()
     class="w-full h-full flex flex-col relative"
   >
     <Header :title="store.trip?.name" :subtitle="store.team?.name" />
-    <TopTabs class="flex-shrink">
+    <TopTabs v-if="store.trip?.status === 'playing'" class="flex-shrink">
       <Tab title="Enigmes" name="list" default-selected>
         <PointsList />
       </Tab>
       <Tab title="Carte" name="map"> Carte </Tab>
     </TopTabs>
+    <div v-else class="flex-grow">Carte sans les points</div>
   </div>
 </template>
