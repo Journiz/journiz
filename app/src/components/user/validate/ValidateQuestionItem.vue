@@ -5,6 +5,7 @@ import { ref, toRefs } from 'vue'
 import { Answer, Point } from '@journiz/api-types'
 import { useFileUrl } from '@journiz/composables'
 import Button from '~/components/design-system/Button.vue'
+import AudioPlayer from '~/components/audio/AudioPlayer.vue'
 
 const props = defineProps<{
   answer: Answer & { pointData?: Point }
@@ -20,7 +21,7 @@ const mediaUrl = useFileUrl(answer, 'answerMedia')
   <div class="flex flex-col gap-6">
     <div class="border border-green-dark rounded-lg flex flex-col">
       <button
-        class="w-full py-4 px-8 text-center text-lg font-medium relative"
+        class="w-full py-4 pl-4 pr-12 text-center text-lg font-medium relative"
         @click="detailOpen = !detailOpen"
       >
         {{ answer.pointData?.name }}
@@ -34,7 +35,7 @@ const mediaUrl = useFileUrl(answer, 'answerMedia')
         easing="cubic-bezier(0.77, 0, 0.175, 1)"
       >
         <div v-show="detailOpen">
-          <div class="mx-6 my-4">
+          <div class="mx-4 my-4">
             {{ answer.pointData?.question }}
           </div>
         </div>
@@ -44,6 +45,9 @@ const mediaUrl = useFileUrl(answer, 'answerMedia')
       <p class="text-sm italic">L'équipe a répondu:</p>
       <div v-if="answer.pointData?.answerType === 'image'">
         <img :src="mediaUrl" class="rounded-lg w-full" />
+      </div>
+      <div v-else-if="answer.pointData?.answerType === 'audio'">
+        <AudioPlayer :file-url="mediaUrl" />
       </div>
       <div v-else-if="answer.answerData">
         <p class="font-bold">"{{ answer.answerData }}"</p>
