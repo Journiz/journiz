@@ -38,7 +38,12 @@ defineProps({
         </div>
       </div>
       <div class="flex w-full gap-5 items-center">
-        <Button class="flex-grow" color="green">Infos de l’équipe</Button>
+        <Button
+          :to="{ name: 'user-team-details', params: { teamId: team.id } }"
+          class="flex-grow"
+          color="green"
+          >Infos de l’équipe</Button
+        >
         <div
           class="custom-shadow rounded-full h-12 w-12 flex items-center justify-center"
           :style="{ backgroundColor: getColor(team.color as any ?? 'green') }"

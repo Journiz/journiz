@@ -1,11 +1,20 @@
 <script lang="ts" setup="">
-import { Team } from '@journiz/api-types'
-import { computed } from 'vue'
+import { Team as TeamType, Team } from '@journiz/api-types'
+import { computed, PropType } from 'vue'
+
 import hatBg from '~/assets/img/hat-bg.png'
 import { getColor } from '~/composables/useThemeColor'
-const props = defineProps<{
-  team: Team
-}>()
+const props = defineProps({
+  team: {
+    type: Object as PropType<TeamType>,
+    required: true,
+  },
+  border: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+})
+
 const avatarUrl = computed(() => {
   if (props.team.hat) {
     return `/img/hats/${props.team.hat}.png`
@@ -16,6 +25,7 @@ const avatarUrl = computed(() => {
 <template>
   <div
     class="aspect-square relative overflow-hidden rounded-full"
+    :class="border ? 'outline outline-1 outline-beige outline-offset-4' : ''"
     :style="{
           backgroundColor: getColor(team.color as any ?? 'red'),
         }"

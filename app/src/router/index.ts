@@ -95,6 +95,12 @@ const router = createRouter({
       ],
     },
     {
+      path: '/user/team/:teamId',
+      name: 'user-team-details',
+      component: () => import('~/views/user/SingleTeamView.vue'),
+      beforeEnter: [redirectIfNotLoggedIn],
+    },
+    {
       path: '/user/trip/validate/:teamId',
       name: 'user-trip-validate-team',
       component: () => import('~/views/user/validation/ValidateTeamView.vue'),
