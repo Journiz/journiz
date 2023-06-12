@@ -3,16 +3,16 @@ import { Trip as TripType } from '@journiz/api-types'
 import { computed } from 'vue'
 import { useNow } from '@vueuse/core'
 import { padWithZero } from '~/utils/dates'
+
 const props = defineProps<{
   trip: TripType
 }>()
 const endDate = computed(() => {
   if (!props.trip?.expand?.journey) return null
   const start = new Date(Date.parse(props.trip.date))
-  const end = new Date(
+  return new Date(
     start.getTime() + props.trip.expand.journey.duration * 60 * 1000
   )
-  return end
 })
 const now = useNow()
 const remaining = computed(() => {
@@ -20,15 +20,15 @@ const remaining = computed(() => {
   return Math.max(0, endDate.value.getTime() - now.value.getTime())
 })
 const remainingHours = computed(() => {
-  if (!remaining.value) return null
+  if (remaining.value === null) return null
   return padWithZero(Math.floor(remaining.value / 1000 / 60 / 60))
 })
 const remainingMinutes = computed(() => {
-  if (!remaining.value) return null
+  if (remaining.value === null) return null
   return padWithZero(Math.floor((remaining.value / 1000 / 60) % 60))
 })
 const remainingSeconds = computed(() => {
-  if (!remaining.value) return null
+  if (remaining.value === null) return null
   return padWithZero(Math.floor((remaining.value / 1000) % 60))
 })
 </script>
