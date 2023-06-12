@@ -52,7 +52,9 @@ const openTrip = async (tripId: string) => {
           <div class="text-base font-medium">{{ trip.name }}</div>
           <div class="flex items-center w-fit">
             <div class="i-uil:map-pin-alt mr-2 h-4 text-base"></div>
-            <div class="text-left">{{ trip.expand.journey.basecampName }}</div>
+            <div class="text-left">
+              {{ trip.expand?.journey?.basecampName }}
+            </div>
           </div>
         </div>
       </div>

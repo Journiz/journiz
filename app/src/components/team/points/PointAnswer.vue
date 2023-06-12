@@ -10,7 +10,7 @@ const props = defineProps<{
   point: Point
 }>()
 
-const answerComponent = computed<Component>(() => {
+const answerComponent = computed<Component | null>(() => {
   switch (props.point.answerType) {
     case 'choice':
       return ChoiceAnswer

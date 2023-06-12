@@ -19,7 +19,7 @@ let members: string[]
     <h2
       class="relative color-green-dark text-2xl font-black text-center mb-5 mt-10"
     >
-      {{ store.trip.name }}
+      {{ store.trip?.name }}
     </h2>
     <div class="relative text-center mb-7 color-green-dark">
       Entrer les participants du groupe
