@@ -203,6 +203,12 @@ const router = createRouter({
       beforeEnter: [teamGuard, teamPhaseGuard(['playing'])],
     },
     {
+      path: '/team/podium',
+      name: 'team-podium',
+      component: () => import('~/views/team/TeamPodiumView.vue'),
+      beforeEnter: [teamGuard, teamPhaseGuard(['finished'])],
+    },
+    {
       path: '/notification/chat/:conversationId',
       name: 'chat-notif',
       redirect: (to) => {

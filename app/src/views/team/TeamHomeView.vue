@@ -31,6 +31,10 @@ watch(
       )
       router.replace({ name: 'team' })
     }
+
+    if (status === 'finished') {
+      router.replace({ name: 'team-podium' })
+    }
   }
 )
 </script>
