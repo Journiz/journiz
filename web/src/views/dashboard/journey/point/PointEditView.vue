@@ -23,17 +23,16 @@ const answerType = ref<Point['answerType']>()
 const answerLocation = ref<{ lng: number; lat: number }>()
 
 const pointTrigger = ref('')
-
+const currentTabIndex = ref(0)
 function save() {
   saveChanges()
-  console.log('save')
-  if (route.name === 'point-dependency') {
-    router.push({ name: 'edit-journey' })
-  } else if (route.name === 'point-position') {
-    router.push({ name: 'point-content' })
-  } else if (route.name === 'point-content') {
-    router.push({ name: 'point-dependency' })
-  }
+  // if (route.name === 'point-dependency') {
+  //   router.push({ name: 'edit-journey' })
+  // } else if (route.name === 'point-position') {
+  //   router.push({ name: 'point-content' })
+  // } else if (route.name === 'point-content') {
+  //   router.push({ name: 'point-dependency' })
+  // }
 }
 function quit() {
   const result = confirm(
@@ -43,12 +42,6 @@ function quit() {
     router.push({ name: 'edit-journey' })
   }
 }
-onBeforeRouteLeave((to, from, next) => {
-  console.log('save route ')
-  saveChanges()
-  next()
-})
-
 async function saveChanges() {
   try {
     await store.update()
@@ -82,14 +75,7 @@ async function saveChanges() {
         </DefaultButton>
       </div>
     </header>
-    <PointNavbar
-      class="mb-2 h-auto"
-      @routeToPath="
-        (pathName) => {
-          router.push({ name: pathName })
-        }
-      "
-    />
+    <PointNavbar v-model:tab="currentTabIndex" class="mb-2 h-auto" />
     <RouterView />
   </article>
 </template>
