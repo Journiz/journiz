@@ -67,8 +67,8 @@ const router = createRouter({
         },
         {
           path: 'profil',
-          name: 'profil',
-          component: () => import('~/views/ProfilView.vue'),
+          name: 'user-profile',
+          component: () => import('~/views/ProfileView.vue'),
         },
         {
           path: 'parcours/creation',
@@ -93,6 +93,18 @@ const router = createRouter({
               path: 'depart',
               component: () =>
                 import('~/views/dashboard/journey/JourneyBasecampView.vue'),
+            },
+            {
+              name: 'export-journey',
+              path: 'export',
+              component: () =>
+                import('~/views/dashboard/journey/JourneyExportView.vue'),
+            },
+            {
+              path: 'point/:pointId',
+              name: 'edit-point',
+              component: () =>
+                import('~/views/dashboard/journey/point/PointEditView.vue'),
             },
           ],
         },

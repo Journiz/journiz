@@ -1,0 +1,48 @@
+@import '../fonts/filson/filson.css';
+:root {
+    --color-theme: theme('colors.red')
+}
+body {
+    font-family: 'filson', sans-serif;
+    overflow: hidden!important;
+    background-color: #fff;
+    --ion-text-color: theme('colors.green.dark');
+}
+
+.page {
+    @apply h-full relative;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+.-mb-safe {
+    padding-bottom: calc(-1 * env(safe-area-inset-bottom));
+}
+ion-content {
+    /*--overflow: hidden*/
+}
+/*ion-navbar.toolbar.toolbar-ios.statusbar-padding,*/
+/*ion-navbar.toolbar-ios ion-title.title-ios,*/
+/*ion-toolbar.toolbar.toolbar-ios.statusbar-padding,*/
+/*ion-toolbar.toolbar-ios ion-title.title-ios {*/
+/*    padding-top: constant(safe-area-inset-top);*/
+/*    padding-top: env(safe-area-inset-top);*/
+/*}*/
+ion-router-outlet {
+    background-color: #fff;
+}
+
+.tab-inner-height {
+    height: calc(100% - 44px - 50px);
+}
+
+.btn-animation {
+    // Animation
+    transition: transform 0.25s cubic-bezier(0.74, 2.32, 0.58, 1);
+    &:active:not(:disabled) {
+        animation: none;
+        transition: transform 0.07s ease-in;
+        transform: scale(0.95);
+        opacity: 0.96;
+    }
+}
+@import './transitions';

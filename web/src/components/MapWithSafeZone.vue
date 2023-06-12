@@ -6,6 +6,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import Map from '~/components/Map.vue'
 import { Coordinates } from '~/types/Coordinates'
 import SquareButton from '~/components/buttons/SquareButton.vue'
+import { useJourneyStore } from '~/stores/journey'
 // @ts-ignore
 const mapInstance = ref<MapboxMap>()
 const emit = defineEmits(['safeAreaGeometry'])
@@ -24,7 +25,7 @@ const draw = new MapboxDraw({
         'line-join': 'round',
       },
       paint: {
-        'line-color': '#D20C0C',
+        'line-color': '#FF6147',
         'line-dasharray': [0.2, 2],
         'line-width': 2,
       },
@@ -35,8 +36,8 @@ const draw = new MapboxDraw({
       type: 'fill',
       filter: ['all', ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
       paint: {
-        'fill-color': '#D20C0C',
-        'fill-outline-color': '#D20C0C',
+        'fill-color': '#FF6147',
+        'fill-outline-color': '#FF6147',
         'fill-opacity': 0.1,
       },
     },
@@ -47,7 +48,7 @@ const draw = new MapboxDraw({
       filter: ['all', ['==', '$type', 'Point'], ['==', 'meta', 'midpoint']],
       paint: {
         'circle-radius': 3,
-        'circle-color': '#fbb03b',
+        'circle-color': '#FF6147',
       },
     },
     // polygon outline stroke
@@ -61,7 +62,7 @@ const draw = new MapboxDraw({
         'line-join': 'round',
       },
       paint: {
-        'line-color': '#D20C0C',
+        'line-color': '#FF6147',
         'line-dasharray': [0.2, 2],
         'line-width': 2,
       },
@@ -78,7 +79,7 @@ const draw = new MapboxDraw({
       ],
       paint: {
         'circle-radius': 5,
-        'circle-color': '#FFF',
+        'circle-color': '#FF6147',
       },
     },
     // vertex points
@@ -93,7 +94,7 @@ const draw = new MapboxDraw({
       ],
       paint: {
         'circle-radius': 3,
-        'circle-color': '#D20C0C',
+        'circle-color': '#FF6147',
       },
     },
 
@@ -140,7 +141,7 @@ const draw = new MapboxDraw({
   ],
   defaultMode: 'draw_polygon',
 })
-defineProps({
+const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
     required: true,
@@ -149,8 +150,12 @@ defineProps({
     type: Number as PropType<number>,
     default: 10,
   },
+  drawData: {
+    type: Array,
+    default: null,
+  },
 })
-const updateArea = (e) => {
+const updateArea = () => {
   const data = draw.getAll()
   if (data.features[0]) {
     // @ts-expect-error Library wrong type
@@ -171,10 +176,14 @@ onMounted(() => {
   mapInstance.value.on('draw.create', updateArea)
   mapInstance.value.on('draw.delete', updateArea)
   mapInstance.value.on('draw.update', updateArea)
+  if (props.drawData) {
+    // @ts-expect-error Library wrong type
+    draw.add({ type: 'Polygon', coordinates: [props.drawData] })
+  }
 })
 </script>
 <template>
-  <div class="relative">
+  <div class="relative w-full h-full">
     <SquareButton
       class="absolute right-4 top-4 z-10"
       icon="trash"

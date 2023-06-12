@@ -1,7 +1,9 @@
 <script lang="ts" setup="">
 import { useChat } from '@journiz/composables'
 import { computed, nextTick, ref, watch } from 'vue'
+import { Camera, CameraResultType } from '@capacitor/camera'
 import MessageBubble from '~/components/chat/MessageBubble.vue'
+import dataURItoBlob from '~/utils/dataURIToBlob'
 
 const props = defineProps<{
   conversationId: string
@@ -12,13 +14,35 @@ const { conversation, sendMessage, markAsRead } = useChat(
   props.conversationId,
   props.sender
 )
+
+const imageUrl = ref<string>()
+const takePicture = async () => {
+  const image = await Camera.getPhoto({
+    quality: 75,
+    width: 1000,
+    height: 1000,
+    allowEditing: false,
+    resultType: CameraResultType.DataUrl,
+    promptLabelHeader: "Choisir une source d'image",
+    promptLabelPhoto: 'Choisir dans mes images',
+    promptLabelPicture: 'Prendre une photo',
+  })
+  imageUrl.value = image.dataUrl
+}
+
 const message = ref('')
 const messageField = ref<HTMLElement>()
 const messagesList = ref<HTMLElement>()
 const send = async () => {
   if (message.value !== '') {
-    await sendMessage(message.value)
+    let image
+    if (imageUrl.value) {
+      image = dataURItoBlob(imageUrl.value)
+      console.log(image)
+    }
+    await sendMessage(message.value, image)
     message.value = ''
+    imageUrl.value = ''
     if (messageField.value?.parentNode) {
       ;(messageField.value.parentNode as HTMLElement).dataset.replicatedValue =
         message.value
@@ -65,7 +89,7 @@ watch(messages, () => {
     <div
       v-if="conversation"
       ref="messagesList"
-      class="flex-grow overflow-y-scroll overflow-x-hidden pb-16"
+      class="flex-grow overflow-y-scroll overflow-x-hidden pb-24"
     >
       <transition-group name="message-list">
         <MessageBubble
@@ -80,22 +104,28 @@ watch(messages, () => {
     <div v-else class="flex-grow">
       Chargement conversation {{ conversationId }}...
     </div>
-    <div
-      class="absolute bottom-0 flex px-4 flex-shrink-0 p-2 backdrop-blur bg-white/40"
-    >
-      <div class="grow-wrap">
-        <textarea
-          id="message"
-          ref="messageField"
-          v-model="message"
-          name="message"
-          placeholder="Écrire..."
-          @input="onInputMessage"
-        ></textarea>
+    <div class="flex flex-col absolute bottom-0 backdrop-blur bg-white/40 z-11">
+      <div v-if="imageUrl" class="p-4">
+        <img :src="imageUrl" alt="Attachment" class="h-24 rounded-lg" />
       </div>
-      <button class="send-btn bg-blue-600 text-white" @click="send">
-        Send
-      </button>
+      <div class="flex px-4 flex-shrink-0 p-2">
+        <button class="text-3xl mr-2" @click="takePicture">
+          <span class="block i-uil:camera"></span>
+        </button>
+        <div class="grow-wrap">
+          <textarea
+            id="message"
+            ref="messageField"
+            v-model="message"
+            name="message"
+            placeholder="Écrire..."
+            @input="onInputMessage"
+          ></textarea>
+        </div>
+        <button class="send-btn bg-indigo-600 text-white" @click="send">
+          Send
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -110,8 +140,8 @@ watch(messages, () => {
   content: attr(data-replicated-value) ' ';
   white-space: pre-wrap;
   visibility: hidden;
-  width: calc(100vw - 84px);
-  max-width: calc(100vw - 84px);
+  width: calc(100vw - 120px);
+  max-width: calc(100vw - 120px);
   max-height: 90px;
   font-size: 16px;
   line-height: 16px;
@@ -119,8 +149,8 @@ watch(messages, () => {
 
 .grow-wrap > textarea {
   resize: none;
-  width: calc(100vw - 84px);
-  max-width: calc(100vw - 84px);
+  width: calc(100vw - 120px);
+  max-width: calc(100vw - 120px);
   max-height: 90px;
   font-size: 16px;
   line-height: 16px;
@@ -142,6 +172,7 @@ watch(messages, () => {
 .message-list-enter-active {
   transition: all 0.2s;
 }
+
 .message-list-enter-from {
   opacity: 0;
 }

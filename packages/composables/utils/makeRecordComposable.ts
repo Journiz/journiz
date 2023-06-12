@@ -2,15 +2,15 @@ import { z, ZodType } from 'zod'
 import { Ref, ref, watch } from 'vue'
 import { flattenExpands } from '@journiz/api-types'
 import { Record } from 'pocketbase'
-import { usePocketBase } from '../src/usePocketBase'
+import { usePocketBase } from '../src/data/usePocketBase'
 
 export type RecordComposableData<Schema extends ZodType<any>> = {
   data: Ref<z.infer<Schema> | null>
   rawData: Ref<Record | null>
   refresh: () => Promise<void>
   update: () => Promise<void>
-  loading: any
-  updateLoading: any
+  loading: Ref<boolean>
+  updateLoading: Ref<boolean>
   setId: (id?: string | null) => Promise<void>
 }
 export type RecordComposable<Schema extends ZodType<any>> = (
@@ -54,7 +54,12 @@ export function makeRecordComposable<Schema extends ZodType<any>>(
     const parseData = () => {
       if (rawData.value) {
         const result = flattenExpands(rawData.value)
-        data.value = schema.parse(result)
+        try {
+          data.value = schema.parse(result)
+        } catch (e) {
+          console.error('Error with updated data:', e)
+          // data.value = null
+        }
       } else {
         data.value = null
       }

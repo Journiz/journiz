@@ -1,29 +1,40 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useJourneyStore } from '~/stores/journey'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import MapWithSearch from '~/components/MapWithSearch.vue'
+import { Coordinates } from '~/types/Coordinates'
+import CustomHeader from '~/components/layout/CustomHeader.vue'
 
-const invalidInput = ref(false)
-const long = ref('')
-const lat = ref('')
-
+const router = useRouter()
 const store = useJourneyStore()
 
-const setBasecamp = async () => {
-  await store.setBasecamp(parseFloat(long.value), parseFloat(lat.value))
+const setBasecamp = async (coords: Coordinates) => {
+  await store.setBasecamp(coords[0], coords[1])
 }
+const confirm = () => router.push({ name: 'edit-journey' })
+const pointCoords = computed(() => {
+  return store.journey!.basecampLongitude && store.journey!.basecampLatitude
+    ? [store.journey!.basecampLongitude, store.journey!.basecampLatitude]
+    : undefined
+})
 </script>
 <template>
-  <h1>Création du point de raliement</h1>
-  <form @submit.prevent="setBasecamp">
-    <div class="form-group">
-      <label for="long">Longitude</label>
-      <input id="long" v-model="long" type="number" />
+  <div class="flex flex-col h-full">
+    <CustomHeader
+      title="Création du point de ralliement"
+      class="px-16 h-auto mb-7 pt-12"
+    >
+      <DefaultButton @click="confirm">Valider</DefaultButton>
+    </CustomHeader>
+    <div class="px-16 h-auto mb-7 h-full">
+      <MapWithSearch
+        :initial-coords="pointCoords as any"
+        :map-center="pointCoords as any"
+        :zoom="16"
+        @update="setBasecamp"
+      />
     </div>
-    <div class="form-group">
-      <label for="lat">Latitude</label>
-      <input id="lat" v-model="lat" type="number" />
-    </div>
-    <p v-if="invalidInput">Merci de saisir tous les champs</p>
-    <button>Suivant</button>
-  </form>
+  </div>
 </template>

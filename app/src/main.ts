@@ -1,6 +1,9 @@
-import 'virtual:windi.css'
+import '@unocss/reset/tailwind.css'
+import 'virtual:uno.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+// @ts-ignore
+import riveWASMResource from '@rive-app/canvas/rive.wasm?url'
 
 import {
   IonBackButton,
@@ -13,6 +16,10 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/vue'
+import gsap from 'gsap'
+import { Flip } from 'gsap/Flip'
+import { RuntimeLoader } from '@rive-app/canvas'
+import { createHead, useHead } from '@unhead/vue'
 import App from './App.vue'
 import router from './router'
 import plugins from '~/plugins'
@@ -32,14 +39,22 @@ import '@ionic/vue/css/flex-utils.css'
 import '@ionic/vue/css/display.css'
 
 // Our custom CSS
-import './assets/main.css'
+import './assets/scss/main.scss'
+console.log(riveWASMResource)
+
+// @ts-expect-error Fixing Safari quirk
+window.AudioContext = window.AudioContext || window.webkitAudioContext
 
 plugins()
+
+gsap.registerPlugin(Flip)
 
 const app = createApp(App)
 export const pinia = createPinia()
 
-app.use(IonicVue)
+app.use(IonicVue, {
+  // mode: 'ios',
+})
 // Global components
 app.component('IonButton', IonButton)
 app.component('IonButtons', IonButtons)
@@ -54,3 +69,4 @@ app.use(pinia)
 app.use(router)
 
 app.mount('#app')
+RuntimeLoader.setWasmUrl(riveWASMResource)

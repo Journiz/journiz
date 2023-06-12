@@ -2,7 +2,7 @@ import { z, ZodType } from 'zod'
 import { Ref, ref } from 'vue'
 import { flattenExpands } from '@journiz/api-types'
 import { Record, RecordFullListQueryParams } from 'pocketbase'
-import { usePocketBase } from '../src/usePocketBase'
+import { usePocketBase } from '../src/data/usePocketBase'
 
 export type ListComposableData<Schema extends ZodType> = {
   data: Ref<z.infer<Schema>[]>

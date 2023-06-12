@@ -1,0 +1,164 @@
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProThin.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 100;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProThinItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 100;
+    font-stretch: normal;
+}
+
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProExtraLight.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 200;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProExtraLightItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 200;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProLight.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 300;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProLightItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 300;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProRegular.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 400;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProRegularItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 400;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProMedium.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 500;
+    font-stretch: normal;
+}
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProMediumItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 500;
+    font-stretch: normal;
+}
+
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProBold.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 700;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProBoldItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 700;
+    font-stretch: normal;
+}
+
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProExtraBold.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 800;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProExtraBoldItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 800;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProBlack.woff2") format("woff2");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 900;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: "filson";
+    src: url("FilsonProBlackItalic.woff2") format("woff2");
+    font-display: auto;
+    font-style: italic;
+    font-weight: 900;
+    font-stretch: normal;
+}
+
+/**
+curl -o FilsonProThin.woff2 "https://use.typekit.net/af/9c95c0/0000000000000000000157cb/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n1&v=3";
+curl -o FilsonProThinItalic.woff2 "https://use.typekit.net/af/af80a3/0000000000000000000157cc/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i1&v=3";
+curl -o FilsonProExtraLight.woff2 "https://use.typekit.net/af/849db4/0000000000000000000157c5/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n2&v=3";
+curl -o FilsonProExtraLightItalic.woff2 "https://use.typekit.net/af/5bed1d/0000000000000000000157c6/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i2&v=3";
+curl -o FilsonProLight.woff2 "https://use.typekit.net/af/c37133/0000000000000000000157c1/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3";
+curl -o FilsonProLightItalic.woff2 "https://use.typekit.net/af/828f71/0000000000000000000157c2/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i3&v=3";
+curl -o FilsonProRegular.woff2 "https://use.typekit.net/af/19c742/0000000000000000000157c9/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3";
+curl -o FilsonProRegularItalic.woff2 "https://use.typekit.net/af/27caf4/0000000000000000000157ca/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3";
+curl -o FilsonProMedium.woff2 "https://use.typekit.net/af/fcca1c/0000000000000000000157c8/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3";
+curl -o FilsonProMediumItalic.woff2 "https://use.typekit.net/af/56a426/0000000000000000000157c7/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i5&v=3";
+curl -o FilsonProBold.woff2 "https://use.typekit.net/af/c12453/0000000000000000000157bf/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3";
+curl -o FilsonProBoldItalic.woff2 "https://use.typekit.net/af/125ffe/0000000000000000000157c0/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3";
+curl -o FilsonProExtraBold.woff2 "https://use.typekit.net/af/55adf8/0000000000000000000157c3/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n8&v=3";
+curl -o FilsonProExtraBoldItalic.woff2 "https://use.typekit.net/af/1c6a34/0000000000000000000157c4/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i8&v=3";
+curl -o FilsonProBlack.woff2 "https://use.typekit.net/af/d2ca68/0000000000000000000157a5/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n9&v=3";
+curl -o FilsonProBlackItalic.woff2 "https://use.typekit.net/af/7a579a/0000000000000000000157be/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i9&v=3";
+ */

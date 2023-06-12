@@ -5,7 +5,7 @@ import { pinia } from '~/main'
 
 const redirectIfLoggedIn = () => {
   if (useUserStore(pinia).isLoggedIn()) {
-    return { name: 'user-home' }
+    return { name: 'user-trip-tabs' }
   }
   const teamStore = useTeamStore(pinia)
   if (teamStore.team) {
@@ -18,6 +18,13 @@ const redirectIfLoggedIn = () => {
 const redirectIfNotLoggedIn = () => {
   if (!useUserStore(pinia).isLoggedIn()) {
     return { name: 'user-login' }
+  }
+}
+
+const redirectIfNotTeam = () => {
+  const store = useTeamStore(pinia)
+  if (!store.team) {
+    return { name: 'join-trip' }
   }
 }
 
@@ -68,7 +75,14 @@ const router = createRouter({
       beforeEnter: [redirectIfNotLoggedIn],
     },
     {
+      path: '/user/trip-recap',
+      component: () => import('~/views/user/TripRecapView.vue'),
+      name: 'user-trip-recap',
+      beforeEnter: [redirectIfNotLoggedIn],
+    },
+    {
       path: '/user/trip',
+      name: 'user-trip-tabs',
       component: () => import('~/views/user/trip/TripTabsView.vue'),
       beforeEnter: [
         redirectIfNotLoggedIn,
@@ -79,36 +93,17 @@ const router = createRouter({
           }
         },
       ],
-      children: [
-        {
-          path: '',
-          redirect: '/user/trip/home',
-        },
-        {
-          path: 'home',
-          name: 'user-home',
-          component: () => import('~/views/user/trip/TabHomeView.vue'),
-        },
-        {
-          path: 'tab2',
-          component: () => import('~/views/user/trip/TabHomeView.vue'),
-        },
-        {
-          path: 'chat',
-          component: () => import('~/views/user/trip/TabChatView.vue'),
-          children: [
-            {
-              path: '',
-              component: () =>
-                import('~/views/user/chat/ConversationsListView.vue'),
-            },
-            {
-              path: ':conversationId',
-              component: () => import('~/views/user/chat/ConversationView.vue'),
-            },
-          ],
-        },
-      ],
+    },
+    {
+      path: '/user/trip/validate/:teamId',
+      name: 'user-trip-validate-team',
+      component: () => import('~/views/user/validation/ValidateTeamView.vue'),
+      beforeEnter: [redirectIfNotLoggedIn],
+    },
+    {
+      path: '/user/trip/chat/:conversationId',
+      name: 'user-chat-conversation',
+      component: () => import('~/views/user/chat/ConversationView.vue'),
     },
 
     /**
@@ -116,6 +111,7 @@ const router = createRouter({
      */
     {
       path: '/join',
+      name: 'join',
       redirect: () => {
         // If team logged, redirect to team
         const store = useTeamStore(pinia)
@@ -164,24 +160,25 @@ const router = createRouter({
       path: '/team',
       name: 'team',
       component: () => import('~/views/team/TeamHomeView.vue'),
-      beforeEnter: () => {
-        const store = useTeamStore(pinia)
-        if (!store.team) {
-          return { name: 'join-trip' }
-        }
-      },
-      children: [],
+      beforeEnter: redirectIfNotTeam,
     },
     {
       path: '/team/chat',
       name: 'team-chat',
       component: () => import('~/views/team/TeamChatView.vue'),
-      beforeEnter: () => {
-        const store = useTeamStore(pinia)
-        if (!store.team) {
-          return { name: 'join-trip' }
-        }
-      },
+      beforeEnter: redirectIfNotTeam,
+    },
+    {
+      path: '/team/customize',
+      name: 'team-customize',
+      component: () => import('~/views/team/TeamCustomizeView.vue'),
+      beforeEnter: redirectIfNotTeam,
+    },
+    {
+      path: '/team/point/:pointId',
+      name: 'team-point',
+      component: () => import('~/views/team/TeamPointView.vue'),
+      beforeEnter: redirectIfNotTeam,
     },
     {
       path: '/notification/chat/:conversationId',
@@ -190,17 +187,10 @@ const router = createRouter({
         if (useUserStore(pinia).isLoggedIn() && to.params.conversationId) {
           return `/user/trip/chat/${to.params.conversationId}`
         }
-        return '/team/chat'
+        return {
+          name: 'team-chat',
+        }
       },
-    },
-
-    /**
-     * POC Routes that will be deleted
-     */
-    {
-      path: '/geolocation',
-      name: 'geolocation',
-      component: () => import('~/views/PocGeolocation.vue'),
     },
   ],
 })

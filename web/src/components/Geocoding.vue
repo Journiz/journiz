@@ -21,7 +21,7 @@ const select = (line) => {
 }
 </script>
 <template>
-  <div class="p-7 bg-blue-300 rounded-xl">
+  <div class="p-7 bg-white rounded-xl">
     <SearchBar
       class="mb-3"
       label="Rechercher une adresse"

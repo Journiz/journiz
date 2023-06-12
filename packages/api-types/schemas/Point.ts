@@ -1,19 +1,26 @@
 import { z } from 'zod'
+import { BaseSchema } from './Base'
 
-export const basePointSchema = z.object({
+export const basePointSchema = BaseSchema.extend({
   id: z.string(),
   latitude: z.number(),
   longitude: z.number(),
-  name: z.string(),
-  question: z.string(),
-  answerType: z.enum(['image', 'text', 'choice', 'location']),
+  name: z.string().optional(),
+  question: z.string().optional(),
+  description: z.string().optional(),
+  media: z.string().optional(),
+  answerType: z.enum(['image', 'text', 'choice', 'location', 'audio']),
   answer: z
     .union([
-      z.null(),
       z.string(),
-      z.array(z.string()),
+      z.array(
+        z.object({ id: z.string(), text: z.string(), isCorrect: z.boolean() })
+      ),
       z.object({ lng: z.number(), lat: z.number() }),
     ])
+    .optional(),
+  hint: z
+    .union([z.array(z.object({ id: z.string(), text: z.string() })), z.null()])
     .optional(),
   score: z.number(),
   created: z.string(),
@@ -23,12 +30,14 @@ export const basePointSchema = z.object({
 export type Point = z.infer<typeof basePointSchema> & {
   expand?: {
     trigger?: Point
+    dependents?: Point[]
   }
 }
 export const PointSchema: z.ZodType<Point> = basePointSchema.extend({
   expand: z
     .object({
       trigger: z.lazy(() => PointSchema).optional(),
+      dependents: z.lazy(() => z.array(PointSchema)).optional(),
     })
     .optional(),
 })

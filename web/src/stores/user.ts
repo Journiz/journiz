@@ -82,6 +82,19 @@ export const useUserStore = defineStore('user', () => {
       return false
     }
   }
+  const updateUser = async (id: string, username: string, email: string) => {
+    const data = {
+      username,
+      email,
+    }
+    try {
+      await pb.collection('users').update(id, data)
+      return true
+    } catch (e) {
+      console.log('ERROR: ' + e)
+      return false
+    }
+  }
 
   return {
     user,
@@ -92,5 +105,6 @@ export const useUserStore = defineStore('user', () => {
     register,
     newPassword,
     resetPassword,
+    updateUser,
   }
 })

@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import type { Message as MessageType } from '@journiz/api-types'
 import { IonIcon } from '@ionic/vue'
+import { usePocketBase } from '@journiz/composables'
 import { checkmarkCircleOutline, ellipseOutline } from 'ionicons/icons'
+import Lightbox from '~/components/design-system/Lightbox.vue'
 
 const props = defineProps<{
   message: MessageType
@@ -17,19 +19,47 @@ onMounted(() => {
     }
   }
 })
+
+const pb = usePocketBase()
+const attachment = computed(() => {
+  if (props.message.attachment) {
+    return pb.getFileUrl(props.message, props.message.attachment)
+  }
+  return null
+})
 </script>
 
 <template>
   <div
-    ref="el"
-    class="bubble rounded-xl p-4 text-white my-2.5 mx-5 whitespace-pre-wrap relative"
-    :class="message.sender === userType ? 'bg-blue-500 ml-auto' : 'bg-blue-400'"
+    class="flex flex-col my-2.5 mx-5 max-w-69.7%"
+    :class="message.sender === userType ? 'ml-auto' : ''"
   >
-    <span>
-      {{ message.content }}
-    </span>
-    <div v-if="message.sender === userType" class="absolute bottom-0 right-1">
-      <IonIcon :icon="message.read ? checkmarkCircleOutline : ellipseOutline" />
+    <div
+      class="rounded-xl p-4 text-white whitespace-pre-wrap relative"
+      :class="message.sender === userType ? 'bg-indigo-600' : 'bg-indigo-400'"
+    >
+      <span>
+        {{ message.content }}
+      </span>
+      <div v-if="message.sender === userType" class="absolute bottom-0 right-1">
+        <IonIcon
+          :icon="message.read ? checkmarkCircleOutline : ellipseOutline"
+        />
+      </div>
+    </div>
+    <div v-if="attachment" class="mt-2">
+      <Lightbox
+        v-slot="{ isOpen }"
+        class="w-3/4"
+        :class="message.sender === userType ? 'ml-auto' : ''"
+      >
+        <img
+          :src="attachment"
+          alt=""
+          class="object-cover w-full aspect-2/3"
+          :class="isOpen ? 'rounded-xl' : 'rounded-2xl'"
+        />
+      </Lightbox>
     </div>
   </div>
 </template>

@@ -1,36 +1,29 @@
 <script lang="ts" setup="">
-import {
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-} from '@ionic/vue'
-import { chatbox, ellipse, triangle } from 'ionicons/icons'
+import Page from '~/components/Page.vue'
+import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
+import Tab from '~/components/tabs/Tab.vue'
+import TabHome from '~/components/user/tabs/TabHome.vue'
+import TabTeams from '~/components/user/tabs/TabTeams.vue'
+import TabChat from '~/components/user/tabs/TabChat.vue'
+import TabValidation from '~/components/user/tabs/TabValidation.vue'
 </script>
 <template>
-  <ion-page>
-    <ion-content :fullscreen="false" :scroll-x="false" :scroll-y="false">
-      <ion-tabs>
-        <ion-router-outlet></ion-router-outlet>
-        <ion-tab-bar slot="bottom">
-          <ion-tab-button tab="tab1" href="/user/trip/home">
-            <ion-icon :icon="triangle" />
-            <ion-label>Tab 1</ion-label>
-          </ion-tab-button>
-
-          <ion-tab-button tab="tab2" href="/user/trip/tab2">
-            <ion-icon :icon="ellipse" />
-            <ion-label>Tab 2</ion-label>
-          </ion-tab-button>
-
-          <ion-tab-button tab="chat" href="/user/trip/chat">
-            <ion-icon :icon="chatbox" />
-            <ion-label>Chat</ion-label>
-          </ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-content>
-  </ion-page>
+  <keep-alive>
+    <Page id="trip-tabs-page">
+      <Tabs class="flex-grow">
+        <Tab title="Paramètres" name="settings" icon="i-uil:cog">
+          <TabHome />
+        </Tab>
+        <Tab title="Carte" name="map" icon="i-uil:map" default-selected>
+          <TabTeams />
+        </Tab>
+        <Tab title="Validation" name="validation" icon="i-uil:image-question">
+          <TabValidation />
+        </Tab>
+        <Tab title="Messages" name="chat" icon="i-ph:chats-circle-bold">
+          <TabChat />
+        </Tab>
+      </Tabs>
+    </Page>
+  </keep-alive>
 </template>

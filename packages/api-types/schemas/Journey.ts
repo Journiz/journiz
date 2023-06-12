@@ -1,7 +1,8 @@
 import { z } from 'zod'
 import { PointSchema } from './Point'
+import { BaseSchema } from './Base'
 
-export const JourneySchema = z.object({
+export const JourneySchema = BaseSchema.extend({
   basecampLatitude: z.number(),
   basecampLongitude: z.number(),
   basecampName: z.string(),
@@ -11,7 +12,7 @@ export const JourneySchema = z.object({
   indoor: z.boolean(),
   name: z.string(),
   points: z.array(z.string()),
-  safeZone: z.null(),
+  safeZone: z.array(z.array(z.number())).optional(),
   tags: z.array(z.string()),
   updated: z.string(),
   user: z.string(),
