@@ -12,10 +12,10 @@ const store = useUserStore()
   <div v-if="store.trip" class="w-full h-full flex-grow flex flex-col">
     <Header :title="store.trip.name" subtitle="Carte" />
     <TopTabs>
-      <Tab title="Equipes" name="list">
+      <Tab title="Equipes" name="list" default-selected>
         <TeamsList />
       </Tab>
-      <Tab title="Carte" name="map" default-selected>
+      <Tab title="Carte" name="map">
         <TeamsMap />
       </Tab>
     </TopTabs>
