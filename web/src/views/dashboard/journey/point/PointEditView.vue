@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { Point } from '@journiz/api-types'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import TextInput from '~/components/forms/TextInput.vue'
 import PointNavbar from '~/components/point/PointNavbar.vue'
@@ -10,6 +9,9 @@ import PageTitle from '~/components/PageTitle.vue'
 import { waitForEndLoading } from '~/utils/waitForEndLoading'
 import { usePointStore } from '~/stores/point'
 import SquareButton from '~/components/buttons/SquareButton.vue'
+import PointPosition from '~/components/point/tabs/PointPosition.vue'
+import PointContent from '~/components/point/tabs/PointContent.vue'
+import PointDependency from '~/components/point/tabs/PointDependency.vue'
 
 const store = usePointStore()
 const router = useRouter()
@@ -19,20 +21,15 @@ const { loading } = storeToRefs(store)
 await waitForEndLoading(loading)
 
 // passer en props
-const answerType = ref<Point['answerType']>()
-const answerLocation = ref<{ lng: number; lat: number }>()
-
-const pointTrigger = ref('')
 const currentTabIndex = ref(0)
-function save() {
-  saveChanges()
-  // if (route.name === 'point-dependency') {
-  //   router.push({ name: 'edit-journey' })
-  // } else if (route.name === 'point-position') {
-  //   router.push({ name: 'point-content' })
-  // } else if (route.name === 'point-content') {
-  //   router.push({ name: 'point-dependency' })
-  // }
+async function save() {
+  if (currentTabIndex.value < 2) {
+    currentTabIndex.value++
+    await saveChanges()
+    return
+  }
+  await saveChanges()
+  await router.push({ name: 'edit-journey' })
 }
 function quit() {
   const result = confirm(
@@ -54,14 +51,12 @@ async function saveChanges() {
 <template>
   <article v-if="store.point" class="pt-10 px-16 h-full flex flex-col h-full">
     <header class="flex items-center justify-between gap-8 h-auto">
-      <page-title v-if="route.name !== 'point-position'" class="mb-10">{{
-        store.point.name
-      }}</page-title>
       <TextInput
-        v-if="route.name == 'point-position'"
+        v-if="currentTabIndex === 0"
         v-model="store.point.name"
         label="Nom du point"
       ></TextInput>
+      <page-title v-else class="mb-10">{{ store.point.name }}</page-title>
       <div class="flex">
         <SquareButton
           class="mr-3"
@@ -76,6 +71,9 @@ async function saveChanges() {
       </div>
     </header>
     <PointNavbar v-model:tab="currentTabIndex" class="mb-2 h-auto" />
-    <RouterView />
+
+    <PointPosition v-show="currentTabIndex === 0" />
+    <PointContent v-show="currentTabIndex === 1" />
+    <PointDependency v-show="currentTabIndex === 2" />
   </article>
 </template>

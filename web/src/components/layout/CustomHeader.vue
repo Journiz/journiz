@@ -22,8 +22,8 @@ defineProps({
       <square-button
         v-if="!noDisplayReturn"
         icon="back"
-        :action="router.back"
         color="white"
+        @click="router.back"
       />
       <slot />
     </div>

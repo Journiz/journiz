@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const currentTabIndex = defineModel('tab', {
   required: true,
@@ -23,11 +23,12 @@ const items = [
   },
 ]
 function goToTab(item) {
-  const index = items.indexOf(item)
+  currentTabIndex.value = items.indexOf(item)
+}
+watch(currentTabIndex, (index) => {
   currentUnderlineWidth.value = itemRefs.value[index]?.offsetWidth
   currentUnderlineTranslate.value = itemRefs.value[index]?.offsetLeft
-  currentTabIndex.value = index
-}
+})
 onMounted(() => {
   console.log(itemRefs.value[0].offsetWidth)
   currentUnderlineWidth.value = itemRefs.value[0].offsetWidth
@@ -51,7 +52,7 @@ onMounted(() => {
       @click="goToTab(item)"
     >
       <div
-        class="h-3"
+        class="h-4 mr-3"
         :class="[item.icon, i === currentTabIndex ? 'text-red' : 'text-base']"
       />
       <div>{{ item.name }}</div>
