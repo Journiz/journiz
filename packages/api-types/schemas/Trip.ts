@@ -11,7 +11,7 @@ export const TripSchema = BaseSchema.extend({
   journey: z.string(),
   updated: z.string(),
   name: z.string(),
-  status: z.enum(['pairing', 'playing', 'finished']),
+  status: z.enum(['pairing', 'playing', 'finishing', 'finished']),
   expand: z
     .object({
       teams: z.array(TeamSchema).optional(),

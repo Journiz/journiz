@@ -4,15 +4,22 @@ import { Point } from '@journiz/api-types'
 import { useTeamStore } from '~/stores/team/team'
 
 const store = useTeamStore()
-const points = computed<(Point & { hasAnswer: boolean })[]>(
-  () =>
-    store.journey?.expand?.points?.map((p) => {
+const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
+  const allPoints =
+    store.journey?.expand?.points?.map((p: Point) => {
       return {
         ...p,
         hasAnswer: !!store.team?.expand?.answers?.find((a) => a.point === p.id),
       }
     }) ?? []
-)
+  return allPoints.filter((p: Point) => {
+    if (p.trigger) {
+      const trigger = allPoints.find((t: Point) => t.id === p.trigger)
+      return trigger?.hasAnswer ?? false
+    }
+    return true
+  })
+})
 </script>
 <template>
   <div
@@ -42,7 +49,7 @@ const points = computed<(Point & { hasAnswer: boolean })[]>(
           ></span>
           <span class="font-light text-green-dark">{{ point.name }}</span>
           <span
-            v-if="point.trigger"
+            v-if="point.trigger && !point.hasAnswer"
             class="ml-auto text-xs font-light text-theme font-light flex-shrink-0 italic"
             >Débloqué !</span
           >
