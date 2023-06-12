@@ -3,6 +3,7 @@ import { useIonRouter } from '@ionic/vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
+import TripCountdown from '~/components/time/TripCountdown.vue'
 
 const userStore = useUserStore()
 const logout = useLogout(userStore.logout)
@@ -42,7 +43,7 @@ const showScores = async () => {
       Bonjour {{ userStore.user?.username }}. Trip is
       {{ userStore.trip?.name }}
     </div>
-    <div>
+    <div class="col">
       <IonButton @click="logout">Logout</IonButton>
       <IonButton v-if="userStore.trip.status === 'playing'" @click="endTrip"
         >Arreter la partie</IonButton
@@ -52,6 +53,9 @@ const showScores = async () => {
         @click="showScores"
         >Afficher les scores</IonButton
       >
+      <div class="mt-4 self-center">
+        <TripCountdown :trip="userStore.trip" />
+      </div>
     </div>
   </div>
 </template>
