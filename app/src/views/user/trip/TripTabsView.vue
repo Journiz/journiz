@@ -9,6 +9,7 @@ import TabChat from '~/components/user/tabs/TabChat.vue'
 import TabValidation from '~/components/user/tabs/TabValidation.vue'
 import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
+
 const store = useUserStore()
 watch(
   () => store.trip?.status,
