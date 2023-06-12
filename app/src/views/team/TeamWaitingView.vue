@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import gsap from 'gsap'
 import { useIonRouter } from '@ionic/vue'
 import Page from '~/components/Page.vue'
@@ -8,6 +8,7 @@ import { useTeamStore } from '~/stores/team/team'
 import { useLogout } from '~/composables/useLogout'
 import { tripIsToday } from '~/utils/dates'
 import Modal from '~/components/modal/Modal.vue'
+import { useGeolocationStore } from '~/stores/geolocation'
 
 const store = useTeamStore()
 
@@ -30,6 +31,10 @@ watch(
     }
   }
 )
+
+onMounted(() => {
+  useGeolocationStore().requestPermission()
+})
 </script>
 <template>
   <Page class="bg-beige-light">
