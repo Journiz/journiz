@@ -3,6 +3,8 @@ orbs:
   ruby: circleci/ruby@1.2.0
 jobs:
   build:
+    docker:
+      - image: cimg/base:2023.03
     shell: /bin/bash --login -o pipefail
     steps:
       - checkout:
