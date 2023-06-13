@@ -2,6 +2,7 @@ version: 2.1
 orbs:
   ruby: circleci/ruby@1.2.0
   node: circleci/node@5.1.0
+  android: circleci/android@2.3.0
 jobs:
   build:
     docker:
@@ -14,7 +15,7 @@ jobs:
       - ruby/install-deps
       - node/install
       - run:
-          name: Install pnpm
+          name: Install pnpm, dependencies and build
           command: |
             sudo npm install -g pnpm
             pnpm install
@@ -26,6 +27,8 @@ jobs:
             sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
             sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
             java -version
+      - android/install-ndk:
+          version: '25.2.9519653'
       - run:
           name: copy keystore
           command: echo $BASE64_KEYSTORE | base64 --decode > /tmp/store.jks
