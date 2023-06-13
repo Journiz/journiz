@@ -7,10 +7,6 @@ jobs:
   build:
     docker:
       - image: cimg/android:2023.06-node
-    filters:
-      branches:
-        only:
-          - staging
     shell: /bin/bash --login -o pipefail
     working_directory: ~/journiz/app/android
     steps:
@@ -40,3 +36,12 @@ jobs:
               -F 'payload_json={"username": "Android Builder", "content": "New apk for journiz !"}' \
               -F "file1=@journiz.apk" \
               $WEBHOOK_URL
+
+workflows:
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - staging
