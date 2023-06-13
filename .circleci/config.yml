@@ -6,6 +6,7 @@ jobs:
     docker:
       - image: cimg/base:2023.03
     shell: /bin/bash --login -o pipefail
+    working_directory: ~/journiz/app/android
     steps:
       - checkout:
           path: ~/journiz
@@ -14,7 +15,6 @@ jobs:
           name: copy keystore
           command: echo $BASE64_KEYSTORE | base64 --decode > /tmp/store.jks
       - run:
-          working_directory: ~/journiz/app/android
           name: fastlane
           command: bundle exec fastlane build
       - store_artifacts:
