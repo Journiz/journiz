@@ -7,10 +7,10 @@ jobs:
   build:
     docker:
       - image: cimg/android:2023.06-node
-    filters:
-      branches:
-        only:
-          - staging
+#    filters:
+#      branches:
+#        only:
+#          - staging
     shell: /bin/bash --login -o pipefail
     working_directory: ~/journiz/app/android
     steps:
@@ -35,7 +35,8 @@ jobs:
       - run:
           name: upload to Discord
           command: |
+            cp ~/journiz/app/android/app/build/outputs/apk/release/app-release.apk ./journiz.apk
             curl \
-            -F 'payload_json={"username": "Android Builder", "content": "New apk for journiz !"}' \
-            -F "file1=@~/journiz/app/android/app/build/outputs/apk/release/app-release.apk" \
-            $WEBHOOK_URL
+              -F 'payload_json={"username": "Android Builder", "content": "New apk for journiz !"}' \
+              -F "file1=@journiz.apk" \
+              $WEBHOOK_URL
