@@ -1,0 +1,21 @@
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.2.0
+
+jobs:
+  build:
+    shell: /bin/bash --login -o pipefail
+    steps:
+      - checkout:
+          path: ~/journiz
+      - ruby/install-deps
+      - run:
+          name: copy keystore
+          command: echo $BASE64_KEYSTORE | base64 --decode > /tmp/store.jks
+      - run:
+          working_directory: ~/journiz/app/android
+          name: fastlane
+          command: bundle exec fastlane build
+      - store_artifacts:
+          path:  ~/journiz/app/android/app/build/outputs/apk/release

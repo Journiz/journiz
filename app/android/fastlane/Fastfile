@@ -22,7 +22,7 @@ platform :android do
           task: "assemble",
           build_type: "Release",
           properties: {
-            "android.injected.signing.store.file" => "/Users/ponk/tmp.jks",
+            "android.injected.signing.store.file" => "/tmp/store.jks",
             "android.injected.signing.store.password" => "journiz",
             "android.injected.signing.key.alias" => "key0",
             "android.injected.signing.key.password" => "journiz",
