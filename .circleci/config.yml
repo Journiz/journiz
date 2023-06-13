@@ -1,8 +1,6 @@
 version: 2.1
-
 orbs:
   ruby: circleci/ruby@1.2.0
-
 jobs:
   build:
     shell: /bin/bash --login -o pipefail
