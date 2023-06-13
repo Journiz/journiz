@@ -1,6 +1,12 @@
 import { Record } from 'pocketbase'
 import cloneDeep from './cloneDeep'
 
+/**
+ * This function normalizes the format of expands from the pocketbase api.
+ * Expands can be direct or indirect. This function will convert indirect expands
+ * to direct expands in the returned data.
+ * @param data
+ */
 export function flattenExpands<T extends Record>(data: T): T {
   if (!data?.expand) return data
   data = cloneDeep(data)
