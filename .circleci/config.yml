@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@1.2.0
+  openjdk-install: cloudesire/openjdk-install@1.2.3
 jobs:
   build:
     docker:
@@ -11,6 +12,7 @@ jobs:
       - checkout:
           path: ~/journiz
       - ruby/install-deps
+      - openjdk-install/openjdk
       - run:
           name: copy keystore
           command: echo $BASE64_KEYSTORE | base64 --decode > /tmp/store.jks
