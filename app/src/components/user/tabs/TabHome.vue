@@ -1,5 +1,6 @@
 <script lang="ts" setup="">
 import { useIonRouter } from '@ionic/vue'
+import { computed } from 'vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
@@ -36,26 +37,27 @@ const showScores = async () => {
   await userStore.showTripScores()
   router.navigate({ name: 'user-end' }, 'root', 'replace')
 }
+const userName = computed(() => userStore.user?.username)
 </script>
 <template>
   <div class="flex-grow h-full bg-red/40">
     <div>
-      Bonjour {{ userStore.user?.username }}. Trip is
+      Bonjour {{ userName }}. Trip is
       {{ userStore.trip?.name }}
     </div>
     <div class="col">
       <IonButton @click="logout">Logout</IonButton>
-      <IonButton v-if="userStore.trip.status === 'playing'" @click="endTrip"
+      <IonButton v-if="userStore.trip?.status === 'playing'" @click="endTrip"
         >Arreter la partie</IonButton
       >
       <IonButton
-        v-if="userStore.trip.status === 'finishing'"
+        v-if="userStore.trip?.status === 'finishing'"
         @click="showScores"
       >
         Afficher les scores
       </IonButton>
       <div class="mt-4 self-center">
-        <TripCountdown :trip="userStore.trip" />
+        <TripCountdown v-if="userStore.trip" :trip="userStore.trip" />
       </div>
     </div>
   </div>
