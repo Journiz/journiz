@@ -51,8 +51,9 @@ const showScores = async () => {
       <IonButton
         v-if="userStore.trip.status === 'finishing'"
         @click="showScores"
-        >Afficher les scores</IonButton
       >
+        Afficher les scores
+      </IonButton>
       <div class="mt-4 self-center">
         <TripCountdown :trip="userStore.trip" />
       </div>
