@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/ruby:2.7-node
+      - image: cimg/android:2023.06
     shell: /bin/bash --login -o pipefail
     working_directory: ~/journiz/app/android
     steps:
@@ -20,15 +20,6 @@ jobs:
             sudo npm install -g pnpm
             pnpm install
             cd app && pnpm run device:android
-      - run:
-          name: Install OpenJDK 17
-          command: |
-            sudo apt-get update && sudo apt-get install openjdk-17-jdk
-            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-            java -version
-      - android/install-ndk:
-          version: '25.2.9519653'
       - run:
           name: copy keystore
           command: echo $BASE64_KEYSTORE | base64 --decode > /tmp/store.jks
