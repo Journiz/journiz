@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@1.2.0
+  node: circleci/node@5.1.0
 jobs:
   build:
     docker:
@@ -11,13 +12,20 @@ jobs:
       - checkout:
           path: ~/journiz
       - ruby/install-deps
+      - node/install
       - run:
-            name: Install OpenJDK 17
-            command: |
-              sudo apt-get update && sudo apt-get install openjdk-17-jdk
-              sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-              sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-              java -version
+          name: Install pnpm
+          command: |
+            sudo npm install -g pnpm
+            pnpm install
+            cd app && pnpm run device:android
+      - run:
+          name: Install OpenJDK 17
+          command: |
+            sudo apt-get update && sudo apt-get install openjdk-17-jdk
+            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
+            java -version
       - run:
           name: copy keystore
           command: echo $BASE64_KEYSTORE | base64 --decode > /tmp/store.jks
@@ -25,4 +33,4 @@ jobs:
           name: fastlane
           command: bundle exec fastlane build
       - store_artifacts:
-          path:  ~/journiz/app/android/app/build/outputs/apk/release
+          path: ~/journiz/app/android/app/build/outputs/apk/release
