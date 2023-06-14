@@ -24,23 +24,36 @@ const props = defineProps({
   },
 })
 const researchMarkerPosition = ref(props.initialCoords)
-const addSearchMarker = (data: any) => {
-  emit('update', data.center)
-  researchMarkerPosition.value = data.center
-  map.value.flyToPoint(data.center)
+const getGeocodingResult = (data: any) => {
+  addSearchMarker(data.center)
+}
+const clickOnMap = (e: any) => {
+  const clickedPosition = e.lngLat.wrap()
+  addSearchMarker([clickedPosition.lng, clickedPosition.lat])
+}
+const addSearchMarker = (data: Coordinates) => {
+  emit('update', data)
+  researchMarkerPosition.value = data
+  map.value.flyToPoint(data)
 }
 </script>
 <template>
   <!-- <pre> 
     https://docs.mapbox.com/playground/geocoding/?search_text=paquier&proximity=ip
     place_name => nom location point 
-    </pre> -->
+  </pre> -->
   <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
-      @select-marker="addSearchMarker"
+      @select-marker="getGeocodingResult"
     />
-    <Map ref="map" :map-center="mapCenter" :zoom="zoom" class="w-full h-full">
+    <Map
+      ref="map"
+      :map-center="mapCenter"
+      :zoom="zoom"
+      class="w-full h-full"
+      @mb-click="clickOnMap"
+    >
       <MapMarker
         v-if="researchMarkerPosition && researchMarkerPosition.length > 0"
         :position="researchMarkerPosition as Coordinates"
