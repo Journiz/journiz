@@ -27,6 +27,10 @@ const researchMarkerPosition = ref(props.initialCoords)
 const getGeocodingResult = (data: any) => {
   addSearchMarker(data.center)
 }
+const markerDragEnd = (e) => {
+  const dragPosition = e.target.getLngLat()
+  addSearchMarker([dragPosition.lng, dragPosition.lat])
+}
 const clickOnMap = (e: any) => {
   const clickedPosition = e.lngLat.wrap()
   addSearchMarker([clickedPosition.lng, clickedPosition.lat])
@@ -57,6 +61,8 @@ const addSearchMarker = (data: Coordinates) => {
       <MapMarker
         v-if="researchMarkerPosition && researchMarkerPosition.length > 0"
         :position="researchMarkerPosition as Coordinates"
+        :draggable="true"
+        @mb-dragend="markerDragEnd"
       >
         <template #icon>
           <PointMarker />
