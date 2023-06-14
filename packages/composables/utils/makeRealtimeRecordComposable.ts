@@ -1,24 +1,28 @@
-import { onUnmounted } from 'vue'
 import { ZodType } from 'zod'
 import { Record } from 'pocketbase'
-import { cloneDeep } from '@journiz/api-types'
 import { usePocketBase } from '../src/data/usePocketBase'
 import {
   makeRecordComposable,
   RecordComposable,
   RecordComposableData,
 } from './makeRecordComposable'
+import { subscribeIndirectExpand } from './realtimeUtils/subscribeIndirectExpand'
+import { useSubscriptions } from './realtimeUtils/useSubscriptions'
+import { subscribeMainRecord } from './realtimeUtils/subscribeMainRecord'
+import { subscribeMultipleDirectExpand } from './realtimeUtils/subscribeMultipleDirectExpand'
+import { getCollectionName } from './realtimeUtils/directExpands'
+import { updateDirectExpandsFromRootRecord } from './realtimeUtils/updateDirectExpandsFromRootRecord'
+import { subscribeSingleDirectExpand } from './realtimeUtils/subscribeSingleDirectExpand'
 
 /**
  * This function creates a composable that contains the same data from the makeRecordComposable function, but with a
  * realtime data. The returned ref will be reactive to any changes made to the record in the database.
+ * This also works for expanded data, but only for the first level of expansion.
  * @param collection
  * @param schema
  * @param lazy
  */
-export interface DirectExpandArrayMeta<T> extends Array<T> {
-  collectionName?: string
-}
+
 export function makeRealtimeRecordComposable<Schema extends ZodType>(
   collection: string,
   schema: Schema,
@@ -32,7 +36,6 @@ export function makeRealtimeRecordComposable<Schema extends ZodType>(
     expandDefaults,
     true
   )
-  const pb = usePocketBase()
 
   return (initialId?: string | null): RecordComposableData<Schema> => {
     const {
@@ -45,130 +48,75 @@ export function makeRealtimeRecordComposable<Schema extends ZodType>(
       setId: setSourceId,
     } = useRecord(initialId)
 
-    let unsubscribes: (() => void)[] = []
-    const unsubscribeAll = () => {
-      unsubscribes.forEach((u) => u())
-      unsubscribes = []
-    }
-    onUnmounted(unsubscribeAll)
+    const { registerSubscription, unsubscribeAll } = useSubscriptions()
 
+    /**
+     * Binds the realtime data to the record
+     */
     const bind = async () => {
       if (!data.value) {
         return
       }
+      // Start by clearing the current subscriptions
       unsubscribeAll()
 
-      const updateCallbacks: ((oldVal: any) => void)[] = []
-      const un = await pb
-        .collection(collection)
-        .subscribe(data.value.id, (e) => {
-          if (e.action === 'update') {
-            const oldVal = cloneDeep(rawData.value)
-            e.record.expand = Object.assign(
-              {},
-              e.record.expand,
-              rawData.value?.expand ?? {}
-            )
-            rawData.value = e.record
-            updateCallbacks.forEach((c) => c(oldVal))
-          }
-        })
-      unsubscribes.push(un)
+      const updateCallbacks: ((oldVal: Record, newVal: Record) => void)[] = []
+      const mainRecordSubscription = await subscribeMainRecord(
+        rawData,
+        collection,
+        (oldVal, newVal) => {
+          updateCallbacks.forEach((c) => c(oldVal, newVal))
+        },
+        unsubscribeAll
+      )
+      registerSubscription(mainRecordSubscription)
 
-      const expand = rawData.value?.expand
-      if (rawData.value && expand) {
-        for (const [key, expandValue] of Object.entries(expand)) {
-          if (Array.isArray(expand[key])) {
-            // watch collection and filter on value
+      const recordExpandData = rawData.value?.expand
+      if (recordExpandData) {
+        for (const [key, expandValue] of Object.entries(recordExpandData)) {
+          // If the expanded data is multiple
+          if (Array.isArray(recordExpandData[key])) {
+            // If it's an indirect expand
             if (key.includes('(')) {
-              const [collection, itemKey] = key.replace(')', '').split('(')
-              // Handle adds, updates and deletion
-              const unsubscribeCollection = await pb
-                .collection(collection)
-                .subscribe('*', (data) => {
-                  const existingRecordIndex = expand[key].findIndex(
-                    (r: Record) => r.id === data.record.id
-                  )
-
-                  if (data.action === 'delete' && existingRecordIndex > -1) {
-                    rawData.value!.expand[key].splice(existingRecordIndex, 1)
-                  } else if (data.record[itemKey] === rawData.value?.id) {
-                    if (existingRecordIndex > -1) {
-                      ;(rawData.value!.expand[key] as Record[])[
-                        existingRecordIndex
-                      ] = data.record
-                    } else {
-                      rawData.value!.expand[key].push(data.record)
-                    }
-                  } else if (existingRecordIndex > -1) {
-                    rawData.value!.expand[key].splice(existingRecordIndex, 1)
-                  }
-                })
-              unsubscribes.push(unsubscribeCollection)
+              const unsubscribeCollection = await subscribeIndirectExpand(
+                rawData,
+                key,
+                recordExpandData
+              )
+              registerSubscription(unsubscribeCollection)
             } else {
-              const expandedArray = expandValue as DirectExpandArrayMeta<Record>
-              const collectionName = expandedArray[0]
-                ? expandedArray[0].collectionName
-                : expandedArray.collectionName
-              if (!collectionName) {
-                throw new Error(
-                  `Error in Realtime Composable: unable to find collection name for expanded field "${key}. Did you provide default with meta ?"`
+              const collectionName = getCollectionName(
+                expandValue as Record[],
+                key
+              )
+              const directUpdateSubscription =
+                await subscribeMultipleDirectExpand(
+                  rawData,
+                  key,
+                  collectionName,
+                  recordExpandData
                 )
-              }
-              const unsubscribe = await pb
-                .collection(collectionName)
-                .subscribe('*', (data) => {
-                  if (data.action !== 'update') return
-                  const isConcerned = rawData.value?.[key].includes(
-                    data.record.id
-                  )
-                  if (isConcerned) {
-                    const existingRecordIndex = expand[key].findIndex(
-                      (r: Record) => r.id === data.record.id
-                    )
-                    ;(expand[key] as Record[])[existingRecordIndex] =
-                      data.record
-                  }
-                })
-              unsubscribes.push(unsubscribe)
-              // Handle when relation property changes (added or deleted id)
-              updateCallbacks.push(async (oldVal: any) => {
-                const oldArray = oldVal[key]
-                const newArray = rawData.value![key]
-                const addedIds = newArray.filter(
-                  (x: string) => !oldArray.includes(x)
-                )
-                const removedIds = oldArray.filter(
-                  (x: string) => !newArray.includes(x)
-                )
-                for (const id of removedIds) {
-                  const index = expandValue.findIndex(
-                    (r: Record) => r.id === id
-                  )
-                  expandValue.splice(index, 1)
-                }
-                for (const id of addedIds) {
-                  const record = await pb.collection(collectionName).getOne(id)
-                  expandValue.push(record)
-                }
-                // We sort the expanded array to match the order in the ids array
-                expandValue.sort(
-                  (a: Record, b: Record) =>
-                    newArray.indexOf(a.id) - newArray.indexOf(b.id)
+              registerSubscription(directUpdateSubscription)
+
+              // Handle when relation property changes on root record
+              updateCallbacks.push(async (oldVal, newVal) => {
+                await updateDirectExpandsFromRootRecord(
+                  oldVal,
+                  newVal,
+                  key,
+                  expandValue,
+                  collectionName
                 )
               })
             }
           } else {
             // watch single record
-            const v = expandValue as Record
-            const unsubscribeSingle = await pb
-              .collection(v.collectionName)
-              .subscribe(v.id, (data) => {
-                if (rawData.value) {
-                  rawData.value.expand[key] = data.record
-                }
-              })
-            unsubscribes.push(unsubscribeSingle)
+            const singleExpandSubscription = await subscribeSingleDirectExpand(
+              expandValue as Record,
+              key,
+              rawData
+            )
+            registerSubscription(singleExpandSubscription)
           }
         }
       }
