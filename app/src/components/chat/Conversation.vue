@@ -4,6 +4,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { Camera, CameraResultType } from '@capacitor/camera'
 import MessageBubble from '~/components/chat/MessageBubble.vue'
 import dataURItoBlob from '~/utils/dataURIToBlob'
+import Header from '~/components/design-system/Header.vue'
 
 const props = defineProps<{
   conversationId: string
@@ -38,7 +39,6 @@ const send = async () => {
     let image
     if (imageUrl.value) {
       image = dataURItoBlob(imageUrl.value)
-      console.log(image)
     }
     await sendMessage(message.value, image)
     message.value = ''
@@ -51,7 +51,6 @@ const send = async () => {
 }
 
 const onInputMessage = (event: Event) => {
-  // TODO Demander à Léo la meilleur méthode entre les 2 utilisées
   if (!event.target) return
   const target = event.target as HTMLTextAreaElement
   ;(target.parentNode as HTMLElement).dataset.replicatedValue = target.value
@@ -86,6 +85,15 @@ watch(messages, () => {
 </script>
 <template>
   <div class="flex flex-col h-full relative">
+    <Header
+      v-if="conversation?.expand?.team"
+      :title="conversation.expand.team.name"
+      subtitle=""
+      :back-to="{
+        name: sender === 'team' ? 'team' : 'user-trip-tabs',
+        query: { tab: 'chat' },
+      }"
+    />
     <div
       v-if="conversation"
       ref="messagesList"
@@ -101,9 +109,7 @@ watch(messages, () => {
         />
       </transition-group>
     </div>
-    <div v-else class="flex-grow">
-      Chargement conversation {{ conversationId }}...
-    </div>
+    <div v-else class="flex-grow">Chargement du chat...</div>
     <div class="flex flex-col absolute bottom-0 backdrop-blur bg-white/40 z-11">
       <div v-if="imageUrl" class="p-4">
         <img :src="imageUrl" alt="Attachment" class="h-24 rounded-lg" />
