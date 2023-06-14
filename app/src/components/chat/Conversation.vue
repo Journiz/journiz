@@ -5,7 +5,6 @@ import { Camera, CameraResultType } from '@capacitor/camera'
 import MessageBubble from '~/components/chat/MessageBubble.vue'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import Header from '~/components/design-system/Header.vue'
-import { useTeamStore } from '~/stores/team/team'
 
 const props = defineProps<{
   conversationId: string
@@ -17,7 +16,7 @@ const { conversation, sendMessage, markAsRead } = useChat(
   props.sender
 )
 
-const imageUrl = ref<string>()
+const attachingImageUrl = ref<string>()
 const takePicture = async () => {
   const image = await Camera.getPhoto({
     quality: 75,
@@ -29,7 +28,7 @@ const takePicture = async () => {
     promptLabelPhoto: 'Choisir dans mes images',
     promptLabelPicture: 'Prendre une photo',
   })
-  imageUrl.value = image.dataUrl
+  attachingImageUrl.value = image.dataUrl
 }
 
 const message = ref('')
@@ -38,12 +37,12 @@ const messagesList = ref<HTMLElement>()
 const send = async () => {
   if (message.value !== '') {
     let image
-    if (imageUrl.value) {
-      image = dataURItoBlob(imageUrl.value)
+    if (attachingImageUrl.value) {
+      image = dataURItoBlob(attachingImageUrl.value)
     }
     await sendMessage(message.value, image)
     message.value = ''
-    imageUrl.value = ''
+    attachingImageUrl.value = ''
     if (messageField.value?.parentNode) {
       ;(messageField.value.parentNode as HTMLElement).dataset.replicatedValue =
         message.value
@@ -85,7 +84,6 @@ watch(messages, () => {
 })
 
 const recipient = computed(() => {
-  console.log(conversation.value)
   return props.sender === 'team'
     ? 'Prof'
     : conversation.value?.expand?.team.name
@@ -119,8 +117,12 @@ const recipient = computed(() => {
     </div>
     <div v-else class="flex-grow">Chargement du chat...</div>
     <div class="flex flex-col absolute bottom-0 backdrop-blur bg-white/40 z-11">
-      <div v-if="imageUrl" class="p-4">
-        <img :src="imageUrl" alt="Attachment" class="h-24 rounded-lg" />
+      <div v-if="attachingImageUrl" class="p-4">
+        <img
+          :src="attachingImageUrl"
+          alt="Attachment"
+          class="h-24 rounded-lg"
+        />
       </div>
       <div class="flex px-4 flex-shrink-0 p-2">
         <button class="text-3xl mr-2" @click="takePicture">

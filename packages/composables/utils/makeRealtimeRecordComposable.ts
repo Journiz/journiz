@@ -1,6 +1,5 @@
 import { ZodType } from 'zod'
 import { Record } from 'pocketbase'
-import { usePocketBase } from '../src/data/usePocketBase'
 import {
   makeRecordComposable,
   RecordComposable,
