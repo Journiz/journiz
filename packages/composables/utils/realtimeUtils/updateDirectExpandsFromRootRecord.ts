@@ -5,7 +5,7 @@ export const updateDirectExpandsFromRootRecord = async (
   oldVal: Record,
   newVal: Record,
   key: string,
-  expandValue,
+  expandValue: Record | Record[],
   collectionName: string
 ) => {
   const oldArray = oldVal[key]

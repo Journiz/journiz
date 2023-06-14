@@ -5,7 +5,7 @@ import { usePocketBase } from '../../src/data/usePocketBase'
 export const subscribeSingleDirectExpand = async (
   record: Record,
   key: string,
-  rawData: Ref<Record>
+  rawData: Ref<Record | null>
 ) => {
   const pb = usePocketBase()
   return await pb

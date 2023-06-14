@@ -22,7 +22,7 @@ const initialTab = (useRoute().query.tab as string) ?? 'map'
       >
         <TeamsList />
       </Tab>
-      <Tab title="Carte" name="map" :default-selected="initialTab === 'map'">
+      <Tab title="Carte" name="map" :default-selected="initialTab !== 'list'">
         <TeamsMap />
       </Tab>
     </TopTabs>

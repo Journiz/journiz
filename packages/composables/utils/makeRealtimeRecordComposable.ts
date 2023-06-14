@@ -53,7 +53,7 @@ export function makeRealtimeRecordComposable<Schema extends ZodType>(
      * Binds the realtime data to the record
      */
     const bind = async () => {
-      if (!data.value) {
+      if (!data.value || !rawData.value) {
         return
       }
       // Start by clearing the current subscriptions

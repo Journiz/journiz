@@ -1,11 +1,11 @@
-import PocketBase, { Record } from 'pocketbase'
+import { Record } from 'pocketbase'
 import { Ref } from 'vue'
 import { usePocketBase } from '../../src/data/usePocketBase'
 
 export const subscribeIndirectExpand = async (
-  rawData: Ref<Record>,
+  rawData: Ref<Record | null>,
   key: string,
-  recordExpandData
+  recordExpandData: { [p: string]: Record | Array<Record> }
 ) => {
   const pb = usePocketBase()
   const [collection, itemKey] = key.replace(')', '').split('(')

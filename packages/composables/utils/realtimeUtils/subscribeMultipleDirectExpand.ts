@@ -3,10 +3,10 @@ import { Ref } from 'vue'
 import { usePocketBase } from '../../src/data/usePocketBase'
 
 export const subscribeMultipleDirectExpand = async (
-  rawData: Ref<Record>,
+  rawData: Ref<Record | null>,
   key: string,
   collectionName: string,
-  recordExpandData
+  recordExpandData: { [p: string]: Record | Array<Record> }
 ) => {
   const pb = usePocketBase()
 

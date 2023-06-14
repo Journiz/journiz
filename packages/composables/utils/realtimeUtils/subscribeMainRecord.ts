@@ -4,12 +4,15 @@ import { Record } from 'pocketbase'
 import { usePocketBase } from '../../src/data/usePocketBase'
 
 export const subscribeMainRecord = async (
-  rawData: Ref<Record>,
+  rawData: Ref<Record | null>,
   collection: string,
   onUpdated: (oldVal: Record, newVal: Record) => void,
   onDeleted: () => void
 ) => {
   const pb = usePocketBase()
+  if (!rawData.value) {
+    throw new Error('An error occured: rawData should not be null.')
+  }
   return await pb.collection(collection).subscribe(rawData.value.id, (e) => {
     if (e.action === 'update') {
       const oldVal = cloneDeep(rawData.value)
@@ -23,7 +26,7 @@ export const subscribeMainRecord = async (
     }
     if (e.action === 'delete') {
       console.warn(
-        `The root record ${rawData.value.id} from collection ${collection} was deleted, no more realtime updates from now on`
+        `The root record ${rawData.value?.id} from collection ${collection} was deleted, no more realtime updates from now on`
       )
       onDeleted()
     }

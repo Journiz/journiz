@@ -31,7 +31,7 @@ const send = async (data: { message: string; image?: string }) => {
 const recipient = computed(() => {
   return props.sender === 'team'
     ? 'Prof'
-    : conversation.value?.expand?.team.name
+    : conversation.value?.expand?.team?.name ?? 'Chat'
 })
 
 const chatHeight = ref<number>()
