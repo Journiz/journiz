@@ -58,6 +58,10 @@ if (!team.value) {
         </div>
         <div>TODO</div>
       </div>
+      <h3 class="block flex items-center">
+        <div class="i-fluent:people-team-24-regular text-xl h-6 w-6 mr-2" />
+        <div>Membres de l’équipe</div>
+      </h3>
     </div>
   </Page>
 </template>
