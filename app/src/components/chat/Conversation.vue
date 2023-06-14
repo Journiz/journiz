@@ -5,6 +5,7 @@ import { Camera, CameraResultType } from '@capacitor/camera'
 import MessageBubble from '~/components/chat/MessageBubble.vue'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import Header from '~/components/design-system/Header.vue'
+import { useTeamStore } from '~/stores/team/team'
 
 const props = defineProps<{
   conversationId: string
@@ -82,12 +83,19 @@ watch(messages, () => {
   }
   scrollToBottom()
 })
+
+const recipient = computed(() => {
+  console.log(conversation.value)
+  return props.sender === 'team'
+    ? 'Prof'
+    : conversation.value?.expand?.team.name
+})
 </script>
 <template>
   <div class="flex flex-col h-full relative">
     <Header
-      v-if="conversation?.expand?.team"
-      :title="conversation.expand.team.name"
+      v-if="recipient"
+      :title="recipient"
       subtitle=""
       :back-to="{
         name: sender === 'team' ? 'team' : 'user-trip-tabs',
