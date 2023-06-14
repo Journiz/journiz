@@ -19,7 +19,7 @@ import {
 import gsap from 'gsap'
 import { Flip } from 'gsap/Flip'
 import { RuntimeLoader } from '@rive-app/canvas'
-import { createHead, useHead } from '@unhead/vue'
+import '@dotlottie/player-component'
 import App from './App.vue'
 import router from './router'
 import plugins from '~/plugins'
@@ -40,6 +40,7 @@ import '@ionic/vue/css/display.css'
 
 // Our custom CSS
 import './assets/scss/main.scss'
+
 console.log(riveWASMResource)
 
 // @ts-expect-error Fixing Safari quirk

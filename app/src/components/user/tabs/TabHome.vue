@@ -38,6 +38,21 @@ const showScores = async () => {
   router.navigate({ name: 'user-end' }, 'root', 'replace')
 }
 const userName = computed(() => userStore.user?.username)
+
+const warn = async () => {
+  await showModal(
+    'Attention',
+    `<p>Vous êtes sur le point de quitter la partie en cours. </p>`,
+    [
+      {
+        actionName: 'ok',
+        title: 'Ok',
+        color: 'theme',
+      },
+    ],
+    'alarm'
+  )
+}
 </script>
 <template>
   <div class="flex-grow h-full bg-red/40">
@@ -46,7 +61,11 @@ const userName = computed(() => userStore.user?.username)
       {{ userStore.trip?.name }}
     </div>
     <div class="col">
+      <IonButton @click="warn">Warn </IonButton>
       <IonButton @click="logout">Logout</IonButton>
+      <IonButton v-if="userStore.trip?.status === 'playing'" @click="endTrip"
+        >Arreter la partie</IonButton
+      >
       <IonButton v-if="userStore.trip?.status === 'playing'" @click="endTrip"
         >Arreter la partie</IonButton
       >
