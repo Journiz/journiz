@@ -77,12 +77,12 @@ export function makeRealtimeRecordComposable<Schema extends ZodType>(
           if (Array.isArray(recordExpandData[key])) {
             // If it's an indirect expand
             if (key.includes('(')) {
-              const unsubscribeCollection = await subscribeIndirectExpand(
+              const collectionSubscription = await subscribeIndirectExpand(
                 rawData,
                 key,
                 recordExpandData
               )
-              registerSubscription(unsubscribeCollection)
+              registerSubscription(collectionSubscription)
             } else {
               const collectionName = getCollectionName(
                 expandValue as Record[],
