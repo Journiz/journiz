@@ -7,7 +7,6 @@ import { Coordinates } from '~/types/Coordinates'
 import PointMarker from '~/components/map/PointMarker.vue'
 
 const emit = defineEmits(['update'])
-const map = ref()
 const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
@@ -23,6 +22,7 @@ const props = defineProps({
     required: false,
   },
 })
+const map = ref()
 const researchMarkerPosition = ref(props.initialCoords)
 const getGeocodingResult = (data: any) => {
   addSearchMarker(data.center)
@@ -42,10 +42,6 @@ const addSearchMarker = (data: Coordinates) => {
 }
 </script>
 <template>
-  <!-- <pre> 
-    https://docs.mapbox.com/playground/geocoding/?search_text=paquier&proximity=ip
-    place_name => nom location point 
-  </pre> -->
   <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
