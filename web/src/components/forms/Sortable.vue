@@ -16,7 +16,7 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'sort'])
 const { modelValue, itemKey } = toRefs(props)
 
 const isTransitionning = ref(false)
@@ -57,6 +57,7 @@ onMounted(() => {
       const elements = Array.from(sortableEl.querySelectorAll('[data-id]'))
       const newOrder = elements.map((el: any) => el.dataset.id)
       setItemsOrder(newOrder)
+      emit('sort')
     },
   })
 })

@@ -1,13 +1,27 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import SquareButton from '~/components/buttons/SquareButton.vue'
 import { PointWithDependents } from '~/types/points'
+import Sortable from '~/components/forms/Sortable.vue'
 
-defineProps<{ point: PointWithDependents; currentItemId: String }>()
+const props = defineProps<{
+  point: PointWithDependents
+  currentItemId: String
+  level: number
+}>()
+const emit = defineEmits(['deletePoint', 'editPoint', 'sort-dependents'])
 
-const emit = defineEmits(['deletePoint', 'editPoint'])
+const dependents = computed({
+  get() {
+    return props.point.dependents
+  },
+  set(val) {
+    emit('sort-dependents', val)
+  },
+})
 </script>
 <template>
-  <div :class="point.trigger ? 'pl-6 pt-4' : ''">
+  <div :class="point.trigger ? 'pl-8 pt-4' : ''">
     <div class="flex relative">
       <svg
         v-if="point.trigger"
@@ -51,6 +65,12 @@ const emit = defineEmits(['deletePoint', 'editPoint'])
           point.id === currentItemId ? 'outline-red outline outline-1' : ''
         "
       >
+        <button
+          class="cursor-grab flex-shrink-0 mr-2"
+          :class="`handle-${level}`"
+        >
+          <span class="block i-uil:draggabledots h-6 text-2xl color-red" />
+        </button>
         <div class="flex-1 flex flex-col mr-8">
           <div class="name text-black font-medium text-base">
             {{ point.name }}
@@ -78,16 +98,27 @@ const emit = defineEmits(['deletePoint', 'editPoint'])
         </div>
       </div>
     </div>
-    <div v-if="point.dependents">
-      <PointItem
-        v-for="subPoint in point.dependents"
-        :key="subPoint.id"
-        :point="subPoint"
-        :current-item-id="currentItemId"
-        @edit-point="emit('editPoint', $event)"
-        @delete-point="emit('deletePoint', $event)"
-      />
-    </div>
+
+    <Sortable
+      v-if="dependents?.length"
+      v-model="dependents"
+      class=""
+      item-key="id"
+      transition-name="drag-list"
+      :sortable-options="{
+        handle: '.handle-' + (level + 1),
+      }"
+    >
+      <template #item="{ item: subPoint }">
+        <PointItem
+          :point="subPoint"
+          :level="level + 1"
+          :current-item-id="currentItemId"
+          @edit-point="emit('editPoint', $event)"
+          @delete-point="emit('deletePoint', $event)"
+        />
+      </template>
+    </Sortable>
   </div>
 </template>
 
