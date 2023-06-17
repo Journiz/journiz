@@ -36,7 +36,11 @@ export function makeRecordComposable<Schema extends ZodType<any>>(
 ): RecordComposable<Schema> {
   const pb = usePocketBase()
 
-  const applyExpandDefaults = (record: Record) => {
+  /**
+   * This function applies default values for when expand data is empty, for data consistency
+   * @param record
+   */
+  function applyExpandDefaults(record: Record) {
     for (const [expand, defaultFn] of Object.entries(expandDefaults)) {
       if (!record.expand[expand]) {
         record.expand[expand] = defaultFn()
@@ -45,12 +49,20 @@ export function makeRecordComposable<Schema extends ZodType<any>>(
   }
 
   return (initialId?: string | null): RecordComposableData<Schema> => {
+    // Reference to the id of the record. Can change over time.
     const idRef = ref(initialId)
+
+    // Booleans to indicate if an action is loading
     const loading = ref(false)
     const updateLoading = ref(false)
+
+    // The typed data of the record, and the raw data from the API
     const data: Ref<z.infer<Schema> | null> = ref(null)
     const rawData: Ref<Record | null> = ref(null)
 
+    /**
+     * This function parses the raw data from the API into the typed data, using zod
+     */
     const parseData = () => {
       if (rawData.value) {
         const result = flattenExpands(rawData.value)
@@ -58,12 +70,12 @@ export function makeRecordComposable<Schema extends ZodType<any>>(
           data.value = schema.parse(result)
         } catch (e) {
           console.error('Error with updated data:', e)
-          // data.value = null
         }
       } else {
         data.value = null
       }
     }
+    // When the raw data changes, update the typed data
     watch(rawData, parseData, { deep: true })
 
     const refresh = async () => {
@@ -76,12 +88,18 @@ export function makeRecordComposable<Schema extends ZodType<any>>(
       const result = await pb.collection(collection).getOne(id, { expand })
       if (!result) {
         rawData.value = null
+        loading.value = false
+        return
       }
       applyExpandDefaults(result)
       rawData.value = result
       loading.value = false
     }
 
+    /**
+     * The data returned from this composable can be muted directly, and this function will
+     * update the record to the new data.
+     */
     const update: () => Promise<void> = async () => {
       const id = idRef.value
       if (!id) {
@@ -96,7 +114,7 @@ export function makeRecordComposable<Schema extends ZodType<any>>(
       }
     }
 
-    // Initial load only if id provided
+    // If not lazy, and there is an id, fetch the data on creation
     if (!lazy && idRef.value) {
       refresh().then()
     }

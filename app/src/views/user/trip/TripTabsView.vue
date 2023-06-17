@@ -1,5 +1,6 @@
 <script lang="ts" setup="">
 import { watch } from 'vue'
+import { useRoute } from 'vue-router'
 import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
@@ -31,21 +32,43 @@ watch(
     }
   }
 )
+
+const initialTab = (useRoute().query.tab as string) ?? 'map'
 </script>
 <template>
   <keep-alive>
     <Page id="trip-tabs-page">
       <Tabs class="flex-grow">
-        <Tab title="Paramètres" name="settings" icon="i-uil:cog">
+        <Tab
+          title="Paramètres"
+          name="settings"
+          icon="i-uil:cog"
+          :default-selected="initialTab === 'settings'"
+        >
           <TabHome />
         </Tab>
-        <Tab title="Carte" name="map" icon="i-uil:map" default-selected>
+        <Tab
+          title="Carte"
+          name="map"
+          icon="i-uil:map"
+          :default-selected="['map', 'list'].includes(initialTab)"
+        >
           <TabTeams />
         </Tab>
-        <Tab title="Validation" name="validation" icon="i-uil:image-question">
+        <Tab
+          title="Validation"
+          name="validation"
+          icon="i-uil:image-question"
+          :default-selected="initialTab === 'validation'"
+        >
           <TabValidation />
         </Tab>
-        <Tab title="Messages" name="chat" icon="i-ph:chats-circle-bold">
+        <Tab
+          title="Messages"
+          name="chat"
+          icon="i-ph:chats-circle-bold"
+          :default-selected="initialTab === 'chat'"
+        >
           <TabChat />
         </Tab>
       </Tabs>

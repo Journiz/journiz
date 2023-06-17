@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { MessageSchema } from './Message'
 import { TeamSchema } from './Team'
 import { BaseSchema } from './Base'
+import { UserSchema } from './User'
 
 export const ConversationSchema = BaseSchema.extend({
   id: z.string(),
@@ -13,6 +14,7 @@ export const ConversationSchema = BaseSchema.extend({
     .object({
       messages: z.array(MessageSchema).optional(),
       team: TeamSchema.optional(),
+      user: UserSchema.optional(),
     })
     .optional(),
 })
