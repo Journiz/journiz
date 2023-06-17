@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T">
+<script setup lang="ts" generic="T extends {[k: string]: any}">
 import { computed, onMounted, PropType, ref, toRefs } from 'vue'
 import Sortable from 'sortablejs'
 
@@ -48,6 +48,7 @@ const setItemsOrder = (newOrder: string[]) => {
 onMounted(() => {
   const sortableEl = sortableWrapper.value.$el
   const options = props.sortableOptions
+  // @ts-ignore
   options.animation = options.animation ?? 200
   Sortable.create(sortableEl, {
     ...options,
