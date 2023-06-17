@@ -319,6 +319,9 @@ importers:
       sass:
         specifier: ^1.62.1
         version: 1.62.1
+      sortablejs:
+        specifier: ^1.15.0
+        version: 1.15.0
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -338,6 +341,9 @@ importers:
       '@types/node':
         specifier: ^18.16.16
         version: 18.16.16
+      '@types/sortablejs':
+        specifier: ^1.15.1
+        version: 1.15.1
       '@vitejs/plugin-vue':
         specifier: ^4.2.3
         version: 4.2.3(vite@4.3.9)(vue@3.3.4)
@@ -2728,6 +2734,10 @@ packages:
 
   /@types/slice-ansi@5.0.0:
     resolution: {integrity: sha512-Bt9wdwNObyD9EQMNN2GSeutWmpsZUC1/bip6XKawJ+cAK9Vhf2EwnSgg7G9Zd7KJv0fTvEbgHFjrHnImemyYQg==}
+    dev: true
+
+  /@types/sortablejs@1.15.1:
+    resolution: {integrity: sha512-g/JwBNToh6oCTAwNS8UGVmjO7NLDKsejVhvE4x1eWiPTC3uCuNsa/TD4ssvX3du+MLiM+SHPNDuijp8y76JzLQ==}
     dev: true
 
   /@types/web-bluetooth@0.0.16:
@@ -7697,6 +7707,10 @@ packages:
       ip: 2.0.0
       smart-buffer: 4.2.0
     dev: true
+
+  /sortablejs@1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
+    dev: false
 
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
