@@ -76,7 +76,7 @@ export function makeRecordComposable<Schema extends ZodType<any>>(
       }
     }
     // When the raw data changes, update the typed data
-    watch(rawData, parseData, { deep: true })
+    watch(rawData, parseData)
 
     const refresh = async () => {
       const id = idRef.value
