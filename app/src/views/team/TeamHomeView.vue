@@ -9,6 +9,7 @@ import ButtonOnlyTab from '~/components/tabs/tab-bar/ButtonOnlyTab.vue'
 import TabPoints from '~/components/team/tabs/TabPoints.vue'
 import { useTeamStore } from '~/stores/team/team'
 import { showModal } from '~/composables/useModal'
+import { warnTeamOutside } from '~/utils/warnOutside'
 
 const store = useTeamStore()
 const router = useIonRouter()
@@ -42,26 +43,7 @@ watch(
   () => store.team.isOutside,
   async (isOutside) => {
     if (isOutside) {
-      const action = await showModal(
-        'Pas si vite !',
-        `<p>Vous êtes en sortis de la zone de jeu !</p>`,
-        [
-          {
-            title: 'On retourne dans la zone',
-            actionName: 'ok',
-            color: 'theme',
-          },
-          {
-            title: 'Contacter le maître du jeu',
-            actionName: 'contact',
-            color: 'green',
-          },
-        ],
-        'stop'
-      )
-      if (action === 'contact') {
-        router.push({ name: 'team-chat' })
-      }
+      await warnTeamOutside()
     }
   }
 )

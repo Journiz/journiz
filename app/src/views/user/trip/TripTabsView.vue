@@ -10,7 +10,7 @@ import TabChat from '~/components/user/tabs/TabChat.vue'
 import TabValidation from '~/components/user/tabs/TabValidation.vue'
 import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
-import { warnTeamOutside } from '~/utils/warnTeamOutside'
+import { warnOutside } from '~/utils/warnOutside'
 
 const store = useUserStore()
 watch(
@@ -38,7 +38,7 @@ watch(
   async (teams, oldTeams) => {
     for (const i in teams) {
       if (teams[i].isOutside && !oldTeams[i]?.isOutside) {
-        await warnTeamOutside(teams[i])
+        await warnOutside(teams[i])
       }
     }
   }
