@@ -66,9 +66,6 @@ const warn = async () => {
       <IonButton v-if="userStore.trip?.status === 'playing'" @click="endTrip"
         >Arreter la partie</IonButton
       >
-      <IonButton v-if="userStore.trip?.status === 'playing'" @click="endTrip"
-        >Arreter la partie</IonButton
-      >
       <IonButton
         v-if="userStore.trip?.status === 'finishing'"
         @click="showScores"

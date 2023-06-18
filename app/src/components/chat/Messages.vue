@@ -6,6 +6,7 @@ import MessageBubble from '~/components/chat/MessageBubble.vue'
 const props = defineProps<{
   messages: Message[]
   sender: 'team' | 'user'
+  loading?: boolean
 }>()
 const emit = defineEmits(['message-read'])
 
@@ -44,7 +45,13 @@ watch(
         @message-read="emit('message-read', message.id)"
       />
     </transition-group>
-    <div v-else class="flex-grow">Chargement du chat...</div>
+    <div v-else-if="loading" class="flex-grow">Chargement du chat...</div>
+    <div
+      v-else
+      class="flex-grow text-center font-light mx-auto w-2/3 mt-6 text-sm"
+    >
+      Pas de messages. Pourquoi ne pas engager la conversation ?
+    </div>
   </div>
 </template>
 <style scoped>

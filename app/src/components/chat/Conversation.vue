@@ -11,7 +11,7 @@ const props = defineProps<{
   sender: 'team' | 'user'
 }>()
 
-const { conversation, sendMessage, markAsRead } = useChat(
+const { conversation, sendMessage, markAsRead, loading } = useChat(
   props.conversationId,
   props.sender
 )
@@ -49,6 +49,7 @@ const chatHeight = ref<number>()
     />
     <Messages
       :messages="messages"
+      :loading="loading"
       :sender="sender"
       :style="{
         paddingBottom: chatHeight ? chatHeight + 'px' : '96px',
