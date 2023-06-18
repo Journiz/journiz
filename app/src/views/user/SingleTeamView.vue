@@ -20,13 +20,13 @@ if (!team.value) {
 }
 </script>
 <template>
-  <Page class="flex flex-col">
+  <Page class="flex flex-col h-screen overflow-hidden">
     <Header
       :title="team.name"
       subtitle="Informations de l’équipe"
       :back-to="{ name: 'user-trip-tabs' }"
     />
-    <div class="grow bg-beige-light px-6">
+    <div class="grow bg-beige-light px-6 flex flex-col overflow-hidden">
       <div class="w-full pt-4">
         <TeamAvatar class="h-20 w-20 mx-auto" :team="team" :border="true" />
       </div>
@@ -60,8 +60,21 @@ if (!team.value) {
       </div>
       <h3 class="block flex items-center">
         <div class="i-fluent:people-team-24-regular text-xl h-6 w-6 mr-2" />
-        <div>Membres de l’équipe</div>
+        <div class="text-lg">Membres de l’équipe</div>
       </h3>
+      <div
+        v-if="team.members"
+        class="grow overflow-hidden flex flex-col overflow-scroll"
+      >
+        <div
+          v-for="member in team.members"
+          :key="member"
+          class="rounded-xl bg-white px-4 py-4 mb-3"
+        >
+          {{ member }}
+        </div>
+      </div>
+      <Button class="mb-4 mt-8" color="green">Contacter l'équipe</Button>
     </div>
   </Page>
 </template>
