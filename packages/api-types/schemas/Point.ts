@@ -10,6 +10,7 @@ export const basePointSchema = BaseSchema.extend({
   question: z.string().optional(),
   description: z.string().optional(),
   media: z.string().optional(),
+  fallbackMedia: z.number().optional(),
   answerType: z.enum(['image', 'text', 'choice', 'location', 'audio']),
   answer: z
     .union([

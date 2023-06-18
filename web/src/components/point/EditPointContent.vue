@@ -90,7 +90,11 @@ async function addMedia(type: string) {
       Les joueurs répondront sous la forme d'une photo que vous pourrez valider
       ou non.
     </p>
-    <MediaSlider label="Visuel de la question" class="mt-2 mb-4" />
+    <MediaSlider
+      v-model="store.point.fallbackMedia"
+      label="Visuel de la question"
+      class="mt-2 mb-4"
+    />
     <div class="flex items-center mb-4">
       <p>Ou remplacer le visuel par &nbsp;</p>
       <SquareButton

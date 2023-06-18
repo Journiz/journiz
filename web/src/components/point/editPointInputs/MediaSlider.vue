@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import foo from '~/assets/images/sliderImage/Image1.png'
-import oof from '~/assets/images/sliderImage/Image2.png'
-import DefaultButton from '~/components/buttons/DefaultButton.vue'
-const images = [foo, oof, foo]
-const currentImageIndex = ref(0)
+
+const imagesNum = 4
+const currentImageIndex = defineModel<number>({
+  default: 0,
+})
 defineProps({
   label: {
     type: String,
@@ -12,7 +12,7 @@ defineProps({
   },
 })
 const next = () => {
-  if (currentImageIndex.value === images.length - 1) {
+  if (currentImageIndex.value === imagesNum - 1) {
     currentImageIndex.value = 0
   } else {
     currentImageIndex.value++
@@ -20,7 +20,7 @@ const next = () => {
 }
 const prev = () => {
   if (currentImageIndex.value === 0) {
-    currentImageIndex.value = images.length - 1
+    currentImageIndex.value = imagesNum - 1
   } else {
     currentImageIndex.value--
   }
@@ -45,24 +45,30 @@ watch(currentImageIndex, (to: number, from: number) => {
           >
             <img
               class="object-contain h-full w-full"
-              :src="images[currentImageIndex]"
+              :src="`/fallback-images/${currentImageIndex}.png`"
             />
           </div>
         </transition>
       </div>
       <div class="controls">
-        <img
-          src="../../../assets/images/svg/arrow-select.svg"
-          alt="Fleche précédent"
-          class="cursor-pointer absolute top-1/2 left-6 rotate-90"
-          @click="prev"
-        />
-        <img
-          src="../../../assets/images/svg/arrow-select.svg"
-          alt="Fleche suivant"
-          class="cursor-pointer absolute top-1/2 right-6 -rotate-90"
-          @click="next"
-        />
+        <button
+          class="cursor-pointer absolute transform -translate-y-1/2 top-1/2 left-4 rotate-90 p-2"
+        >
+          <img
+            src="../../../assets/images/svg/arrow-select.svg"
+            alt="Fleche précédent"
+            @click="prev"
+          />
+        </button>
+        <button
+          class="cursor-pointer absolute transform -translate-y-1/2 top-1/2 right-4 -rotate-90 p-2"
+        >
+          <img
+            src="../../../assets/images/svg/arrow-select.svg"
+            alt="Fleche suivant"
+            @click="next"
+          />
+        </button>
       </div>
     </div>
   </div>
@@ -79,10 +85,12 @@ watch(currentImageIndex, (to: number, from: number) => {
 .prev-step-leave-to {
   transform: translateX(100%);
 }
+
 .next-step-leave-to,
 .prev-step-enter-from {
   transform: translateX(-100%);
 }
+
 .custom-shadow {
   filter: drop-shadow(0px 1px 2px rgba(0, 35, 30, 0.16));
 }
