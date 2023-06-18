@@ -42,7 +42,6 @@
     "@journiz/plugins": "workspace:*",
     "@lottiefiles/vue-lottie-player": "^1.1.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
-    "@rive-app/canvas": "^1.1.9",
     "@studiometa/vue-mapbox-gl": "^2.1.1",
     "@unhead/vue": "^1.1.27",
     "@unocss/reset": "^0.51.13",
