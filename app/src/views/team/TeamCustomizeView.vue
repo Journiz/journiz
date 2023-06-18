@@ -10,6 +10,7 @@ import Back from '~/components/router/Back.vue'
 import BackButton from '~/components/router/BackButton.vue'
 import useSlideTransition from '~/composables/useSlideTransition'
 import { backWithDefault } from '~/utils/routerUtils'
+import line from '~/assets/img/backgrounds/bg-line-1.svg'
 
 const tabs: Component[] = [
   CustomizeName,
@@ -30,11 +31,20 @@ const next = () => {
 }
 </script>
 <template>
-  <Page class="bg-beige-light">
+  <Page class="bg-beige-light relative">
+    <div
+      class="absolute top-0 left-0 h-full w-4/1 relative transition duration-300 ease-out-quint"
+      :style="{
+        transform: `translateX(-${currentTab * 25}%)`,
+      }"
+    >
+      <img :src="line" class="w-full h-full object-contain" />
+    </div>
     <transition :name="transitionName">
       <component
         :is="tabs[currentTab]"
-        class="absolute top-0 left-0 w-full h-full px-2/20 pt-28 pb-8 overflow-y-auto"
+        class="absolute top-0 left-0 w-full h-full px-2/20 pt-28 pb-8 overflow-y-auto step-bg"
+        :class="'step-' + currentTab"
         @next="next"
         @prev="currentTab--"
       ></component>
@@ -45,3 +55,4 @@ const next = () => {
     </div>
   </Page>
 </template>
+<style></style>
