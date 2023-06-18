@@ -1,4 +1,3 @@
-import { Team } from '@journiz/api-types'
 import { usePocketBase } from '@journiz/composables'
 import { showModal } from '~/composables/useModal'
 import router from '~/router'
@@ -26,10 +25,10 @@ export const warnTeamOutside = async () => {
   }
 }
 
-export const warnOutside = async (team: Team) => {
+export const warnOutside = async (teamId: string, teamName: string) => {
   const action = await showModal(
     'Sortie de route !',
-    `<p>L'équipe ${team.name} est sortie de la zone de jeu !</p>`,
+    `<p>L'équipe ${teamName} est sortie de la zone de jeu !</p>`,
     [
       {
         title: 'Ok',
@@ -47,7 +46,7 @@ export const warnOutside = async (team: Team) => {
   if (action === 'contact') {
     const conversation = await usePocketBase()
       .collection('conversation')
-      .getFirstListItem(`team="${team.id}"`)
+      .getFirstListItem(`team="${teamId}"`)
     if (!conversation) {
       return
     }

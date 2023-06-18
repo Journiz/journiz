@@ -38,7 +38,7 @@ watch(
   async (teams, oldTeams) => {
     for (const i in teams) {
       if (teams[i].isOutside && !oldTeams[i]?.isOutside) {
-        await warnOutside(teams[i])
+        await warnOutside(teams[i].id, teams[i].name)
       }
     }
   }

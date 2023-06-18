@@ -3,6 +3,9 @@ import './capacitorSetup'
 import { useEventBus } from '@vueuse/core'
 import OSNotification from 'onesignal-cordova-plugin/dist/OSNotification'
 import router from '~/router'
+import { warnOutside, warnTeamOutside } from '~/utils/warnOutside'
+import { useTeamStore } from '~/stores/team/team'
+import { useUserStore } from '~/stores/user'
 
 // Call this function when your app starts
 function oneSignalInit() {
@@ -49,6 +52,15 @@ async function handleNotificationAction(
       const { conversation } = data
       await router.push(`/notification/chat/${conversation}`)
     }
+  }
+  if (data.event === 'teamOutside') {
+    const teamStore = useTeamStore()
+    if (teamStore.team) {
+      await warnTeamOutside()
+    }
+  }
+  if (data.event === 'userTeamOutside') {
+    await warnOutside(data.team, data.teamName)
   }
 }
 
