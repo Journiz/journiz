@@ -9,7 +9,7 @@ const layout = ref<'window' | 'fullscreen'>('window')
 const buttons: Ref<
   {
     actionName: string
-    color: ButtonColor
+    color?: ButtonColor
     title: string
   }[]
 > = ref([
