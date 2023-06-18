@@ -2,6 +2,7 @@
 import Modal from '~/components/modal/Modal.vue'
 import Button from '~/components/design-system/Button.vue'
 import { useAppModal } from '~/composables/useModal'
+import LottieAnimation from '~/components/design-system/LottieAnimation.vue'
 
 const {
   title,
@@ -32,12 +33,7 @@ const {
         <div
           class="absolute left-1/2 top-1/2 h-9/10 aspect-square halo transform -translate-1/2 scale-150"
         ></div>
-        <dotlottie-player
-          class="w-full h-full"
-          :src="`/lottie/${animationName}.lottie`"
-          autoplay="true"
-          loop="true"
-        />
+        <LottieAnimation :animation-name="animationName" />
       </div>
       <div
         class="font-light text-sm text-center relative z-2"

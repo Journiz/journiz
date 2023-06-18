@@ -242,11 +242,14 @@ const router = createRouter({
             return true
           }
           const distance = teamDistanceFromPoint(store.team, targetPoint)
-          if (distance > 10 || distance < 0) {
+          if (distance > 15 || distance < 0) {
             await showModal(
               'Pas si vite !',
-              "Vous êtes trop loins du point. Rapprochez-vous pour voir l'énigme.",
-              [{ actionName: 'ok', title: "Ok, on s'approche !" }]
+              `Vous êtes trop loin (${Math.round(
+                distance
+              )}m) du point. Rapprochez-vous pour voir l'énigme.`,
+              [{ actionName: 'ok', title: "Ok, on s'approche !" }],
+              'warn'
             )
             return false
           }
