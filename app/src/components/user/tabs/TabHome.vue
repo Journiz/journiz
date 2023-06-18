@@ -1,72 +1,64 @@
 <script lang="ts" setup="">
-import { ref } from 'vue'
-import { IonModal } from '@ionic/vue'
+import { useIonRouter } from '@ionic/vue'
+import { computed } from 'vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
-import PickTrip from '~/components/user/PickTrip.vue'
-import usePage from '~/composables/usePage'
 import { showModal } from '~/composables/useModal'
+import TripCountdown from '~/components/time/TripCountdown.vue'
 
 const userStore = useUserStore()
 const logout = useLogout(userStore.logout)
+const router = useIonRouter()
 
-const page = usePage()
-const switchTripModalOpen = ref(false)
-
-const warn = async () => {
+const endTrip = async () => {
   const result = await showModal(
-    'Hello',
-    'This is a test',
+    'On arrête ?',
+    `<p>Cette commande clôt le jeu et envoie une notifications aux équipes pour rentrer au point de ralliement. </p>
+<p class="text-red font-bold">Cette action est définitive. </p>`,
     [
       {
-        title: 'Ok',
+        title: 'Oui, on arrête',
         color: 'red',
-        actionName: 'ok',
+        actionName: 'stop',
       },
       {
-        title: 'Cancel',
+        title: 'Non, on continue le jeu',
         color: 'green',
         actionName: 'cancel',
       },
     ],
-    'test'
+    'end'
   )
-  console.log(result)
+  if (result === 'stop') {
+    await userStore.endTrip()
+  }
 }
+const showScores = async () => {
+  await userStore.showTripScores()
+  router.navigate({ name: 'user-end' }, 'root', 'replace')
+}
+const userName = computed(() => userStore.user?.username)
 </script>
 <template>
   <div class="flex-grow h-full bg-red/40">
     <div>
-      Bonjour {{ userStore.user?.username }}. Trip is
+      Bonjour {{ userName }}. Trip is
       {{ userStore.trip?.name }}
     </div>
-    <div>
-      <IonButton @click="switchTripModalOpen = true">Switch trip</IonButton>
+    <div class="col">
       <IonButton @click="logout">Logout</IonButton>
-      <IonButton @click="warn">Warn me</IonButton>
+      <IonButton v-if="userStore.trip?.status === 'playing'" @click="endTrip"
+        >Arreter la partie</IonButton
+      >
+      <IonButton
+        v-if="userStore.trip?.status === 'finishing'"
+        @click="showScores"
+      >
+        Afficher les scores
+      </IonButton>
+      <div class="mt-4 self-center">
+        <TripCountdown v-if="userStore.trip" :trip="userStore.trip" />
+      </div>
     </div>
-
-    <IonModal
-      :is-open="switchTripModalOpen"
-      :can-dismiss="true"
-      :presenting-element="page?.element as any"
-      @did-dismiss="switchTripModalOpen = false"
-    >
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Sorties</ion-title>
-          <ion-buttons slot="end">
-            <ion-button @click="switchTripModalOpen = false"
-              >Annuler
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <PickTrip @trip-change="switchTripModalOpen = false" />
-      </ion-content>
-    </IonModal>
-    <!--    <teleport to="#trip-tabs-page">-->
-    <!--    </teleport>-->
   </div>
 </template>

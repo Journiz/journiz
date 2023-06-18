@@ -14,10 +14,13 @@ export default defineConfig({
   rules: [
     ['top-safe', { top: 'env(safe-area-inset-top)' }],
     ['bottom-safe', { bottom: 'env(safe-area-inset-bottom)' }],
+    ['pt-safe', { 'padding-top': 'env(safe-area-inset-bottom)' }],
+    ['pb-safe', { 'padding-bottom': 'env(safe-area-inset-bottom)' }],
   ],
   shortcuts: {
     col: 'flex flex-col',
   },
+  safelist: ['py-4', 'rounded-md', 'mb-4'],
   transformers: [transformerDirectives()],
   theme: { ...theme, ...theme.extend },
 })

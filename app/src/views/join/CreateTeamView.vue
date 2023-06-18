@@ -19,7 +19,7 @@ let members: string[]
     <h2
       class="relative color-green-dark text-2xl font-black text-center mb-5 mt-10"
     >
-      {{ store.trip.name }}
+      {{ store.trip?.name }}
     </h2>
     <div class="relative text-center mb-7 color-green-dark">
       Entrer les participants du groupe
@@ -30,7 +30,7 @@ let members: string[]
       @get-owner="(value) => (owner = value)"
     />
     <Button class="relative mb-4">Valider</Button>
-    <Button class="relative mb-9" router-link="/join/join-team"
+    <Button class="relative mb-9" to="/join/join-team"
       >Rejoindre une équipe existante</Button
     >
   </Page>

@@ -49,7 +49,7 @@ const hasBeenClicked = ref(false)
 </script>
 
 <template>
-  <div
+  <button
     class="btn w-12 h-12 rounded-lg flex items-center justify-center transition-all"
     cursor="pointer disabled:not-allowed"
     :class="[
@@ -60,7 +60,7 @@ const hasBeenClicked = ref(false)
     @mousedown="hasBeenClicked = true"
   >
     <Icon class="h-6 w-6" />
-  </div>
+  </button>
 </template>
 
 <style scoped>

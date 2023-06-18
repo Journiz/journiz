@@ -4,6 +4,7 @@ import { computed, toRefs } from 'vue'
 import MapWithSearch from '~/components/MapWithSearch.vue'
 import { useJourneyStore } from '~/stores/journey'
 import { Coordinates } from '~/types/Coordinates'
+
 const store = useJourneyStore()
 const props = defineProps<{
   point: PointType
@@ -18,11 +19,10 @@ const pointCoords = computed(() => {
     ? [point.value.longitude, point.value.latitude]
     : undefined
 })
-const mapCenter = computed(() => {
-  return point.value.longitude && point.value.latitude
+const mapCenter =
+  point.value.longitude && point.value.latitude
     ? [point.value.longitude, point.value.latitude]
     : [store.journey!.basecampLongitude, store.journey!.basecampLatitude]
-})
 </script>
 
 <template>

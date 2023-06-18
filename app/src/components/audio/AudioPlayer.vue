@@ -1,12 +1,18 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useRafFn } from '@vueuse/core'
 import { base64ToArrayBuffer } from '~/utils/base64ToArrayBuffer'
+import fetchAsBase64 from '~/utils/fetchAsBase64'
 
 const props = defineProps<{
   audioData?: string
+  fileUrl?: string
   recordingProgress?: number
 }>()
+const fetchedData = ref('')
+const actualAudioData = computed(() => {
+  return props.fileUrl ? fetchedData.value : props.audioData
+})
 
 const audioContext = new AudioContext()
 const audio: HTMLAudioElement = new Audio()
@@ -57,18 +63,15 @@ const computeSamples = async (base64Audio: string) => {
   return normalizeData(filteredData)
 }
 
-watch(
-  () => props.audioData,
-  async (val) => {
-    if (val) {
-      samples.value = await computeSamples(val.split(',')[1])
-      audio.src = val
-      audio.load()
-    } else {
-      samples.value = emptySamples
-    }
+watch(actualAudioData, async (val) => {
+  if (val) {
+    samples.value = await computeSamples(val.split(',')[1])
+    audio.src = val
+    audio.load()
+  } else {
+    samples.value = emptySamples
   }
-)
+})
 const togglePlay = async () => {
   if (!audio) {
     return
@@ -79,6 +82,12 @@ const togglePlay = async () => {
     await audio.pause()
   }
 }
+onBeforeMount(async () => {
+  if (props.fileUrl) {
+    const data = (await fetchAsBase64(props.fileUrl)) as string
+    fetchedData.value = data
+  }
+})
 </script>
 <template>
   <div class="p-4 bg-white shadow-lg rounded-xl">

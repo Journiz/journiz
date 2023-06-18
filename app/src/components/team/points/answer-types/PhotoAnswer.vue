@@ -2,6 +2,8 @@
 import { Point } from '@journiz/api-types'
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
 import Button from '~/components/design-system/Button.vue'
+import dataURItoBlob from '~/utils/dataURIToBlob'
+import useTeamAnswer from '~/composables/useTeamAnswer'
 
 const props = defineProps<{
   point: Point
@@ -17,21 +19,26 @@ const photoParams = {
   allowEditing: false,
   resultType: CameraResultType.DataUrl,
 }
+const { sendAnswer, loading: validationLoading } = useTeamAnswer(
+  props.point,
+  false,
+  true
+)
 const getPhoto = async (gallery = false) => {
   const image = await Camera.getPhoto({
     ...photoParams,
     source: gallery ? CameraSource.Photos : CameraSource.Camera,
   })
   if (image.dataUrl) {
-    emit('answer', image.dataUrl)
+    await sendAnswer(image.dataUrl, true)
   }
 }
 </script>
 <template>
   <div class="flex flex-col">
-    <Button color="theme" class="mb-2" @click="getPhoto">
+    <Button color="theme" class="mb-2" @click="getPhoto(false)">
       Prendre une photo
     </Button>
-    <Button color="green" @click="getPhoto(true)"> Galerie</Button>
+    <Button color="theme" @click="getPhoto(true)"> Galerie</Button>
   </div>
 </template>

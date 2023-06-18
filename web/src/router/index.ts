@@ -102,36 +102,9 @@ const router = createRouter({
             },
             {
               path: 'point/:pointId',
-              name: 'edit-point-parent',
+              name: 'edit-point',
               component: () =>
                 import('~/views/dashboard/journey/point/PointEditView.vue'),
-              children: [
-                {
-                  name: 'edit-point',
-                  path: '',
-                  redirect: () => ({ name: 'point-position' }),
-                },
-                {
-                  name: 'point-position',
-                  path: 'emplacement',
-                  component: () =>
-                    import('~/views/dashboard/journey/point/PointPosition.vue'),
-                },
-                {
-                  name: 'point-content',
-                  path: 'contenu',
-                  component: () =>
-                    import('~/views/dashboard/journey/point/PointContent.vue'),
-                },
-                {
-                  name: 'point-dependency',
-                  path: 'dependance',
-                  component: () =>
-                    import(
-                      '~/views/dashboard/journey/point/PointDependency.vue'
-                    ),
-                },
-              ],
             },
           ],
         },

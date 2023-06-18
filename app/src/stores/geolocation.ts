@@ -12,8 +12,9 @@ export const useGeolocationStore = defineStore('geolocation', () => {
     backgroundGeolocation
       .addWatcher(
         {
-          backgroundMessage: 'Cancel to prevent battery drain.',
-          backgroundTitle: 'Tracking You.',
+          backgroundTitle: 'Jeu en cours',
+          backgroundMessage:
+            "La partie Journiz est en cours de déroulement, merci de ne pas quitter l'app.",
           requestPermissions: true,
         },
         function callback(location, error) {
@@ -21,15 +22,9 @@ export const useGeolocationStore = defineStore('geolocation', () => {
             if (error.code === 'NOT_AUTHORIZED') {
               if (
                 window.confirm(
-                  'This app needs your location, ' +
-                    'but does not have permission.\n\n' +
-                    'Open settings now?'
+                  'Nous avons besoin de ta localisation durant le jeu, mais tu as bloqué la permission. Ouvrir les réglages ?'
                 )
               ) {
-                // It can be useful to direct the user to their device's
-                // settings when location permissions have been denied. The
-                // plugin provides the 'openSettings' method to do exactly
-                // this.
                 backgroundGeolocation.openSettings()
               }
             }
@@ -94,11 +89,40 @@ export const useGeolocationStore = defineStore('geolocation', () => {
     console.log('🛑 Stopped reporting location')
   }
 
+  function requestPermission() {
+    backgroundGeolocation
+      .addWatcher(
+        {
+          requestPermissions: true,
+          stale: true,
+        },
+        function (location, error) {
+          if (error) {
+            if (error.code === 'NOT_AUTHORIZED') {
+              if (
+                window.confirm(
+                  'Nous avons besoin de ta localisation durant le jeu, mais tu as bloqué la permission. Ouvrir les réglages ?'
+                )
+              ) {
+                backgroundGeolocation.openSettings()
+              }
+            }
+            return console.error(error)
+          }
+          console.log('location requested.')
+        }
+      )
+      .then(function (id) {
+        backgroundGeolocation.removeWatcher({ id })
+      })
+  }
+
   return {
     startWatching,
     stopWatching,
     currentLocation,
     startReporting,
     stopReporting,
+    requestPermission,
   }
 })

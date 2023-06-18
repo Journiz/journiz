@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { Point } from '@journiz/api-types'
 import EditPointTrigger from '~/components/point/EditPointTrigger.vue'
 import { usePointStore } from '~/stores/point'
 import Basceamp from '~/components/map/Basecamp.vue'
@@ -9,11 +10,13 @@ import PointMarker from '~/components/map/PointMarker.vue'
 import { useJourneyStore } from '~/stores/journey'
 const store = usePointStore()
 
-const pointTrigger = ref({})
+const pointTrigger = ref<Point | undefined>()
 const trigger = ref('false')
-const handlePointTrigger = (value: object) => {
-  console.log(value)
+const handlePointTrigger = (value: Point) => {
   pointTrigger.value = value
+  if (store.point) {
+    store.point.trigger = value.id
+  }
 }
 const journeyStore = useJourneyStore()
 const currentPointStore = usePointStore()
@@ -34,7 +37,7 @@ const mapCenter = computed(() => {
       @update:isTrigger="trigger = $event"
     />
     <div class="w-7/12">
-      <Map zoom="14" :map-center="mapCenter">
+      <Map :zoom="14" :map-center="mapCenter">
         <MapMarker key="center" :position="mapCenter as any">
           <template #icon>
             <Basceamp />
@@ -51,8 +54,8 @@ const mapCenter = computed(() => {
           </template>
         </MapMarker>
         <MapMarker
-          v-if="pointTrigger.long"
-          :position="[pointTrigger.long, pointTrigger.lat]"
+          v-if="pointTrigger"
+          :position="[pointTrigger.longitude, pointTrigger.latitude]"
         >
           <template #icon>
             <PointMarker class="opacity-50" />

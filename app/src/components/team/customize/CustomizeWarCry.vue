@@ -9,6 +9,7 @@ import AudioRecorder from '~/components/audio/AudioRecorder.vue'
 
 const store = useTeamStore()
 const audioData = ref()
+const emit = defineEmits(['next'])
 
 const pb = usePocketBase()
 const confirm = async () => {
@@ -17,6 +18,7 @@ const confirm = async () => {
   const data = new FormData()
   data.append('warCry', blob)
   await pb.collection('team').update(store.team!.id, data)
+  emit('next')
 }
 
 const warCryUrl = getFileUrl(store.team, store.team?.warCry)

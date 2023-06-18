@@ -11,14 +11,13 @@ const emit = defineEmits(['pointTrigger', 'update:isTrigger'])
 
 const { point } = toRefs(props)
 const trigger = ref('false')
-// const pointTrigger = ref('')
 
 const store = useJourneyStore()
 const pts = store.journey?.expand?.points ?? []
 const selectPoints: any[] = []
 
-pts.forEach((element: any) => {
-  if (props.point.id !== element.id) {
+pts.forEach((element: PointType) => {
+  if (element.id !== props.point.id && element.trigger !== props.point.id) {
     selectPoints.push({
       value: element.id,
       content: element.name,
@@ -39,11 +38,16 @@ watch(trigger, (newVal) => {
 })
 
 function pointSelected(value: string) {
-  selectPoints.forEach((point) => {
-    if (point.value === value) {
-      emit('pointTrigger', point)
-    }
-  })
+  // selectPoints.forEach((point) => {
+  //   if (point.value === value) {
+  //     console.log(point)
+  //     emit('pointTrigger', point.value)
+  //   }
+  // })
+  emit(
+    'pointTrigger',
+    pts.find((p) => p.id === value)
+  )
 }
 </script>
 

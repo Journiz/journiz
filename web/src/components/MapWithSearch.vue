@@ -7,7 +7,6 @@ import { Coordinates } from '~/types/Coordinates'
 import PointMarker from '~/components/map/PointMarker.vue'
 
 const emit = defineEmits(['update'])
-const map = ref()
 const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
@@ -23,23 +22,43 @@ const props = defineProps({
     required: false,
   },
 })
+const map = ref()
 const researchMarkerPosition = ref(props.initialCoords)
-const addSearchMarker = (data: any) => {
-  emit('update', data.center)
-  researchMarkerPosition.value = data.center
-  map.value.flyToPoint(data.center)
+const getGeocodingResult = (data: any) => {
+  addSearchMarker(data.center)
+}
+const markerDragEnd = (e) => {
+  const dragPosition = e.target.getLngLat()
+  addSearchMarker([dragPosition.lng, dragPosition.lat])
+}
+const clickOnMap = (e: any) => {
+  const clickedPosition = e.lngLat.wrap()
+  addSearchMarker([clickedPosition.lng, clickedPosition.lat])
+}
+const addSearchMarker = (data: Coordinates) => {
+  emit('update', data)
+  researchMarkerPosition.value = data
+  map.value.flyToPoint(data)
 }
 </script>
 <template>
   <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
-      @select-marker="addSearchMarker"
+      @select-marker="getGeocodingResult"
     />
-    <Map ref="map" :map-center="mapCenter" :zoom="zoom" class="w-full h-full">
+    <Map
+      ref="map"
+      :map-center="mapCenter"
+      :zoom="zoom"
+      class="w-full h-full"
+      @mb-click="clickOnMap"
+    >
       <MapMarker
         v-if="researchMarkerPosition && researchMarkerPosition.length > 0"
         :position="researchMarkerPosition as Coordinates"
+        :draggable="true"
+        @mb-dragend="markerDragEnd"
       >
         <template #icon>
           <PointMarker />

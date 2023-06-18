@@ -19,6 +19,9 @@ export const basePointSchema = BaseSchema.extend({
       z.object({ lng: z.number(), lat: z.number() }),
     ])
     .optional(),
+  hint: z
+    .union([z.array(z.object({ id: z.string(), text: z.string() })), z.null()])
+    .optional(),
   score: z.number(),
   created: z.string(),
   updated: z.string(),
