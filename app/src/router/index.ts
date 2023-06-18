@@ -238,6 +238,9 @@ const router = createRouter({
           if (!targetPoint || !store.team) {
             return { name: 'team' }
           }
+          if (targetPoint.answerType === 'location') {
+            return true
+          }
           const distance = teamDistanceFromPoint(store.team, targetPoint)
           if (distance > 10 || distance < 0) {
             await showModal(

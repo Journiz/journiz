@@ -3,6 +3,7 @@ import { BaseSchema } from './Base'
 
 export const basePointSchema = BaseSchema.extend({
   id: z.string(),
+  hasLocation: z.boolean(),
   latitude: z.number(),
   longitude: z.number(),
   name: z.string().optional(),
