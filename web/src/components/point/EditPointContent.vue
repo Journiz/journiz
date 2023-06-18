@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
+import { Point } from '@journiz/api-types'
 import SelectInput from '~/components/forms/SelectInput.vue'
 import HintInputs from '~/components/point/editPointInputs/HintInputs.vue'
 import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
@@ -11,18 +12,16 @@ import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const store = usePointStore()
 
-const answerType = ref('choice')
-
 const selectChoices = [
   { value: 'image', content: 'Image' },
   { value: 'text', content: 'Text' },
   { value: 'choice', content: 'QCM' },
-  { value: 'location', content: 'Un lieu' },
+  { value: 'location', content: 'Emplacement du point' },
 ]
 
 function handleSelected(value: string) {
-  if (store.point) {
-    store.point.answerType = value as 'image' | 'text' | 'choice' | 'location'
+  if (store.point && value) {
+    store.point.answerType = value as NonNullable<Point['answerType']>
     save()
   }
 }
@@ -79,6 +78,18 @@ async function addMedia(type: string) {
         @update:modelValue="handleScoreChange"
       />
     </div>
+    <p v-if="store.point.answerType === 'test'" class="explanation">
+      Les joueurs répondront sous la forme d'un texte libre que vous pourrez
+      valider ou non.
+    </p>
+    <p v-if="store.point.answerType === 'location'" class="explanation">
+      Ce point n'apparaîtra pas sur la carte, les joueurs devront trouver son
+      emplacement à partir de l'énigme.
+    </p>
+    <p v-if="store.point.answerType === 'image'" class="explanation">
+      Les joueurs répondront sous la forme d'une photo que vous pourrez valider
+      ou non.
+    </p>
     <MediaSlider label="Visuel de la question" class="mt-2 mb-4" />
     <div class="flex items-center mb-4">
       <p>Ou remplacer le visuel par &nbsp;</p>
@@ -106,13 +117,18 @@ async function addMedia(type: string) {
     </div>
     <TextareaInput v-model="store.point.description" label="Énoncé" />
     <TextareaInput v-model="store.point.question" label="Question" />
-    <div v-if="answerType == 'image'"></div>
+    <div v-if="store.point.answerType == 'image'"></div>
     <ChoicesInputs
-      v-if="['choice', 'text'].includes(answerType)"
+      v-if="['choice'].includes(store.point.answerType)"
       v-model="store.point.answer"
       class="overflow-auto"
-      :answer-type="answerType"
+      :answer-type="store.point.answerType"
     />
     <HintInputs v-model="store.point.hint" class="overflow-auto" />
   </div>
 </template>
+<style scoped>
+.explanation {
+  @apply text-sm font-light italic text-black/80;
+}
+</style>
