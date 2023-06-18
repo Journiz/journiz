@@ -35,7 +35,7 @@ const attachment = computed(() => {
     :class="message.sender === userType ? 'ml-auto' : ''"
   >
     <div
-      class="rounded-xl p-4 text-white whitespace-pre-wrap relative"
+      class="rounded-lg p-4 text-white whitespace-pre-wrap relative"
       :class="message.sender === userType ? 'bg-indigo-600' : 'bg-indigo-400'"
     >
       <span>

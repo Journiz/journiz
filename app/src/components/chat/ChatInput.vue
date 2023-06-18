@@ -28,7 +28,7 @@ const onInputMessage = (event: Event) => {
   if (!event.target) return
   const target = event.target as HTMLTextAreaElement
   ;(target.parentNode as HTMLElement).dataset.replicatedValue = target.value
-  emit('updateHeight', target.offsetHeight + 16)
+  emit('updateHeight', target.offsetHeight + 24)
 }
 
 const messageField = ref<HTMLElement>()
@@ -45,13 +45,13 @@ const send = () => {
 }
 </script>
 <template>
-  <div class="flex flex-col absolute bottom-0 backdrop-blur bg-white/40 z-11">
+  <div class="flex flex-col absolute bottom-0 bg-beige-light z-11 pb-2">
     <div v-if="attachingImage" class="p-4">
       <img :src="attachingImage" alt="Attachment" class="h-24 rounded-lg" />
     </div>
-    <div class="flex px-4 flex-shrink-0 p-2">
-      <button class="text-3xl mr-2" @click="takePicture">
-        <span class="block i-uil:camera"></span>
+    <div class="flex flex-shrink-0 m-3 bg-white shadow-md rounded-lg">
+      <button class="text-3xl ml-3" @click="takePicture">
+        <span class="block i-uil:paperclip text-green"></span>
       </button>
       <div class="grow-wrap">
         <textarea
@@ -59,12 +59,15 @@ const send = () => {
           ref="messageField"
           v-model="message"
           name="message"
-          placeholder="Écrire..."
+          placeholder="Message..."
           @input="onInputMessage"
         ></textarea>
       </div>
-      <button class="send-btn bg-indigo-600 text-white" @click="send">
-        Send
+      <button
+        class="send-btn bg-theme text-white flex justify-center items-center btn-animation"
+        @click="send"
+      >
+        <span class="i-carbon:send-alt-filled text-28px mr-1"></span>
       </button>
     </div>
   </div>
@@ -80,32 +83,31 @@ const send = () => {
   content: attr(data-replicated-value) ' ';
   white-space: pre-wrap;
   visibility: hidden;
-  width: calc(100vw - 120px);
-  max-width: calc(100vw - 120px);
+  width: calc(100vw - 116px);
+  max-width: calc(100vw - 116px);
   max-height: 90px;
   font-size: 16px;
   line-height: 16px;
 }
 
 .grow-wrap > textarea {
+  outline: none;
   resize: none;
-  width: calc(100vw - 120px);
-  max-width: calc(100vw - 120px);
+  width: calc(100vw - 116px);
+  max-width: calc(100vw - 116px);
   max-height: 90px;
   font-size: 16px;
   line-height: 16px;
-  border-radius: 32px 0 0 32px;
 }
 
 .grow-wrap > textarea,
 .grow-wrap::after {
-  border: 1px solid black;
   padding: 0.5rem 1rem;
   grid-area: 1 / 1 / 2 / 2;
 }
 
 .send-btn {
-  border-radius: 0 32px 32px 0;
+  border-radius: 10px;
   width: 52px;
 }
 </style>

@@ -37,7 +37,7 @@ const recipient = computed(() => {
 const chatHeight = ref<number>()
 </script>
 <template>
-  <div class="flex flex-col h-full relative">
+  <div class="flex flex-col h-full relative bg-beige-light">
     <Header
       v-if="recipient"
       :title="recipient"
