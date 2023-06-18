@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { watch } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
 import { useIonRouter } from '@ionic/vue'
 import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
@@ -47,6 +47,8 @@ watch(
     }
   }
 )
+onMounted(store.startReportingBattery)
+onUnmounted(store.stopReportingBattery)
 </script>
 <template>
   <keep-alive>

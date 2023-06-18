@@ -4,9 +4,10 @@ import {
   useRealtimeTrip,
 } from '@journiz/composables'
 import { defineStore } from 'pinia'
-import { useStorage } from '@vueuse/core'
+import { useIntervalFn, useStorage } from '@vueuse/core'
 import { Trip } from '@journiz/api-types'
 import { computed, watch } from 'vue'
+import { Device } from '@capacitor/device'
 import useRefStorage from '../../composables/useRefStorage'
 import { setNotificationsId } from '~/plugins/pushNotifications'
 
@@ -121,6 +122,26 @@ export const useTeamStore = defineStore('team', () => {
   const journey = computed(() => trip.value?.expand?.journey)
 
   const refreshAll = () => Promise.all([refreshTrip(), refreshTeam()])
+
+  const reporting = useIntervalFn(
+    async () => {
+      const batteryInfo = await Device.getBatteryInfo()
+      const level = Math.round((batteryInfo.batteryLevel ?? 0) * 100)
+      if (team.value && team.value?.batteryLevel !== level) {
+        team.value.batteryLevel = level
+        await saveTeam()
+      }
+    },
+    10 * 1000,
+    { immediate: false, immediateCallback: true }
+  )
+  const startReportingBattery = () => {
+    reporting.resume()
+  }
+  const stopReportingBattery = () => {
+    reporting.pause()
+  }
+
   return {
     trip,
     joinTrip,
@@ -132,5 +153,7 @@ export const useTeamStore = defineStore('team', () => {
     refreshAll,
     conversationId: storedConversationId,
     journey,
+    startReportingBattery,
+    stopReportingBattery,
   }
 })
