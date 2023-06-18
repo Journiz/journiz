@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { defineModel } from 'vue'
 import TextInput from '~/components/forms/TextInput.vue'
 
-const emit = defineEmits(['getOwner', 'getMembers'])
-
-const phoneOwner = ref<string>()
-const members = ref<string[]>([])
+const members = defineModel<string[]>('members', {
+  default: () => [''],
+})
 
 const addMemberInput = () => {
   members.value.push('')
@@ -14,22 +13,18 @@ const addMemberInput = () => {
 <template>
   <div class="flex flex-col pb-4 overflow-hidden">
     <div class="max-h-full overflow-scroll">
-      <TextInput
-        v-model="phoneOwner"
-        label="Joueur 1 (détenteur du téléphone)"
-        svg-name="book"
-        :no-display-required-stars="true"
-        @keyup="emit('getOwner', phoneOwner)"
-      />
       <div v-if="members">
         <TextInput
           v-for="(member, index) in members"
           :key="index"
           v-model="members[index]"
-          :label="'Joueur ' + (index + 2)"
-          svg-name="people"
+          :label="
+            index === 0
+              ? 'Joueur 1 (détenteur du téléphone)'
+              : 'Joueur ' + (index + 1)
+          "
+          :svg-name="index === 0 ? 'book' : 'people'"
           :no-display-required-stars="true"
-          @keyup="emit('getMembers', members)"
         />
       </div>
     </div>

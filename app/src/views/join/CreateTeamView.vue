@@ -1,4 +1,6 @@
 <script lang="ts" setup="">
+import { computed, ref } from 'vue'
+import { useIonRouter } from '@ionic/vue'
 import Page from '~/components/Page.vue'
 import CreateTeam from '~/components/team/CreateTeam.vue'
 import { useTeamStore } from '~/stores/team/team'
@@ -6,8 +8,19 @@ import Button from '~/components/design-system/Button.vue'
 
 const store = useTeamStore()
 
-let owner: string
-let members: string[]
+const members = ref<string[]>(['', ''])
+const loading = ref(false)
+const router = useIonRouter()
+
+const submit = async () => {
+  loading.value = true
+  await store.createTeam(members.value)
+  loading.value = false
+  return router.navigate('/team', 'root', 'replace')
+}
+const canSubmit = computed(() => {
+  return members.value.length > 0 && members.value.every((m) => m !== '')
+})
 </script>
 <template>
   <Page class="flex-col px-7 max-h-screen overflow-hidden">
@@ -25,13 +38,19 @@ let members: string[]
       Entrer les participants du groupe
     </div>
     <CreateTeam
+      v-model:members="members"
       class="relative flex-grow max-h-full"
-      @get-members="(value) => (members = value)"
-      @get-owner="(value) => (owner = value)"
     />
-    <Button class="relative mb-4">Valider</Button>
-    <Button class="relative mb-9" to="/join/join-team"
-      >Rejoindre une équipe existante</Button
+    <Button
+      class="relative mb-4"
+      :disabled="!canSubmit"
+      :loading="loading"
+      @click="submit"
     >
+      Valider
+    </Button>
+    <Button class="relative mb-9" to="/join/join-team">
+      Rejoindre une équipe existante
+    </Button>
   </Page>
 </template>

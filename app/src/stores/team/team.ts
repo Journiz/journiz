@@ -71,6 +71,21 @@ export const useTeamStore = defineStore('team', () => {
       return false
     }
   }
+  const createTeam = async (members: string[]) => {
+    if (!trip.value) {
+      return false
+    }
+    const existingTeamsNum = trip.value.expand?.teams?.length ?? 0
+    const teamDefaultName = 'Equipe ' + (existingTeamsNum + 1)
+    const team = await pb.collection('team').create({
+      name: teamDefaultName,
+      members,
+      trip: trip.value.id,
+    })
+    if (team) {
+      await joinTeam(team.id)
+    }
+  }
 
   const logout = async () => {
     storedTripId.value = null
@@ -111,6 +126,7 @@ export const useTeamStore = defineStore('team', () => {
     joinTrip,
     team,
     joinTeam,
+    createTeam,
     logout,
     saveTeam,
     refreshAll,
