@@ -37,6 +37,34 @@ watch(
     }
   }
 )
+
+watch(
+  () => store.team.isOutside,
+  async (isOutside) => {
+    if (isOutside) {
+      const action = await showModal(
+        'Pas si vite !',
+        `<p>Vous êtes en sortis de la zone de jeu !</p>`,
+        [
+          {
+            title: 'On retourne dans la zone',
+            actionName: 'ok',
+            color: 'theme',
+          },
+          {
+            title: 'Contacter le maître du jeu',
+            actionName: 'contact',
+            color: 'green',
+          },
+        ],
+        'stop'
+      )
+      if (action === 'contact') {
+        router.push({ name: 'team-chat' })
+      }
+    }
+  }
+)
 </script>
 <template>
   <keep-alive>
