@@ -1,17 +1,24 @@
 <script lang="ts" setup="">
-import { IonList, IonToolbar, onIonViewWillEnter } from '@ionic/vue'
+import { IonList } from '@ionic/vue'
 import { useConversations } from '@journiz/composables'
 import { useEventListener } from '@vueuse/core'
+import { computed } from 'vue'
 import ConversationItem from '~/components/user/chat/ConversationItem.vue'
 import { useUserStore } from '~/stores/user'
+import Header from '~/components/design-system/Header.vue'
 
-const {
-  data: conversations,
-  loading,
-  refresh,
-} = useConversations({
-  filter: `team.trip="${useUserStore().trip?.id}"`,
+const store = useUserStore()
+const { data, loading, refresh } = useConversations({
+  filter: `trip="${useUserStore().trip?.id}"`,
 })
+const conversations = computed(() =>
+  data.value
+    .filter(() => true)
+    .sort((c) => {
+      if (c.isBroadcast) return -1
+      return 0
+    })
+)
 useEventListener(document, 'visibilitychange', () => {
   if (document.visibilityState === 'visible') {
     refresh()
@@ -20,14 +27,17 @@ useEventListener(document, 'visibilitychange', () => {
 </script>
 <template>
   <Suspense>
-    <IonList v-if="conversations && !loading">
-      <ConversationItem
-        v-for="conversation in conversations"
-        :key="conversation.id"
-        :conversation="conversation.id"
-        sender="user"
-      />
-    </IonList>
+    <div v-if="conversations && !loading" class="col h-full bg-beige-light">
+      <Header :title="store.trip?.name ?? ''" subtitle="Messagerie" />
+      <div class="col flex-grow overflow-y-scroll pb-28 divide-y divide-beige">
+        <ConversationItem
+          v-for="conversation in conversations"
+          :key="conversation.id"
+          :conversation="conversation.id"
+          sender="user"
+        />
+      </div>
+    </div>
     <template #fallback>Chargement...</template>
   </Suspense>
 </template>
