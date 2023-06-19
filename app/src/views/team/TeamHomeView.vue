@@ -40,7 +40,7 @@ watch(
 )
 
 watch(
-  () => store.team.isOutside,
+  () => store.team?.isOutside,
   async (isOutside) => {
     if (isOutside) {
       await warnTeamOutside()

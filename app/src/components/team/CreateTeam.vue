@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineModel } from 'vue'
 import TextInput from '~/components/forms/TextInput.vue'
 
 const members = defineModel<string[]>('members', {

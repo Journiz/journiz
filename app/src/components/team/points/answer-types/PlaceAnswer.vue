@@ -17,6 +17,7 @@ const { sendAnswer, loading: validationLoading } = useTeamAnswer(
   false
 )
 const submit = async () => {
+  if (!store.team) return
   const distance = teamDistanceFromPoint(store.team, props.point)
   const isCorrect = distance < 30
   await sendAnswer('location', isCorrect)

@@ -18,7 +18,7 @@ const lastMessageContent = computed(() => {
   const message = lastMessage.value
   if (!message) return null
   let result = message.content
-  if (message.sender === props.sender && !conversation.value.isBroadcast) {
+  if (message.sender === props.sender && !conversation.value?.isBroadcast) {
     result = 'Vous: ' + result
   }
   return result
@@ -33,7 +33,7 @@ const lastMessageUnRead = computed(() => {
 await waitForEndLoading(loading)
 
 const store = useUserStore()
-const teams = computed(() => store.trip?.expand?.teams.slice(0, 3) ?? [])
+const teams = computed(() => store.trip?.expand?.teams?.slice(0, 3) ?? [])
 </script>
 <template>
   <router-link
@@ -41,13 +41,13 @@ const teams = computed(() => store.trip?.expand?.teams.slice(0, 3) ?? [])
     :to="{
       name: 'user-chat-conversation',
       params: {
-        conversationId: conversation.id,
+        conversationId: conversation?.id,
       },
     }"
   >
     <div class="flex py-3 pl-4 pr-6 items-center gap-2">
       <div
-        v-if="conversation.isBroadcast"
+        v-if="conversation?.isBroadcast"
         class="w-14 h-14 flex-shrink-0 relative mx-1"
       >
         <div

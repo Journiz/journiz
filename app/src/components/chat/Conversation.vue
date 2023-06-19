@@ -48,7 +48,7 @@ const chatHeight = ref<number>()
       }"
     />
     <p
-      v-if="messages.length > 0 && conversation.isBroadcast"
+      v-if="messages.length > 0 && conversation?.isBroadcast"
       class="font-light text-sm px-12 text-center py-4 text-green"
     >
       Les messages envoyés ici seront visibles par toutes les équipes.

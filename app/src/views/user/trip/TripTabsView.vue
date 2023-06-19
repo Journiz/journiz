@@ -36,8 +36,9 @@ watch(
 watch(
   () => store.trip?.expand?.teams,
   async (teams, oldTeams) => {
-    for (const i in teams) {
-      if (teams[i].isOutside && !oldTeams[i]?.isOutside) {
+    for (const idx in teams) {
+      const i = idx as unknown as number
+      if (teams[i].isOutside && !oldTeams?.[i]?.isOutside) {
         await warnOutside(teams[i].id, teams[i].name)
       }
     }
