@@ -47,6 +47,13 @@ const chatHeight = ref<number>()
         query: { tab: 'chat' },
       }"
     />
+    <p
+      v-if="messages.length > 0 && conversation.isBroadcast"
+      class="font-light text-sm px-12 text-center py-4 text-green"
+    >
+      Les messages envoyés ici seront visibles par toutes les équipes.
+      Rendez-vous dans la conversation de chaque équipe pour voir leur réponse.
+    </p>
     <Messages
       :messages="messages"
       :loading="loading"

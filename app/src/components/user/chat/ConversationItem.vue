@@ -18,7 +18,7 @@ const lastMessageContent = computed(() => {
   const message = lastMessage.value
   if (!message) return null
   let result = message.content
-  if (message.sender === props.sender) {
+  if (message.sender === props.sender && !conversation.value.isBroadcast) {
     result = 'Vous: ' + result
   }
   return result
