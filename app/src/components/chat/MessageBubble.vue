@@ -63,6 +63,7 @@ const attachment = computed(() => {
           alt=""
           class="object-cover w-full aspect-2/3"
           :class="isOpen ? 'rounded-xl' : 'rounded-2xl'"
+          @dragstart.prevent="() => false"
         />
       </Lightbox>
     </div>
