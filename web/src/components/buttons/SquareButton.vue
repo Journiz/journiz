@@ -59,7 +59,8 @@ const hasBeenClicked = ref(false)
     :disabled="actualDisabled"
     @mousedown="hasBeenClicked = true"
   >
-    <Icon class="h-6 w-6" />
+    <Icon v-if="!loading" class="h-6 w-6" />
+    <span v-else class="i-svg-spinners:180-ring text-6" />
   </button>
 </template>
 
