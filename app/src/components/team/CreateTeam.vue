@@ -11,7 +11,7 @@ const addMemberInput = () => {
 </script>
 <template>
   <div class="flex flex-col pb-4 overflow-hidden">
-    <div class="max-h-full overflow-scroll">
+    <form class="max-h-full overflow-scroll min-h-16">
       <div v-if="members">
         <TextInput
           v-for="(member, index) in members"
@@ -26,7 +26,7 @@ const addMemberInput = () => {
           :no-display-required-stars="true"
         />
       </div>
-    </div>
+    </form>
     <div class="pt-6 h-18">
       <div
         class="h-12 w-12 flex items-center justify-center text-white text-lg bg-green rounded-xl mx-auto"
