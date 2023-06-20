@@ -47,6 +47,7 @@
     "@unhead/vue": "^1.1.27",
     "@unocss/reset": "^0.51.13",
     "@vueuse/core": "^10.1.2",
+    "@vueuse/sound": "^2.0.1",
     "capacitor-native-settings": "^5.0.0",
     "capacitor-voice-recorder": "^5.0.0",
     "gsap": "^3.11.5",
