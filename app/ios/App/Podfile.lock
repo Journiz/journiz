@@ -22,6 +22,8 @@ PODS:
     - Capacitor
   - CapacitorVoiceRecorder (5.0.0):
     - Capacitor
+  - CapgoCapacitorShake (5.0.4):
+    - Capacitor
   - CordovaPluginsStatic (5.0.4):
     - CapacitorCordova
     - OneSignalXCFramework (= 3.12.4)
@@ -49,6 +51,7 @@ DEPENDENCIES:
   - "CapacitorNativeSettings (from `../../../node_modules/.pnpm/capacitor-native-settings@5.0.0_@capacitor+core@5.0.4/node_modules/capacitor-native-settings`)"
   - "CapacitorStatusBar (from `../../../node_modules/.pnpm/@capacitor+status-bar@5.0.2_@capacitor+core@5.0.4/node_modules/@capacitor/status-bar`)"
   - "CapacitorVoiceRecorder (from `../../../node_modules/.pnpm/capacitor-voice-recorder@5.0.0_@capacitor+core@5.0.4/node_modules/capacitor-voice-recorder`)"
+  - "CapgoCapacitorShake (from `../../../node_modules/.pnpm/@capgo+capacitor-shake@5.0.4_@capacitor+core@5.0.4/node_modules/@capgo/capacitor-shake`)"
   - CordovaPluginsStatic (from `../capacitor-cordova-ios-plugins`)
 
 SPEC REPOS:
@@ -80,6 +83,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/@capacitor+status-bar@5.0.2_@capacitor+core@5.0.4/node_modules/@capacitor/status-bar"
   CapacitorVoiceRecorder:
     :path: "../../../node_modules/.pnpm/capacitor-voice-recorder@5.0.0_@capacitor+core@5.0.4/node_modules/capacitor-voice-recorder"
+  CapgoCapacitorShake:
+    :path: "../../../node_modules/.pnpm/@capgo+capacitor-shake@5.0.4_@capacitor+core@5.0.4/node_modules/@capgo/capacitor-shake"
   CordovaPluginsStatic:
     :path: "../capacitor-cordova-ios-plugins"
 
@@ -96,9 +101,10 @@ SPEC CHECKSUMS:
   CapacitorNativeSettings: 1bfca11cd2d3920ad0e319d6e4d81a99fc53255f
   CapacitorStatusBar: 48f2899f6846cc7d8431b251ebfc58e1c10e3d58
   CapacitorVoiceRecorder: 872ea857b497ce2c71afe3e4eb5de0a74290c0db
+  CapgoCapacitorShake: 684d11d3278038bd7de2f478b7fb08001418a120
   CordovaPluginsStatic: af99904c0243da8af971650a0657125ae1d9688d
   OneSignalXCFramework: 087934ab0d4d7445fcf1c015c7c782359e26c020
 
-PODFILE CHECKSUM: 414b9959948993da67eb70f0b07eb005a09ec54d
+PODFILE CHECKSUM: c1d0a4b6a7f44f1b637e76e338415b9e558ea8eb
 
 COCOAPODS: 1.12.0

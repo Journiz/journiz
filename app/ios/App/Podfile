@@ -19,6 +19,7 @@ def capacitor_pods
   pod 'CapacitorHaptics', :path => '../../../node_modules/.pnpm/@capacitor+haptics@5.0.2_@capacitor+core@5.0.4/node_modules/@capacitor/haptics'
   pod 'CapacitorKeyboard', :path => '../../../node_modules/.pnpm/@capacitor+keyboard@5.0.2_@capacitor+core@5.0.4/node_modules/@capacitor/keyboard'
   pod 'CapacitorStatusBar', :path => '../../../node_modules/.pnpm/@capacitor+status-bar@5.0.2_@capacitor+core@5.0.4/node_modules/@capacitor/status-bar'
+  pod 'CapgoCapacitorShake', :path => '../../../node_modules/.pnpm/@capgo+capacitor-shake@5.0.4_@capacitor+core@5.0.4/node_modules/@capgo/capacitor-shake'
   pod 'CapacitorNativeSettings', :path => '../../../node_modules/.pnpm/capacitor-native-settings@5.0.0_@capacitor+core@5.0.4/node_modules/capacitor-native-settings'
   pod 'CapacitorVoiceRecorder', :path => '../../../node_modules/.pnpm/capacitor-voice-recorder@5.0.0_@capacitor+core@5.0.4/node_modules/capacitor-voice-recorder'
   pod 'CordovaPluginsStatic', :path => '../capacitor-cordova-ios-plugins'
