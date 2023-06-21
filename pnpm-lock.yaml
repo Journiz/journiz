@@ -75,6 +75,9 @@ importers:
       '@capacitor/status-bar':
         specifier: ^5.0.2
         version: 5.0.2(@capacitor/core@5.0.4)
+      '@capgo/capacitor-shake':
+        specifier: ^5.0.4
+        version: 5.0.4(@capacitor/core@5.0.4)
       '@dotlottie/player-component':
         specifier: ^1.4.1
         version: 1.4.1(postcss@8.4.23)(typescript@5.0.4)
@@ -618,6 +621,14 @@ packages:
 
   /@capacitor/status-bar@5.0.2(@capacitor/core@5.0.4):
     resolution: {integrity: sha512-5emXUQzx9WnQHnxzapghrqm8P80z7IPLM83PTsfN+NOkm3uw3ZOxB4T7qy9NBV2Zp+GCEpr1UrNBowxV7Ami3Q==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.0.4
+    dev: false
+
+  /@capgo/capacitor-shake@5.0.4(@capacitor/core@5.0.4):
+    resolution: {integrity: sha512-lhUTieM1AdNwcjR6vQb4MMnEpOu/OrABbXi9zsMMfIHNAjVSKHcgcqXWTiqCVdmNRxoAP+qKVqQFtxe/c8h5SA==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:

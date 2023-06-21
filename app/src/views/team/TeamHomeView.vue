@@ -52,8 +52,8 @@ watch(
 
 const geolocationStore = useGeolocationStore()
 const preventGeolocation = useStorage('preventGeolocation', false)
-watch(preventGeolocation, (value) => {
-  if (value) {
+watch(preventGeolocation, (prevent) => {
+  if (prevent) {
     geolocationStore.stopWatching()
     geolocationStore.stopReporting()
   } else {

@@ -31,6 +31,7 @@
     "@capacitor/ios": "^5.0.4",
     "@capacitor/keyboard": "^5.0.2",
     "@capacitor/status-bar": "^5.0.2",
+    "@capgo/capacitor-shake": "^5.0.4",
     "@dotlottie/player-component": "^1.4.1",
     "@ionic/core": "^7.0.9",
     "@ionic/vue": "^7.0.9",
