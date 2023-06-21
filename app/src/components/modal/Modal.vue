@@ -4,6 +4,7 @@ import { toRefs } from 'vue'
 const props = defineProps<{
   isOpen: boolean
   layout: 'window' | 'fullscreen'
+  noPadding?: boolean
 }>()
 const { isOpen } = toRefs(props)
 const closeModal = () => {
@@ -18,10 +19,15 @@ const closeModal = () => {
       :class="layout === 'fullscreen' ? '' : 'px-2'"
     >
       <div
-        class="modal-dialog outline-none bg-white w-full px-6"
-        :class="
-          layout === 'fullscreen' ? 'h-full pt-safe pb-8' : 'py-6 rounded-lg'
-        "
+        class="modal-dialog outline-none bg-white w-full"
+        :class="{
+          'h-full': layout === 'fullscreen',
+          'rounded-lg': layout !== 'fullscreen',
+          'px-6': !noPadding && layout !== 'fullscreen',
+          'pt-safe': !noPadding && layout === 'fullscreen',
+          'pb-8': !noPadding && layout === 'fullscreen',
+          'py-6': !noPadding && layout !== 'fullscreen',
+        }"
       >
         <slot :close-modal="closeModal"></slot>
       </div>
