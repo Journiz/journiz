@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
@@ -11,6 +11,7 @@ import TabValidation from '~/components/user/tabs/TabValidation.vue'
 import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
 import { warnOutside } from '~/utils/warnOutside'
+import TripCountdown from '~/components/time/TripCountdown.vue'
 
 const store = useUserStore()
 watch(
@@ -46,11 +47,13 @@ watch(
 )
 
 const initialTab = (useRoute().query.tab as string) ?? 'map'
+const tabs = ref<Tabs>()
+const currentTab = computed(() => tabs.value?.state.activeTabName)
 </script>
 <template>
   <keep-alive>
     <Page id="trip-tabs-page">
-      <Tabs class="flex-grow">
+      <Tabs ref="tabs" class="flex-grow">
         <Tab
           title="Paramètres"
           name="settings"
@@ -84,6 +87,18 @@ const initialTab = (useRoute().query.tab as string) ?? 'map'
           <TabChat />
         </Tab>
       </Tabs>
+
+      <div
+        v-show="!['chat'].includes(currentTab)"
+        class="absolute bottom-36 left-1/2 transform -translate-x-1/2"
+      >
+        <TripCountdown
+          v-if="store.trip"
+          class="btn-animation"
+          :trip="store.trip"
+          @click="tabs?.setActiveTab('settings')"
+        />
+      </div>
     </Page>
   </keep-alive>
 </template>
