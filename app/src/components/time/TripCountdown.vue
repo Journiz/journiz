@@ -15,6 +15,7 @@ const endDate = computed(() => {
 const now = useNow()
 const remaining = computed(() => {
   if (!endDate.value) return null
+  if (props.trip.status !== 'playing') return 0
   return Math.max(0, endDate.value.getTime() - now.value.getTime())
 })
 const remainingHours = computed(() => {
