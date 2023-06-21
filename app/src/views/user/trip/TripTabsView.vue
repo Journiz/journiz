@@ -47,7 +47,7 @@ watch(
 )
 
 const initialTab = (useRoute().query.tab as string) ?? 'map'
-const tabs = ref<Tabs>()
+const tabs = ref<typeof Tabs>()
 const currentTab = computed(() => tabs.value?.state.activeTabName)
 </script>
 <template>
