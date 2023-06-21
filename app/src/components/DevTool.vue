@@ -3,10 +3,15 @@ import { useStorage } from '@vueuse/core'
 import { onMounted } from 'vue'
 import { actionSheetController } from '@ionic/vue'
 import { CapacitorShake } from '@capgo/capacitor-shake'
+import { useUserStore } from '~/stores/user'
+import { useLogout } from '~/composables/useLogout'
+import { useTeamStore } from '~/stores/team/team'
 
 const preventGeolocation = useStorage('preventGeolocation', false)
 
 let isOpen = false
+const userStore = useUserStore()
+const teamStore = useTeamStore()
 const presentActionSheet = async () => {
   const actionSheet = await actionSheetController.create({
     header: 'Dev menu',
@@ -21,6 +26,24 @@ const presentActionSheet = async () => {
         role: preventGeolocation.value ? '' : 'destructive',
         handler: () => {
           preventGeolocation.value = !preventGeolocation.value
+        },
+      },
+      {
+        text: 'Logout',
+        handler: () => {
+          if (userStore.isLoggedIn()) {
+            userStore.logout()
+          } else {
+            teamStore.logout()
+          }
+          window.location.href = '/'
+        },
+      },
+      {
+        text: 'Reload',
+        role: 'selected',
+        handler: () => {
+          window.location.reload()
         },
       },
       {

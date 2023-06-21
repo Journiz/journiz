@@ -5,6 +5,8 @@ import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
 import TripCountdown from '~/components/time/TripCountdown.vue'
+import Header from '~/components/design-system/Header.vue'
+import Button from '~/components/design-system/Button.vue'
 
 const userStore = useUserStore()
 const logout = useLogout(userStore.logout)
@@ -55,26 +57,29 @@ const warn = async () => {
 }
 </script>
 <template>
-  <div class="flex-grow h-full bg-red/40">
-    <div>
-      Bonjour {{ userName }}. Trip is
-      {{ userStore.trip?.name }}
-    </div>
-    <div class="col">
-      <IonButton @click="warn">Warn </IonButton>
-      <IonButton @click="logout">Logout</IonButton>
-      <IonButton v-if="userStore.trip?.status === 'playing'" @click="endTrip"
-        >Arreter la partie</IonButton
+  <div v-if="userStore.user" class="flex flex-col h-full">
+    <Header :title="userStore.trip?.name ?? ''" subtitle="Paramètres" />
+    <div class="flex-grow bg-beige-light p-4 flex flex-col gap-4">
+      <div
+        class="shadow bg-white rounded-lg p-6 flex flex-col text-green-dark gap-6"
       >
-      <IonButton
-        v-if="userStore.trip?.status === 'finishing'"
-        @click="showScores"
-      >
-        Afficher les scores
-      </IonButton>
-      <div class="mt-4 self-center">
-        <TripCountdown v-if="userStore.trip" :trip="userStore.trip" />
+        <span class="text-center text-xl font-black">
+          Un problème ? Un imprévu ?
+        </span>
+        <Button color="green" @click="logout">Arrêter la partie</Button>
+        <div class="flex items-start gap-2">
+          <span
+            class="i-ion:information-circle flex-shrink-0 text-red text-28px"
+          ></span>
+          <p class="text-sm font-light italic">
+            Cette commande clôt le jeu et envoie une notifications aux équipes
+            pour rentrer au point de ralliement. <br />
+            Cette action est
+            <span class="text-red font-medium">définitive</span>.
+          </p>
+        </div>
       </div>
+      <Button color="green" @click="logout">Se déconnecter</Button>
     </div>
   </div>
 </template>
