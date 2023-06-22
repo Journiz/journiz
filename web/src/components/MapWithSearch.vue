@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue'
+import { boolean } from 'zod'
 import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
 import { Coordinates } from '~/types/Coordinates'
 import PointMarker from '~/components/map/PointMarker.vue'
 
-const emit = defineEmits(['update'])
+const emit = defineEmits(['update', 'updateHasLocation'])
 const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
@@ -21,11 +22,18 @@ const props = defineProps({
     default: () => [],
     required: false,
   },
+  hasLocation: {
+    type: boolean,
+    required: true,
+  },
 })
 const map = ref()
 const researchMarkerPosition = ref(props.initialCoords)
 const getGeocodingResult = (data: any) => {
   addSearchMarker(data.center)
+}
+const getHasLocation = (value: boolean) => {
+  emit('updateHasLocation', value)
 }
 const markerDragEnd = (e) => {
   const dragPosition = e.target.getLngLat()
@@ -45,6 +53,8 @@ const addSearchMarker = (data: Coordinates) => {
   <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
+      :has-location="props.hasLocation as PropType<boolean> as Boolean"
+      @changeHasLocation="getHasLocation"
       @select-marker="getGeocodingResult"
     />
     <Map

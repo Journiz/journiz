@@ -14,6 +14,9 @@ const updateLocation = (location: Coordinates) => {
   point.value.longitude = location[0]
   point.value.latitude = location[1]
 }
+const updateHasLocation = (hasLocation: boolean) => {
+  point.value.hasLocation = hasLocation
+}
 const pointCoords = computed(() => {
   return point.value.longitude && point.value.latitude
     ? [point.value.longitude, point.value.latitude]
@@ -30,8 +33,10 @@ const mapCenter =
     <MapWithSearch
       :map-center="mapCenter as any"
       :initial-coords="pointCoords as any"
+      :has-location="point.hasLocation"
       :zoom="16"
       @update="updateLocation"
+      @updateHasLocation="updateHasLocation"
     />
   </div>
 </template>
