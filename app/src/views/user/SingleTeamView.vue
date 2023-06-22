@@ -2,21 +2,35 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useIonRouter } from '@ionic/vue'
+import { useConversations } from '@journiz/composables'
 import Header from '~/components/design-system/Header.vue'
 import Page from '~/components/Page.vue'
 import { useUserStore } from '~/stores/user'
 import TeamAvatar from '~/components/team/TeamAvatar.vue'
 import { getColor } from '~/composables/useThemeColor'
+import Button from '~/components/design-system/Button.vue'
 
 const store = useUserStore()
 const teamId = useRoute().params.teamId
 const team = computed(() =>
   store.trip?.expand?.teams?.find((t) => t.id === teamId)
 )
+const { data: conversations, loading } = useConversations({
+  filter: `team.trip="${store.trip?.id}" && team.id="${teamId}"`,
+})
+const conversation = computed(() => conversations.value[0])
 const router = useIonRouter()
 if (!team.value) {
   if (router.canGoBack()) router.back()
   else router.replace({ name: 'user-trip-tabs' })
+}
+const goToTeamChat = () => {
+  router.push({
+    name: 'user-chat-conversation',
+    params: {
+      conversationId: conversation.value.id,
+    },
+  })
 }
 </script>
 <template>
@@ -74,7 +88,13 @@ if (!team.value) {
           {{ member }}
         </div>
       </div>
-      <Button class="mb-4 mt-8" color="green">Contacter l'équipe</Button>
+      <Button
+        v-if="conversations && !loading"
+        class="mb-4 mt-8"
+        color="green"
+        @click="goToTeamChat"
+        >Contacter l'équipe</Button
+      >
     </div>
   </Page>
 </template>
