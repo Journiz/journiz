@@ -2,24 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>NSUserActivityTypes</key>
-	<array>
-		<string>INSendMessageIntent</string>
-	</array>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>L&apos;accès au micro est utilisé pour enregistrer le cri de guerre et répondre à certaines énigmes </string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Autoriser l&apos;accès aux images permet d&apos;envoyer des photos dans le chat et de répondre aux énigmes</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Autoriser l&apos;accès aux images permet d&apos;envoyer des photos dans le chat et de répondre aux énigmes</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Autoriser la caméra permet d&apos;envoyer des photos dans le chat et de répondre aux énigmes</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Nous utilisons la localisation pour le bon déroulement du jeu, lorsque le téléphone est verrouillé</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Nous utilisons la localisation pour le bon déroulement du jeu</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>fr</string>
 	<key>CFBundleDisplayName</key>
@@ -38,8 +20,26 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Autoriser la caméra permet d'envoyer des photos dans le chat et de répondre aux énigmes</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Nous utilisons la localisation pour le bon déroulement du jeu, lorsque le téléphone est verrouillé</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Nous utilisons la localisation pour le bon déroulement du jeu</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>L'accès au micro est utilisé pour enregistrer le cri de guerre et répondre à certaines énigmes </string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Autoriser l'accès aux images permet d'envoyer des photos dans le chat et de répondre aux énigmes</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Autoriser l'accès aux images permet d'envoyer des photos dans le chat et de répondre aux énigmes</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>INSendMessageIntent</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

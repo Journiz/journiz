@@ -2,17 +2,21 @@ import { z } from 'zod'
 import { MessageSchema } from './Message'
 import { TeamSchema } from './Team'
 import { BaseSchema } from './Base'
+import { UserSchema } from './User'
 
 export const ConversationSchema = BaseSchema.extend({
   id: z.string(),
   created: z.string(),
-  team: z.string(),
+  team: z.string().optional(),
   updated: z.string(),
   user: z.string(),
+  trip: z.string().optional(),
+  isBroadcast: z.boolean(),
   expand: z
     .object({
       messages: z.array(MessageSchema).optional(),
       team: TeamSchema.optional(),
+      user: UserSchema.optional(),
     })
     .optional(),
 })

@@ -3,6 +3,7 @@ import { computed, PropType } from 'vue'
 import { nanoid } from 'nanoid'
 import TextInput from '~/components/forms/TextInput.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import Sortable from '~/components/forms/Sortable.vue'
 
 const emit = defineEmits(['addAnswer', 'removeAnswer', 'update:modelValue'])
 const props = defineProps({
@@ -40,47 +41,56 @@ function removeChoiceAnswer(id: string) {
 <template>
   <div>
     <div class="font-medium text-sm">Réponses</div>
-    <div
-      v-for="answer in answers"
-      :key="answer.id"
-      class="flex gap-2 items-center bg-beige px-2 rounded-xl mb-2"
+    <Sortable
+      v-model="answers"
+      class=""
+      item-key="id"
+      transition-name="drag-list"
+      :sortable-options="{
+        handle: '.handle',
+        // group: 'answers',
+      }"
     >
-      <TextInput v-model="answer.text" />
-      <div v-if="answerType === 'choice'" class="gap-2 relative">
-        <label class="whitespace-nowrap font-light mr-8" for="checkbox"
-          >Bonne réponse ?
-        </label>
-        <input
-          v-model="answer.isCorrect"
-          class="custom-checkbox"
-          type="checkbox"
-        />
-        <div>
-          <svg
-            width="27"
-            height="19"
-            viewBox="0 0 27 19"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class="path"
-              d="M1.5 10.165L8.14996 16.878C8.68628 17.414 9.55265 17.414 10.089 16.878L25.5001 1.37012"
-              stroke="#FF6147"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+      <template #item="{ item: answer }">
+        <div class="flex gap-2 items-center bg-beige px-2 rounded-xl mb-2">
+          <TextInput v-model="answer.text" />
+          <div v-if="answerType === 'choice'" class="gap-2 relative">
+            <label class="whitespace-nowrap font-light mr-8" for="checkbox"
+              >Bonne réponse ?
+            </label>
+            <input
+              v-model="answer.isCorrect"
+              class="custom-checkbox"
+              type="checkbox"
             />
-          </svg>
+            <div>
+              <svg
+                width="27"
+                height="19"
+                viewBox="0 0 27 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  class="path"
+                  d="M1.5 10.165L8.14996 16.878C8.68628 17.414 9.55265 17.414 10.089 16.878L25.5001 1.37012"
+                  stroke="#FF6147"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+          <button class="ml-2" @click="removeChoiceAnswer(answer.id)">
+            <span class="block i-uil:trash-alt h-6 text-2xl color-red" />
+          </button>
+          <button class="handle cursor-grab">
+            <span class="block i-uil:draggabledots h-6 text-2xl color-red" />
+          </button>
         </div>
-      </div>
-      <button class="ml-2" @click="removeChoiceAnswer(answer.id)">
-        <div class="i-uil:trash-alt h-6 text-2xl color-red" />
-      </button>
-      <button>
-        <div class="i-uil:draggabledots h-6 text-2xl color-red" />
-      </button>
-    </div>
+      </template>
+    </Sortable>
     <DefaultButton class="ml-auto" color="secondary" @click="addChoiceAnswer"
       >Ajouter une réponse</DefaultButton
     >

@@ -1,179 +1,68 @@
 <script lang="ts" setup="">
 import { useChat } from '@journiz/composables'
-import { computed, nextTick, ref, watch } from 'vue'
-import { Camera, CameraResultType } from '@capacitor/camera'
-import MessageBubble from '~/components/chat/MessageBubble.vue'
+import { computed, ref } from 'vue'
 import dataURItoBlob from '~/utils/dataURIToBlob'
+import Header from '~/components/design-system/Header.vue'
+import Messages from '~/components/chat/Messages.vue'
+import ChatInput from '~/components/chat/ChatInput.vue'
 
 const props = defineProps<{
   conversationId: string
   sender: 'team' | 'user'
 }>()
 
-const { conversation, sendMessage, markAsRead } = useChat(
+const { conversation, sendMessage, markAsRead, loading } = useChat(
   props.conversationId,
   props.sender
 )
-
-const imageUrl = ref<string>()
-const takePicture = async () => {
-  const image = await Camera.getPhoto({
-    quality: 75,
-    width: 1000,
-    height: 1000,
-    allowEditing: false,
-    resultType: CameraResultType.DataUrl,
-    promptLabelHeader: "Choisir une source d'image",
-    promptLabelPhoto: 'Choisir dans mes images',
-    promptLabelPicture: 'Prendre une photo',
-  })
-  imageUrl.value = image.dataUrl
-}
-
-const message = ref('')
-const messageField = ref<HTMLElement>()
-const messagesList = ref<HTMLElement>()
-const send = async () => {
-  if (message.value !== '') {
-    let image
-    if (imageUrl.value) {
-      image = dataURItoBlob(imageUrl.value)
-      console.log(image)
-    }
-    await sendMessage(message.value, image)
-    message.value = ''
-    imageUrl.value = ''
-    if (messageField.value?.parentNode) {
-      ;(messageField.value.parentNode as HTMLElement).dataset.replicatedValue =
-        message.value
-    }
-  }
-}
-
-const onInputMessage = (event: Event) => {
-  // TODO Demander à Léo la meilleur méthode entre les 2 utilisées
-  if (!event.target) return
-  const target = event.target as HTMLTextAreaElement
-  ;(target.parentNode as HTMLElement).dataset.replicatedValue = target.value
-  if (messagesList.value) {
-    messagesList.value.style.paddingBottom = target.offsetHeight + 16 + 'px'
-  }
-}
 
 const messages = computed(() => {
   return conversation.value?.expand?.messages ?? []
 })
 
-const scrollToBottom = async (animated = true) => {
-  await nextTick()
-  if (messagesList.value) {
-    messagesList.value.scrollTo({
-      top: messagesList.value.scrollHeight - messagesList.value.offsetHeight,
-      behavior: animated ? 'smooth' : 'auto',
-    })
+const send = async (data: { message: string; image?: string }) => {
+  let image
+  if (data.image) {
+    image = dataURItoBlob(data.image)
   }
+  await sendMessage(data.message, image)
 }
 
-let isFirst = true
-watch(messages, () => {
-  if (isFirst) {
-    isFirst = false
-    scrollToBottom(false)
-    return
-  }
-  scrollToBottom()
+const recipient = computed(() => {
+  return props.sender === 'team'
+    ? 'Prof'
+    : conversation.value?.expand?.team?.name ?? 'Chat'
 })
+
+const chatHeight = ref<number>()
 </script>
 <template>
-  <div class="flex flex-col h-full relative">
-    <div
-      v-if="conversation"
-      ref="messagesList"
-      class="flex-grow overflow-y-scroll overflow-x-hidden pb-24"
+  <div class="flex flex-col h-full relative bg-beige-light">
+    <Header
+      v-if="recipient"
+      :title="recipient"
+      subtitle=""
+      :back-to="{
+        name: sender === 'team' ? 'team' : 'user-trip-tabs',
+        query: { tab: 'chat' },
+      }"
+    />
+    <p
+      v-if="messages.length > 0 && conversation?.isBroadcast"
+      class="font-light text-sm px-12 text-center py-4 text-green"
     >
-      <transition-group name="message-list">
-        <MessageBubble
-          v-for="message in messages"
-          :key="message.id"
-          :message="message"
-          :user-type="sender"
-          @message-read="markAsRead(message.id)"
-        />
-      </transition-group>
-    </div>
-    <div v-else class="flex-grow">
-      Chargement conversation {{ conversationId }}...
-    </div>
-    <div class="flex flex-col absolute bottom-0 backdrop-blur bg-white/40 z-11">
-      <div v-if="imageUrl" class="p-4">
-        <img :src="imageUrl" alt="Attachment" class="h-24 rounded-lg" />
-      </div>
-      <div class="flex px-4 flex-shrink-0 p-2">
-        <button class="text-3xl mr-2" @click="takePicture">
-          <span class="block i-uil:camera"></span>
-        </button>
-        <div class="grow-wrap">
-          <textarea
-            id="message"
-            ref="messageField"
-            v-model="message"
-            name="message"
-            placeholder="Écrire..."
-            @input="onInputMessage"
-          ></textarea>
-        </div>
-        <button class="send-btn bg-indigo-600 text-white" @click="send">
-          Send
-        </button>
-      </div>
-    </div>
+      Les messages envoyés ici seront visibles par toutes les équipes.
+      Rendez-vous dans la conversation de chaque équipe pour voir leur réponse.
+    </p>
+    <Messages
+      :messages="messages"
+      :loading="loading"
+      :sender="sender"
+      :style="{
+        paddingBottom: chatHeight ? chatHeight + 'px' : '96px',
+      }"
+      @message-read="markAsRead"
+    />
+    <ChatInput @send="send" @update-height="chatHeight = $event" />
   </div>
 </template>
-
-<style scoped>
-/* Below code origin for textarea : https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/ */
-.grow-wrap {
-  display: grid;
-}
-
-.grow-wrap::after {
-  content: attr(data-replicated-value) ' ';
-  white-space: pre-wrap;
-  visibility: hidden;
-  width: calc(100vw - 120px);
-  max-width: calc(100vw - 120px);
-  max-height: 90px;
-  font-size: 16px;
-  line-height: 16px;
-}
-
-.grow-wrap > textarea {
-  resize: none;
-  width: calc(100vw - 120px);
-  max-width: calc(100vw - 120px);
-  max-height: 90px;
-  font-size: 16px;
-  line-height: 16px;
-  border-radius: 32px 0 0 32px;
-}
-
-.grow-wrap > textarea,
-.grow-wrap::after {
-  border: 1px solid black;
-  padding: 0.5rem 1rem;
-  grid-area: 1 / 1 / 2 / 2;
-}
-
-.send-btn {
-  border-radius: 0 32px 32px 0;
-  width: 52px;
-}
-
-.message-list-enter-active {
-  transition: all 0.2s;
-}
-
-.message-list-enter-from {
-  opacity: 0;
-}
-</style>

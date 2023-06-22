@@ -108,6 +108,12 @@ const router = createRouter({
             },
           ],
         },
+        {
+          path: 'parcours/sortie/:tripId',
+          name: 'trip-settings',
+          component: () =>
+            import('~/views/dashboard/trip/TripSettingsView.vue'),
+        },
       ],
     },
   ],

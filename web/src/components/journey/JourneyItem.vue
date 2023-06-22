@@ -1,24 +1,45 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Journey as JourneyType } from '@journiz/api-types'
 import { useDateFormat } from '@vueuse/core'
+import { usePocketBase } from '@journiz/composables'
 import SquareButton from '~/components/buttons/SquareButton.vue'
 import icons from '~/assets/icons'
 
 const props = defineProps<{ journey: JourneyType }>()
+const emit = defineEmits(['deleteJourney', 'editJourney', 'openTrip'])
 
 const MarkerIcon = computed(() => icons.marker)
 const EditIcon = computed(() => icons.edit)
 
 const updateDate = useDateFormat(props.journey.updated, 'DD/MM/YYYY')
-
+const trips = computed(() => {
+  return props.journey.expand?.trips ?? []
+})
 const complete = computed(() => {
-  // TODO: Get related trips and check if there are completed ones
-  return false
+  return trips.value.some((trip) => trip.status === 'finished')
   // return props.journey === 'complete'
 })
 
-const emit = defineEmits(['deleteJourney', 'editJourney'])
+const creatingTrip = ref(false)
+const pb = usePocketBase()
+const openTrip = async () => {
+  const existingTrip = trips.value.find((trip) => trip.status !== 'finished')
+  if (existingTrip) {
+    emit('openTrip', existingTrip.id)
+  } else {
+    creatingTrip.value = true
+    const trip = await pb.collection('trip').create({
+      name: '',
+      date: new Date().toISOString(),
+      journey: props.journey.id,
+      status: 'pairing',
+      duration: 120,
+    })
+    emit('openTrip', trip.id)
+    creatingTrip.value = false
+  }
+}
 </script>
 <template>
   <div class="content w-full flex px-6 py-4 bg-green-dark/4 rounded-xl">
@@ -40,7 +61,13 @@ const emit = defineEmits(['deleteJourney', 'editJourney'])
       </div>
     </div>
     <div class="w-auto flex gap-2">
-      <SquareButton v-if="!complete" icon="play" :activated="true" />
+      <SquareButton
+        v-if="!complete"
+        icon="play"
+        :activated="true"
+        :loading="creatingTrip"
+        @click="openTrip"
+      />
       <SquareButton v-if="!complete" icon="qr" />
       <SquareButton
         v-if="complete"

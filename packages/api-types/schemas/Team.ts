@@ -11,6 +11,8 @@ export const TeamSchema = BaseSchema.extend({
   name: z.string(),
   score: z.number(),
   updated: z.string(),
+  isOutside: z.boolean(),
+  batteryLevel: z.number().optional(),
   color: z
     .enum([
       'green',

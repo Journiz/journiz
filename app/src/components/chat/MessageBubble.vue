@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import type { Message as MessageType } from '@journiz/api-types'
-import { IonIcon } from '@ionic/vue'
 import { usePocketBase } from '@journiz/composables'
-import { checkmarkCircleOutline, ellipseOutline } from 'ionicons/icons'
 import Lightbox from '~/components/design-system/Lightbox.vue'
 
 const props = defineProps<{
@@ -31,20 +29,27 @@ const attachment = computed(() => {
 
 <template>
   <div
-    class="flex flex-col my-2.5 mx-5 max-w-69.7%"
+    class="flex flex-col my-2.5 mx-5 max-w-69.7% relative"
     :class="message.sender === userType ? 'ml-auto' : ''"
   >
     <div
-      class="rounded-xl p-4 text-white whitespace-pre-wrap relative"
-      :class="message.sender === userType ? 'bg-indigo-600' : 'bg-indigo-400'"
+      class="absolute -bottom-3 w-2 h-2 rounded-full"
+      :class="
+        message.sender === userType ? 'bg-theme -right-2' : 'bg-green -left-2'
+      "
+    ></div>
+    <div
+      class="rounded-lg p-4 text-white whitespace-pre-wrap relative"
+      :class="message.sender === userType ? 'bg-theme' : 'bg-green'"
     >
       <span>
         {{ message.content }}
       </span>
-      <div v-if="message.sender === userType" class="absolute bottom-0 right-1">
-        <IonIcon
-          :icon="message.read ? checkmarkCircleOutline : ellipseOutline"
-        />
+      <div v-if="message.sender === userType" class="absolute bottom-1 right-1">
+        <div
+          class="text-3"
+          :class="message.read ? 'i-uil:check-circle' : 'i-uil-circle'"
+        ></div>
       </div>
     </div>
     <div v-if="attachment" class="mt-2">
@@ -58,6 +63,7 @@ const attachment = computed(() => {
           alt=""
           class="object-cover w-full aspect-2/3"
           :class="isOpen ? 'rounded-xl' : 'rounded-2xl'"
+          @dragstart.prevent="() => false"
         />
       </Lightbox>
     </div>

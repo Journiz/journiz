@@ -15,8 +15,9 @@ const teams = computed(() => store.trip?.expand?.teams ?? [])
 const startingPending = ref(false)
 
 const countdownRunning = ref(false)
-const onCountdownEnd = () =>
+const onCountdownEnd = () => {
   router.navigate({ name: 'user-trip-tabs' }, 'root', 'replace')
+}
 
 const startTrip = async () => {
   if (!store.trip) return
@@ -73,13 +74,17 @@ const startTrip = async () => {
       <div class="flex flex-col gap-4">
         <div
           v-for="team in teams"
+          :key="team.id"
           class="team-item bg-white py-5 px-6 rounded-xl"
         >
           <div class="font-bold mb-3">{{ team.name }}</div>
           <div>
-            <span v-for="member in team.members" class="member-item">{{
-              member
-            }}</span>
+            <span
+              v-for="(member, i) in team.members"
+              :key="i"
+              class="member-item"
+              >{{ member }}</span
+            >
           </div>
         </div>
       </div>

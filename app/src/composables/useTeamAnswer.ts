@@ -36,6 +36,7 @@ export default function useTeamAnswer(
         '<p class="mb-2">Le maitre du jeu doit valider votre réponse pour obtenir les points. </p>'
     }
     content += '<p>Vous pouvez passer au point suivant. </p>'
+
     await showModal(
       title,
       content,

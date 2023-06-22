@@ -3,6 +3,7 @@ import { computed, PropType } from 'vue'
 import { nanoid } from 'nanoid'
 import TextInput from '~/components/forms/TextInput.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import Sortable from '~/components/forms/Sortable.vue'
 
 const emit = defineEmits(['addHint', 'removeHint', 'update:modelValue'])
 const props = defineProps({
@@ -38,19 +39,27 @@ function removeChoiceHint(id: string) {
 <template>
   <div>
     <div class="font-medium text-sm">Indices</div>
-    <div
-      v-for="hint in hints"
-      :key="hint.id"
-      class="flex gap-2 items-center bg-beige px-2 rounded-xl mb-2"
+    <Sortable
+      v-model="hints"
+      class=""
+      item-key="id"
+      transition-name="drag-list"
+      :sortable-options="{
+        handle: '.handle',
+      }"
     >
-      <TextInput v-model="hint.text" />
-      <button class="ml-2" @click="removeChoiceHint(hint.id)">
-        <div class="i-uil:trash-alt h-6 text-2xl color-red" />
-      </button>
-      <button>
-        <div class="i-uil:draggabledots h-6 text-2xl color-red" />
-      </button>
-    </div>
+      <template #item="{ item: hint }">
+        <div class="flex gap-2 items-center bg-beige px-2 rounded-xl mb-2">
+          <TextInput v-model="hint.text" />
+          <button class="ml-2" @click="removeChoiceHint(hint.id)">
+            <span class="block i-uil:trash-alt h-6 text-2xl color-red" />
+          </button>
+          <button class="handle cursor-grab">
+            <span class="block i-uil:draggabledots h-6 text-2xl color-red" />
+          </button>
+        </div>
+      </template>
+    </Sortable>
     <DefaultButton class="ml-auto" color="secondary" @click="addChoiceHint"
       >Ajouter une réponse</DefaultButton
     >

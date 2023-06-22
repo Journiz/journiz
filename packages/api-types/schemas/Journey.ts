@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { PointSchema } from './Point'
 import { BaseSchema } from './Base'
+import { TripSchema } from './Trip'
 
 export const JourneySchema = BaseSchema.extend({
   basecampLatitude: z.number(),
@@ -19,6 +20,7 @@ export const JourneySchema = BaseSchema.extend({
   expand: z
     .object({
       points: z.array(PointSchema).optional(),
+      trips: z.array(TripSchema).optional(),
     })
     .optional(),
 })

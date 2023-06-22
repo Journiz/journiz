@@ -2,8 +2,6 @@ import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-// @ts-ignore
-import riveWASMResource from '@rive-app/canvas/rive.wasm?url'
 
 import {
   IonBackButton,
@@ -18,8 +16,7 @@ import {
 } from '@ionic/vue'
 import gsap from 'gsap'
 import { Flip } from 'gsap/Flip'
-import { RuntimeLoader } from '@rive-app/canvas'
-import { createHead, useHead } from '@unhead/vue'
+import '@dotlottie/player-component'
 import App from './App.vue'
 import router from './router'
 import plugins from '~/plugins'
@@ -40,8 +37,6 @@ import '@ionic/vue/css/display.css'
 
 // Our custom CSS
 import './assets/scss/main.scss'
-console.log(riveWASMResource)
-
 // @ts-expect-error Fixing Safari quirk
 window.AudioContext = window.AudioContext || window.webkitAudioContext
 
@@ -69,4 +64,3 @@ app.use(pinia)
 app.use(router)
 
 app.mount('#app')
-RuntimeLoader.setWasmUrl(riveWASMResource)

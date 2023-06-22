@@ -1,6 +1,5 @@
 <script lang="ts" setup="">
 import { computed, onMounted, ref, watch } from 'vue'
-import gsap from 'gsap'
 import { useIonRouter } from '@ionic/vue'
 import Page from '~/components/Page.vue'
 import Button from '~/components/design-system/Button.vue'

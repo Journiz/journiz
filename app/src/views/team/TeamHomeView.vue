@@ -1,6 +1,7 @@
 <script lang="ts" setup="">
-import { watch } from 'vue'
+import { onMounted, onUnmounted, watch } from 'vue'
 import { useIonRouter } from '@ionic/vue'
+import { useStorage } from '@vueuse/core'
 import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
@@ -9,6 +10,8 @@ import ButtonOnlyTab from '~/components/tabs/tab-bar/ButtonOnlyTab.vue'
 import TabPoints from '~/components/team/tabs/TabPoints.vue'
 import { useTeamStore } from '~/stores/team/team'
 import { showModal } from '~/composables/useModal'
+import { warnTeamOutside } from '~/utils/warnOutside'
+import { useGeolocationStore } from '~/stores/geolocation'
 
 const store = useTeamStore()
 const router = useIonRouter()
@@ -37,6 +40,39 @@ watch(
     }
   }
 )
+
+watch(
+  () => store.team?.isOutside,
+  async (isOutside) => {
+    if (isOutside) {
+      await warnTeamOutside()
+    }
+  }
+)
+
+const geolocationStore = useGeolocationStore()
+const preventGeolocation = useStorage('preventGeolocation', false)
+watch(preventGeolocation, (prevent) => {
+  if (prevent) {
+    geolocationStore.stopWatching()
+    geolocationStore.stopReporting()
+  } else {
+    geolocationStore.startWatching()
+    geolocationStore.startReporting()
+  }
+})
+onMounted(() => {
+  store.startReportingBattery()
+  if (!preventGeolocation.value) {
+    geolocationStore.startWatching()
+    geolocationStore.startReporting()
+  }
+})
+onUnmounted(() => {
+  store.stopReportingBattery()
+  // geolocationStore.stopWatching()
+  // geolocationStore.stopReporting()
+})
 </script>
 <template>
   <keep-alive>
