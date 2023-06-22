@@ -244,7 +244,10 @@ const router = createRouter({
           if (!targetPoint || !store.team) {
             return { name: 'team' }
           }
-          if (targetPoint.answerType === 'location') {
+          if (
+            targetPoint.answerType === 'location' ||
+            targetPoint.hasLocation
+          ) {
             return true
           }
           const distance = teamDistanceFromPoint(store.team, targetPoint)
