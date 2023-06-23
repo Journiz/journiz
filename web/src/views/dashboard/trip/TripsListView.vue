@@ -15,6 +15,9 @@ const { data: trips, loading } = useTrips({
   expand: 'journey',
 })
 
+const openPodium = (id: string) => {
+  router.push({ name: 'trip-podium', params: { tripId: id } })
+}
 const openTrip = (id: string) => {
   router.push({ name: 'trip-settings', params: { tripId: id } })
 }
@@ -30,8 +33,9 @@ await waitForEndLoading(loading)
         :key="trip.id"
         :trip="trip"
         @open-trip="openTrip(trip.id)"
+        @open-podium="openPodium(trip.id)"
       />
     </div>
-    <p v-else>Vous n'avez encore effectué aucune sortie.</p>
+    <p v-else>Vous n'avez encore terminé aucune sortie.</p>
   </article>
 </template>

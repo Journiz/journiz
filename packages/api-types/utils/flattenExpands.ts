@@ -18,6 +18,9 @@ export function flattenExpands<T extends Record>(data: T): T {
       }
       data.expand[newKey] = value
       delete data.expand[key]
+      if (Array.isArray(data.expand[newKey])) {
+        data.expand[newKey] = data.expand[newKey].map(flattenExpands)
+      }
     }
   }
   return data
