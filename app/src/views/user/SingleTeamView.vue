@@ -39,11 +39,14 @@ const { data: answers } = useAnswers({
 <template>
   <Page class="flex flex-col h-screen overflow-hidden">
     <Header
-      :title="team.name"
+      :title="team?.name ?? ''"
       subtitle="Informations de l’équipe"
       :back-to="{ name: 'user-trip-tabs' }"
     />
-    <div class="grow bg-beige-light px-6 flex flex-col overflow-hidden">
+    <div
+      v-if="team"
+      class="grow bg-beige-light px-6 flex flex-col overflow-hidden"
+    >
       <div class="w-full pt-4">
         <TeamAvatar class="h-20 w-20 mx-auto" :team="team" :border="true" />
       </div>

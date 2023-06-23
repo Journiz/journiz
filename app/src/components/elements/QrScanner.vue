@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-// @ts-expect-error The QRScanner package doesn't export correctly
+// @ts-ignore The QRScanner package doesn't export correctly
 import QrScanner from 'qr-scanner'
 
 const emit = defineEmits(['decode', 'error'])

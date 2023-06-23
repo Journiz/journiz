@@ -1,7 +1,8 @@
 <script lang="ts" setup="">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useIonRouter } from '@ionic/vue'
 import { Dialog } from '@capacitor/dialog'
+import { StatusBar, Style } from '@capacitor/status-bar'
 import { useTeamStore } from '~/stores/team/team'
 import Page from '~/components/Page.vue'
 import JourneyPin from '~/components/join/JourneyPin.vue'
@@ -19,7 +20,8 @@ const canSubmit = computed(() => tripCode.value?.pin.length === 4)
 
 const store = useTeamStore()
 const router = useIonRouter()
-const join = async (code: string) => {
+const join = async (code?: string) => {
+  if (!code) return
   const joined = await store.joinTrip(code)
   if (!joined) {
     await Dialog.alert({
@@ -35,6 +37,9 @@ const join = async (code: string) => {
 const showPin = ref(false)
 
 const showQR = ref(false)
+watch(showQR, () => {
+  StatusBar.setStyle({ style: showQR.value ? Style.Light : Style.Dark })
+})
 </script>
 <template>
   <Page class="flex-col px-7 text-green-dark">
@@ -65,7 +70,11 @@ const showQR = ref(false)
             />
           </div>
         </div>
-        <Button class="relative mb-9" color="theme" @click="join(tripCode.pin)">
+        <Button
+          class="relative mb-9"
+          color="theme"
+          @click="join(tripCode?.pin)"
+        >
           Valider le code
         </Button>
       </div>
