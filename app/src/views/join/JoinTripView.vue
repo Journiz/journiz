@@ -3,6 +3,8 @@ import { computed, ref, watch } from 'vue'
 import { useIonRouter } from '@ionic/vue'
 import { Dialog } from '@capacitor/dialog'
 import { StatusBar, Style } from '@capacitor/status-bar'
+import { Trip } from '@journiz/api-types'
+import { usePocketBase, useTrip } from '@journiz/composables'
 import { useTeamStore } from '~/stores/team/team'
 import Page from '~/components/Page.vue'
 import JourneyPin from '~/components/join/JourneyPin.vue'
@@ -32,13 +34,23 @@ const join = async (code?: string) => {
     })
     return
   }
+  showQR.value = false
   await router.replace('/join')
 }
 const showPin = ref(false)
 
-const showQR = ref(false)
+const showQR = ref(true)
 watch(showQR, () => {
-  StatusBar.setStyle({ style: showQR.value ? Style.Light : Style.Dark })
+  try {
+    StatusBar.setStyle({ style: showQR.value ? Style.Dark : Style.Light })
+  } catch (e) {}
+})
+
+const decoded = ref('')
+const { data: foundTrip, setId } = useTrip()
+watch(decoded, async (code) => {
+  if (!code) return
+  await setId(code)
 })
 </script>
 <template>
@@ -94,13 +106,30 @@ watch(showQR, () => {
         v-if="showQR"
         class="absolute inset-0 w-full h-full bg-green-dark z-2"
       >
-        <QrScanner class="w-full h-full" />
+        <QrScanner class="w-full h-full" @decode="decoded = $event" />
         <button
           class="absolute top-safe mt-6 right-6 w-10 h-10 bg-beige-light rounded-full grid place-content-center btn-animation"
           @click="showQR = false"
         >
           <span class="i-uil:multiply text-green-dark text-24px"></span>
         </button>
+
+        <div
+          class="absolute bg-beige-light rounded-xl w-auto left-6 bottom-8 right-6 px-6 py-5 flex flex-col text-center transition duration-400 ease-out-cubic"
+          :style="{
+            transform: foundTrip
+              ? 'translateY(0)'
+              : 'translateY(calc(100% + 48px))',
+          }"
+        >
+          <span class="text-2xl font-black mb-1">{{ foundTrip?.name }}</span>
+          <span class="font-light">{{
+            foundTrip?.expand?.journey?.expand?.user?.username
+          }}</span>
+          <Button color="green" class="mt-4" @click="join(foundTrip?.shortId)">
+            Rejoindre
+          </Button>
+        </div>
       </div>
     </transition>
   </Page>

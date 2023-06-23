@@ -31,6 +31,7 @@ const openTrip = async () => {
       journey: props.journey.id,
       status: 'pairing',
       duration: props.journey.duration,
+      user: props.journey.user,
     })
     emit('openTrip', trip.id)
     creatingTrip.value = false
