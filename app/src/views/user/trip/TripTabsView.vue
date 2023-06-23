@@ -64,7 +64,7 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
           <TabHome />
         </Tab>
         <Tab
-          title="Carte"
+          title="Parcours"
           name="map"
           icon="i-journiz:map"
           icon-active="i-journiz:map-fill"

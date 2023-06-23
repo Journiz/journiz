@@ -87,7 +87,7 @@ onUnmounted(() => {
           <TabSettings />
         </Tab>
         <Tab
-          title="Carte"
+          title="Parcours"
           name="map"
           icon="i-journiz:map"
           icon-active="i-journiz:map-fill"
