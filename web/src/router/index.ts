@@ -109,7 +109,12 @@ const router = createRouter({
           ],
         },
         {
-          path: 'parcours/sortie/:tripId',
+          path: 'sorties',
+          name: 'trips-list',
+          component: () => import('~/views/dashboard/trip/TripsListView.vue'),
+        },
+        {
+          path: 'sorties/:tripId',
           name: 'trip-settings',
           component: () =>
             import('~/views/dashboard/trip/TripSettingsView.vue'),

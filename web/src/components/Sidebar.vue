@@ -16,6 +16,11 @@ const menuData = [
     path: '/dashboard/parcours',
   },
   {
+    icon: 'book',
+    name: 'Historique',
+    path: '/dashboard/sorties',
+  },
+  {
     icon: 'folder',
     name: 'Modèles',
     path: '/dashboard/communaute',
