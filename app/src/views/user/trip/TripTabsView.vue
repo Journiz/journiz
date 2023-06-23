@@ -57,7 +57,8 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
         <Tab
           title="Paramètres"
           name="settings"
-          icon="i-uil:cog"
+          icon="i-journiz:settings"
+          icon-active="i-journiz:settings-fill"
           :default-selected="initialTab === 'settings'"
         >
           <TabHome />
@@ -65,7 +66,8 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
         <Tab
           title="Carte"
           name="map"
-          icon="i-uil:map"
+          icon="i-journiz:map"
+          icon-active="i-journiz:map-fill"
           :default-selected="['map', 'list'].includes(initialTab)"
         >
           <TabTeams />
@@ -73,7 +75,8 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
         <Tab
           title="Validation"
           name="validation"
-          icon="i-uil:image-question"
+          icon="i-journiz:validation"
+          icon-active="i-journiz:validation-fill"
           :default-selected="initialTab === 'validation'"
         >
           <TabValidation />
@@ -81,7 +84,8 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
         <Tab
           title="Messages"
           name="chat"
-          icon="i-ph:chats-circle-bold"
+          icon="i-journiz:messages"
+          icon-active="i-journiz:messages-fill"
           :default-selected="initialTab === 'chat'"
         >
           <TabChat />

@@ -5,6 +5,7 @@ export interface TabData {
   name: string
   title: string
   icon?: string
+  iconActive?: string
   isButtonOnly?: boolean
   to?: RouteLocationRaw
 }

@@ -78,19 +78,36 @@ onUnmounted(() => {
   <keep-alive>
     <Page id="trip-tabs-page">
       <Tabs class="flex-grow">
-        <Tab title="Paramètres" name="settings" icon="i-journiz:settings">
+        <Tab
+          title="Paramètres"
+          name="settings"
+          icon="i-journiz:settings"
+          icon-active="i-journiz:settings-fill"
+        >
           <TabSettings />
         </Tab>
-        <Tab title="Carte" name="map" icon="i-uil:map" default-selected>
+        <Tab
+          title="Carte"
+          name="map"
+          icon="i-journiz:map"
+          icon-active="i-journiz:map-fill"
+          default-selected
+        >
           <TabPoints />
         </Tab>
-        <Tab title="Score" name="score" icon="i-uil:image-question">
+        <Tab
+          title="Score"
+          name="score"
+          icon="i-journiz:podium"
+          icon-active="i-journiz:podium-fill"
+        >
           Score
         </Tab>
         <ButtonOnlyTab
           title="Messages"
           name="chat"
-          icon="i-ph:chats-circle-bold"
+          icon="i-journiz:messages"
+          icon-active="i-journiz:messages-fill"
           :to="{ name: 'team-chat' }"
         >
         </ButtonOnlyTab>
