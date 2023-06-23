@@ -30,7 +30,7 @@ const openTrip = async () => {
       date: new Date().toISOString(),
       journey: props.journey.id,
       status: 'pairing',
-      duration: 120,
+      duration: props.journey.duration,
     })
     emit('openTrip', trip.id)
     creatingTrip.value = false

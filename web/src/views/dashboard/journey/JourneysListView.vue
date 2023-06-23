@@ -23,7 +23,6 @@ const {
 })
 
 const deleteJourney = async (id: string) => {
-  console.log('delete journey', id)
   const success = await journeyStore.deleteJourney(id)
   if (success) {
     await refresh()

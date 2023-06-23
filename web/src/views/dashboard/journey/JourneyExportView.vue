@@ -27,7 +27,6 @@ if (journeyStore.journey?.duration) {
     minutes < 10 ? '0' : ''
   }${minutes}`
 }
-console.log(initialTime)
 const time = ref(initialTime)
 const security = ref(journeyStore.journey?.hasSafeZone ?? false)
 const loading = ref(false)

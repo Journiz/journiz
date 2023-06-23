@@ -46,14 +46,12 @@ const pairingOpen = ref(false)
           @input="autoSave"
         />
         <TextInput v-model="date" type="date" label="Date" @input="autoSave" />
-        <div class="relative">
-          <TextInput
-            v-model="duration"
-            type="number"
-            label="Durée (en minutes)"
-            @input="autoSave"
-          />
-        </div>
+        <!--          <TextInput-->
+        <!--            v-model="duration"-->
+        <!--            type="number"-->
+        <!--            label="Durée (en minutes)"-->
+        <!--            @input="autoSave"-->
+        <!--          />-->
       </div>
     </div>
     <div
