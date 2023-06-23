@@ -13,6 +13,7 @@ export const JourneySchema = BaseSchema.extend({
   indoor: z.boolean(),
   name: z.string(),
   points: z.array(z.string()),
+  hasSafeZone: z.boolean().optional(),
   safeZone: z.array(z.array(z.number())).optional(),
   tags: z.array(z.string()),
   updated: z.string(),

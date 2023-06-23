@@ -50,8 +50,7 @@ export const useJourneyStore = defineStore('journey', () => {
     const duration =
       parseInt(timeArray[0], 10) * 60 + parseInt(timeArray[1], 10)
     journey.value.duration = duration
-    // ajouter champ dans la bdd pour la zone avec l'envoie de la zone saisie sur la map
-    // journey.value.duration = security
+    journey.value.hasSafeZone = security
     try {
       await update()
       return true
