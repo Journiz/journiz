@@ -22,9 +22,12 @@ const canSubmit = computed(() => tripCode.value?.pin.length === 4)
 
 const store = useTeamStore()
 const router = useIonRouter()
+const joinLoading = ref(false)
 const join = async (code?: string) => {
   if (!code) return
+  joinLoading.value = true
   const joined = await store.joinTrip(code)
+  joinLoading.value = false
   if (!joined) {
     await Dialog.alert({
       title: 'Partie introuvable',
@@ -37,9 +40,10 @@ const join = async (code?: string) => {
   showQR.value = false
   await router.replace('/join')
 }
+
 const showPin = ref(false)
 
-const showQR = ref(true)
+const showQR = ref(false)
 watch(showQR, () => {
   try {
     StatusBar.setStyle({ style: showQR.value ? Style.Dark : Style.Light })
@@ -85,6 +89,7 @@ watch(decoded, async (code) => {
         <Button
           class="relative mb-9"
           color="theme"
+          :loading="joinLoading"
           @click="join(tripCode?.pin)"
         >
           Valider le code
@@ -126,7 +131,12 @@ watch(decoded, async (code) => {
           <span class="font-light">{{
             foundTrip?.expand?.journey?.expand?.user?.username
           }}</span>
-          <Button color="green" class="mt-4" @click="join(foundTrip?.shortId)">
+          <Button
+            color="green"
+            class="mt-4"
+            :loading="joinLoading"
+            @click="join(foundTrip?.shortId)"
+          >
             Rejoindre
           </Button>
         </div>
