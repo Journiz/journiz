@@ -64,6 +64,22 @@ const compareFn = (a: Team, b: Team) => {
           </div>
         </div>
       </div>
+      <div v-if="teams.length > 3" class="flex flex-col w-full gap-4 mt-8">
+        <div
+          v-for="(team, i) in teams.slice((teams.length - 3) * -1)"
+          :key="team.id"
+          class="relative flex items-center ml-3 border-2 border-green-dark bg-white rounded-lg py-3 pl-2 pr-6"
+        >
+          <div
+            class="absolute -top-3 -left-3 w-6 h-6 bg-green rounded-full flex items-center justify-center color-white font-extrabold"
+          >
+            {{ i + 4 }}
+          </div>
+          <TeamAvatar class="relative h-8 w-8 mr-2" :team="team" />
+          <span class="grow font-medium">{{ team.name }}</span>
+          <span class="w-fit font-light">{{ team.score }} points</span>
+        </div>
+      </div>
     </div>
   </Page>
 </template>
