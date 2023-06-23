@@ -8,6 +8,7 @@ import JourneyPin from '~/components/join/JourneyPin.vue'
 import Button from '~/components/design-system/Button.vue'
 import Back from '~/components/router/Back.vue'
 import BackButton from '~/components/router/BackButton.vue'
+import QrScanner from '~/components/elements/QrScanner.vue'
 
 interface Pin {
   pin: string
@@ -84,6 +85,7 @@ const showQR = ref(false)
         v-if="showQR"
         class="absolute inset-0 w-full h-full bg-green-dark z-2"
       >
+        <QrScanner class="w-full h-full" />
         <button
           class="absolute top-safe mt-6 right-6 w-10 h-10 bg-beige-light rounded-full grid place-content-center btn-animation"
           @click="showQR = false"
