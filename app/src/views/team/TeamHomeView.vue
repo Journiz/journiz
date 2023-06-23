@@ -78,7 +78,7 @@ onUnmounted(() => {
   <keep-alive>
     <Page id="trip-tabs-page">
       <Tabs class="flex-grow">
-        <Tab title="Paramètres" name="settings" icon="i-uil:cog">
+        <Tab title="Paramètres" name="settings" icon="i-journiz:settings">
           <TabSettings />
         </Tab>
         <Tab title="Carte" name="map" icon="i-uil:map" default-selected>
