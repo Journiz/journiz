@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useIonRouter } from '@ionic/vue'
-import { useConversations } from '@journiz/composables'
+import { useAnswers, useConversations } from '@journiz/composables'
 import Header from '~/components/design-system/Header.vue'
 import Page from '~/components/Page.vue'
 import { useUserStore } from '~/stores/user'
@@ -32,6 +32,9 @@ const goToTeamChat = () => {
     },
   })
 }
+const { data: answers } = useAnswers({
+  filter: `team="${teamId}"`,
+})
 </script>
 <template>
   <Page class="flex flex-col h-screen overflow-hidden">
@@ -70,22 +73,32 @@ const goToTeamChat = () => {
           <span class="i-uil:question text-xl" />
           <span>Enigmes résolues</span>
         </div>
-        <div>TODO</div>
+        <div>
+          {{ answers.length }} / {{ store.journey?.points.length ?? 0 }}
+        </div>
       </div>
       <h3 class="block flex items-center">
-        <div class="i-fluent:people-team-24-regular text-xl h-6 w-6 mr-2" />
-        <div class="text-lg">Membres de l’équipe</div>
+        <span class="i-fluent:people-team-24-regular text-xl h-6 w-6 mr-2" />
+        <span class="text-lg">Membres de l’équipe</span>
       </h3>
       <div
         v-if="team.members"
         class="grow overflow-hidden flex flex-col overflow-scroll"
       >
         <div
-          v-for="member in team.members"
+          v-for="(member, i) in team.members"
           :key="member"
-          class="rounded-xl bg-white px-4 py-4 mb-3"
+          class="rounded-xl bg-white px-4 py-4 mb-3 flex items-center justify-between"
         >
-          {{ member }}
+          <span>{{ member }}</span>
+          <span
+            v-if="i === 0 && team.batteryLevel"
+            class="flex items-center text-sm"
+            :class="team.batteryLevel < 15 ? 'text-red' : ''"
+          >
+            <span class="i-uil:mobile-android text-base"></span>
+            <span> {{ team.batteryLevel }} % </span>
+          </span>
         </div>
       </div>
       <Button
