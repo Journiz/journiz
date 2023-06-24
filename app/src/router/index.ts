@@ -3,8 +3,6 @@ import { Trip } from '@journiz/api-types'
 import { useUserStore } from '~/stores/user'
 import { useTeamStore } from '~/stores/team/team'
 import { pinia } from '~/main'
-import { showModal } from '~/composables/useModal'
-import { teamDistanceFromPoint } from '~/utils/teamDistanceFromPoint'
 
 const redirectIfLoggedIn = () => {
   if (useUserStore(pinia).isLoggedIn()) {
@@ -233,38 +231,7 @@ const router = createRouter({
       path: '/team/point/:pointId',
       name: 'team-point',
       component: () => import('~/views/team/TeamPointView.vue'),
-      beforeEnter: [
-        teamGuard,
-        teamPhaseGuard(['playing']),
-        async (to) => {
-          const store = useTeamStore(pinia)
-          const targetPoint = store.journey?.expand?.points?.find(
-            (p) => p.id === to.params.pointId
-          )
-          if (!targetPoint || !store.team) {
-            return { name: 'team' }
-          }
-          if (
-            targetPoint.answerType === 'location' ||
-            targetPoint.hasLocation
-          ) {
-            return true
-          }
-          const distance = teamDistanceFromPoint(store.team, targetPoint)
-          if (distance > 15 || distance < 0) {
-            await showModal(
-              'Pas si vite !',
-              `Vous êtes trop loin (${Math.round(
-                distance
-              )}m) du point. Rapprochez-vous pour voir l'énigme.`,
-              [{ actionName: 'ok', title: "Ok, on s'approche !" }],
-              'warn'
-            )
-            return false
-          }
-          return true
-        },
-      ],
+      beforeEnter: [teamGuard, teamPhaseGuard(['playing'])],
     },
     {
       path: '/team/podium',

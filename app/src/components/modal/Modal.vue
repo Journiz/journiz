@@ -23,7 +23,7 @@ const closeModal = () => {
         :class="{
           'h-full': layout === 'fullscreen',
           'rounded-lg': layout !== 'fullscreen',
-          'px-6': !noPadding && layout !== 'fullscreen',
+          'px-6': !noPadding,
           'pt-safe': !noPadding && layout === 'fullscreen',
           'pb-8': !noPadding && layout === 'fullscreen',
           'py-6': !noPadding && layout !== 'fullscreen',

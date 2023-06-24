@@ -7,6 +7,7 @@ const props = defineProps<{
   name: string
   to: RouteLocationRaw
   icon?: string
+  iconActive: string
 }>()
 const addTab = inject('addTab') as any
 onBeforeMount(() => {

@@ -12,6 +12,7 @@ import { useTeamStore } from '~/stores/team/team'
 import { showModal } from '~/composables/useModal'
 import { warnTeamOutside } from '~/utils/warnOutside'
 import { useGeolocationStore } from '~/stores/geolocation'
+import { warnTeamEndTrip } from '~/utils/warnStartStop'
 
 const store = useTeamStore()
 const router = useIonRouter()
@@ -19,19 +20,7 @@ watch(
   () => store.trip?.status,
   async (status) => {
     if (status === 'finishing') {
-      await showModal(
-        'Driiiiiiiing !',
-        `<p>Et c’est fini ! Bravo à tous !</p>
-<p>Retournez au point de raliement pour finir cette super partie ! Soyez fiers !</p>`,
-        [
-          {
-            title: 'Rentrer au point de ralliement',
-            actionName: 'ok',
-            color: 'theme',
-          },
-        ],
-        'alarm'
-      )
+      await warnTeamEndTrip()
       router.replace({ name: 'team' })
     }
 
@@ -78,19 +67,36 @@ onUnmounted(() => {
   <keep-alive>
     <Page id="trip-tabs-page">
       <Tabs class="flex-grow">
-        <Tab title="Paramètres" name="settings" icon="i-uil:cog">
+        <Tab
+          title="Paramètres"
+          name="settings"
+          icon="i-journiz:settings"
+          icon-active="i-journiz:settings-fill"
+        >
           <TabSettings />
         </Tab>
-        <Tab title="Carte" name="map" icon="i-uil:map" default-selected>
+        <Tab
+          title="Parcours"
+          name="map"
+          icon="i-journiz:map"
+          icon-active="i-journiz:map-fill"
+          default-selected
+        >
           <TabPoints />
         </Tab>
-        <Tab title="Score" name="score" icon="i-uil:image-question">
+        <Tab
+          title="Score"
+          name="score"
+          icon="i-journiz:podium"
+          icon-active="i-journiz:podium-fill"
+        >
           Score
         </Tab>
         <ButtonOnlyTab
           title="Messages"
           name="chat"
-          icon="i-ph:chats-circle-bold"
+          icon="i-journiz:messages"
+          icon-active="i-journiz:messages-fill"
           :to="{ name: 'team-chat' }"
         >
         </ButtonOnlyTab>

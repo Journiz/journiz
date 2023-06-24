@@ -1,4 +1,6 @@
 <script lang="ts" setup="">
+import { computed } from 'vue'
+import { Point } from '@journiz/api-types'
 import TopTabs from '~/components/tabs/top-tabs/TopTabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
 import { useTeamStore } from '~/stores/team/team'
@@ -7,6 +9,28 @@ import PointsList from '~/components/team/points/PointsList.vue'
 import TripCountdown from '~/components/time/TripCountdown.vue'
 
 const store = useTeamStore()
+const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
+  const allPoints =
+    store.journey?.expand?.points
+      ?.map((p: Point) => {
+        return {
+          ...p,
+          hasAnswer: !!store.team?.expand?.answers?.find(
+            (a) => a.point === p.id
+          ),
+        }
+      })
+      .filter((p) => {
+        return !p.hasAnswer
+      }) ?? []
+  return allPoints.filter((p: Point) => {
+    if (p.trigger) {
+      const trigger = allPoints.find((t: Point) => t.id === p.trigger)
+      return trigger?.hasAnswer ?? false
+    }
+    return true
+  })
+})
 </script>
 <template>
   <div
@@ -15,10 +39,11 @@ const store = useTeamStore()
   >
     <Header :title="store.trip?.name" :subtitle="store.team?.name" />
     <TopTabs v-if="store.trip?.status === 'playing'" class="flex-shrink">
-      <Tab title="Enigmes" name="list">
-        <PointsList />
+      <Tab title="Enigmes" name="list" default-selected>
+        <PointsList :points="points" />
       </Tab>
-      <Tab title="Carte" name="map" default-selected>
+      <Tab title="Carte" name="map">
+        <div>Ici la carte</div>
         <div
           class="absolute bottom-28 left-0 right-0 px-4 flex items-center justify-center gap-2"
         >
@@ -32,6 +57,6 @@ const store = useTeamStore()
         </div>
       </Tab>
     </TopTabs>
-    <div v-else class="flex-grow">Carte sans les points</div>
+    <div v-else class="flex-grow">Ici la carte sans les points</div>
   </div>
 </template>

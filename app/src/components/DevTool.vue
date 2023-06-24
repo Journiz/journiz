@@ -1,10 +1,9 @@
 <script lang="ts" setup="">
-import { useStorage } from '@vueuse/core'
+import { onKeyStroke, useStorage } from '@vueuse/core'
 import { onMounted } from 'vue'
 import { actionSheetController } from '@ionic/vue'
 import { CapacitorShake } from '@capgo/capacitor-shake'
 import { useUserStore } from '~/stores/user'
-import { useLogout } from '~/composables/useLogout'
 import { useTeamStore } from '~/stores/team/team'
 
 const preventGeolocation = useStorage('preventGeolocation', false)
@@ -69,6 +68,11 @@ onMounted(() => {
     presentActionSheet()
     shakeCount = 0
   })
+})
+
+onKeyStroke('d', (e) => {
+  if (isOpen || !e.ctrlKey) return
+  presentActionSheet()
 })
 </script>
 <template>

@@ -12,25 +12,14 @@ import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
 import { warnOutside } from '~/utils/warnOutside'
 import TripCountdown from '~/components/time/TripCountdown.vue'
+import { warnUserEndTrip } from '~/utils/warnStartStop'
 
 const store = useUserStore()
 watch(
   () => store.trip?.status,
   async (status) => {
     if (status === 'finishing') {
-      await showModal(
-        "C'est fini !",
-        `<p>Le chrono est fini !</p>
-<p>Les équipes ont reçu une notification et se rendent au point de ralliement</p>`,
-        [
-          {
-            title: 'Ok',
-            actionName: 'ok',
-            color: 'theme',
-          },
-        ],
-        'alarm'
-      )
+      await warnUserEndTrip()
     }
   }
 )
@@ -57,15 +46,17 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
         <Tab
           title="Paramètres"
           name="settings"
-          icon="i-uil:cog"
+          icon="i-journiz:settings"
+          icon-active="i-journiz:settings-fill"
           :default-selected="initialTab === 'settings'"
         >
           <TabHome />
         </Tab>
         <Tab
-          title="Carte"
+          title="Parcours"
           name="map"
-          icon="i-uil:map"
+          icon="i-journiz:map"
+          icon-active="i-journiz:map-fill"
           :default-selected="['map', 'list'].includes(initialTab)"
         >
           <TabTeams />
@@ -73,7 +64,8 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
         <Tab
           title="Validation"
           name="validation"
-          icon="i-uil:image-question"
+          icon="i-journiz:validation"
+          icon-active="i-journiz:validation-fill"
           :default-selected="initialTab === 'validation'"
         >
           <TabValidation />
@@ -81,7 +73,8 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
         <Tab
           title="Messages"
           name="chat"
-          icon="i-ph:chats-circle-bold"
+          icon="i-journiz:messages"
+          icon-active="i-journiz:messages-fill"
           :default-selected="initialTab === 'chat'"
         >
           <TabChat />

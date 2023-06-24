@@ -6,6 +6,7 @@ import router from '~/router'
 import { warnOutside, warnTeamOutside } from '~/utils/warnOutside'
 import { useTeamStore } from '~/stores/team/team'
 import { useUserStore } from '~/stores/user'
+import { warnTeamEndTrip, warnUserEndTrip } from '~/utils/warnStartStop'
 
 // Call this function when your app starts
 function oneSignalInit() {
@@ -52,15 +53,41 @@ async function handleNotificationAction(
       const { conversation } = data
       await router.push(`/notification/chat/${conversation}`)
     }
+    return
   }
   if (data.event === 'teamOutside') {
     const teamStore = useTeamStore()
     if (teamStore.team) {
       await warnTeamOutside()
     }
+    return
   }
   if (data.event === 'userTeamOutside') {
     await warnOutside(data.team, data.teamName)
+    return
+  }
+  if (data.event === 'tripStarted') {
+    await useTeamStore().refreshAll()
+    await router.replace({ name: 'team' })
+  }
+  if (data.event === 'tripFinished') {
+    await useTeamStore().refreshAll()
+    await router.replace({ name: 'team' })
+    await warnTeamEndTrip()
+    return
+  }
+  if (data.event === 'userTripFinished') {
+    await useUserStore().refresh()
+    await router.replace({ name: 'user-trip-tabs' })
+    await warnUserEndTrip()
+  }
+  if (data.event === 'userNewValidation') {
+    await router.replace({
+      name: 'user-trip-tabs',
+      query: {
+        tab: 'validation',
+      },
+    })
   }
 }
 

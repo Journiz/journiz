@@ -16,10 +16,6 @@ const updateDate = useDateFormat(props.journey.updated, 'DD/MM/YYYY')
 const trips = computed(() => {
   return props.journey.expand?.trips ?? []
 })
-const complete = computed(() => {
-  return trips.value.some((trip) => trip.status === 'finished')
-  // return props.journey === 'complete'
-})
 
 const creatingTrip = ref(false)
 const pb = usePocketBase()
@@ -34,7 +30,8 @@ const openTrip = async () => {
       date: new Date().toISOString(),
       journey: props.journey.id,
       status: 'pairing',
-      duration: 120,
+      duration: props.journey.duration,
+      user: props.journey.user,
     })
     emit('openTrip', trip.id)
     creatingTrip.value = false
@@ -62,19 +59,17 @@ const openTrip = async () => {
     </div>
     <div class="w-auto flex gap-2">
       <SquareButton
-        v-if="!complete"
         icon="play"
         :activated="true"
         :loading="creatingTrip"
         @click="openTrip"
       />
-      <SquareButton v-if="!complete" icon="qr" />
-      <SquareButton
-        v-if="complete"
-        :activated="true"
-        icon="podium"
-        color="secondary"
-      />
+      <!--      <SquareButton-->
+      <!--        v-if="complete"-->
+      <!--        :activated="true"-->
+      <!--        icon="podium"-->
+      <!--        color="secondary"-->
+      <!--      />-->
       <SquareButton
         icon="edit"
         color="secondary"

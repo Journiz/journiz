@@ -6,7 +6,7 @@ import PageTitle from '~/components/PageTitle.vue'
 const props = defineProps<{
   trip: Trip
 }>()
-const qrCode = useQRCode(props.trip.shortId, {
+const qrCode = useQRCode(props.trip.id, {
   scale: 10,
   color: {
     light: '#00000000',
