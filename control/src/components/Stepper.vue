@@ -1,17 +1,38 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useStorage } from '@vueuse/core'
+import { usePocketBase, useTripForGameMaster } from '@journiz/composables'
+import { initialTeams } from '@/data'
 
 type Step = {
   title: string
   onStep?: () => void
 }
-
-// const { data: trip } = useTripForGameMaster()
+const props = defineProps<{
+  tripId: string
+}>()
+const { data: trip } = useTripForGameMaster(props.tripId)
+const teams = useStorage('teams', [])
+const pb = usePocketBase()
 const steps: Step[] = [
   {
     title: 'Remise à zéro',
-    onStep: () => {
-      console.log('initial reset')
+    onStep: async () => {
+      console.log('RESET')
+      teams.value = []
+      const teamsToDelete = await pb.collection('team').getFullList({
+        filter: `trip="${props.tripId}"`,
+      })
+      for (const team of teamsToDelete) {
+        await pb.collection('team').delete(team.id)
+      }
+      for (const team of initialTeams) {
+        const t = await pb.collection('team').create({
+          ...team,
+          trip: props.tripId,
+        })
+        teams.value.push(t)
+      }
     },
   },
   {
@@ -127,8 +148,9 @@ const steps: Step[] = [
   },
 ]
 const isRunning = ref(false)
-const currentStepIndex = ref(0)
+const currentStepIndex = useStorage('currentStepIndex', 0)
 const nextStep = async () => {
+  if (currentStepIndex.value >= steps.length - 1) return
   isRunning.value = true
   do {
     currentStepIndex.value++
@@ -149,22 +171,39 @@ const goToStep = async (step: number) => {
     await nextStep()
   }
 }
+
+const reset = () => {
+  currentStepIndex.value = 0
+  steps[0]?.onStep?.()
+}
 </script>
 <template>
   <div class="bg-amber-50 rounded-lg px-6 py-5">
     <h2 class="font-bold text-xl mb-4">Etapes</h2>
     <div class="flex flex-col gap-2">
-      <button
-        v-for="(step, i) in steps"
-        :key="step.title"
-        class="flex items-center px-4 py-3 disabled:bg-gray-200 rounded-lg"
-        :class="currentStepIndex === i ? 'bg-sky-800 text-white' : 'bg-white'"
-        :disabled="!step.onStep"
-        @click="goToStep(i)"
-      >
-        <span class="font-bold mr-1">{{ i }}.</span>
-        <span>{{ step.title }}</span>
-      </button>
+      <header class="flex gap-2">
+        <button class="btn btn-primary self-start" @click="reset">Reset</button>
+        <button
+          class="btn self-start"
+          :disabled="currentStepIndex >= steps.length - 1"
+          @click="nextStep()"
+        >
+          <span class="i-uil:angle-right-b"></span>
+        </button>
+      </header>
+      <div class="flex flex-col gap-2 flex-grow overflow-y-auto">
+        <button
+          v-for="(step, i) in steps"
+          :key="step.title"
+          class="flex items-center px-4 py-3 disabled:bg-gray-200 rounded-lg"
+          :class="currentStepIndex === i ? 'bg-sky-800 text-white' : 'bg-white'"
+          :disabled="!step.onStep"
+          @click="goToStep(i)"
+        >
+          <span class="font-bold mr-1">{{ i }}.</span>
+          <span>{{ step.title }}</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>

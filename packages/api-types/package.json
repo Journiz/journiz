@@ -13,6 +13,6 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "pocketbase": "^0.12.1"
+    "pocketbase": "^0.15.2"
   }
 }
