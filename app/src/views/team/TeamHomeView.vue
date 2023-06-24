@@ -12,6 +12,7 @@ import { useTeamStore } from '~/stores/team/team'
 import { showModal } from '~/composables/useModal'
 import { warnTeamOutside } from '~/utils/warnOutside'
 import { useGeolocationStore } from '~/stores/geolocation'
+import { warnTeamEndTrip } from '~/utils/warnStartStop'
 
 const store = useTeamStore()
 const router = useIonRouter()
@@ -19,19 +20,7 @@ watch(
   () => store.trip?.status,
   async (status) => {
     if (status === 'finishing') {
-      await showModal(
-        'Driiiiiiiing !',
-        `<p>Et c’est fini ! Bravo à tous !</p>
-<p>Retournez au point de raliement pour finir cette super partie ! Soyez fiers !</p>`,
-        [
-          {
-            title: 'Rentrer au point de ralliement',
-            actionName: 'ok',
-            color: 'theme',
-          },
-        ],
-        'alarm'
-      )
+      await warnTeamEndTrip()
       router.replace({ name: 'team' })
     }
 

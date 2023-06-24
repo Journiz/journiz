@@ -12,25 +12,14 @@ import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
 import { warnOutside } from '~/utils/warnOutside'
 import TripCountdown from '~/components/time/TripCountdown.vue'
+import { warnUserEndTrip } from '~/utils/warnStartStop'
 
 const store = useUserStore()
 watch(
   () => store.trip?.status,
   async (status) => {
     if (status === 'finishing') {
-      await showModal(
-        "C'est fini !",
-        `<p>Le chrono est fini !</p>
-<p>Les équipes ont reçu une notification et se rendent au point de ralliement</p>`,
-        [
-          {
-            title: 'Ok',
-            actionName: 'ok',
-            color: 'theme',
-          },
-        ],
-        'alarm'
-      )
+      await warnUserEndTrip()
     }
   }
 )
