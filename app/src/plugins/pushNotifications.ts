@@ -5,7 +5,6 @@ import OSNotification from 'onesignal-cordova-plugin/dist/OSNotification'
 import router from '~/router'
 import { warnOutside, warnTeamOutside } from '~/utils/warnOutside'
 import { useTeamStore } from '~/stores/team/team'
-import { useUserStore } from '~/stores/user'
 
 // Call this function when your app starts
 function oneSignalInit() {
