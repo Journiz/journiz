@@ -2,6 +2,7 @@
   "name": "@journiz/control",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -10,6 +11,12 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "@journiz/api-types": "workspace:^",
+    "@journiz/composables": "workspace:^",
+    "@unocss/reset": "^0.51.13",
+    "daisyui": "^3.1.6",
+    "unocss": "^0.51.13",
+    "unocss-preset-daisy": "^5.0.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
