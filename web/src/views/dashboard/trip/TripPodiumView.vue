@@ -10,12 +10,14 @@ const id = useRoute().params.tripId
 const { data: trip, loading, update } = useTripForGameMaster(id as string)
 </script>
 <template>
-  <div v-if="!loading && trip" class="h-full px-20 pt-16 overflow-y-auto">
+  <div v-if="!loading && trip" class="h-full px-20 pt-16 pb-12 overflow-scroll">
     <CustomHeader :title="trip.name"
       ><DefaultButton>Partager</DefaultButton>
     </CustomHeader>
     <div class="pt-6">
-      <div class="font-bold text-2xl">Classement</div>
+      <div class="sticky top-0 w-full bg-beige-light font-bold text-2xl mb-8">
+        Classement
+      </div>
       <div class="flex gap-2">
         <PodiumItem
           v-for="(team, i) in trip.expand?.teams.slice(0, 3)"
