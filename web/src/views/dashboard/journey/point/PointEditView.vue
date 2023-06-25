@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { Point } from '@journiz/api-types'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
@@ -43,11 +43,6 @@ function quit() {
     router.push({ name: 'edit-journey' })
   }
 }
-onBeforeRouteLeave((to, from, next) => {
-  console.log('save route ')
-  saveChanges()
-  next()
-})
 
 async function saveChanges() {
   try {
