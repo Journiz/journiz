@@ -13,7 +13,7 @@ import IconBack from '~icons/ion/return-up-back-outline'
 import IconFolder from '~icons/uil/folder-open'
 import IconJourney from '~icons/bx/trip'
 import PhBookOpenBold from '~icons/ph/book-open-bold'
-
+import IconDownload from '~icons/uil/download-alt'
 export default {
   play: IconPlay,
   edit: IconEdit,
@@ -30,4 +30,5 @@ export default {
   journey: IconJourney,
   minus: IconMinus,
   book: PhBookOpenBold,
+  download: IconDownload,
 }

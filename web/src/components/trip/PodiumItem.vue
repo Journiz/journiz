@@ -3,12 +3,13 @@ import { Team } from '../../../../packages/api-types'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 defineProps<{
   team: Team
+  rank: number
 }>()
 </script>
 <template>
   <div class="pt-4">
     <!-- <TeamAvatar team="team" /> -->
-    <div class="bg-white p-2 text-center">
+    <div class="bg-white px-2 pb-6 pt-3 text-center rounded-lg">
       <div class="px-1">
         <div class="font-light mb-4">{{ team.name }}</div>
         <div class="mb-4">
