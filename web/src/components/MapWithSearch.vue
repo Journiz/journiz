@@ -6,6 +6,7 @@ import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
 import { Coordinates } from '~/types/Coordinates'
 import PointMarker from '~/components/map/PointMarker.vue'
+import Basecamp from '~/components/map/Basecamp.vue'
 
 const emit = defineEmits(['update', 'updateHasLocation'])
 const props = defineProps({
@@ -25,6 +26,10 @@ const props = defineProps({
   hasLocation: {
     type: boolean,
     required: true,
+  },
+  isBasecampMap: {
+    type: boolean,
+    default: false,
   },
 })
 const map = ref()
@@ -71,7 +76,8 @@ const addSearchMarker = (data: Coordinates) => {
         @mb-dragend="markerDragEnd"
       >
         <template #icon>
-          <PointMarker />
+          <Basecamp v-if="isBasecampMap" />
+          <PointMarker v-else />
         </template>
       </MapMarker>
       <slot />

@@ -33,6 +33,7 @@ const pointCoords = computed(() => {
         :initial-coords="pointCoords as any"
         :map-center="pointCoords as any"
         :zoom="16"
+        :is-basecamp-map="true"
         @update="setBasecamp"
       />
     </div>
