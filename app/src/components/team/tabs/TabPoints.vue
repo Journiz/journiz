@@ -7,6 +7,7 @@ import { useTeamStore } from '~/stores/team/team'
 import Header from '~/components/design-system/Header.vue'
 import PointsList from '~/components/team/points/PointsList.vue'
 import TripCountdown from '~/components/time/TripCountdown.vue'
+import TeamMap from '~/components/team/TeamMap.vue'
 
 const store = useTeamStore()
 const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
@@ -43,7 +44,7 @@ const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
         <PointsList :points="points" />
       </Tab>
       <Tab title="Carte" name="map">
-        <div>Ici la carte</div>
+        <TeamMap :points="points" />
         <div
           class="absolute bottom-28 left-0 right-0 px-4 flex items-center justify-center gap-2"
         >

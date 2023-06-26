@@ -33,7 +33,7 @@ const compareFn = (a: Team, b: Team) => {
         />
       </Transition>
       <div
-        v-for="(team, i) in teams.slice(0, 3)"
+        v-for="(team, i) in teams?.slice(0, 3)"
         :key="team.id"
         class="flex"
         :class="[
@@ -76,7 +76,7 @@ const compareFn = (a: Team, b: Team) => {
     >
       <div v-if="teams" class="flex flex-col overflow-scroll h-full">
         <div
-          v-for="(team, i) in teams.slice((teams.length - 3) * -1)"
+          v-for="(team, i) in teams?.slice((teams?.length - 3) * -1)"
           :key="team.id"
           class="relative ml-3"
         >
