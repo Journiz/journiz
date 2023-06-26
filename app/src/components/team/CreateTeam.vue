@@ -10,8 +10,8 @@ const addMemberInput = () => {
 }
 </script>
 <template>
-  <div class="flex flex-col pb-4 overflow-hidden">
-    <form class="max-h-full overflow-scroll min-h-16">
+  <div class="flex flex-col pb-4">
+    <form>
       <div v-if="members">
         <TextInput
           v-for="(member, index) in members"

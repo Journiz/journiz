@@ -23,7 +23,7 @@ const canSubmit = computed(() => {
 })
 </script>
 <template>
-  <Page class="flex-col px-7 max-h-screen overflow-hidden">
+  <Page class="flex-col px-7 max-h-screen overflow-scroll">
     <img
       class="absolute h-full w-full top-0 left-0 object-cover object-center"
       src="../../assets/img/backgrounds/bg-trip-recap.jpg"
@@ -37,10 +37,7 @@ const canSubmit = computed(() => {
     <div class="relative text-center mb-7 color-green-dark">
       Entrer les participants du groupe
     </div>
-    <CreateTeam
-      v-model:members="members"
-      class="relative flex-grow max-h-full"
-    />
+    <CreateTeam v-model:members="members" class="relative flex-grow" />
     <Button
       class="relative mb-4"
       :disabled="!canSubmit"
