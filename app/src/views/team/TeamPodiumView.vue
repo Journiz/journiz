@@ -23,7 +23,7 @@ const compareFn = (a: Team, b: Team) => {
 <template>
   <Page class="bg-beige-light px-6 flex flex-col">
     <div class="text-xl font-black mx-auto mt-10">Classement final</div>
-    <div class="relative flex flex-wrap pt-20">
+    <div v-if="teams" class="relative flex flex-wrap pt-20">
       <Transition name="bg" :appear="true">
         <img
           style="transition-delay: 1s"
@@ -70,8 +70,11 @@ const compareFn = (a: Team, b: Team) => {
         </Transition>
       </div>
     </div>
-    <div v-if="teams.length > 3" class="grow mt-8 w-full overflow-scroll mb-4">
-      <div class="flex flex-col overflow-scroll h-full">
+    <div
+      v-if="(teams?.length ?? 0) > 3"
+      class="grow mt-8 w-full overflow-scroll mb-4"
+    >
+      <div v-if="teams" class="flex flex-col overflow-scroll h-full">
         <div
           v-for="(team, i) in teams.slice((teams.length - 3) * -1)"
           :key="team.id"
