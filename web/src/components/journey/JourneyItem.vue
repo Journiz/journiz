@@ -39,7 +39,7 @@ const openTrip = async () => {
 }
 </script>
 <template>
-  <div class="content w-full flex px-6 py-4 bg-green-dark/4 rounded-xl">
+  <div class="content w-full flex px-6 py-4 bg-white rounded-xl drop-shadow-md">
     <div class="flex-1 flex flex-col mr-8">
       <div class="name text-green-dark font-medium text-base">
         {{ journey.name }}

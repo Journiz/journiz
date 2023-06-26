@@ -60,7 +60,7 @@ const dependents = computed({
         />
       </svg>
       <div
-        class="content w-full flex px-3 py-3 bg-green-dark/4 rounded-xl overflow-visible -outline-offset-1 transition-all"
+        class="content w-full flex px-3 py-3 bg-white rounded-xl overflow-visible -outline-offset-1 transition-all drop-shadow-md"
         :class="
           point.id === currentItemId ? 'outline-red outline outline-1' : ''
         "
