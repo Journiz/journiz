@@ -30,12 +30,7 @@ const initialMapCenter = {
         <TeamPointMarker :point="point" />
       </template>
     </MapMarker>
-    <MapMarker
-      :position="{
-        lng: store.journey.basecampLongitude,
-        lat: store.journey.basecampLatitude,
-      }"
-    >
+    <MapMarker :position="initialMapCenter">
       <template #icon>
         <div
           class="relative w-18 h-18 rounded-full shadow-lg overflow-hidden flex items-center justify-center"
