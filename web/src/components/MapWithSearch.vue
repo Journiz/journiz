@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue'
-import { boolean } from 'zod'
 import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
@@ -24,11 +23,11 @@ const props = defineProps({
     required: false,
   },
   hasLocation: {
-    type: boolean,
+    type: Boolean,
     required: true,
   },
   isBasecampMap: {
-    type: boolean,
+    type: Boolean,
     default: false,
   },
 })
