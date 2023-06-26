@@ -29,7 +29,7 @@ const select = (line) => {
 }
 </script>
 <template>
-  <div class="p-7 bg-white rounded-xl">
+  <div class="p-7 bg-beige-light rounded-xl">
     <SearchBar
       class="mb-3"
       label="Rechercher une adresse"
@@ -43,7 +43,7 @@ const select = (line) => {
         Ce point n’est pas lié à un lieu géographique
       </span>
     </div>
-    <div class="max-h-[40vh] overflow-auto">
+    <div class="max-h-[40vh] overflow-auto mt-4">
       <ResearchResultLine
         v-for="line in researchResult"
         :key="line.id"
