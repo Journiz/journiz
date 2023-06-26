@@ -13,7 +13,7 @@ const MarkerIcon = computed(() => icons.marker)
 const date = useDateFormat(props.trip.updated, 'DD/MM/YYYY')
 </script>
 <template>
-  <div class="content w-full flex px-6 py-4 bg-green-dark/4 rounded-xl">
+  <div class="content w-full flex px-6 py-4 bg-white rounded-xl drop-shadow-md">
     <div class="flex-1 flex flex-col mr-8">
       <div class="name text-green-dark font-medium text-base">
         {{ trip.name }}

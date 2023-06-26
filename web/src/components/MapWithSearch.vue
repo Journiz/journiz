@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue'
-import { boolean } from 'zod'
 import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
 import { Coordinates } from '~/types/Coordinates'
 import PointMarker from '~/components/map/PointMarker.vue'
+import Basecamp from '~/components/map/Basecamp.vue'
 
 const emit = defineEmits(['update', 'updateHasLocation'])
 const props = defineProps({
@@ -23,8 +23,12 @@ const props = defineProps({
     required: false,
   },
   hasLocation: {
-    type: boolean,
+    type: Boolean,
     required: true,
+  },
+  isBasecampMap: {
+    type: Boolean,
+    default: false,
   },
 })
 const map = ref()
@@ -71,7 +75,8 @@ const addSearchMarker = (data: Coordinates) => {
         @mb-dragend="markerDragEnd"
       >
         <template #icon>
-          <PointMarker />
+          <Basecamp v-if="isBasecampMap" />
+          <PointMarker v-else />
         </template>
       </MapMarker>
       <slot />
