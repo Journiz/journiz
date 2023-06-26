@@ -26,10 +26,11 @@ if (
   <Page>
     <Header
       :back-to="{ name: 'team' }"
-      :subtitle="store.team.name"
-      :title="point.name ?? ''"
+      :subtitle="store.team?.name ?? ''"
+      :title="point?.name ?? ''"
     />
     <div
+      v-if="point"
       class="flex-grow flex-shrink col bg-beige-light px-4 pt-4 pb-8 overflow-y-scroll gap-6"
     >
       <PointQuestion :point="point" />

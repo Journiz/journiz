@@ -4,25 +4,50 @@ import Button from '~/components/design-system/Button.vue'
 import RiveAnimation from '~/components/modal/RiveAnimation.vue'
 import { useAppModal } from '~/composables/useModal'
 
-const { title, text, isOpen, buttons, animationName, closeWithAction } =
-  useAppModal()
+const {
+  title,
+  content,
+  isOpen,
+  layout,
+  buttons,
+  animationName,
+  closeWithAction,
+} = useAppModal()
 </script>
 <template>
-  <Modal :is-open="isOpen">
-    <div class="w-full flex flex-col gap-6">
-      <h1 class="text-base font-black m-0 text-center mb-8">{{ title }}</h1>
-      <div class="w-full h-48 grid place-content-center relative">
+  <Modal :is-open="isOpen" :layout="layout">
+    <div
+      class="w-full flex flex-col gap-6"
+      :class="layout === 'fullscreen' ? 'justify-center h-full' : ''"
+    >
+      <h1
+        class="text-base font-black m-0 text-center"
+        :class="layout === 'fullscreen' ? '' : 'mb-8'"
+      >
+        {{ title }}
+      </h1>
+      <div
+        class="h-48 grid place-content-center relative z-1"
+        :class="layout === 'fullscreen' ? '-order-1 mt-auto' : 'w-full'"
+      >
         <div
-          class="absolute left-1/2 top-1/2 h-full aspect-square halo transform -translate-1/2 scale-150"
+          class="absolute left-1/2 top-1/2 aspect-square halo transform -translate-1/2 scale-150"
         ></div>
         <RiveAnimation
           v-if="animationName"
-          class="h-full w-full"
+          class="w-full"
+          :class="layout === 'fullscreen' ? '' : 'h-full'"
           :name="animationName"
         />
       </div>
-      <p class="font-light text-sm text-center">{{ text }}</p>
-      <div class="flex flex-col w-full gap-2">
+      <div
+        class="font-light text-sm text-center relative z-2"
+        v-html="content"
+      ></div>
+      <div
+        class="flex flex-col w-full gap-2 relative z-2"
+        :class="layout === 'fullscreen' ? 'mt-auto' : ''"
+      >
         <Button
           v-for="button in buttons"
           :key="button.actionName"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import SelectInput from '~/components/forms/SelectInput.vue'
 import HintInputs from '~/components/point/editPointInputs/HintInputs.vue'
 import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
@@ -40,9 +40,24 @@ async function save() {
     console.log(e)
   }
 }
-
-function addMedia(type: string) {
-  console.log(type)
+const fileInput = ref<HTMLInputElement>()
+const fileType = ref('')
+const accept = computed(() => {
+  switch (fileType.value) {
+    case 'photo':
+      return 'image/*'
+    case 'audio':
+      return 'audio/*'
+    case 'video':
+      return 'video/*'
+    default:
+      return ''
+  }
+})
+async function addMedia(type: string) {
+  fileType.value = type
+  await nextTick()
+  fileInput.value?.click()
 }
 </script>
 <template>
@@ -64,8 +79,8 @@ function addMedia(type: string) {
         @update:modelValue="handleScoreChange"
       />
     </div>
-    <MediaSlider label="Visuel de la question" class="mt-2 mb-5" />
-    <div class="flex">
+    <MediaSlider label="Visuel de la question" class="mt-2 mb-4" />
+    <div class="flex items-center mb-4">
       <p>Ou remplacer le visuel par &nbsp;</p>
       <SquareButton
         class="mr-2"
@@ -87,6 +102,7 @@ function addMedia(type: string) {
         icon="minus"
         @click="addMedia('video')"
       />
+      <input ref="fileInput" class="hidden" type="file" :accept="accept" />
     </div>
     <TextareaInput v-model="store.point.description" label="Énoncé" />
     <TextareaInput v-model="store.point.question" label="Question" />

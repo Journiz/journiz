@@ -31,6 +31,7 @@ const keyUpOnInput = (key) => {
       ref="inputs"
       class="w-10 h-13 rounded-xl flex justify-center items-center text-center"
       type="number"
+      pattern="\d*"
       maxlength="1"
       @click="clickOnInput(n)"
       @keyup="keyUpOnInput(n)"

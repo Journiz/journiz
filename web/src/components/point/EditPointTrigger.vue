@@ -16,8 +16,8 @@ const store = useJourneyStore()
 const pts = store.journey?.expand?.points ?? []
 const selectPoints: any[] = []
 
-pts.forEach((element: any) => {
-  if (props.point.id !== element.id) {
+pts.forEach((element: PointType) => {
+  if (element.id !== props.point.id && element.trigger !== props.point.id) {
     selectPoints.push({
       value: element.id,
       content: element.name,
@@ -44,7 +44,10 @@ function pointSelected(value: string) {
   //     emit('pointTrigger', point.value)
   //   }
   // })
-  emit('pointTrigger', value)
+  emit(
+    'pointTrigger',
+    pts.find((p) => p.id === value)
+  )
 }
 </script>
 
