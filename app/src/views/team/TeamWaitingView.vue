@@ -19,7 +19,9 @@ const logout = useLogout(store.logout)
 const router = useIonRouter()
 
 const countdownRunning = ref(false)
-const onCountdownEnd = () => router.replace({ name: 'team' })
+const onCountdownEnd = () => {
+  router.replace({ name: 'team' })
+}
 watch(
   () => store.trip?.status,
   () => {
