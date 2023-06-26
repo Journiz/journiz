@@ -1,6 +1,6 @@
 export const initialTeams = [
   {
-    name: 'Les Avengers',
+    name: 'Equipe 1',
     members: ['Malo', 'Romain', 'Eliah', 'Margot', 'Mathis'],
     batteryLevel: 76,
     color: 'orange',
@@ -11,7 +11,7 @@ export const initialTeams = [
     score: 0,
   },
   {
-    name: 'Les cœurs de lions',
+    name: 'Equipe 2',
     members: ['Lou', 'Elina', 'Gabriel', 'Camille', 'Alyssa'],
     batteryLevel: 45,
     color: 'pink',
@@ -22,7 +22,7 @@ export const initialTeams = [
     score: 0,
   },
   {
-    name: 'Les déter-gens',
+    name: 'Equipe 3',
     members: ['Carolie', 'Maelys', 'Clément', 'Lucie', 'Léo'],
     batteryLevel: 92,
     color: 'skyblue',
@@ -33,7 +33,7 @@ export const initialTeams = [
     score: 0,
   },
   {
-    name: 'Les snippers',
+    name: 'Equipe 4',
     members: ['Lilou', 'Violette', 'Jules', 'Lilian', 'Louis'],
     batteryLevel: 71,
     color: 'violet',
@@ -44,3 +44,12 @@ export const initialTeams = [
     score: 0,
   },
 ]
+
+export const teamsNames = [
+  'Les Avengers',
+  'Les cœurs de lions',
+  'Les déter-gens',
+  'Les snippers',
+]
+
+export const teamsScores = [89, 75, 120, 100]

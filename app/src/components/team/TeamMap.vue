@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Point } from '@journiz/api-types'
+import { computed } from 'vue'
 import { useTeamStore } from '~/stores/team/team'
 import Map from '~/components/map/Map.vue'
 import MapMarker from '~/components/map/MapMarker.vue'
@@ -10,7 +11,7 @@ import { teamDistanceFromPoint } from '~/utils/teamDistanceFromPoint'
 import TeamPointMarker from '~/components/team/points/TeamPointMarker.vue'
 
 const store = useTeamStore()
-defineProps<{
+const props = defineProps<{
   points?: Point[]
 }>()
 
@@ -18,11 +19,19 @@ const initialMapCenter = {
   lng: store.journey?.basecampLongitude ?? 0,
   lat: store.journey?.basecampLatitude ?? 0,
 }
+const visiblePoints = computed(() => {
+  if (!props.points) {
+    return []
+  }
+  return props.points.filter(
+    (point) => point.hasLocation && point.answerType !== 'location'
+  )
+})
 </script>
 <template>
   <Map :map-center="initialMapCenter" :zoom="13">
     <MapMarker
-      v-for="point in points"
+      v-for="point in visiblePoints"
       :key="point.id"
       :position="{ lng: point.longitude, lat: point.latitude }"
     >

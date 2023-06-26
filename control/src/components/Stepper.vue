@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { usePocketBase, useTripForGameMaster } from '@journiz/composables'
-import { initialTeams } from '@/data'
+import { initialTeams, teamsNames, teamsScores } from '@/data'
 
 type Step = {
   title: string
@@ -11,21 +11,39 @@ type Step = {
 const props = defineProps<{
   tripId: string
 }>()
-const { data: trip } = useTripForGameMaster(props.tripId)
+const { data: trip, update: updateTrip } = useTripForGameMaster(props.tripId)
 const teams = useStorage('teams', [])
+const teamId = useStorage('teamId', '')
+
 const pb = usePocketBase()
 const steps: Step[] = [
   {
     title: 'Remise à zéro',
     onStep: async () => {
-      console.log('RESET')
+      if (!trip.value) return
       teams.value = []
+      teamId.value = ''
       const teamsToDelete = await pb.collection('team').getFullList({
         filter: `trip="${props.tripId}"`,
       })
       for (const team of teamsToDelete) {
         await pb.collection('team').delete(team.id)
       }
+
+      const messagesToDelete = await pb.collection('message').getFullList({
+        filter: `conversation.trip="${props.tripId}"`,
+      })
+      for (const message of messagesToDelete) {
+        await pb.collection('conversation').delete(message.id)
+      }
+
+      // Reset trip
+      trip.value.status = 'pairing'
+      trip.value.date = new Date().toISOString()
+      trip.value.duration = 60
+      await updateTrip()
+
+      // Create empty teams
       for (const team of initialTeams) {
         const t = await pb.collection('team').create({
           ...team,
@@ -43,14 +61,27 @@ const steps: Step[] = [
   },
   {
     title: "Changement des noms d'équipes",
-    onStep: () => {
-      console.log('teams names')
+    onStep: async () => {
+      for (const i in teams.value) {
+        await pb.collection('team').update(teams.value[i].id, {
+          name: teamsNames[i as unknown as number],
+        })
+      }
+      const teamsIds = teams.value.map((t) => t.id)
+      const allTeams = await pb.collection('team').getFullList({
+        filter: `trip="${props.tripId}"`,
+      })
+      teamId.value = allTeams.find((t: any) => !teamsIds.includes(t.id))?.id
     },
   },
   {
     title: 'GPS Tout le monde au paquier',
-    onStep: () => {
+    onStep: async () => {
       console.log('GPS Tout le monde au paquier')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.90052,
+        longitude: 6.12846,
+      })
     },
   },
   {
@@ -58,14 +89,21 @@ const steps: Step[] = [
   },
   {
     title: 'Equipe sur le chemin du chateau',
-    onStep: () => {
+    onStep: async () => {
       console.log('Equipe sur le chemin du chateau')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.897975,
+        longitude: 6.1257381,
+      })
     },
   },
   {
     title: 'Equipe au chateau',
-    onStep: () => {
-      console.log('Equipe au chateau')
+    onStep: async () => {
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.89744297303581,
+        longitude: 6.125343084134848,
+      })
     },
   },
   {
@@ -73,8 +111,12 @@ const steps: Step[] = [
   },
   {
     title: 'Equipe à Bonlieu',
-    onStep: () => {
+    onStep: async () => {
       console.log('Equipe à Bonlieu')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.90165,
+        longitude: 6.12753,
+      })
     },
   },
   {
@@ -88,8 +130,12 @@ const steps: Step[] = [
   },
   {
     title: 'Equipe rue Filaterie',
-    onStep: () => {
+    onStep: async () => {
       console.log('Equipe rue Filaterie')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.89921829763893,
+        longitude: 6.126424635622585,
+      })
     },
   },
   {
@@ -97,8 +143,12 @@ const steps: Step[] = [
   },
   {
     title: 'Equipe derrière eglise St mau',
-    onStep: () => {
+    onStep: async () => {
       console.log('Equipe derrière eglise St mau')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.89861202698144,
+        longitude: 6.128718020022944,
+      })
     },
   },
   {
@@ -106,8 +156,12 @@ const steps: Step[] = [
   },
   {
     title: 'Equipe à pont perrière',
-    onStep: () => {
+    onStep: async () => {
       console.log('Equipe à pont perrière')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.89852540598385,
+        longitude: 6.127822651709568,
+      })
     },
   },
   {
@@ -115,14 +169,26 @@ const steps: Step[] = [
   },
   {
     title: 'Fin de chrono',
-    onStep: () => {
+    onStep: async () => {
       console.log('Fin de chrono')
+      trip.value.status = 'finishing'
+      await updateTrip()
     },
   },
   {
     title: 'Equipes au Paquier',
-    onStep: () => {
+    onStep: async () => {
       console.log('Equipes au Paquier')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.90052,
+        longitude: 6.12846,
+      })
+      for (const i in teams.value) {
+        await pb.collection('team').update(teams.value[i].id, {
+          latitude: teams[i as unknown as number].latitude,
+          longitude: teams[i as unknown as number].longitude,
+        })
+      }
     },
   },
   {
@@ -136,8 +202,13 @@ const steps: Step[] = [
   },
   {
     title: 'Auto validation des autres équipes',
-    onStep: () => {
+    onStep: async () => {
       console.log('Auto validation des autres équipes')
+      for (const i in teams.value) {
+        await pb.collection('team').update(teams.value[i].id, {
+          score: teamsScores[i as unknown as number],
+        })
+      }
     },
   },
   {
@@ -176,20 +247,32 @@ const reset = () => {
   currentStepIndex.value = 0
   steps[0]?.onStep?.()
 }
+const runCurrent = () => {
+  steps[currentStepIndex.value]?.onStep?.()
+}
 </script>
 <template>
   <div class="bg-amber-50 rounded-lg px-6 py-5">
     <h2 class="font-bold text-xl mb-4">Etapes</h2>
     <div class="flex flex-col gap-2">
-      <header class="flex gap-2">
-        <button class="btn btn-primary self-start" @click="reset">Reset</button>
+      <header class="flex gap-2 items-center">
+        <button class="btn btn-primary" @click="reset">Reset</button>
+        <button class="btn btn-secondary" @click="runCurrent">
+          Run current
+        </button>
         <button
-          class="btn self-start"
+          class="btn"
           :disabled="currentStepIndex >= steps.length - 1"
           @click="nextStep()"
         >
           <span class="i-uil:angle-right-b"></span>
         </button>
+        <transition>
+          <span
+            v-show="isRunning"
+            class="loading loading-dots loading-md ml-2 text-red"
+          ></span>
+        </transition>
       </header>
       <div class="flex flex-col gap-2 flex-grow overflow-y-auto">
         <button
