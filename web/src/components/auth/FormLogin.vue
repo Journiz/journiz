@@ -30,7 +30,10 @@ const login = async () => {
 </script>
 
 <template>
-  <form class="w-full max-w-520px p-13 mx-auto" @submit.prevent="login">
+  <form
+    class="relative w-full max-w-520px p-13 mx-auto"
+    @submit.prevent="login"
+  >
     <h2 class="mx-auto w-fit font-black text-3xl mb-8">Connexion</h2>
     <div class="form-group">
       <TextInput

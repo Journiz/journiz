@@ -9,7 +9,17 @@ const displayRegister = ref(false)
 </script>
 <template>
   <section class="bg-white-off h-screen">
-    <div class="flex bg-white-off h-full">
+    <div class="relative flex bg-white-off h-full">
+      <img
+        class="right-line absolute top-0 right-0 object-cover h-screen w-1/2"
+        src="../../assets/images/backgroundImage/line-login.png"
+        alt="Line in background"
+      />
+      <img
+        class="left-line absolute top-0 left-0 object-cover h-screen w-1/2"
+        src="../../assets/images/backgroundImage/line-login.png"
+        alt="Line in background"
+      />
       <div class="left w-1/2 h-full flex items-center">
         <form-login
           v-if="!displayMissingPwd"
@@ -40,4 +50,11 @@ const displayRegister = ref(false)
     </div>
   </section>
 </template>
-<style></style>
+<style>
+.right-line {
+  object-position: calc(50% - 50vw) center;
+}
+.left-line {
+  object-position: calc(50% + 50vw) center;
+}
+</style>
