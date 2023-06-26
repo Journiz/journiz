@@ -343,6 +343,7 @@ import PageTitle from '~/components/PageTitle.vue'
         </div>
       </section>
     </main>
+    <router-view></router-view>
   </div>
 </template>
 

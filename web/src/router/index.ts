@@ -61,6 +61,11 @@ const router = createRouter({
           component: () => import('~/views/dashboard/CommunityView.vue'),
         },
         {
+          path: 'communaute/detail',
+          name: 'communityDetail',
+          component: () => import('~/views/dashboard/CommunityDetailView.vue'),
+        },
+        {
           path: 'parametres',
           name: 'setting',
           component: () => import('~/views/dashboard/SettingsView.vue'),
