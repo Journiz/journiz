@@ -34,7 +34,7 @@ const steps: Step[] = [
         filter: `conversation.trip="${props.tripId}"`,
       })
       for (const message of messagesToDelete) {
-        await pb.collection('conversation').delete(message.id)
+        await pb.collection('message').delete(message.id)
       }
 
       // Reset trip
@@ -60,7 +60,7 @@ const steps: Step[] = [
     title: "Personnalisation de l'équipe",
   },
   {
-    title: "Changement des noms d'équipes",
+    title: "Changement des noms d'équipes et init GPS",
     onStep: async () => {
       for (const i in teams.value) {
         await pb.collection('team').update(teams.value[i].id, {
@@ -72,12 +72,7 @@ const steps: Step[] = [
         filter: `trip="${props.tripId}"`,
       })
       teamId.value = allTeams.find((t: any) => !teamsIds.includes(t.id))?.id
-    },
-  },
-  {
-    title: 'GPS Tout le monde au paquier',
-    onStep: async () => {
-      console.log('GPS Tout le monde au paquier')
+
       await pb.collection('team').update(teamId.value, {
         latitude: 45.90052,
         longitude: 6.12846,
@@ -184,10 +179,12 @@ const steps: Step[] = [
         longitude: 6.12846,
       })
       for (const i in teams.value) {
-        await pb.collection('team').update(teams.value[i].id, {
-          latitude: teams[i as unknown as number].latitude,
-          longitude: teams[i as unknown as number].longitude,
-        })
+        const data: any = {}
+        if (teams[i as unknown as number]?.id) {
+          data.latitude = teams[i as unknown as number]?.latitude
+          data.longitude = teams[i as unknown as number]?.longitude
+        }
+        await pb.collection('team').update(teams.value[i].id, data)
       }
     },
   },
@@ -213,9 +210,6 @@ const steps: Step[] = [
   },
   {
     title: 'Prof affiche classement',
-    onStep: () => {
-      console.log('Prof affiche classement')
-    },
   },
 ]
 const isRunning = ref(false)
