@@ -8,28 +8,45 @@ const members = defineModel<string[]>('members', {
 const addMemberInput = () => {
   members.value.push('')
 }
+const removeMemberInput = () => {
+  if (members.value.length > 1) members.value.pop()
+}
 </script>
 <template>
   <div class="flex flex-col pb-4">
     <form>
       <div v-if="members">
-        <TextInput
+        <Transition
           v-for="(member, index) in members"
           :key="index"
-          v-model="members[index]"
-          :label="
-            index === 0
-              ? 'Joueur 1 (détenteur du téléphone)'
-              : 'Joueur ' + (index + 1)
-          "
-          :svg-name="index === 0 ? 'book' : 'people'"
-          :no-display-required-stars="true"
-        />
+          :appear="true"
+        >
+          <TextInput
+            v-model="members[index]"
+            :label="
+              index === 0
+                ? 'Joueur 1 (détenteur du téléphone)'
+                : 'Joueur ' + (index + 1)
+            "
+            :svg-name="index === 0 ? 'book' : 'people'"
+            :no-display-required-stars="true"
+          />
+        </Transition>
       </div>
     </form>
-    <div class="pt-6 h-18">
+    <div
+      class="pt-6 h-18 flex gap-2 justify-center"
+      :class="members.length > 1 ? '-translate-x-6' : ''"
+    >
       <div
-        class="h-12 w-12 flex items-center justify-center text-white text-lg bg-green rounded-xl mx-auto"
+        v-if="members.length > 1"
+        class="h-12 w-12 flex items-center justify-center text-white text-lg bg-theme rounded-xl"
+        @click="removeMemberInput"
+      >
+        -
+      </div>
+      <div
+        class="h-12 w-12 flex items-center justify-center text-white text-lg bg-green rounded-xl"
         @click="addMemberInput"
       >
         +
@@ -37,3 +54,14 @@ const addMemberInput = () => {
     </div>
   </div>
 </template>
+<style>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

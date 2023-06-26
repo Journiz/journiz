@@ -37,7 +37,7 @@ const canSubmit = computed(() => {
     <div class="relative text-center mb-7 color-green-dark">
       Entrer les participants du groupe
     </div>
-    <CreateTeam v-model:members="members" class="relative flex-grow" />
+    <CreateTeam v-model:members="members" class="grow relative flex-grow" />
     <Button
       class="relative mb-4"
       :disabled="!canSubmit"
