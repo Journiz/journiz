@@ -6,6 +6,7 @@ const props = defineProps<{
   title: string
   name: string
   icon?: string
+  iconActive?: string
   defaultSelected?: boolean
 }>()
 const addTab = inject('addTab') as any

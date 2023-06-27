@@ -4,8 +4,8 @@ import SelectInput from '~/components/forms/SelectInput.vue'
 
 const selectChoices = [
   { value: 'français', content: 'Français' },
-  { value: 'anglais', content: 'Anglais' },
-  { value: 'espagnole', content: 'Espagnole' },
+  { value: 'english', content: 'Anglais' },
+  { value: 'spanish', content: 'Espagnol' },
 ]
 </script>
 <template>

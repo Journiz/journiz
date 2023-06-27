@@ -10,7 +10,9 @@ defineProps({
 })
 </script>
 <template>
-  <div class="bg-green-dark/4 p-3 flex rounded-xl mb-3 items-center w-fit">
+  <div
+    class="bg-white p-3 flex rounded-xl mb-3 items-center w-fit drop-shadow-md"
+  >
     <div class="mr-3 color-green-dark/80 text-5 h-5 w-auto">
       <div class="i-uil:home-alt"></div>
     </div>

@@ -5,9 +5,9 @@ import MapMarker from '~/components/MapMarker.vue'
 import Geocoding from '~/components/Geocoding.vue'
 import { Coordinates } from '~/types/Coordinates'
 import PointMarker from '~/components/map/PointMarker.vue'
+import Basecamp from '~/components/map/Basecamp.vue'
 
-const emit = defineEmits(['update'])
-const map = ref()
+const emit = defineEmits(['update', 'updateHasLocation'])
 const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
@@ -22,31 +22,61 @@ const props = defineProps({
     default: () => [],
     required: false,
   },
+  hasLocation: {
+    type: Boolean,
+    required: true,
+  },
+  isBasecampMap: {
+    type: Boolean,
+    default: false,
+  },
 })
+const map = ref()
 const researchMarkerPosition = ref(props.initialCoords)
-const addSearchMarker = (data: any) => {
-  emit('update', data.center)
-  researchMarkerPosition.value = data.center
-  map.value.flyToPoint(data.center)
+const getGeocodingResult = (data: any) => {
+  addSearchMarker(data.center)
+}
+const getHasLocation = (value: boolean) => {
+  emit('updateHasLocation', value)
+}
+const markerDragEnd = (e) => {
+  const dragPosition = e.target.getLngLat()
+  addSearchMarker([dragPosition.lng, dragPosition.lat])
+}
+const clickOnMap = (e: any) => {
+  const clickedPosition = e.lngLat.wrap()
+  addSearchMarker([clickedPosition.lng, clickedPosition.lat])
+}
+const addSearchMarker = (data: Coordinates) => {
+  emit('update', data)
+  researchMarkerPosition.value = data
+  map.value.flyToPoint(data)
 }
 </script>
 <template>
-  <!-- <pre> 
-    https://docs.mapbox.com/playground/geocoding/?search_text=paquier&proximity=ip
-    place_name => nom location point 
-    </pre> -->
   <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
-      @select-marker="addSearchMarker"
+      :has-location="props.hasLocation as PropType<boolean> as Boolean"
+      @changeHasLocation="getHasLocation"
+      @select-marker="getGeocodingResult"
     />
-    <Map ref="map" :map-center="mapCenter" :zoom="zoom" class="w-full h-full">
+    <Map
+      ref="map"
+      :map-center="mapCenter"
+      :zoom="zoom"
+      class="w-full h-full"
+      @mb-click="clickOnMap"
+    >
       <MapMarker
         v-if="researchMarkerPosition && researchMarkerPosition.length > 0"
         :position="researchMarkerPosition as Coordinates"
+        :draggable="true"
+        @mb-dragend="markerDragEnd"
       >
         <template #icon>
-          <PointMarker />
+          <Basecamp v-if="isBasecampMap" />
+          <PointMarker v-else />
         </template>
       </MapMarker>
       <slot />

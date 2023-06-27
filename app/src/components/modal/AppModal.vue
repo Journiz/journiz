@@ -1,8 +1,8 @@
 <script lang="ts" setup="">
 import Modal from '~/components/modal/Modal.vue'
 import Button from '~/components/design-system/Button.vue'
-import RiveAnimation from '~/components/modal/RiveAnimation.vue'
 import { useAppModal } from '~/composables/useModal'
+import LottieAnimation from '~/components/design-system/LottieAnimation.vue'
 
 const {
   title,
@@ -22,23 +22,18 @@ const {
     >
       <h1
         class="text-base font-black m-0 text-center"
-        :class="layout === 'fullscreen' ? '' : 'mb-8'"
+        :class="layout === 'fullscreen' ? '' : 'mb-2'"
       >
         {{ title }}
       </h1>
       <div
-        class="h-48 grid place-content-center relative z-1"
-        :class="layout === 'fullscreen' ? '-order-1 mt-auto' : 'w-full'"
+        class="w-full h-56 relative"
+        :class="layout === 'fullscreen' ? '-order-1 mt-auto' : ''"
       >
         <div
-          class="absolute left-1/2 top-1/2 aspect-square halo transform -translate-1/2 scale-150"
+          class="absolute left-1/2 top-1/2 h-9/10 aspect-square halo transform -translate-1/2 scale-150"
         ></div>
-        <RiveAnimation
-          v-if="animationName"
-          class="w-full"
-          :class="layout === 'fullscreen' ? '' : 'h-full'"
-          :name="animationName"
-        />
+        <LottieAnimation :animation-name="animationName" />
       </div>
       <div
         class="font-light text-sm text-center relative z-2"

@@ -11,8 +11,8 @@ import { useUserStore } from '~/stores/user'
 
 const selectChoices = [
   { value: 'français', content: 'Français' },
-  { value: 'anglais', content: 'Anglais' },
-  { value: 'espagnole', content: 'Espagnole' },
+  { value: 'english', content: 'Anglais' },
+  { value: 'spanish', content: 'Espagnol' },
 ]
 const router = useRouter()
 

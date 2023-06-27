@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import PageTitle from '~/components/PageTitle.vue'
+
+const router = useRouter()
+function vueDetail() {
+  router.push({ name: 'communityDetail' })
+}
 </script>
 <template>
   <div class="flex flex-col h-full">
@@ -114,7 +120,9 @@ import PageTitle from '~/components/PageTitle.vue'
                       <p>2 fois</p>
                     </div>
                   </div>
-                  <DefaultButton color="secondary">Voir</DefaultButton>
+                  <DefaultButton color="secondary" @click="vueDetail"
+                    >Voir</DefaultButton
+                  >
                 </div>
               </div>
             </div>
@@ -227,7 +235,9 @@ import PageTitle from '~/components/PageTitle.vue'
                       <p>2 fois</p>
                     </div>
                   </div>
-                  <DefaultButton color="secondary">Voir</DefaultButton>
+                  <DefaultButton color="secondary" @click="vueDetail"
+                    >Voir</DefaultButton
+                  >
                 </div>
               </div>
             </div>
@@ -335,7 +345,9 @@ import PageTitle from '~/components/PageTitle.vue'
                       <p>2 fois</p>
                     </div>
                   </div>
-                  <DefaultButton color="secondary">Voir</DefaultButton>
+                  <DefaultButton color="secondary" @click="vueDetail"
+                    >Voir</DefaultButton
+                  >
                 </div>
               </div>
             </div>

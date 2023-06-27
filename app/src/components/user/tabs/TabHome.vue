@@ -1,72 +1,92 @@
 <script lang="ts" setup="">
-import { ref } from 'vue'
-import { IonModal } from '@ionic/vue'
+import { useIonRouter } from '@ionic/vue'
+import { computed } from 'vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
-import PickTrip from '~/components/user/PickTrip.vue'
-import usePage from '~/composables/usePage'
 import { showModal } from '~/composables/useModal'
+import TripCountdown from '~/components/time/TripCountdown.vue'
+import Header from '~/components/design-system/Header.vue'
+import Button from '~/components/design-system/Button.vue'
 
-const userStore = useUserStore()
-const logout = useLogout(userStore.logout)
+const store = useUserStore()
+const logout = useLogout(store.logout)
+const router = useIonRouter()
 
-const page = usePage()
-const switchTripModalOpen = ref(false)
-
-const warn = async () => {
+const endTrip = async () => {
   const result = await showModal(
-    'Hello',
-    'This is a test',
+    'On arrête ?',
+    `<p>Cette commande clôt le jeu et envoie une notifications aux équipes pour rentrer au point de ralliement. </p>
+<p class="text-red font-bold">Cette action est définitive. </p>`,
     [
       {
-        title: 'Ok',
+        title: 'Oui, on arrête',
         color: 'red',
-        actionName: 'ok',
+        actionName: 'stop',
       },
       {
-        title: 'Cancel',
+        title: 'Non, on continue le jeu',
         color: 'green',
         actionName: 'cancel',
       },
     ],
-    'test'
+    'end'
   )
-  console.log(result)
+  if (result === 'stop') {
+    await store.endTrip()
+  }
+}
+const showScores = async () => {
+  await store.showTripScores()
+  router.navigate({ name: 'user-end' }, 'root', 'replace')
 }
 </script>
 <template>
-  <div class="flex-grow h-full bg-red/40">
-    <div>
-      Bonjour {{ userStore.user?.username }}. Trip is
-      {{ userStore.trip?.name }}
-    </div>
-    <div>
-      <IonButton @click="switchTripModalOpen = true">Switch trip</IonButton>
-      <IonButton @click="logout">Logout</IonButton>
-      <IonButton @click="warn">Warn me</IonButton>
-    </div>
-
-    <IonModal
-      :is-open="switchTripModalOpen"
-      :can-dismiss="true"
-      :presenting-element="page?.element as any"
-      @did-dismiss="switchTripModalOpen = false"
+  <div v-if="store.user" class="flex flex-col h-full">
+    <Header :title="store.trip?.name ?? ''" subtitle="Paramètres" />
+    <div
+      v-if="store.trip?.status === 'playing'"
+      class="flex-grow bg-beige-light p-4 flex flex-col gap-4"
     >
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Sorties</ion-title>
-          <ion-buttons slot="end">
-            <ion-button @click="switchTripModalOpen = false"
-              >Annuler
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <PickTrip @trip-change="switchTripModalOpen = false" />
-      </ion-content>
-    </IonModal>
-    <!--    <teleport to="#trip-tabs-page">-->
-    <!--    </teleport>-->
+      <div
+        class="shadow bg-white rounded-lg p-6 flex flex-col text-green-dark gap-6"
+      >
+        <span class="text-center text-xl font-black">
+          Un problème ? Un imprévu ?
+        </span>
+        <Button color="green" @click="endTrip">Arrêter la partie</Button>
+        <div class="flex items-start gap-2">
+          <span
+            class="i-ion:information-circle flex-shrink-0 text-red text-28px"
+          ></span>
+          <p class="text-sm font-light italic">
+            Cette commande clôt le jeu et envoie une notifications aux équipes
+            pour rentrer au point de ralliement. <br />
+            Cette action est
+            <span class="text-red font-medium">définitive</span>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div v-else class="flex-grow bg-beige-light p-4 flex flex-col gap-4">
+      <div
+        class="shadow bg-white rounded-lg p-6 flex flex-col text-green-dark gap-6"
+      >
+        <span class="text-center text-xl font-black">
+          Le jeu est en train de se terminer.
+        </span>
+        <Button color="green" @click="endTrip">Afficher les scores</Button>
+        <div class="flex items-start gap-2">
+          <span
+            class="i-ion:information-circle flex-shrink-0 text-red text-28px"
+          ></span>
+          <p class="text-sm font-light italic">
+            Cette commande calcule le classement et affiche les scores sur les
+            écrans des équipes. <br />
+            Assurez-vous d'avoir validé toutes les réponses.
+          </p>
+        </div>
+      </div>
+      <Button @click="logout">Se déconnecter</Button>
+    </div>
   </div>
 </template>

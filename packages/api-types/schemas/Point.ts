@@ -3,12 +3,14 @@ import { BaseSchema } from './Base'
 
 export const basePointSchema = BaseSchema.extend({
   id: z.string(),
+  hasLocation: z.boolean(),
   latitude: z.number(),
   longitude: z.number(),
   name: z.string().optional(),
   question: z.string().optional(),
   description: z.string().optional(),
   media: z.string().optional(),
+  fallbackMedia: z.number().optional(),
   answerType: z.enum(['image', 'text', 'choice', 'location', 'audio']),
   answer: z
     .union([

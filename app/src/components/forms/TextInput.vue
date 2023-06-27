@@ -42,7 +42,7 @@ const onInput = (e: any) => {
 }
 onMounted(() => {
   if (props.svgName) {
-    imageURL = "'/src/assets/img/svg/inputsIcons/" + props.svgName + ".svg'"
+    imageURL = "'/img/inputsIcons/" + props.svgName + ".svg'"
   }
 })
 const togglePasswordVisibility = () => {

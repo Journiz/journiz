@@ -8,6 +8,9 @@ const state: TabsProvider = reactive({
   activeTab: undefined,
   tabs: [],
 })
+const emit = defineEmits<{
+  tabChange: [tabName: string]
+}>()
 let defaultTabName = ''
 provide(TabsProviderKey, state)
 provide('addTab', (tab: TabData, defaultSelected = false) => {
@@ -19,6 +22,7 @@ provide('addTab', (tab: TabData, defaultSelected = false) => {
 const setActiveTab = (name: string) => {
   state.activeTabName = name
   state.activeTab = state.tabs.find((tab) => tab.name === name)
+  emit('tabChange', name)
 }
 
 onMounted(() => {
@@ -27,6 +31,10 @@ onMounted(() => {
     return
   }
   setActiveTab(state.tabs[0].name)
+})
+defineExpose({
+  state,
+  setActiveTab,
 })
 </script>
 <template>

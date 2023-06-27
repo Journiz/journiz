@@ -113,6 +113,22 @@ const router = createRouter({
             },
           ],
         },
+        {
+          path: 'sorties',
+          name: 'trips-list',
+          component: () => import('~/views/dashboard/trip/TripsListView.vue'),
+        },
+        {
+          path: 'sorties/:tripId',
+          name: 'trip-settings',
+          component: () =>
+            import('~/views/dashboard/trip/TripSettingsView.vue'),
+        },
+        {
+          path: 'sorties/podium/:tripId',
+          name: 'trip-podium',
+          component: () => import('~/views/dashboard/trip/TripPodiumView.vue'),
+        },
       ],
     },
   ],

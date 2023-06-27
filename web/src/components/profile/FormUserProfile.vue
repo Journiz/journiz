@@ -1,8 +1,7 @@
 <script lang="ts" setup="">
 import { ref } from 'vue'
-import { useFileUrl } from '@journiz/composables'
-import { useUserStore } from '../../stores/user'
-import PageTitle from '~/components/PageTitle.vue'
+import { getFileUrl, useFileUrl } from '@journiz/composables'
+import { useUserStore } from '~/stores/user'
 import TextInput from '~/components/forms/TextInput.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 
@@ -14,7 +13,7 @@ const id = ref(userStore.user?.id)
 const username = ref(userStore.user?.username)
 const email = ref(userStore.user?.email)
 const loading = ref(false)
-const avatar = useFileUrl(userStore.user, userStore.user.avatar)
+const avatar = getFileUrl(userStore.user, userStore.user?.avatar)
 
 const updateUser = async () => {
   loading.value = true
@@ -34,19 +33,32 @@ const updateUser = async () => {
 }
 </script>
 <template>
-  <section>
-    <page-title class="mb-10">Vos informations personnels</page-title>
+  <section class="bg-beige p-12 rounded-xl h-full">
+    <h2 class="text-2xl font-bold text-center mb-4">
+      Vos informations personnels
+    </h2>
+    <div>
+      <div class="w-36 h-36 rounded-full overflow-hidden mb-6 mx-auto">
+        <img
+          v-if="avatar"
+          class="object-fit object-center object-cover w-full h-full"
+          :src="avatar"
+          alt="Avatar"
+        />
+      </div>
+    </div>
     <form
-      class="w-full max-w-520px p-13 rounded-xl mx-auto"
+      class="w-full max-w-520px rounded-xl mx-auto"
       @submit.prevent="updateUser"
     >
-      <img v-if="avatar" :src="avatar" alt="" />
       <div class="form-group">
         <TextInput
           v-model="username"
-          label="Username"
+          label="Identifiant"
           placeholder="username"
           type="text"
+          :no-display-required-stars="true"
+          svg-name="people"
         />
       </div>
       <div class="form-group">
@@ -55,6 +67,8 @@ const updateUser = async () => {
           label="Email"
           placeholder="email"
           type="text"
+          :no-display-required-stars="true"
+          svg-name="email"
         />
       </div>
       <p v-if="invalidInput">
@@ -62,19 +76,13 @@ const updateUser = async () => {
       </p>
       <p v-if="validInput">Les données ont bien été enregistrées</p>
       <default-button
+        class="mt-4 mx-auto"
         type="submit"
         :loading="false"
         variant="fill"
         color="secondary"
-        >Suivant</default-button
+        >Modifier mes informations</default-button
       >
     </form>
-    <default-button
-      type="submit"
-      :loading="false"
-      variant="fill"
-      color="secondary"
-      >Changer de mot de passe</default-button
-    >
   </section>
 </template>

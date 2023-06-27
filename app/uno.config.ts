@@ -6,11 +6,22 @@ import {
   transformerDirectives,
 } from 'unocss'
 // @ts-ignore
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 import { theme } from './tailwind.config.cjs'
 
 export default defineConfig({
   // ...UnoCSS options
-  presets: [presetAttributify(), presetUno(), presetIcons()],
+  presets: [
+    presetAttributify(),
+    presetUno(),
+    presetIcons({
+      collections: {
+        journiz: FileSystemIconLoader('./src/icons', (svg) =>
+          svg.replace(/black/, 'currentColor')
+        ),
+      },
+    }),
+  ],
   rules: [
     ['top-safe', { top: 'env(safe-area-inset-top)' }],
     ['bottom-safe', { bottom: 'env(safe-area-inset-bottom)' }],

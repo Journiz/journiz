@@ -20,11 +20,11 @@ defineProps({
         id="search"
         ref="searchContent"
         type="text"
-        class="w-full border rounded-xl py-4 px-5 mt-2 mb-4 text-black bg-green-dark/4"
+        class="w-full rounded-xl py-4 px-5 mt-2 mb-4 text-black bg-white drop-shadow-md"
       />
       <SquareButton
-        class="absolute right-2 top-3.5"
-        icon="play"
+        class="absolute right-0 top-2 h-14 w-14 rounded-xl"
+        icon="search"
         color="secondary"
         @click="$emit('makeResearch', searchContent!.value)"
       />

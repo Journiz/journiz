@@ -12,7 +12,9 @@ import IconMarker from '~icons/uil/location-point'
 import IconBack from '~icons/ion/return-up-back-outline'
 import IconFolder from '~icons/uil/folder-open'
 import IconJourney from '~icons/bx/trip'
-
+import PhBookOpenBold from '~icons/ph/book-open-bold'
+import IconDownload from '~icons/uil/download-alt'
+import SearchIcon from '~icons/material-symbols/search-rounded'
 export default {
   play: IconPlay,
   edit: IconEdit,
@@ -28,4 +30,7 @@ export default {
   folder: IconFolder,
   journey: IconJourney,
   minus: IconMinus,
+  book: PhBookOpenBold,
+  download: IconDownload,
+  search: SearchIcon,
 }

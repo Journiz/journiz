@@ -7,7 +7,6 @@ import useTeamAnswer from '~/composables/useTeamAnswer'
 
 const props = defineProps<{
   point: Point
-  validationLoading: boolean
 }>()
 const emit = defineEmits<{
   answer: [data: string]

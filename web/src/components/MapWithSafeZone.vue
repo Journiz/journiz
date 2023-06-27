@@ -6,7 +6,6 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import Map from '~/components/Map.vue'
 import { Coordinates } from '~/types/Coordinates'
 import SquareButton from '~/components/buttons/SquareButton.vue'
-import { useJourneyStore } from '~/stores/journey'
 // @ts-ignore
 const mapInstance = ref<MapboxMap>()
 const emit = defineEmits(['safeAreaGeometry'])

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useJourney, usePocketBase } from '@journiz/composables'
 import { toRaw } from 'vue'
+import { PointWithDependents } from '~/types/points'
 
 export const useJourneyStore = defineStore('journey', () => {
   const { data: journey, loading, setId, update, refresh } = useJourney()
@@ -36,6 +37,33 @@ export const useJourneyStore = defineStore('journey', () => {
     journey.value.basecampLatitude = lat
     try {
       await update()
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+    return false
+  }
+
+  const exportJourney = async (time: string, security: boolean) => {
+    if (!journey.value) return false
+    const timeArray = time.split(':')
+    const duration =
+      parseInt(timeArray[0], 10) * 60 + parseInt(timeArray[1], 10)
+    journey.value.duration = duration
+    journey.value.hasSafeZone = security
+    try {
+      await update()
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+    return false
+  }
+
+  const deleteJourney = async (id: string) => {
+    console.log('oui')
+    try {
+      await pb.collection('journey').delete(id)
       return true
     } catch (e) {
       console.log(e)
@@ -83,48 +111,21 @@ export const useJourneyStore = defineStore('journey', () => {
     return false
   }
 
-  const exportJourney = async (time: string, security: boolean) => {
-    if (!journey.value) return false
-    const timeArray = time.split(':')
-    const duration =
-      parseInt(timeArray[0], 10) * 60 + parseInt(timeArray[1], 10)
-    journey.value.duration = duration
-    // ajouter champ dans la bdd pour la zone avec l'envoie de la zone saisie sur la map
-    // journey.value.duration = security
-    try {
-      await update()
-      return true
-    } catch (e) {
-      console.log(e)
-    }
-    return false
-  }
-
-  const deletePointsOfJourney = async (id: string) => {
-    console.log('delete point')
-    const record = await pb.collection('journey').getOne(id, {
-      expand: 'id',
-    })
-    for (let i = 0; i < record.points.length; i++) {
-      const element = record.points[i]
-      try {
-        await pb.collection('point').delete(element)
-      } catch (e) {
-        console.log(e)
+  const updateOrderFromNestedArray = async (source: PointWithDependents[]) => {
+    const flatSorted: string[] = []
+    source.forEach((point) => {
+      flatSorted.push(point.id)
+      if (point.dependents) {
+        point.dependents.forEach((dependent) => {
+          flatSorted.push(dependent.id)
+        })
       }
+    })
+    console.log(flatSorted)
+    if (journey.value) {
+      journey.value.points = flatSorted
+      await update()
     }
-  }
-
-  const deleteJourney = async (id: string) => {
-    console.log('oui')
-    deletePointsOfJourney(id)
-    try {
-      await pb.collection('journey').delete(id)
-      return true
-    } catch (e) {
-      console.log(e)
-    }
-    return false
   }
 
   return {
@@ -139,5 +140,6 @@ export const useJourneyStore = defineStore('journey', () => {
     exportJourney,
     newPoint,
     addPointToJourney,
+    updateOrderFromNestedArray,
   }
 })
