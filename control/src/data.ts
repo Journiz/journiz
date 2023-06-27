@@ -3,7 +3,7 @@ export const initialTeams = [
     name: 'Equipe 1',
     members: ['Malo', 'Romain', 'Eliah', 'Margot', 'Mathis'],
     batteryLevel: 76,
-    color: 'orange',
+    color: 'teal',
     hat: 'headset',
     isOutside: false,
     latitude: 45.90053,
