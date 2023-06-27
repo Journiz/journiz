@@ -1,10 +1,8 @@
 <script lang="ts" setup="">
 import { useIonRouter } from '@ionic/vue'
-import { computed } from 'vue'
 import { useLogout } from '~/composables/useLogout'
 import { useUserStore } from '~/stores/user'
 import { showModal } from '~/composables/useModal'
-import TripCountdown from '~/components/time/TripCountdown.vue'
 import Header from '~/components/design-system/Header.vue'
 import Button from '~/components/design-system/Button.vue'
 
@@ -36,6 +34,26 @@ const endTrip = async () => {
   }
 }
 const showScores = async () => {
+  const result = await showModal(
+    'On affiche les scores ?',
+    `Les joueurs pourront voir leurs résultats et le podium.`,
+    [
+      {
+        title: 'Oui !',
+        color: 'green',
+        actionName: 'stop',
+      },
+      {
+        title: 'Pas encore',
+        color: 'red',
+        actionName: 'cancel',
+      },
+    ],
+    'end'
+  )
+  if (result === 'stop') {
+    await store.endTrip()
+  }
   await store.showTripScores()
   router.navigate({ name: 'user-end' }, 'root', 'replace')
 }
@@ -74,7 +92,7 @@ const showScores = async () => {
         <span class="text-center text-xl font-black">
           Le jeu est en train de se terminer.
         </span>
-        <Button color="green" @click="endTrip">Afficher les scores</Button>
+        <Button color="green" @click="showScores">Afficher les scores</Button>
         <div class="flex items-start gap-2">
           <span
             class="i-ion:information-circle flex-shrink-0 text-red text-28px"

@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { Point } from '@journiz/api-types'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { Point } from '@journiz/api-types'
-import { teamDistanceFromPoint } from '~/utils/teamDistanceFromPoint'
 import { useTeamStore } from '~/stores/team/team'
+import { teamDistanceFromPoint } from '~/utils/teamDistanceFromPoint'
 import { showModal } from '~/composables/useModal'
 
 const props = defineProps<{
@@ -22,7 +22,6 @@ const distanceFromPoint = computed<number>(() => {
 const canOpenPoint = computed(() => {
   return (
     props.point.answerType === 'location' ||
-    !props.point.hasLocation ||
     (distanceFromPoint.value < 15 && distanceFromPoint.value >= 0)
   )
 })
@@ -46,29 +45,15 @@ const onClick = () => {
 }
 </script>
 <template>
-  <button
-    :class="{
-      'opacity-60': !canOpenPoint,
-    }"
+  <div
+    class="relative w-18 h-18 rounded-full shadow-lg overflow-hidden flex items-center justify-center"
     @click="onClick"
   >
-    <span
-      class="flex items-center gap-3 bg-white rounded-xl shadow-md py-3 px-3"
+    <div class="w-full h-full absolute top-0 left-0 bg-green-dark/25"></div>
+    <div
+      class="h-8 w-8 rounded-full bg-green-dark/80 text-6 color-white flex items-center justify-center"
     >
-      <span
-        class="i-material-symbols:location-on-rounded text-theme text-32px"
-        :class="[
-          point.hasLocation && point.answerType !== 'location'
-            ? 'i-material-symbols:location-on-rounded'
-            : 'i-uil:question',
-        ]"
-      ></span>
-      <span class="font-light text-green-dark">{{ point.name }}</span>
-      <span
-        v-if="point.trigger"
-        class="ml-auto text-xs font-light text-theme font-light flex-shrink-0 italic"
-        >Débloqué !</span
-      >
-    </span>
-  </button>
+      <div class="i-uil:question"></div>
+    </div>
+  </div>
 </template>

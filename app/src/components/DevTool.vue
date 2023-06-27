@@ -56,17 +56,10 @@ const presentActionSheet = async () => {
   isOpen = false
 }
 
-const shakesToOpen = 2
-let shakeCount = 0
 onMounted(() => {
   CapacitorShake.addListener('shake', () => {
     if (isOpen) return
-    if (shakeCount < shakesToOpen - 1) {
-      shakeCount++
-      return
-    }
     presentActionSheet()
-    shakeCount = 0
   })
 })
 

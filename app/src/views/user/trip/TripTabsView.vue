@@ -82,7 +82,7 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
       </Tabs>
 
       <div
-        v-show="!['chat'].includes(currentTab)"
+        v-show="!['chat', 'validation'].includes(currentTab)"
         class="absolute bottom-36 left-1/2 transform -translate-x-1/2"
       >
         <TripCountdown

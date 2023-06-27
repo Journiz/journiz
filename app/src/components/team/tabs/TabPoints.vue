@@ -7,23 +7,24 @@ import { useTeamStore } from '~/stores/team/team'
 import Header from '~/components/design-system/Header.vue'
 import PointsList from '~/components/team/points/PointsList.vue'
 import TripCountdown from '~/components/time/TripCountdown.vue'
+import TeamMap from '~/components/team/TeamMap.vue'
 
 const store = useTeamStore()
 const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
+  if (store.trip?.status !== 'playing') {
+    return []
+  }
   const allPoints =
-    store.journey?.expand?.points
-      ?.map((p: Point) => {
-        return {
-          ...p,
-          hasAnswer: !!store.team?.expand?.answers?.find(
-            (a) => a.point === p.id
-          ),
-        }
-      })
-      .filter((p) => {
-        return !p.hasAnswer
-      }) ?? []
-  return allPoints.filter((p: Point) => {
+    store.journey?.expand?.points?.map((p: Point) => {
+      return {
+        ...p,
+        hasAnswer: !!store.team?.expand?.answers?.find((a) => a.point === p.id),
+      }
+    }) ?? []
+  return allPoints.filter((p) => {
+    if (p.hasAnswer) {
+      return false
+    }
     if (p.trigger) {
       const trigger = allPoints.find((t: Point) => t.id === p.trigger)
       return trigger?.hasAnswer ?? false
@@ -38,12 +39,12 @@ const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
     class="w-full h-full flex flex-col relative"
   >
     <Header :title="store.trip?.name" :subtitle="store.team?.name" />
-    <TopTabs v-if="store.trip?.status === 'playing'" class="flex-shrink">
-      <Tab title="Enigmes" name="list" default-selected>
+    <TopTabs class="flex-shrink">
+      <Tab title="Enigmes" name="list">
         <PointsList :points="points" />
       </Tab>
-      <Tab title="Carte" name="map">
-        <div>Ici la carte</div>
+      <Tab title="Carte" name="map" default-selected>
+        <TeamMap :points="points" />
         <div
           class="absolute bottom-28 left-0 right-0 px-4 flex items-center justify-center gap-2"
         >
@@ -57,6 +58,5 @@ const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
         </div>
       </Tab>
     </TopTabs>
-    <div v-else class="flex-grow">Ici la carte sans les points</div>
   </div>
 </template>
