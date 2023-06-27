@@ -6,6 +6,7 @@ import { usePocketBase } from '@journiz/composables'
 import PointItem from '~/components/point/PointItem.vue'
 import { useJourneyStore } from '~/stores/journey'
 import BasecampLine from '~/components/BasecampLine.vue'
+import CommunityPointList from '~/components/point/CommunityPointList.vue'
 import { PointWithDependents } from '~/types/points'
 import Sortable from '~/components/forms/Sortable.vue'
 
@@ -102,5 +103,10 @@ watch(
         </template>
       </Sortable>
     </div>
+    <CommunityPointList
+      v-if="store.journey"
+      :basecamp-latitude="store.journey.basecampLatitude"
+      :basecamp-longitude="store.journey.basecampLongitude"
+    />
   </article>
 </template>
