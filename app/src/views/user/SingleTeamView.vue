@@ -9,6 +9,7 @@ import { useUserStore } from '~/stores/user'
 import TeamAvatar from '~/components/team/TeamAvatar.vue'
 import { getColor } from '~/composables/useThemeColor'
 import Button from '~/components/design-system/Button.vue'
+import TeamMembersList from "~/components/team/TeamMembersList.vue";
 
 const store = useUserStore()
 const teamId = useRoute().params.teamId
@@ -84,26 +85,11 @@ const { data: answers } = useAnswers({
         <span class="i-fluent:people-team-24-regular text-xl h-6 w-6 mr-2" />
         <span class="text-lg">Membres de l’équipe</span>
       </h3>
-      <div
+      <TeamMembersList
         v-if="team.members"
-        class="grow overflow-hidden flex flex-col overflow-scroll"
-      >
-        <div
-          v-for="(member, i) in team.members"
-          :key="member"
-          class="rounded-xl bg-white px-4 py-4 mb-3 flex items-center justify-between"
-        >
-          <span>{{ member }}</span>
-          <span
-            v-if="i === 0 && team.batteryLevel"
-            class="flex items-center text-sm"
-            :class="team.batteryLevel < 15 ? 'text-red' : ''"
-          >
-            <span class="i-uil:mobile-android text-base"></span>
-            <span> {{ team.batteryLevel }} % </span>
-          </span>
-        </div>
-      </div>
+        class="grow"
+        :members="team.members"
+        :battery-level="team.batteryLevel" />
       <Button
         v-if="conversations && !loading"
         class="mb-4 mt-8"
