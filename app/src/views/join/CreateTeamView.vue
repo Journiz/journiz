@@ -35,7 +35,7 @@ const canSubmit = computed(() => {
       {{ store.trip?.name }}
     </h2>
     <div class="relative text-center mb-7 color-green-dark">
-      Entrer les participants du groupe
+      Ajoute les membres de ton équipe !
     </div>
     <CreateTeam v-model:members="members" class="grow relative flex-grow" />
     <Button
