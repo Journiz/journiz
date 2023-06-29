@@ -20,7 +20,7 @@ const router = useIonRouter()
 
 const countdownRunning = ref(false)
 const onCountdownEnd = () => {
-  router.replace({ name: 'team' })
+  router.replace({ name: 'team', query: { justStarted: 'true' } })
 }
 watch(
   () => store.trip?.status,

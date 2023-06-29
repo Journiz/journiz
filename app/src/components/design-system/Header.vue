@@ -1,27 +1,13 @@
 <script lang="ts" setup="">
 import Back from '~/components/router/Back.vue'
 import { showModal } from '~/composables/useModal'
+import warnSecurity from '~/utils/warnSecurity'
 
 defineProps<{
   title: string
   subtitle: string
   backTo?: any
 }>()
-
-const warnSecurity = async () => {
-  await showModal(
-    `Sécurité d'abord : ne regardez pas votre téléphone en traversant la rue.`,
-    `Gardez toujours un œil sur votre environnement et assurez-vous d'être à l'arrêt en toute sécurité avant de consulter votre téléphone.`,
-    [
-      {
-        actionName: 'ok',
-        color: 'red',
-        title: 'Promis !',
-      },
-    ],
-    'warn'
-  )
-}
 </script>
 <template>
   <div class="px-6 pt-1 pb-6 flex items-center gap-4 bg-white">
