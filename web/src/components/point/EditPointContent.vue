@@ -100,21 +100,21 @@ async function addMedia(type: string) {
       <SquareButton
         class="mr-2"
         color="secondary"
-        icon="minus"
+        icon="photo"
         @click="addMedia('photo')"
       />
       <p>ou &nbsp;</p>
       <SquareButton
         class="mr-2"
         color="secondary"
-        icon="minus"
+        icon="audio"
         @click="addMedia('audio')"
       />
       <p>ou &nbsp;</p>
       <SquareButton
         class="mr-2"
         color="secondary"
-        icon="minus"
+        icon="video"
         @click="addMedia('video')"
       />
       <input ref="fileInput" class="hidden" type="file" :accept="accept" />
