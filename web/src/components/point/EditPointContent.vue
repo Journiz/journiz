@@ -128,7 +128,7 @@ async function addMedia(type: string) {
       class="overflow-auto"
       :answer-type="store.point.answerType"
     />
-    <HintInputs v-model="store.point.hint" class="overflow-auto" />
+    <HintInputs v-model="store.point.hint" class="overflow-auto mt-4" />
   </div>
 </template>
 <style scoped>

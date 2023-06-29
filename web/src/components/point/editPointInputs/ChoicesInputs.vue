@@ -41,7 +41,7 @@ function removeChoiceAnswer(id: string) {
 </script>
 <template>
   <div>
-    <div class="font-medium text-sm">Réponses</div>
+    <div class="font-medium text-sm mb-1">Réponses</div>
     <Sortable
       v-model="answers"
       class=""
