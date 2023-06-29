@@ -7,9 +7,13 @@ import Button from '~/components/design-system/Button.vue'
     class="flex flex-col items-center pb-8 justify-end text-green-dark gap-6 bg-beige-light"
   >
     <div class="w-full h-auto">
-        <img class="object-cover object-center w-full h-full" src="/homeImage.png" alt="home illustration">
+      <img
+        class="object-cover object-center w-full h-full"
+        src="/homeImage.png"
+        alt="home illustration"
+      />
     </div>
-      <div class="w-52" v-html="logo"></div>
+    <div class="h-11 w-auto mx-auto" v-html="logo"></div>
     <p class="text-center px-12 font-light">
       Rejoignez votre prochain parcours dès maintenant !
     </p>
