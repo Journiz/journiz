@@ -58,6 +58,7 @@ function hoverMarker(pointId: string) {
         class="w-1/2 pr-2 max-h-full overflow-scroll"
         :show-community="true"
         :editable="true"
+        :sortable="true"
         :current-item-id="currentItemId"
       />
       <div class="relative flex-grow">

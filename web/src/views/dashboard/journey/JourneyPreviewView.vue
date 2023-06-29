@@ -9,11 +9,17 @@ import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import PointMarker from '~/components/map/PointMarker.vue'
 import Basceamp from '~/components/map/Basecamp.vue'
+import PointPreview from '~/components/point/preview/PointPreview.vue'
 
 const router = useRouter()
 const store = useJourneyStore()
 
 const selectedPointId = ref('')
+const selectedPoint = computed(() => {
+  return store.journey?.expand?.points?.find(
+    (p) => p.id === selectedPointId.value
+  )
+})
 </script>
 <template>
   <div class="flex flex-col h-full">
@@ -29,7 +35,9 @@ const selectedPointId = ref('')
         :editable="false"
         class="w-1/2 pr-2 max-h-full overflow-scroll"
       />
-      <div class="relative flex-grow p-4">Preview {{ selectedPointId }}</div>
+      <div class="relative flex-grow">
+        <PointPreview :point="selectedPoint" />
+      </div>
     </div>
   </div>
 </template>
