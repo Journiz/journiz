@@ -7,8 +7,8 @@ import Header from '~/components/design-system/Header.vue'
 import Page from '~/components/Page.vue'
 import { useUserStore } from '~/stores/user'
 import Button from '~/components/design-system/Button.vue'
-import TeamMembersList from "~/components/team/TeamMembersList.vue";
-import TeamStats from "~/components/team/TeamStats.vue";
+import TeamMembersList from '~/components/team/TeamMembersList.vue'
+import TeamStats from '~/components/team/TeamStats.vue'
 
 const store = useUserStore()
 const teamId = useRoute().params.teamId
@@ -53,7 +53,8 @@ const goToTeamChat = () => {
         v-if="team.members"
         class="grow"
         :members="team.members"
-        :battery-level="team.batteryLevel" />
+        :battery-level="team.batteryLevel"
+      />
       <Button
         v-if="conversations && !loading"
         class="mb-4 mt-8"

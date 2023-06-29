@@ -13,6 +13,7 @@ import { showModal } from '~/composables/useModal'
 import { warnTeamOutside } from '~/utils/warnOutside'
 import { useGeolocationStore } from '~/stores/geolocation'
 import { warnTeamEndTrip } from '~/utils/warnStartStop'
+import TabTeamScore from "~/components/team/tabs/TabTeamScore.vue";
 
 const store = useTeamStore()
 const router = useIonRouter()
@@ -90,7 +91,8 @@ onUnmounted(() => {
           icon="i-journiz:podium"
           icon-active="i-journiz:podium-fill"
         >
-          Score
+          <!-- Score -->
+          <TabTeamScore />
         </Tab>
         <ButtonOnlyTab
           title="Messages"
