@@ -47,8 +47,10 @@ onMounted(async () => {
 </script>
 <template>
   <div>
-    <!-- <pre>{{ resultList }}</pre> -->
-    <h3 class="community--title text-black font-medium mt-8 mb-2">
+    <h3
+      v-if="resultList.length > 0"
+      class="community--title text-black font-medium mt-8 mb-2"
+    >
       Ajouter un point proposé par la communauté
     </h3>
     <div class="community--slider">
