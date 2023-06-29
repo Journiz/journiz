@@ -13,6 +13,11 @@ export default defineConfig({
         defineModel: true,
         propsDestructure: true,
       },
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => ['dotlottie-player'].includes(tag),
+        },
+      },
     }),
     UnoCSS(),
     Icons({

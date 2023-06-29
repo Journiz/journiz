@@ -1,4 +1,4 @@
-<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
+<script setup lang="ts">
 import { onMounted, PropType, ref } from 'vue'
 // @ts-ignore
 import { MapboxMap } from '@studiometa/vue-mapbox-gl'
@@ -6,7 +6,6 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import Map from '~/components/Map.vue'
 import { Coordinates } from '~/types/Coordinates'
 import SquareButton from '~/components/buttons/SquareButton.vue'
-import { useJourneyStore } from '~/stores/journey'
 // @ts-ignore
 const mapInstance = ref<MapboxMap>()
 const emit = defineEmits(['safeAreaGeometry'])

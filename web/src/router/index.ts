@@ -61,6 +61,11 @@ const router = createRouter({
           component: () => import('~/views/dashboard/CommunityView.vue'),
         },
         {
+          path: 'communaute/detail',
+          name: 'communityDetail',
+          component: () => import('~/views/dashboard/CommunityDetailView.vue'),
+        },
+        {
           path: 'parametres',
           name: 'setting',
           component: () => import('~/views/dashboard/SettingsView.vue'),
@@ -107,6 +112,22 @@ const router = createRouter({
                 import('~/views/dashboard/journey/point/PointEditView.vue'),
             },
           ],
+        },
+        {
+          path: 'sorties',
+          name: 'trips-list',
+          component: () => import('~/views/dashboard/trip/TripsListView.vue'),
+        },
+        {
+          path: 'sorties/:tripId',
+          name: 'trip-settings',
+          component: () =>
+            import('~/views/dashboard/trip/TripSettingsView.vue'),
+        },
+        {
+          path: 'sorties/podium/:tripId',
+          name: 'trip-podium',
+          component: () => import('~/views/dashboard/trip/TripPodiumView.vue'),
         },
       ],
     },

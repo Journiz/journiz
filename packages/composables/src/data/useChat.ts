@@ -25,6 +25,7 @@ export const useChat = (conversationId: string, sender: 'user' | 'team') => {
       read: true,
     })
   }
+
   useEventListener(document, 'visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       refresh()

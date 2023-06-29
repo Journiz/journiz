@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useJourney, usePocketBase } from '@journiz/composables'
 import { toRaw } from 'vue'
+import { PointWithDependents } from '~/types/points'
 
 export const useJourneyStore = defineStore('journey', () => {
   const { data: journey, loading, setId, update, refresh } = useJourney()
@@ -49,8 +50,7 @@ export const useJourneyStore = defineStore('journey', () => {
     const duration =
       parseInt(timeArray[0], 10) * 60 + parseInt(timeArray[1], 10)
     journey.value.duration = duration
-    // ajouter champ dans la bdd pour la zone avec l'envoie de la zone saisie sur la map
-    // journey.value.duration = security
+    journey.value.hasSafeZone = security
     try {
       await update()
       return true
@@ -111,6 +111,23 @@ export const useJourneyStore = defineStore('journey', () => {
     return false
   }
 
+  const updateOrderFromNestedArray = async (source: PointWithDependents[]) => {
+    const flatSorted: string[] = []
+    source.forEach((point) => {
+      flatSorted.push(point.id)
+      if (point.dependents) {
+        point.dependents.forEach((dependent) => {
+          flatSorted.push(dependent.id)
+        })
+      }
+    })
+    console.log(flatSorted)
+    if (journey.value) {
+      journey.value.points = flatSorted
+      await update()
+    }
+  }
+
   return {
     newJourney,
     setBasecamp,
@@ -123,5 +140,6 @@ export const useJourneyStore = defineStore('journey', () => {
     exportJourney,
     newPoint,
     addPointToJourney,
+    updateOrderFromNestedArray,
   }
 })

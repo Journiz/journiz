@@ -19,14 +19,17 @@ const {
 } = useJourneys({
   filter: `user="${userStore.user!.id}"`,
   sort: '-created',
+  expand: 'trip(journey)',
 })
 
 const deleteJourney = async (id: string) => {
-  console.log('delete journey', id)
   const success = await journeyStore.deleteJourney(id)
   if (success) {
     await refresh()
   }
+}
+const openTrip = (id: string) => {
+  router.push({ name: 'trip-settings', params: { tripId: id } })
 }
 await waitForEndLoading(loading)
 </script>
@@ -42,8 +45,9 @@ await waitForEndLoading(loading)
         v-for="journey in journeys"
         :key="journey.id"
         :journey="journey"
-        @delete-journey="deleteJourney(journey.id)"
+        @delete-journey="deleteJourney(journey.id as string)"
         @edit-journey="router.push('/dashboard/parcours/' + journey.id)"
+        @open-trip="openTrip($event)"
       />
     </div>
   </article>

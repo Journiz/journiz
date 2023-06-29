@@ -15,5 +15,6 @@ const lerpLng = useLerp(lng)
 const lerpLat = useLerp(lat)
 </script>
 <template>
+  <!-- Renderless component -->
   <slot :coordinates="{ lng: lerpLng, lat: lerpLat }"></slot>
 </template>

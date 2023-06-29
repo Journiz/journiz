@@ -1,28 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useJourneyStore } from '~/stores/journey'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import UilFileDownload from '~icons/uil/file-download'
 
-const time = ref('00:00')
-const security = ref(false)
-
-const router = useRouter()
-const exportJourney = async () => {
-  const success = await journeyStore.exportJourney(time.value, security.value)
-  if (success) {
-    await router.push('/dashboard/parcours')
-  }
-}
-
-const journeyStore = useJourneyStore()
+const time = defineModel('time')
+const security = defineModel('security')
 </script>
 <template>
   <div class="pr-16">
     <div class="form-group mb-8 flex justify-between items-center">
       <label class="font-semibold mr-8" for="export-time"
-        >Régler la durée du parcours
+        >Durée du parcours (h:m)
       </label>
       <input id="export-time" v-model="time" type="time" />
     </div>

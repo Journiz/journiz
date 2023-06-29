@@ -9,14 +9,14 @@ import { getColor } from '~/composables/useThemeColor'
 
 const store = useUserStore()
 const teams = computed(() => store.trip?.expand?.teams ?? [])
+const initialMapCenter = {
+  lng: store.journey?.basecampLongitude ?? 0,
+  lat: store.journey?.basecampLatitude ?? 0,
+}
 // TODO: Check if point marker is complete by the current team and switch to team color (pas ici)
 </script>
 <template>
-  <Map
-    v-if="store.journey"
-    :map-center="{ lng: 6.1015, lat: 45.9075 }"
-    :zoom="16"
-  >
+  <Map v-if="store.journey" :map-center="initialMapCenter" :zoom="16">
     <MapMarker
       :position="{
         lng: store.journey.basecampLongitude,
@@ -72,6 +72,9 @@ const teams = computed(() => store.trip?.expand?.teams ?? [])
       </MapMarker>
     </LerpCoordinates>
 
-    <SafeZone v-if="store.journey?.safeZone" :coords="store.journey.safeZone" />
+    <SafeZone
+      v-if="store.journey?.safeZone && store.journey.safeZone.length > 0"
+      :coords="store.journey.safeZone"
+    />
   </Map>
 </template>

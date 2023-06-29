@@ -16,6 +16,11 @@ const menuData = [
     path: '/dashboard/parcours',
   },
   {
+    icon: 'book',
+    name: 'Historique',
+    path: '/dashboard/sorties',
+  },
+  {
     icon: 'folder',
     name: 'Modèles',
     path: '/dashboard/communaute',
@@ -59,7 +64,7 @@ const avatar = getFileUrl(userStore.user, userStore.user.avatar)
     />
     <div class="relative flex flex-wrap items-end justify-end w-content">
       <div
-        class="absolute bg-red h-11 min-w-41 top-0 custom-shadow invert-rounded rounded-s-lg bg-white-off transition duration-200"
+        class="absolute h-11 min-w-41 top-0 custom-shadow invert-rounded rounded-s-lg bg-white-off transition duration-200"
         :style="{ transform: 'translateY(' + currentItemYTranslate + 'px)' }"
       />
       <SidebarMenuItem

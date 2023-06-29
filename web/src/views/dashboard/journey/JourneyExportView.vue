@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import { useJourneyStore } from '~/stores/journey'
 import MapWithSafeZone from '~/components/MapWithSafeZone.vue'
 import JourneyExportForm from '~/components/journey/JourneyExportForm.vue'
@@ -18,15 +19,46 @@ const updateGeometry = async (geo: any) => {
     await journeyStore.update()
   }
 }
+let initialTime = '00:00'
+if (journeyStore.journey?.duration) {
+  const hours = Math.floor(journeyStore.journey.duration / 60)
+  const minutes = journeyStore.journey.duration % 60
+  initialTime = `${hours < 10 ? '0' : ''}${hours}:${
+    minutes < 10 ? '0' : ''
+  }${minutes}`
+}
+const time = ref(initialTime)
+const security = ref(journeyStore.journey?.hasSafeZone ?? false)
+const loading = ref(false)
+const exportJourney = async () => {
+  loading.value = true
+  const success = await journeyStore.exportJourney(time.value, security.value)
+  loading.value = false
+  if (success) {
+    await router.push({ name: 'edit-journey' })
+  }
+}
 </script>
 
 <template>
   <div class="px-16 pt-10 h-full flex flex-col">
     <CustomHeader title="Exporter" class="h-auto mb-7 pt-12">
-      <DefaultButton>Terminer</DefaultButton>
+      <DefaultButton
+        :loading="loading"
+        @click="router.push({ name: 'communityDetail' })"
+      >
+        <span class="i-uil:share-alt"></span> Partager
+      </DefaultButton>
+      <DefaultButton :loading="loading" @click="exportJourney">
+        Terminer
+      </DefaultButton>
     </CustomHeader>
     <div class="flex flex-grow pb-8 overflow-hidden">
-      <JourneyExportForm class="w-1/2 max-h-full overflow-scroll" />
+      <JourneyExportForm
+        v-model:time="time"
+        v-model:security="security"
+        class="w-1/2 max-h-full overflow-scroll"
+      />
       <div class="relative flex-grow">
         <MapWithSafeZone
           class="flex-grow w-1/2 rounded-xl overflow-hidden"

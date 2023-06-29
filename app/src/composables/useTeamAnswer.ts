@@ -16,7 +16,7 @@ export default function useTeamAnswer(
   const store = useTeamStore()
   const router = useIonRouter()
 
-  const successModal = async (isCorrect: boolean) => {
+  const successModal = async (isCorrect: boolean, score = 0) => {
     let title = ''
     if (autoValidation) {
       title = isCorrect ? 'Bravo !' : 'Dommage...'
@@ -27,7 +27,7 @@ export default function useTeamAnswer(
     if (autoValidation) {
       if (isCorrect) {
         content = `<p class="text-lg font-bold mb-4">Vous avez obtenu les points ! </p>
-<div class="bg-red px-6 py-4 rounded-md text-white font-bold mb-4">+${point.score} points</div>`
+<div class="bg-red px-6 py-4 rounded-md text-white font-bold mb-4">+${score} points</div>`
       } else {
         content = `<p class="text-lg font-bold mb-2">Vous ferez mieux au prochain point !</p>`
       }
@@ -36,6 +36,7 @@ export default function useTeamAnswer(
         '<p class="mb-2">Le maitre du jeu doit valider votre réponse pour obtenir les points. </p>'
     }
     content += '<p>Vous pouvez passer au point suivant. </p>'
+
     await showModal(
       title,
       content,
@@ -56,7 +57,11 @@ export default function useTeamAnswer(
     }
   }
 
-  const sendAnswer = async (answerData: string, isCorrect = false) => {
+  const sendAnswer = async (
+    answerData: string,
+    isCorrect = false,
+    penalty = 0
+  ) => {
     loading.value = true
     const data = new FormData()
     if (isMedia) {
@@ -70,8 +75,14 @@ export default function useTeamAnswer(
     data.append('isCorrect', isCorrect.toString())
     data.append('hasBeenValidated', autoValidation.toString())
     await pb.collection('answer').create(data)
+
+    const score = point.score - penalty
+    if (store.team) {
+      store.team.score += score
+      await store.saveTeam()
+    }
     loading.value = false
-    successModal(isCorrect)
+    successModal(isCorrect, score)
     store.refreshAll()
   }
   return { sendAnswer, loading }

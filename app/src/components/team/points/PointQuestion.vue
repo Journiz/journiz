@@ -16,7 +16,12 @@ const mediaUrl = useFileUrl(point, 'media')
       alt=""
       class="w-full h-50 object-contain"
     />
-    <div v-else class="w-full h-50 bg-red/50"></div>
+    <img
+      v-else
+      alt=""
+      class="w-full h-50 object-contain"
+      :src="`/fallback-images/${point.fallbackMedia}.png`"
+    />
     <p class="font-light">{{ point.description }}</p>
     <p class="font-bold text-theme">{{ point.question }}</p>
   </div>

@@ -5,6 +5,7 @@ import ChoiceAnswer from '~/components/team/points/answer-types/ChoiceAnswer.vue
 import TextAnswer from '~/components/team/points/answer-types/TextAnswer.vue'
 import PhotoAnswer from '~/components/team/points/answer-types/PhotoAnswer.vue'
 import AudioAnswer from '~/components/team/points/answer-types/AudioAnswer.vue'
+import PlaceAnswer from '~/components/team/points/answer-types/PlaceAnswer.vue'
 
 const props = defineProps<{
   point: Point
@@ -20,17 +21,17 @@ const answerComponent = computed<Component | null>(() => {
       return PhotoAnswer
     case 'audio':
       return AudioAnswer
+    case 'location':
+      return PlaceAnswer
     default:
       return null
   }
 })
-const validationLoading = ref(false)
 </script>
 <template>
   <component
     :is="answerComponent"
     v-if="answerComponent"
     :point="point"
-    :validation-loading="validationLoading"
   ></component>
 </template>

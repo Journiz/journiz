@@ -5,7 +5,7 @@ import { makeListComposable } from '../../utils/makeListComposable'
 
 export const useTrips = makeListComposable('trip', TripSchema)
 
-export const useTrip = makeRecordComposable('trip', TripSchema)
+export const useTrip = makeRecordComposable('trip', TripSchema, 'journey.user')
 export const useRealtimeTrip = makeRealtimeRecordComposable(
   'trip',
   TripSchema,
@@ -18,7 +18,7 @@ export const useRealtimeTrip = makeRealtimeRecordComposable(
 export const useTripForGameMaster = makeRecordComposable(
   'trip',
   TripSchema,
-  'team(trip)'
+  'journey,journey.points,team(trip).answer(team)'
 )
 export const useRealtimeTripForGameMaster = makeRealtimeRecordComposable(
   'trip',

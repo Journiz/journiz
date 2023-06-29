@@ -11,12 +11,12 @@ export const useConversations = makeListComposable(
 export const useConversation = makeRecordComposable(
   'conversation',
   ConversationSchema,
-  'message(conversation), team'
+  'message(conversation),team'
 )
 export const useRealtimeConversation = makeRealtimeRecordComposable(
   'conversation',
   ConversationSchema,
-  'message(conversation), team',
+  'message(conversation),team',
   {
     'message(conversation)': () => [],
   }
