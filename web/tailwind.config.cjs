@@ -14,6 +14,7 @@ module.exports = {
           500: '#4770FF', // ex: bg-primary-500
           700: '#0029BA', // ex: bg-primary-700 (Il est bien foncé donc j'ai mis à 700 et pas 600)
         },
+        theme: "#17403B",
         beige: {
           DEFAULT: "#f6f0d8",
           light: "#fbf9f4",

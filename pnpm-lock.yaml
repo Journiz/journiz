@@ -344,6 +344,9 @@ importers:
       '@journiz/api-types':
         specifier: workspace:*
         version: link:../packages/api-types
+      '@journiz/app':
+        specifier: workspace:^
+        version: link:../app
       '@journiz/composables':
         specifier: workspace:*
         version: link:../packages/composables

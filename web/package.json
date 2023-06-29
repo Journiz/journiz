@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@journiz/api-types": "workspace:*",
+    "@journiz/app": "workspace:^",
     "@journiz/composables": "workspace:*",
     "@journiz/config": "workspace:*",
     "@journiz/plugins": "workspace:*",

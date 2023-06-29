@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
+import { RouteLocationRaw, useRouter } from 'vue-router'
+import { PropType } from 'vue'
 import PageTitle from '~/components/PageTitle.vue'
 import SquareButton from '~/components/buttons/SquareButton.vue'
 
 const router = useRouter()
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -13,7 +14,19 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  returnTo: {
+    type: Object as PropType<RouteLocationRaw>,
+    required: false,
+    default: undefined,
+  },
 })
+const onBack = () => {
+  if (props.returnTo) {
+    router.push(props.returnTo)
+  } else {
+    router.back()
+  }
+}
 </script>
 <template>
   <header class="flex justify-between w-full items-center">
@@ -23,7 +36,7 @@ defineProps({
         v-if="!noDisplayReturn"
         icon="back"
         color="white"
-        @click="router.back"
+        @click="onBack"
       />
       <slot />
     </div>
