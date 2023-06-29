@@ -41,18 +41,24 @@ function hoverMarker(pointId: string) {
       :no-display-return="true"
       class="px-16 h-auto mb-7 pt-12"
     >
-      <defaultButton @click="router.push({ name: 'export-journey' })">
-        Exporter
-      </defaultButton>
+      <DefaultButton @click="router.push({ name: 'preview-journey' })">
+        <span class="i-uil:eye"></span> Prévisualiser
+      </DefaultButton>
+      <DefaultButton @click="router.push({ name: 'export-journey' })">
+        <span class="i-uil:export"></span> Exporter
+      </DefaultButton>
     </CustomHeader>
     <div class="px-16">
-      <default-button class="mb-6" :loading="addLoading" @click="newPoint">
+      <DefaultButton class="mb-6" :loading="addLoading" @click="newPoint">
         Ajouter un nouveau point
-      </default-button>
+      </DefaultButton>
     </div>
     <div class="px-16 flex flex-grow pb-8 overflow-hidden">
       <PointList
         class="w-1/2 pr-2 max-h-full overflow-scroll"
+        :show-community="true"
+        :editable="true"
+        :sortable="true"
         :current-item-id="currentItemId"
       />
       <div class="relative flex-grow">

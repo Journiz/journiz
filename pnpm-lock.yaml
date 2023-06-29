@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -76,7 +80,7 @@ importers:
         version: 5.0.4(@capacitor/core@5.0.4)
       '@dotlottie/player-component':
         specifier: ^1.4.1
-        version: 1.4.2(typescript@5.0.4)
+        version: 1.4.2(postcss@8.4.24)(typescript@5.0.4)
       '@ionic/core':
         specifier: ^7.0.9
         version: 7.0.9
@@ -191,10 +195,10 @@ importers:
         version: 5.0.4
       unocss:
         specifier: ^0.51.13
-        version: 0.51.13(vite@4.3.9)
+        version: 0.51.13(postcss@8.4.24)(vite@4.3.9)
       unplugin-icons:
         specifier: ^0.15.3
-        version: 0.15.3
+        version: 0.15.3(@vue/compiler-sfc@3.3.4)
       vite:
         specifier: ^4.3.9
         version: 4.3.9(@types/node@18.16.16)(sass@1.62.1)
@@ -224,10 +228,10 @@ importers:
         version: 10.2.0(vue@3.3.4)
       daisyui:
         specifier: ^3.1.6
-        version: 3.1.6
+        version: 3.1.6(postcss@8.4.24)
       unocss:
         specifier: ^0.51.13
-        version: 0.51.13(vite@4.3.9)
+        version: 0.51.13(postcss@8.4.24)(vite@4.3.9)
       unocss-preset-daisy:
         specifier: ^5.0.0
         version: 5.0.0(daisyui@3.1.6)(unocss@0.51.13)
@@ -340,6 +344,9 @@ importers:
       '@journiz/api-types':
         specifier: workspace:*
         version: link:../packages/api-types
+      '@journiz/app':
+        specifier: workspace:^
+        version: link:../app
       '@journiz/composables':
         specifier: workspace:*
         version: link:../packages/composables
@@ -373,6 +380,9 @@ importers:
       '@vueuse/integrations':
         specifier: ^10.2.0
         version: 10.2.0(qrcode@1.5.3)(sortablejs@1.15.0)(vue@3.3.4)
+      '@vueuse/router':
+        specifier: ^10.2.1
+        version: 10.2.1(vue-router@4.2.2)(vue@3.3.4)
       mapbox-gl:
         specifier: ^2.15.0
         version: 2.15.0
@@ -433,7 +443,7 @@ importers:
         version: 4.8.4
       unocss:
         specifier: ^0.51.13
-        version: 0.51.13(vite@4.3.9)
+        version: 0.51.13(postcss@8.4.24)(vite@4.3.9)
       unplugin-icons:
         specifier: ^0.15.3
         version: 0.15.3(@vue/compiler-sfc@3.3.4)
@@ -697,14 +707,14 @@ packages:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
 
-  /@dotlottie/player-component@1.4.2(typescript@5.0.4):
+  /@dotlottie/player-component@1.4.2(postcss@8.4.24)(typescript@5.0.4):
     resolution: {integrity: sha512-cLGsZVEg+i8dpkT8CB0BTHziL9Bq1p/zJV8wIgUO8LAKUHFB6sGssInVNph9iceH6CUFe1w8p8CQi3FOtIFlpQ==}
     dependencies:
       '@rollup/plugin-json': 6.0.0
       fflate: 0.7.4
       lit: 2.7.5
       lottie-web: 5.12.2
-      tsup: 6.7.0(typescript@5.0.4)
+      tsup: 6.7.0(postcss@8.4.24)(typescript@5.0.4)
     transitivePeerDependencies:
       - '@swc/core'
       - postcss
@@ -3087,16 +3097,18 @@ packages:
       gzip-size: 6.0.0
       sirv: 2.0.3
 
-  /@unocss/postcss@0.51.13:
+  /@unocss/postcss@0.51.13(postcss@8.4.24):
     resolution: {integrity: sha512-V1QJ7md9jYtBwRc6NGep1Atc+QhaR3115B1wCo8CNM+v+ZOQzpxNsAshvOfyPzfzTj+KLtp4u4zqqaTbYGX2cw==}
     engines: {node: '>=14'}
+    peerDependencies:
+      postcss: ^8.4.21
     dependencies:
       '@unocss/config': 0.51.13
       '@unocss/core': 0.51.13
       css-tree: 2.3.1
       fast-glob: 3.2.12
       magic-string: 0.30.0
-      postcss: 8.4.23
+      postcss: 8.4.24
 
   /@unocss/preset-attributify@0.51.13:
     resolution: {integrity: sha512-a501ylamV90E+tVf7Dgc8Plwex5LQ5oFSYwsxk06QhcxPWdLmDey3SQjL68AsP9qnLGfIez51sV4y/6H8wFqlw==}
@@ -3500,8 +3512,30 @@ packages:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
     dev: false
 
+  /@vueuse/router@10.2.1(vue-router@4.2.2)(vue@3.3.4):
+    resolution: {integrity: sha512-H/1T4fLzMmeBNEmcXlbqk6AEp0HQpzf+0eeNJ6fGrs3RWClE2i3nYEFbtxfQeSm/7nZ6nf/UhgahzUQdyMhIwQ==}
+    peerDependencies:
+      vue-router: '>=4.0.0-rc.1'
+    dependencies:
+      '@vueuse/shared': 10.2.1(vue@3.3.4)
+      vue-demi: 0.14.5(vue@3.3.4)
+      vue-router: 4.2.2(vue@3.3.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
+
   /@vueuse/shared@10.2.0(vue@3.3.4):
     resolution: {integrity: sha512-dIeA8+g9Av3H5iF4NXR/sft4V6vys76CpZ6hxwj8eMXybXk2WRl3scSsOVi+kQ9SX38COR7AH7WwY83UcuxbSg==}
+    dependencies:
+      vue-demi: 0.14.5(vue@3.3.4)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
+
+  /@vueuse/shared@10.2.1(vue@3.3.4):
+    resolution: {integrity: sha512-QWHq2bSuGptkcxx4f4M/fBYC3Y8d3M2UYyLsyzoPgEoVzJURQ0oJeWXu79OiLlBb8gTKkqe4mO85T/sf39mmiw==}
     dependencies:
       vue-demi: 0.14.5(vue@3.3.4)
     transitivePeerDependencies:
@@ -4406,7 +4440,7 @@ packages:
     resolution: {integrity: sha512-RhGS1u2vavcO7ay7ZNAPo4xeDh/VYeGof3x5ZLJBQgYhLegxr3s5IykvWmJ94FTU6mcbtp4sloqZ54mP6R4Utw==}
     dev: true
 
-  /daisyui@3.1.6:
+  /daisyui@3.1.6(postcss@8.4.24):
     resolution: {integrity: sha512-P/2WUn4ZImEc2IfPSYw3qPCUnnJNju0P6ii0fUqtTURUj0oda6L0tm4EzrUmB2EbqB6grZ9nKHPTSniKaPYp1w==}
     engines: {node: '>=16.9.0'}
     peerDependencies:
@@ -4414,7 +4448,8 @@ packages:
     dependencies:
       colord: 2.9.3
       css-selector-tokenizer: 0.8.0
-      postcss-js: 4.0.1
+      postcss: 8.4.24
+      postcss-js: 4.0.1(postcss@8.4.24)
       tailwindcss: 3.3.2
     transitivePeerDependencies:
       - ts-node
@@ -4447,17 +4482,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.0.0
-    dev: true
-
-  /debug@3.2.7:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.3
     dev: true
 
   /debug@3.2.7(supports-color@5.5.0):
@@ -4873,7 +4897,7 @@ packages:
   /eslint-import-resolver-node@0.3.7:
     resolution: {integrity: sha512-gozW2blMLJCeFpBwugLTGyvVjNoeo1knonXAcatC6bjPBZitotxdWf7Gimr25N4c0AAOo4eOUfaG82IJPDpqCA==}
     dependencies:
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       is-core-module: 2.11.0
       resolve: 1.22.1
     transitivePeerDependencies:
@@ -4922,7 +4946,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 5.54.1(eslint@8.41.0)(typescript@4.8.4)
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       eslint: 8.41.0
       eslint-import-resolver-node: 0.3.7
       eslint-import-resolver-typescript: 3.5.3(eslint-plugin-import@2.27.5)(eslint@8.41.0)
@@ -4966,7 +4990,7 @@ packages:
       array-includes: 3.1.6
       array.prototype.flat: 1.3.1
       array.prototype.flatmap: 1.3.1
-      debug: 3.2.7
+      debug: 3.2.7(supports-color@5.5.0)
       doctrine: 2.1.0
       eslint: 8.41.0
       eslint-import-resolver-node: 0.3.7
@@ -7416,15 +7440,6 @@ packages:
       resolve: 1.22.2
     dev: false
 
-  /postcss-js@4.0.1:
-    resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
-    engines: {node: ^12 || ^14 || >= 16}
-    peerDependencies:
-      postcss: ^8.4.21
-    dependencies:
-      camelcase-css: 2.0.1
-    dev: false
-
   /postcss-js@4.0.1(postcss@8.4.24):
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
     engines: {node: ^12 || ^14 || >= 16}
@@ -7435,7 +7450,7 @@ packages:
       postcss: 8.4.24
     dev: false
 
-  /postcss-load-config@3.1.4:
+  /postcss-load-config@3.1.4(postcss@8.4.24):
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
     engines: {node: '>= 10'}
     peerDependencies:
@@ -7448,6 +7463,7 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.1.0
+      postcss: 8.4.24
       yaml: 1.10.2
     dev: false
 
@@ -7504,7 +7520,6 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: false
 
   /potpack@2.0.0:
     resolution: {integrity: sha512-Q+/tYsFU9r7xoOJ+y/ZTtdVQwTWfzjbiXBDMM/JKUux3+QPP02iUuIoeBQ+Ot6oEDlC+/PGjB/5A3K7KKb7hcw==}
@@ -8670,7 +8685,7 @@ packages:
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
 
-  /tsup@6.7.0(typescript@5.0.4):
+  /tsup@6.7.0(postcss@8.4.24)(typescript@5.0.4):
     resolution: {integrity: sha512-L3o8hGkaHnu5TdJns+mCqFsDBo83bJ44rlK7e6VdanIvpea4ArPcU3swWGsLVbXak1PqQx/V+SSmFPujBK+zEQ==}
     engines: {node: '>=14.18'}
     hasBin: true
@@ -8694,7 +8709,8 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 3.1.4
+      postcss: 8.4.24
+      postcss-load-config: 3.1.4(postcss@8.4.24)
       resolve-from: 5.0.0
       rollup: 3.21.7
       source-map: 0.8.0-beta.0
@@ -8862,14 +8878,14 @@ packages:
     dependencies:
       autoprefixer: 10.4.14(postcss@8.4.24)
       camelcase: 7.0.1
-      daisyui: 3.1.6
+      daisyui: 3.1.6(postcss@8.4.24)
       parsel-js: 1.1.1
       postcss: 8.4.24
       postcss-js: 4.0.1(postcss@8.4.24)
-      unocss: 0.51.13(vite@4.3.9)
+      unocss: 0.51.13(postcss@8.4.24)(vite@4.3.9)
     dev: false
 
-  /unocss@0.51.13(vite@4.3.9):
+  /unocss@0.51.13(postcss@8.4.24)(vite@4.3.9):
     resolution: {integrity: sha512-EAhuQ97D7E+EsTdlCL+xoWEsvz46Se9ZAtHhJ+1W+DzMky9qrDLRyR8Caf2TPbz8dw/z0qYhoPr6/aJARG4r0g==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -8882,7 +8898,7 @@ packages:
       '@unocss/cli': 0.51.13
       '@unocss/core': 0.51.13
       '@unocss/extractor-arbitrary-variants': 0.51.13
-      '@unocss/postcss': 0.51.13
+      '@unocss/postcss': 0.51.13(postcss@8.4.24)
       '@unocss/preset-attributify': 0.51.13
       '@unocss/preset-icons': 0.51.13
       '@unocss/preset-mini': 0.51.13
@@ -8899,6 +8915,7 @@ packages:
       '@unocss/transformer-variant-group': 0.51.13
       '@unocss/vite': 0.51.13(vite@4.3.9)
     transitivePeerDependencies:
+      - postcss
       - rollup
       - supports-color
       - vite
@@ -8906,34 +8923,6 @@ packages:
   /unpipe@1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
     engines: {node: '>= 0.8'}
-    dev: true
-
-  /unplugin-icons@0.15.3:
-    resolution: {integrity: sha512-YWgJqv5AahrokeOnta8uX/m1damZA6Rf6zPClgHg2Fa/45iyOe3Lj+Wn/Ba+CSsq9yBffn17YfKfJNyWCNZPvw==}
-    peerDependencies:
-      '@svgr/core': '>=5.5.0'
-      '@vue/compiler-sfc': ^3.0.2 || ^2.7.0
-      vue-template-compiler: ^2.6.12
-      vue-template-es2015-compiler: ^1.9.0
-    peerDependenciesMeta:
-      '@svgr/core':
-        optional: true
-      '@vue/compiler-sfc':
-        optional: true
-      vue-template-compiler:
-        optional: true
-      vue-template-es2015-compiler:
-        optional: true
-    dependencies:
-      '@antfu/install-pkg': 0.1.1
-      '@antfu/utils': 0.7.2
-      '@iconify/utils': 2.1.5
-      debug: 4.3.4
-      kolorist: 1.7.0
-      local-pkg: 0.4.3
-      unplugin: 1.3.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /unplugin-icons@0.15.3(@vue/compiler-sfc@3.3.4):
@@ -9524,7 +9513,3 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
