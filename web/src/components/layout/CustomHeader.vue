@@ -31,7 +31,7 @@ const onBack = () => {
 <template>
   <header class="flex justify-between w-full items-center">
     <page-title>{{ title }}</page-title>
-    <div class="flex gap-5">
+    <div class="flex gap-3">
       <square-button
         v-if="!noDisplayReturn"
         icon="back"

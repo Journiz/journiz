@@ -24,14 +24,11 @@ const selectedPoint = computed(() => {
 </script>
 <template>
   <div class="flex flex-col h-full">
-    <CustomHeader
-      :title="store.journey!.name"
-      class="px-16 h-auto mb-12 pt-12"
-      :return-to="{ name: 'edit-journey' }"
-    >
-      <defaultButton @click="router.push({ name: 'export-journey' })">
+    <CustomHeader :title="store.journey!.name" class="px-16 h-auto mb-12 pt-12">
+      <DefaultButton @click="router.push({ name: 'export-journey' })">
+        <span class="i-uil:export"></span>
         Exporter
-      </defaultButton>
+      </DefaultButton>
     </CustomHeader>
     <div class="px-16 flex flex-grow pb-8 overflow-hidden">
       <PointList
