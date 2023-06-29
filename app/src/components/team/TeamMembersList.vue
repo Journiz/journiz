@@ -1,14 +1,11 @@
 <script lang="ts" setup>
 defineProps<{
-    members: String[],
-    batteryLevel: number
+  members: string[]
+  batteryLevel?: number
 }>()
 </script>
 <template>
-  <div
-    v-if="members"
-    class="overflow-hidden flex flex-col overflow-scroll"
-  >
+  <div v-if="members" class="overflow-hidden flex flex-col overflow-scroll">
     <div
       v-for="(member, i) in members"
       :key="member"

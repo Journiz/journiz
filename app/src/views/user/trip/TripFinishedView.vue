@@ -8,7 +8,7 @@ const store = useUserStore()
 <template>
   <Page class="bg-beige-light px-6 flex flex-col">
     <div class="text-xl font-black mx-auto mt-10">Classement final</div>
-    <div v-if="store.trip.expand.teams" class="relative flex flex-wrap pt-20">
+    <div v-if="store.trip?.expand?.teams" class="relative flex flex-wrap pt-20">
       <Transition name="bg" :appear="true">
         <img
           style="transition-delay: 1s"
@@ -18,7 +18,7 @@ const store = useUserStore()
         />
       </Transition>
       <div
-        v-for="(team, i) in store.trip.expand.teams?.slice(0, 3)"
+        v-for="(team, i) in store.trip?.expand.teams?.slice(0, 3)"
         :key="team.id"
         class="flex"
         :class="[
@@ -56,16 +56,16 @@ const store = useUserStore()
       </div>
     </div>
     <div
-      v-if="(store.trip.expand.teams?.length ?? 0) > 3"
+      v-if="(store.trip?.expand?.teams?.length ?? 0) > 3"
       class="grow mt-8 w-full overflow-scroll mb-4"
     >
       <div
-        v-if="store.trip.expand.teams"
+        v-if="store.trip?.expand?.teams"
         class="flex flex-col overflow-scroll h-full"
       >
         <div
-          v-for="(team, i) in store.trip.expand.teams?.slice(
-            (store.trip.expand.teams?.length - 3) * -1
+          v-for="(team, i) in store.trip?.expand.teams?.slice(
+            (store.trip?.expand.teams?.length - 3) * -1
           )"
           :key="team.id"
           class="relative ml-3"
