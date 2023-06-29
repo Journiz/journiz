@@ -79,7 +79,6 @@ export default function useTeamAnswer(
     await pb.collection('answer').create(data)
 
     const hintPenalty = Math.round(point.score / 4) * openHints.value
-    console.log(hintPenalty)
 
     const score = point.score - penalty - hintPenalty
     if (store.team) {
@@ -87,6 +86,7 @@ export default function useTeamAnswer(
       await store.saveTeam()
     }
     loading.value = false
+    openHints.value = 0
     successModal(isCorrect, score)
     store.refreshAll()
   }
