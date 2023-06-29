@@ -1,15 +1,11 @@
 <script lang="ts" setup="">
 import { useRouter } from 'vue-router'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRouteQuery } from '@vueuse/router'
 import PointList from '~/components/point/PointList.vue'
 import CustomHeader from '~/components/layout/CustomHeader.vue'
 import { useJourneyStore } from '~/stores/journey'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
-import Map from '~/components/Map.vue'
-import MapMarker from '~/components/MapMarker.vue'
-import PointMarker from '~/components/map/PointMarker.vue'
-import Basceamp from '~/components/map/Basecamp.vue'
 import PointPreview from '~/components/point/preview/PointPreview.vue'
 
 const router = useRouter()
