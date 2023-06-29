@@ -83,6 +83,15 @@ const steps: Step[] = [
     title: 'Lancement du parcours',
   },
   {
+    title: 'Equipe commence à bouger',
+    onStep: async () => {
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.90053,
+        longitude: 6.12847,
+      })
+    },
+  },
+  {
     title: 'Equipe sur le chemin du chateau',
     onStep: async () => {
       console.log('Equipe sur le chemin du chateau')
