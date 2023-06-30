@@ -72,7 +72,7 @@ const compareFn = (a: Team, b: Team) => {
       </div>
     </div>
     <div
-      v-if="(teams.length ?? 0) > 3"
+      v-if="(teams?.length ?? 0) > 3"
       class="grow mt-8 w-full overflow-scroll mb-4"
     >
       <div v-if="teams" class="flex flex-col overflow-scroll h-full">

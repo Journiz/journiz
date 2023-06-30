@@ -15,7 +15,7 @@ const logout = useLogout(useUserStore().logout)
 <template>
   <Page class="relative justify-center h-full">
     <div
-      class="absolute left-6 top-4 w-10 h-10 rounded-full shadow-md bg-white flex items-center justify-center color-green-dark z-1 btn-animation -scale-x-100"
+      class="absolute left-6 top-safe w-10 h-10 rounded-full shadow-md bg-white flex items-center justify-center color-green-dark z-1 btn-animation -scale-x-100"
       @click="logout"
     >
       <div class="i-tabler:logout text-lg"></div>

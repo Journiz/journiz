@@ -41,7 +41,7 @@ const openHint = async (index: number) => {
   <div class="mt-2 flex flex-col">
     <div
       class="grid gap-x-2"
-      :class="point.hint.length > 1 ? 'grid-cols-2' : ''"
+      :class="(point.hint?.length ?? 0) > 1 ? 'grid-cols-2' : ''"
     >
       <button
         class="tab-btn border-2 text-theme border-theme"
@@ -51,7 +51,7 @@ const openHint = async (index: number) => {
         Indice 1
       </button>
       <button
-        v-if="point.hint.length > 1"
+        v-if="(point.hint?.length ?? 0) > 1"
         class="tab-btn border-2 text-green-dark border-green-dark"
         :class="selectedHint === 1 ? 'open' : ''"
         @click="openHint(1)"
@@ -63,7 +63,7 @@ const openHint = async (index: number) => {
         :class="selectedHint === 0 ? 'opacity-100' : 'opacity-0'"
       ></div>
       <div
-        v-show="point.hint.length > 1"
+        v-show="(point.hint?.length ?? 0) > 1"
         class="border-l-2 border-r-2 border-green-dark h-3 -mt-px"
         :class="selectedHint === 1 ? 'opacity-100' : 'opacity-0'"
       ></div>
@@ -84,7 +84,7 @@ const openHint = async (index: number) => {
       >
       </span>
       <span class="font-light">
-        {{ point.hint[selectedHint].text }}
+        {{ point.hint?.[selectedHint]?.text }}
       </span>
       <span class="font-medium text-theme text-center">
         - {{ penaltyByHint }} points
