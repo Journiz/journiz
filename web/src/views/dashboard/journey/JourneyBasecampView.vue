@@ -14,11 +14,10 @@ const setBasecamp = async (coords: Coordinates) => {
   await store.setBasecamp(coords[0], coords[1])
 }
 const confirm = () => router.push({ name: 'edit-journey' })
-const pointCoords = computed(() => {
-  return store.journey!.basecampLongitude && store.journey!.basecampLatitude
+const pointCoords =
+  store.journey!.basecampLongitude && store.journey!.basecampLatitude
     ? [store.journey!.basecampLongitude, store.journey!.basecampLatitude]
     : undefined
-})
 </script>
 <template>
   <div class="flex flex-col h-full">
