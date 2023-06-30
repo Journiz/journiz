@@ -31,16 +31,16 @@ const mapCenter =
 
 <template>
   <div class="w-full flex-grow flex flex-col">
-    <div class="flex items-center gap-2 mb-2">
-      <div class="relative w-6 h6">
+    <label class="flex items-center gap-2 mb-4 cursor-pointer">
+      <span class="relative w-6 h6">
         <CheckboxInput v-model="point.hasLocation" />
-      </div>
+      </span>
       <span class="text-sm font-light">
         Ce point est lié à un lieu géographique
       </span>
-    </div>
+    </label>
     <MapWithSearch
-      v-if="point.hasLocation"
+      v-show="point.hasLocation"
       class="grow"
       :map-center="mapCenter as any"
       :initial-coords="pointCoords as any"
