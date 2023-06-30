@@ -146,6 +146,31 @@ const steps: Step[] = [
     title: 'Enregistrement dialogue',
   },
   {
+    title: 'Equipe devant mairie',
+    onStep: async () => {
+      console.log('Equipe devant la mairie')
+      const otherTeamId = teams.value[0].id
+      await pb.collection('team').update(otherTeamId, {
+        latitude: 45.89938636031924,
+        longitude: 6.12896186021807,
+      })
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.899332344715845,
+        longitude: 6.129035165594151,
+      })
+    },
+  },
+  {
+    title: 'Equipe au mauvais endroit',
+    onStep: async () => {
+      console.log('Equipe au mauvais endroit')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.898450859698585,
+        longitude: 6.129210128716409,
+      })
+    },
+  },
+  {
     title: 'Equipe derrière eglise St mau',
     onStep: async () => {
       console.log('Equipe derrière eglise St mau')

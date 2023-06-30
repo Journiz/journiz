@@ -47,9 +47,9 @@ export const initialTeams = [
 
 export const teamsNames = [
   'Les Avengers',
-  'Les cœurs de lions',
-  'Les déter-gens',
-  'Les snippers',
+  'Les Cœurs de Lions',
+  'Les Boss',
+  'Les Snipers',
 ]
 
 export const teamsScores = [89, 75, 120, 100]
