@@ -4,6 +4,15 @@ import SquareButton from '~/components/buttons/SquareButton.vue'
 import { PointWithDependents } from '~/types/points'
 import Sortable from '~/components/forms/Sortable.vue'
 
+const answerTypeIndex = {
+  choice: 'QCM',
+  photo: 'Photo',
+  text: 'Texte',
+  image: 'Image',
+  location: 'Position',
+  audio: 'Enregistrement audio',
+}
+
 const props = defineProps<{
   point: PointWithDependents
   currentItemId: String
@@ -95,10 +104,18 @@ const onClick = () => {
           </div>
           <div class="w-full flex text-green font-medium text-base">
             <div v-if="point.answerType" class="flex items-center w-fit">
-              {{ point.answerType }}&nbsp;
+              {{ answerTypeIndex[point.answerType] }}&nbsp;
             </div>
             <div v-if="point.score" class="flex items-center">
               - {{ point.score.toString() }} pts
+            </div>
+            <div class="flex items-center ml-1">
+              -
+              <span v-if="point.hasLocation" class="i-ph:map-pin-fill ml-1" />
+              <span
+                v-else
+                class="i-material-symbols:question-mark-rounded ml-1"
+              />
             </div>
           </div>
         </div>
