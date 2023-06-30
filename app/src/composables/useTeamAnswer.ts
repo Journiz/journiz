@@ -3,6 +3,7 @@ import { getFileUrl, usePocketBase } from '@journiz/composables'
 import { ref } from 'vue'
 import { useIonRouter } from '@ionic/vue'
 import { useStorage } from '@vueuse/core'
+// @ts-ignore no types
 import { Howl } from 'howler'
 import { useTeamStore } from '~/stores/team/team'
 import dataURItoBlob from '~/utils/dataURIToBlob'
