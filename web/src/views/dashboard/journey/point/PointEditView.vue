@@ -20,10 +20,12 @@ store.setId(route.params.pointId as string)
 const { loading } = storeToRefs(store)
 await waitForEndLoading(loading)
 
+const isCreate = route.query.new !== undefined
+
 // passer en props
 const currentTabIndex = ref(0)
 async function save() {
-  if (currentTabIndex.value < 2) {
+  if (isCreate && currentTabIndex.value < 2) {
     currentTabIndex.value++
     await saveChanges()
     return
@@ -78,7 +80,7 @@ async function preview() {
           Prévisualiser
         </DefaultButton>
         <DefaultButton :loading="store.loading" @click="save">
-          {{ route.name == 'point-dependency' ? 'Enregistrer' : 'Suivant' }}
+          {{ isCreate && currentTabIndex < 2 ? 'Suivant' : 'Enregistrer' }}
         </DefaultButton>
       </div>
     </header>

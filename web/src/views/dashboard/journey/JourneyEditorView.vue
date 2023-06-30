@@ -24,7 +24,11 @@ const newPoint = async () => {
     const newPoint = await store.newPoint()
     addLoading.value = false
     if (newPoint) {
-      await router.push({ name: 'edit-point', params: { pointId: newPoint } })
+      await router.push({
+        name: 'edit-point',
+        params: { pointId: newPoint },
+        query: { new: null },
+      })
     }
   } catch (e) {
     console.log(e)
