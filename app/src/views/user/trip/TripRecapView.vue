@@ -65,13 +65,13 @@ const startTrip = async () => {
       <div class="text-center mb-3">
         <span class="font-bold">Parcours:</span> {{ store.journey.name }}
       </div>
-      <div class="flex items-center color-red justify-center mb-5">
+      <div class="flex items-center color-red justify-center mb-4">
         <div class="i-uil:map-pin-alt mr-2 h-4 text-base"></div>
         <div class="text-left">{{ store.journey.basecampName }}</div>
       </div>
     </div>
     <div class="px-8 relative flex-1 overscroll-contain overflow-scroll">
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4 py-4">
         <div
           v-for="team in teams"
           :key="team.id"
