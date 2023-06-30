@@ -2,7 +2,7 @@ import { Point } from '@journiz/api-types'
 import { getFileUrl, usePocketBase } from '@journiz/composables'
 import { ref } from 'vue'
 import { useIonRouter } from '@ionic/vue'
-import { useStorage } from '@vueuse/core'
+import { useEventBus, useStorage } from '@vueuse/core'
 // @ts-ignore no types
 import { Howl } from 'howler'
 import { useTeamStore } from '~/stores/team/team'
@@ -65,10 +65,18 @@ export default function useTeamAnswer(
       autoValidation ? (isCorrect ? 'win' : 'wrong') : 'send',
       'fullscreen'
     )
+    const hasDependendents = store.journey?.expand?.points?.some(
+      (p) => p.trigger === point.id
+    )
     if (router.canGoBack()) {
+      useEventBus('top-tabs').emit('list')
       router.back()
     } else {
-      router.replace({ name: 'team' })
+      const query: any = {}
+      if (hasDependendents) {
+        query.subTab = 'list'
+      }
+      router.replace({ name: 'team', query })
     }
   }
 
