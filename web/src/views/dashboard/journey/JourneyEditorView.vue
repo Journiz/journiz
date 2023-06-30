@@ -9,6 +9,7 @@ import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import PointMarker from '~/components/map/PointMarker.vue'
 import Basceamp from '~/components/map/Basecamp.vue'
+import PointsWithNoLocationCount from '~/components/PointsWithNoLocationCount.vue'
 
 const router = useRouter()
 const store = useJourneyStore()
@@ -80,6 +81,10 @@ function hoverMarker(pointId: string) {
             <template #icon> <Basceamp /> </template>
           </MapMarker>
         </Map>
+        <PointsWithNoLocationCount
+          class="absolute right-2 top-2"
+          :points="store.journey!.expand!.points"
+        />
       </div>
     </div>
   </div>
