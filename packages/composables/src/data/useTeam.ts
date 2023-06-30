@@ -9,5 +9,8 @@ export const useTeam = makeRecordComposable('team', TeamSchema, 'answer(team)')
 export const useRealtimeTeam = makeRealtimeRecordComposable(
   'team',
   TeamSchema,
-  'answer(team)'
+  'answer(team)',
+  {
+    'answer(team)': () => [],
+  }
 )
