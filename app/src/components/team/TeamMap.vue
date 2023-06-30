@@ -7,7 +7,7 @@ import MapMarker from '~/components/map/MapMarker.vue'
 import { getColor } from '~/composables/useThemeColor'
 import LerpCoordinates from '~/components/map/LerpCoordinates.vue'
 import TeamPointMarker from '~/components/team/points/TeamPointMarker.vue'
-import SafeZone from "~/components/map/SafeZone.vue";
+import SafeZone from '~/components/map/SafeZone.vue'
 
 const store = useTeamStore()
 const props = defineProps<{
@@ -67,9 +67,9 @@ const visiblePoints = computed(() => {
         ></template>
       </MapMarker>
     </LerpCoordinates>
-      <SafeZone
-        v-if="store.journey?.safeZone && store.journey.safeZone.length > 0"
-        :coords="store.journey.safeZone"
-      />
+    <SafeZone
+      v-if="store.journey?.safeZone && store.journey.safeZone.length > 0"
+      :coords="store.journey.safeZone"
+    />
   </Map>
 </template>

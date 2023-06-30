@@ -40,7 +40,7 @@ const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
   >
     <Header :title="store.trip?.name" :subtitle="store.team?.name" />
     <TopTabs class="flex-shrink">
-      <Tab title="Enigmes" name="list">
+      <Tab v-if="store.trip.status !== 'finishing'" title="Enigmes" name="list">
         <PointsList :points="points" />
       </Tab>
       <Tab title="Carte" name="map" default-selected>
