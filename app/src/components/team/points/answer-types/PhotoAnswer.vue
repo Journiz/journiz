@@ -19,11 +19,7 @@ const photoParams = {
   allowEditing: false,
   resultType: CameraResultType.DataUrl,
 }
-const { sendAnswer, loading: validationLoading } = useTeamAnswer(
-  props.point,
-  false,
-  true
-)
+const { sendAnswer, loading } = useTeamAnswer(props.point, false, true)
 const getPhoto = async (gallery = false) => {
   const image = await Camera.getPhoto({
     ...photoParams,
@@ -36,9 +32,16 @@ const getPhoto = async (gallery = false) => {
 </script>
 <template>
   <div class="flex flex-col">
-    <Button color="theme" class="mb-2" @click="getPhoto(false)">
+    <Button
+      color="theme"
+      class="mb-2"
+      :loading="loading"
+      @click="getPhoto(false)"
+    >
       Prendre une photo
     </Button>
-    <Button color="theme" @click="getPhoto(true)"> Galerie</Button>
+    <Button color="theme" :loading="loading" @click="getPhoto(true)">
+      Galerie</Button
+    >
   </div>
 </template>
