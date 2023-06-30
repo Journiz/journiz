@@ -75,9 +75,12 @@ const openHint = async (index: number) => {
     >
       <span
         class="half-border"
-        :class="
-          selectedHint === 0 ? 'left-half bg-theme' : 'left-0 bg-green-dark'
-        "
+        :class="[
+          selectedHint === 0 ? 'left-half bg-theme' : 'left-0 bg-green-dark',
+          {
+            '!w-full !left-0': point.hint?.length === 1,
+          },
+        ]"
       >
       </span>
       <span class="font-light">
