@@ -60,6 +60,7 @@ const send = () => {
           v-model="message"
           name="message"
           placeholder="Message..."
+          rows="1"
           @input="onInputMessage"
         ></textarea>
       </div>
@@ -102,7 +103,7 @@ const send = () => {
 
 .grow-wrap > textarea,
 .grow-wrap::after {
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   grid-area: 1 / 1 / 2 / 2;
 }
 
