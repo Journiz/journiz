@@ -250,33 +250,23 @@ const isRunning = ref(false)
 const currentStepIndex = useStorage('currentStepIndex', 0)
 const nextStep = async () => {
   if (currentStepIndex.value >= steps.length - 1) return
-  isRunning.value = true
-  do {
-    currentStepIndex.value++
-  } while (
-    !steps[currentStepIndex.value].onStep &&
-    currentStepIndex.value < steps.length - 1
-  )
-  await steps[currentStepIndex.value].onStep?.()
-  isRunning.value = false
+  await goToStep(currentStepIndex.value + 1)
 }
 const goToStep = async (step: number) => {
   if (isRunning.value) return
-  if (step < currentStepIndex.value) {
-    currentStepIndex.value = 0
-    await steps[currentStepIndex.value].onStep?.()
-  }
-  while (currentStepIndex.value < step) {
-    await nextStep()
-  }
+  currentStepIndex.value = step
+  await runCurrent()
 }
 
 const reset = () => {
   currentStepIndex.value = 0
-  steps[0]?.onStep?.()
+  runCurrent()
 }
-const runCurrent = () => {
-  steps[currentStepIndex.value]?.onStep?.()
+const runCurrent = async () => {
+  if (isRunning.value) return
+  isRunning.value = true
+  await steps[currentStepIndex.value]?.onStep?.()
+  isRunning.value = false
 }
 </script>
 <template>
