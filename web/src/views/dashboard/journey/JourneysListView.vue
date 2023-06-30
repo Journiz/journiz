@@ -35,12 +35,12 @@ await waitForEndLoading(loading)
 </script>
 
 <template>
-  <article class="pt-10 px-16">
+  <article class="pt-10 px-16 flex flex-col h-screen overflow-hidden">
     <page-title class="mb-10">Mes parcours</page-title>
     <default-button class="mb-6" @click="router.push('parcours/creation')">
       Nouveau parcours
     </default-button>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 grow overflow-scroll pb-6">
       <JourneyItem
         v-for="journey in journeys"
         :key="journey.id"

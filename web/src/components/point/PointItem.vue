@@ -4,12 +4,29 @@ import SquareButton from '~/components/buttons/SquareButton.vue'
 import { PointWithDependents } from '~/types/points'
 import Sortable from '~/components/forms/Sortable.vue'
 
+const answerTypeIndex = {
+  choice: 'QCM',
+  photo: 'Photo',
+  text: 'Texte',
+  image: 'Image',
+  location: 'Position',
+  audio: 'Enregistrement audio',
+}
+
 const props = defineProps<{
   point: PointWithDependents
   currentItemId: String
   level: number
+  sortable: boolean
+  editable: boolean
+  selectedId?: string
 }>()
-const emit = defineEmits(['deletePoint', 'editPoint', 'sort-dependents'])
+const emit = defineEmits([
+  'deletePoint',
+  'editPoint',
+  'sort-dependents',
+  'select',
+])
 
 const dependents = computed({
   get() {
@@ -19,6 +36,12 @@ const dependents = computed({
     emit('sort-dependents', val)
   },
 })
+
+const onClick = () => {
+  if (!props.editable) {
+    emit('select', props.point.id)
+  }
+}
 </script>
 <template>
   <div :class="point.trigger ? 'pl-8 pt-4' : ''">
@@ -61,11 +84,15 @@ const dependents = computed({
       </svg>
       <div
         class="content w-full flex px-3 py-3 bg-white rounded-xl overflow-visible -outline-offset-1 transition-all drop-shadow-md"
-        :class="
-          point.id === currentItemId ? 'outline-red outline outline-1' : ''
-        "
+        :class="[
+          point.id === currentItemId ? 'outline-red outline outline-1' : '',
+          !editable ? 'cursor-pointer' : '',
+          selectedId === point.id ? 'outline-red outline outline-1 ' : '',
+        ]"
+        @click="onClick"
       >
         <button
+          v-if="sortable"
           class="cursor-grab flex-shrink-0 mr-2"
           :class="`handle-${level}`"
         >
@@ -77,14 +104,22 @@ const dependents = computed({
           </div>
           <div class="w-full flex text-green font-medium text-base">
             <div v-if="point.answerType" class="flex items-center w-fit">
-              {{ point.answerType }}&nbsp;
+              {{ answerTypeIndex[point.answerType] }}&nbsp;
             </div>
             <div v-if="point.score" class="flex items-center">
               - {{ point.score.toString() }} pts
             </div>
+            <div class="flex items-center ml-1">
+              -
+              <span v-if="point.hasLocation" class="i-ph:map-pin-fill ml-1" />
+              <span
+                v-else
+                class="i-material-symbols:question-mark-rounded ml-1"
+              />
+            </div>
           </div>
         </div>
-        <div class="w-auto flex gap-2">
+        <div v-if="editable" class="w-auto flex gap-2">
           <SquareButton
             color="secondary"
             icon="edit"
@@ -112,10 +147,15 @@ const dependents = computed({
       <template #item="{ item: subPoint }">
         <PointItem
           :point="subPoint"
+          :editable="editable"
+          :sortable="sortable"
+          :selected-id="selectedId"
           :level="level + 1"
           :current-item-id="currentItemId"
           @edit-point="emit('editPoint', $event)"
           @delete-point="emit('deletePoint', $event)"
+          @select="emit('select', $event)"
+          @sort-dependents="emit('sort-dependents', $event)"
         />
       </template>
     </Sortable>

@@ -41,7 +41,7 @@ function removeChoiceAnswer(id: string) {
 </script>
 <template>
   <div>
-    <div class="font-medium text-sm">Réponses</div>
+    <div class="font-medium text-sm mb-1">Réponses</div>
     <Sortable
       v-model="answers"
       class=""
@@ -55,7 +55,7 @@ function removeChoiceAnswer(id: string) {
       <template #item="{ item: answer }">
         <div class="flex gap-2 items-center bg-beige px-2 rounded-xl mb-2">
           <TextInput v-model="answer.text" />
-          <div v-if="answerType === 'choice'" class="gap-2 relative">
+          <div v-if="answerType === 'choice'" class="gap-2 relative flex">
             <label class="whitespace-nowrap font-light mr-8" for="checkbox"
               >Bonne réponse ?
             </label>

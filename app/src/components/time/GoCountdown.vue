@@ -12,6 +12,7 @@ const onReady = () => {
   player.value.play()
 }
 const onCompleted = () => {
+  console.log('completed')
   emit('end')
 }
 </script>
@@ -23,7 +24,7 @@ const onCompleted = () => {
       :src="`/lottie/321.lottie`"
       loop="false"
       @ready="onReady"
-      @complete="emit('end')"
+      @complete="onCompleted"
     />
   </Modal>
 </template>

@@ -60,6 +60,7 @@ const send = () => {
           v-model="message"
           name="message"
           placeholder="Message..."
+          rows="1"
           @input="onInputMessage"
         ></textarea>
       </div>
@@ -97,12 +98,12 @@ const send = () => {
   max-width: calc(100vw - 116px);
   max-height: 90px;
   font-size: 16px;
-  line-height: 16px;
+  line-height: 22px;
 }
 
 .grow-wrap > textarea,
 .grow-wrap::after {
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   grid-area: 1 / 1 / 2 / 2;
 }
 

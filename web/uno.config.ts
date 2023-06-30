@@ -12,6 +12,9 @@ export default defineConfig({
   // ...UnoCSS options
   presets: [presetAttributify(), presetUno(), presetIcons()],
   rules: [],
+  shortcuts: {
+    col: 'flex flex-col',
+  },
   transformers: [transformerDirectives()],
   theme: { ...theme, ...theme.extend },
 })

@@ -22,6 +22,7 @@ const distanceFromPoint = computed<number>(() => {
 const canOpenPoint = computed(() => {
   return (
     props.point.answerType === 'location' ||
+    !props.point.hasLocation ||
     (distanceFromPoint.value < 15 && distanceFromPoint.value >= 0)
   )
 })

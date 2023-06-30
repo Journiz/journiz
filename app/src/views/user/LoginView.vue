@@ -6,6 +6,8 @@ import TextInput from '~/components/forms/TextInput.vue'
 import Page from '~/components/Page.vue'
 import Header from '~/components/design-system/Header.vue'
 import Button from '~/components/design-system/Button.vue'
+import Back from '~/components/router/Back.vue'
+import BackButton from '~/components/router/BackButton.vue'
 
 const store = useUserStore()
 const router = useIonRouter()
@@ -26,6 +28,7 @@ const login = async () => {
 </script>
 <template>
   <Page class="justify-center h-full">
+    <Back class="absolute z-1 left-7 top-safe mt-4" default-to="/" />
     <img
       class="absolute h-full w-full top-0 left-0 object-cover object-center"
       src="../../assets/img/backgrounds/bg-login.jpg"
@@ -52,7 +55,11 @@ const login = async () => {
         :no-display-required-stars="true"
       />
       <p v-if="error" class="relative text-red p-2">{{ error }}</p>
-      <Button class="relative w-full mt-6" color="theme" @click="login"
+      <Button
+        class="relative w-full mt-6"
+        color="theme"
+        :loading="loading"
+        @click="login"
         >Connexion</Button
       >
     </div>

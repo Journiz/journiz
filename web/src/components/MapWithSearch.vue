@@ -7,7 +7,7 @@ import { Coordinates } from '~/types/Coordinates'
 import PointMarker from '~/components/map/PointMarker.vue'
 import Basecamp from '~/components/map/Basecamp.vue'
 
-const emit = defineEmits(['update', 'updateHasLocation'])
+const emit = defineEmits(['update'])
 const props = defineProps({
   mapCenter: {
     type: Object as PropType<Coordinates>,
@@ -22,10 +22,6 @@ const props = defineProps({
     default: () => [],
     required: false,
   },
-  hasLocation: {
-    type: Boolean,
-    required: true,
-  },
   isBasecampMap: {
     type: Boolean,
     default: false,
@@ -35,9 +31,6 @@ const map = ref()
 const researchMarkerPosition = ref(props.initialCoords)
 const getGeocodingResult = (data: any) => {
   addSearchMarker(data.center)
-}
-const getHasLocation = (value: boolean) => {
-  emit('updateHasLocation', value)
 }
 const markerDragEnd = (e) => {
   const dragPosition = e.target.getLngLat()
@@ -57,8 +50,6 @@ const addSearchMarker = (data: Coordinates) => {
   <div class="relative w-full h-full">
     <Geocoding
       class="absolute left-4 top-4 z-1 w-2/5"
-      :has-location="props.hasLocation as PropType<boolean> as Boolean"
-      @changeHasLocation="getHasLocation"
       @select-marker="getGeocodingResult"
     />
     <Map

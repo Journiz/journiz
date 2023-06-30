@@ -1,0 +1,54 @@
+<script setup lang="ts">
+import {getColor} from "~/composables/useThemeColor";
+import TeamAvatar from "~/components/team/TeamAvatar.vue";
+import {Team} from "@journiz/api-types"
+import {useAnswers} from "@journiz/composables";
+import {useRoute} from "vue-router";
+import {useUserStore} from "~/stores/user";
+
+const store = useUserStore()
+const teamId = useRoute().params.teamId
+defineProps<{
+    team: Team
+}>()
+const { data: answers } = useAnswers({
+    filter: `team="${teamId}"`,
+})
+</script>
+<template>
+  <div>
+    <div class="w-full">
+      <TeamAvatar class="h-20 w-20 mx-auto" :team="team" :border="true" />
+    </div>
+    <div class="flex items-center justify-center gap-5 mt-3">
+      <div
+        class="flex items-center justify-center bg-white rounded-full h-8 w-8"
+      >
+        <div
+          class="rounded-full h-3 w-3"
+          :style="{ backgroundColor: getColor(team.color as any ?? 'green') }"
+        ></div>
+      </div>
+      <div
+        class="custom-shadow bg-white flex items-center p-3 gap-2 border rounded-xl grow-0 w-36"
+        :style="{
+          borderColor: getColor(team.color as any ?? 'green'),
+        }"
+      >
+        <div class="i-mdi:star-four-points-circle-outline h-4 w-4" />
+        <div class="font-bold whitespace-nowrap grow text-center">
+          {{ team.score }} points
+        </div>
+      </div>
+    </div>
+    <div class="flex bg-red rounded-xl p-4 color-white mt-6 justify-between">
+      <div class="flex items-center">
+        <span class="i-uil:question text-xl" />
+        <span>Enigmes résolues</span>
+      </div>
+      <div>
+        {{ answers.length }} / {{ store.journey?.points.length ?? 0 }}
+      </div>
+    </div>
+  </div>
+</template>

@@ -106,6 +106,12 @@ const router = createRouter({
                 import('~/views/dashboard/journey/JourneyExportView.vue'),
             },
             {
+              name: 'preview-journey',
+              path: 'apercu',
+              component: () =>
+                import('~/views/dashboard/journey/JourneyPreviewView.vue'),
+            },
+            {
               path: 'point/:pointId',
               name: 'edit-point',
               component: () =>

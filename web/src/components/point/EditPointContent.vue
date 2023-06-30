@@ -100,21 +100,21 @@ async function addMedia(type: string) {
       <SquareButton
         class="mr-2"
         color="secondary"
-        icon="minus"
+        icon="photo"
         @click="addMedia('photo')"
       />
       <p>ou &nbsp;</p>
       <SquareButton
         class="mr-2"
         color="secondary"
-        icon="minus"
+        icon="audio"
         @click="addMedia('audio')"
       />
       <p>ou &nbsp;</p>
       <SquareButton
         class="mr-2"
         color="secondary"
-        icon="minus"
+        icon="video"
         @click="addMedia('video')"
       />
       <input ref="fileInput" class="hidden" type="file" :accept="accept" />
@@ -128,7 +128,7 @@ async function addMedia(type: string) {
       class="overflow-auto"
       :answer-type="store.point.answerType"
     />
-    <HintInputs v-model="store.point.hint" class="overflow-auto" />
+    <HintInputs v-model="store.point.hint" class="overflow-auto mt-4" />
   </div>
 </template>
 <style scoped>

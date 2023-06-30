@@ -10,6 +10,7 @@ const store = useUserStore()
       :title="store.trip.name"
       subtitle="Validation"
       :back-to="{ name: 'user-trip-tabs' }"
+      :not-display-infos="true"
     />
     <div
       v-if="store.trip?.expand?.teams"

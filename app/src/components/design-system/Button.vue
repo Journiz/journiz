@@ -30,6 +30,11 @@ const props = defineProps({
     required: false,
     default: null,
   },
+  replace: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 })
 
 const { actualDisabled } = useButtonDisabled(props)
@@ -52,6 +57,7 @@ const component = computed(() => {
     ]"
     :type="type"
     :to="to"
+    :replace="replace"
   >
     <div v-show="loading" class="i-svg-spinners:180-ring"></div>
     <slot />

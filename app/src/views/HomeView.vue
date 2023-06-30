@@ -3,7 +3,7 @@ import HelloJourniz from '~/components/HelloJourniz.vue'
 import Page from '~/components/Page.vue'
 </script>
 <template>
-  <Page class="bg-white">
+  <Page class="bg-beige-light">
     <HelloJourniz class="flex-grow" />
   </Page>
 </template>

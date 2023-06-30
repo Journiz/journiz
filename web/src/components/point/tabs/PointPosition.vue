@@ -4,7 +4,7 @@ import { usePointStore } from '~/stores/point'
 const store = usePointStore()
 </script>
 <template>
-  <section class="h-full pt-8 pb-6">
+  <section class="h-full pt-3 pb-6">
     <div
       v-if="store.point"
       class="flex flex-col h-full rounded-lg overflow-hidden"

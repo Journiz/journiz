@@ -15,6 +15,9 @@ import IconJourney from '~icons/bx/trip'
 import PhBookOpenBold from '~icons/ph/book-open-bold'
 import IconDownload from '~icons/uil/download-alt'
 import SearchIcon from '~icons/material-symbols/search-rounded'
+import IconPhoto from '~icons/material-symbols/photo-camera-outline'
+import IconAudio from '~icons/material-symbols/audio-file-outline'
+import IconVideo from '~icons/ic/baseline-ondemand-video'
 export default {
   play: IconPlay,
   edit: IconEdit,
@@ -33,4 +36,7 @@ export default {
   book: PhBookOpenBold,
   download: IconDownload,
   search: SearchIcon,
+  photo: IconPhoto,
+  audio: IconAudio,
+  video: IconVideo,
 }
