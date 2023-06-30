@@ -98,7 +98,7 @@ const send = () => {
   max-width: calc(100vw - 116px);
   max-height: 90px;
   font-size: 16px;
-  line-height: 16px;
+  line-height: 22px;
 }
 
 .grow-wrap > textarea,
