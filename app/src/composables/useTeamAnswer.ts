@@ -1,8 +1,9 @@
 import { Point } from '@journiz/api-types'
-import { usePocketBase } from '@journiz/composables'
+import { getFileUrl, usePocketBase } from '@journiz/composables'
 import { ref } from 'vue'
 import { useIonRouter } from '@ionic/vue'
 import { useStorage } from '@vueuse/core'
+import { Howl } from 'howler'
 import { useTeamStore } from '~/stores/team/team'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import { showModal } from '~/composables/useModal'
@@ -38,6 +39,17 @@ export default function useTeamAnswer(
         '<p class="mb-2">Le maitre du jeu doit valider votre réponse pour obtenir les points. </p>'
     }
     content += '<p>Vous pouvez passer au point suivant. </p>'
+
+    if (isCorrect && store.team?.warCry) {
+      const url = getFileUrl(store.team, store.team.warCry)
+      if (url) {
+        const sound = new Howl({
+          src: [url],
+          preload: true,
+        })
+        sound.play()
+      }
+    }
 
     await showModal(
       title,

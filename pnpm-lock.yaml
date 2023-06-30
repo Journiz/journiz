@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -137,6 +141,9 @@ importers:
       gsap:
         specifier: ^3.11.5
         version: 3.11.5
+      howler:
+        specifier: ^2.2.3
+        version: 2.2.3
       ionicons:
         specifier: ^7.1.1
         version: 7.1.2
@@ -171,6 +178,9 @@ importers:
       '@turf/turf':
         specifier: ^6.5.0
         version: 6.5.0
+      '@types/howler':
+        specifier: ^2.2.7
+        version: 2.2.7
       '@types/mapbox-gl':
         specifier: ^2.7.11
         version: 2.7.11
@@ -2774,6 +2784,10 @@ packages:
 
   /@types/geojson@7946.0.8:
     resolution: {integrity: sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==}
+    dev: true
+
+  /@types/howler@2.2.7:
+    resolution: {integrity: sha512-PEZldwZqJJw1PWRTpupyC7ajVTZA8aHd8nB/Y0n6zRZi5u8ktYDntsHj13ltEiBRqWwF06pASxBEvCTxniG8eA==}
     dev: true
 
   /@types/http-cache-semantics@4.0.1:
@@ -9512,7 +9526,3 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
