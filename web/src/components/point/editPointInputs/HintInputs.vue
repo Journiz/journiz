@@ -12,6 +12,11 @@ const props = defineProps({
     type: Array as PropType<any[]>,
     required: true,
   },
+  penalty: {
+    type: Number,
+    required: false,
+    default: 1,
+  },
 })
 
 const hints = computed({
@@ -46,7 +51,9 @@ function removeChoiceHint(id: string) {
       <HoverInfosButton>
         Vous pouvez ajouter un indice à déclencher par les élèves si ils ont
         trop de difficulté avec l’énoncé. <br />
-        <span class="font-bold"> Attention chaque indice coute -5 points</span>
+        <span class="font-bold">
+          Attention chaque indice coute -{{ penalty }} points</span
+        >
       </HoverInfosButton>
     </div>
     <Sortable

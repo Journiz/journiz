@@ -58,6 +58,10 @@ async function addMedia(type: string) {
   await nextTick()
   fileInput.value?.click()
 }
+
+const penaltyByHint = computed(() => {
+  return Math.round((store.point?.score ?? 0) / 4)
+})
 </script>
 <template>
   <div v-if="store.point" class="pb-6 flex-col">
@@ -128,7 +132,11 @@ async function addMedia(type: string) {
       class="overflow-auto"
       :answer-type="store.point.answerType"
     />
-    <HintInputs v-model="store.point.hint" class="overflow-auto mt-4" />
+    <HintInputs
+      v-model="store.point.hint"
+      :penalty="penaltyByHint"
+      class="overflow-auto mt-4"
+    />
   </div>
 </template>
 <style scoped>
