@@ -1,6 +1,8 @@
 <script lang="ts" setup="">
 import { Point } from '@journiz/api-types'
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
+import { watch } from 'vue'
+import { loadingController } from '@ionic/vue'
 import Button from '~/components/design-system/Button.vue'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import useTeamAnswer from '~/composables/useTeamAnswer'
@@ -29,19 +31,27 @@ const getPhoto = async (gallery = false) => {
     await sendAnswer(image.dataUrl, true)
   }
 }
+let loadingIndicator: HTMLIonLoadingElement
+loadingController
+  .create({
+    message: "Envoi de l'image...",
+  })
+  .then((indicator) => {
+    loadingIndicator = indicator
+  })
+watch(loading, (isLoading) => {
+  if (isLoading) {
+    loadingIndicator?.present()
+  } else {
+    loadingIndicator?.dismiss()
+  }
+})
 </script>
 <template>
   <div class="flex flex-col">
-    <Button
-      color="theme"
-      class="mb-2"
-      :loading="loading"
-      @click="getPhoto(false)"
-    >
+    <Button color="theme" class="mb-2" @click="getPhoto(false)">
       Prendre une photo
     </Button>
-    <Button color="theme" :loading="loading" @click="getPhoto(true)">
-      Galerie</Button
-    >
+    <Button color="theme" @click="getPhoto(true)"> Galerie</Button>
   </div>
 </template>
