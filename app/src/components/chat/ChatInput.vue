@@ -2,6 +2,10 @@
 import { Camera, CameraResultType } from '@capacitor/camera'
 import { ref } from 'vue'
 
+defineProps<{
+  sending?: boolean
+}>()
+
 const emit = defineEmits<{
   send: [data: { message: string; image?: string }]
   updateHeight: [height: number]
@@ -65,10 +69,12 @@ const send = () => {
         ></textarea>
       </div>
       <button
-        class="send-btn bg-theme text-white flex justify-center items-center btn-animation"
+        class="send-btn bg-theme text-white flex justify-center items-center btn-animation disabled:bg-gray-300 transition duration-150"
+        :disabled="sending || message === ''"
         @click="send"
       >
-        <span class="i-carbon:send-alt-filled text-28px mr-1"></span>
+        <span v-if="sending" class="i-svg-spinners:180-ring"></span>
+        <span v-else class="i-carbon:send-alt-filled text-28px mr-1"></span>
       </button>
     </div>
   </div>

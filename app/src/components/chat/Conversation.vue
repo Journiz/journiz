@@ -20,12 +20,15 @@ const messages = computed(() => {
   return conversation.value?.expand?.messages ?? []
 })
 
+const sending = ref(false)
 const send = async (data: { message: string; image?: string }) => {
+  sending.value = true
   let image
   if (data.image) {
     image = dataURItoBlob(data.image)
   }
   await sendMessage(data.message, image)
+  sending.value = false
 }
 
 const recipient = computed(() => {
@@ -63,6 +66,10 @@ const chatHeight = ref<number>()
       }"
       @message-read="markAsRead"
     />
-    <ChatInput @send="send" @update-height="chatHeight = $event" />
+    <ChatInput
+      :sending="sending"
+      @send="send"
+      @update-height="chatHeight = $event"
+    />
   </div>
 </template>
