@@ -7,7 +7,7 @@ export default async function warnSecurity() {
     [
       {
         actionName: 'ok',
-        color: 'red',
+        color: 'theme',
         title: 'Promis !',
       },
     ],
