@@ -2,6 +2,7 @@
 import { Point } from '@journiz/api-types'
 import { PointQuestion } from '@journiz/app'
 import PointPreviewAnswer from '~/components/point/preview/PointPreviewAnswer.vue'
+import PointPreviewHint from '~/components/point/preview/PointPreviewHint.vue'
 
 defineProps<{
   point?: Point
@@ -13,8 +14,13 @@ defineProps<{
       v-if="point"
       class="flex flex-col w-112 py-4 px-6 border-2 border-green rounded-42px overflow-y-auto bg-white"
     >
-      <PointQuestion class="mb-8" :point="point" />
-      <PointPreviewAnswer :point="point" />
+      <PointQuestion :key="point.id" class="mb-8" :point="point" />
+      <PointPreviewAnswer :key="point.id" :point="point" />
+      <PointPreviewHint
+        v-if="point.hint?.length"
+        :key="point.id"
+        :point="point"
+      />
     </div>
     <div
       v-else

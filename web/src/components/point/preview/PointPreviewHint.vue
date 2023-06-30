@@ -1,39 +1,14 @@
 <script lang="ts" setup="">
 import { Point } from '@journiz/api-types'
-import { useStorage } from '@vueuse/core'
 import { ref } from 'vue'
-import { showModal } from '~/composables/useModal'
 
 const props = defineProps<{
   point: Point
 }>()
-const openHints = useStorage('openHints-' + props.point.id, 0)
-
 const penaltyByHint = props.point.score / 4
 
 const selectedHint = ref<number>(-1)
 const openHint = async (index: number) => {
-  if (index + 1 > openHints.value) {
-    const result = await showModal(
-      'Attention',
-      `Si vous souhaitez avoir l’indice pour cette question, vous gagnerez <span class="text-red font-semibold">${penaltyByHint} points</span>  de moins`,
-      [
-        {
-          actionName: 'ok',
-          title: "Découvrir l'indice",
-          color: 'red',
-        },
-        {
-          actionName: 'cancel',
-          title: 'Continuer de chercher',
-          color: 'green',
-        },
-      ],
-      'clue'
-    )
-    if (result === 'cancel') return
-    openHints.value!++
-  }
   selectedHint.value = index
 }
 </script>
@@ -75,13 +50,16 @@ const openHint = async (index: number) => {
     >
       <span
         class="half-border"
-        :class="
-          selectedHint === 0 ? 'left-half bg-theme' : 'left-0 bg-green-dark'
-        "
+        :class="[
+          selectedHint === 0 ? 'left-half bg-theme' : 'left-0 bg-green-dark',
+          {
+            '!w-full !left-0': point.hint?.length === 1,
+          },
+        ]"
       >
       </span>
       <span class="font-light">
-        {{ point.hint[selectedHint].text }}
+        {{ point.hint[selectedHint]?.text }}
       </span>
       <span class="font-medium text-theme text-center">
         - {{ penaltyByHint }} points
