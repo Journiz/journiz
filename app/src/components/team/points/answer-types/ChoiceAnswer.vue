@@ -1,9 +1,10 @@
 <script lang="ts" setup="">
 import { Point } from '@journiz/api-types'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStorage } from '@vueuse/core'
 import Button from '~/components/design-system/Button.vue'
 import useTeamAnswer from '~/composables/useTeamAnswer'
+import { showModal } from '~/composables/useModal'
 
 const props = defineProps<{
   point: Point
@@ -43,15 +44,35 @@ const submit = async () => {
   attempts.value = []
   await sendAnswer(selectedAnswer.value, isCorrect, penalty)
 }
+watch(
+  () => attempts.value.length,
+  async (numAttemps) => {
+    if (!numAttemps) {
+      return
+    }
+    const remainingAttempts = maxAttempts - numAttemps
+    await showModal(
+      'Oups! Mauvaise réponse',
+      `
+    <p>Et non, ce n'est pas ça !</p>
+    <p class="font-bold text-theme">Il vous reste ${remainingAttempts} essai${
+        remainingAttempts > 1 ? 's' : ''
+      }.</p>
+    `,
+      [
+        {
+          title: 'Réessayer',
+          actionName: 'retry',
+          color: 'theme',
+        },
+      ],
+      'wrong'
+    )
+  }
+)
 </script>
 <template>
   <div class="flex flex-col gap-2">
-    <p
-      v-show="attempts.length > 0"
-      class="font-bold mb-4 text-green-dark text-center"
-    >
-      Aïe... Mauvaise réponse. Réessayez !
-    </p>
     <button
       v-for="answer in answers"
       :key="answer.id"
