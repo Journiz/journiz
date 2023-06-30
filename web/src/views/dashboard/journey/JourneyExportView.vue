@@ -43,9 +43,15 @@ const exportJourney = async () => {
 <template>
   <div class="px-16 pt-10 h-full flex flex-col">
     <CustomHeader title="Exporter" class="h-auto mb-7 pt-12">
-      <DefaultButton :loading="loading" @click="exportJourney"
-        >Terminer</DefaultButton
+      <DefaultButton
+        :loading="loading"
+        @click="router.push({ name: 'communityDetail' })"
       >
+        <span class="i-uil:share-alt"></span> Partager
+      </DefaultButton>
+      <DefaultButton :loading="loading" @click="exportJourney">
+        Terminer
+      </DefaultButton>
     </CustomHeader>
     <div class="flex flex-grow pb-8 overflow-hidden">
       <JourneyExportForm

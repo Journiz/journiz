@@ -15,24 +15,20 @@ const removeMemberInput = () => {
 <template>
   <div class="flex flex-col pb-4">
     <form>
-      <div v-if="members">
-        <Transition
+      <TransitionGroup v-if="members" :appear="true" tag="div">
+        <TextInput
           v-for="(member, index) in members"
           :key="index"
-          :appear="true"
-        >
-          <TextInput
-            v-model="members[index]"
-            :label="
-              index === 0
-                ? 'Joueur 1 (détenteur du téléphone)'
-                : 'Joueur ' + (index + 1)
-            "
-            :svg-name="index === 0 ? 'book' : 'people'"
-            :no-display-required-stars="true"
-          />
-        </Transition>
-      </div>
+          v-model="members[index]"
+          :label="
+            index === 0
+              ? 'Joueur 1 (détenteur du téléphone)'
+              : 'Joueur ' + (index + 1)
+          "
+          :svg-name="index === 0 ? 'book' : 'people'"
+          :no-display-required-stars="true"
+        />
+      </TransitionGroup>
     </form>
     <div
       class="pt-6 h-18 flex gap-2 justify-center"
@@ -55,8 +51,7 @@ const removeMemberInput = () => {
   </div>
 </template>
 <style>
-.v-enter-active,
-.v-leave-active {
+.v-enter-active {
   transition: opacity 0.3s ease;
 }
 

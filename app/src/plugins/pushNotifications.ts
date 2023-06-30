@@ -55,6 +55,9 @@ async function handleNotificationAction(
     }
     return
   }
+  if (isForeground) {
+    return
+  }
   if (data.event === 'teamOutside') {
     const teamStore = useTeamStore()
     if (teamStore.team) {

@@ -6,6 +6,7 @@ import { usePocketBase } from '@journiz/composables'
 import PointItem from '~/components/point/PointItem.vue'
 import { useJourneyStore } from '~/stores/journey'
 import BasecampLine from '~/components/BasecampLine.vue'
+import CommunityPointList from '~/components/point/CommunityPointList.vue'
 import { PointWithDependents } from '~/types/points'
 import Sortable from '~/components/forms/Sortable.vue'
 
@@ -17,6 +18,22 @@ defineProps({
   currentItemId: {
     type: String,
     default: '',
+  },
+  showCommunity: {
+    type: Boolean,
+    default: false,
+  },
+  sortable: {
+    type: Boolean,
+    default: false,
+  },
+  showBasecamp: {
+    type: Boolean,
+    default: true,
+  },
+  editable: {
+    type: Boolean,
+    default: true,
   },
 })
 
@@ -64,12 +81,17 @@ watch(
 // const editPoint = async (id: string) => {
 //   await console.log('edit point', id)
 // }
+
+const selectedPointId = defineModel<string>('selectedId', {
+  default: '',
+  local: true,
+})
 </script>
 
 <template>
   <article class="pb-6">
     <BasecampLine
-      v-if="store.journey"
+      v-if="showBasecamp && store.journey"
       :basecamp-name="store.journey.basecampName"
       @editBasecamp="router.push({ name: 'basecamp-journey' })"
     />
@@ -88,8 +110,12 @@ watch(
         <template #item="{ item: point }">
           <PointItem
             :point="point"
+            :sortable="sortable"
             :level="0"
             :current-item-id="currentItemId"
+            :editable="editable"
+            :selected-id="selectedPointId"
+            @select="selectedPointId = $event"
             @sort-dependents="sortPointDependents(point.id, $event)"
             @edit-point="
               $router.push({
@@ -102,5 +128,10 @@ watch(
         </template>
       </Sortable>
     </div>
+    <CommunityPointList
+      v-if="showCommunity && store.journey"
+      :basecamp-latitude="store.journey.basecampLatitude"
+      :basecamp-longitude="store.journey.basecampLongitude"
+    />
   </article>
 </template>

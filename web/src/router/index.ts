@@ -61,6 +61,11 @@ const router = createRouter({
           component: () => import('~/views/dashboard/CommunityView.vue'),
         },
         {
+          path: 'communaute/detail',
+          name: 'communityDetail',
+          component: () => import('~/views/dashboard/CommunityDetailView.vue'),
+        },
+        {
           path: 'parametres',
           name: 'setting',
           component: () => import('~/views/dashboard/SettingsView.vue'),
@@ -99,6 +104,12 @@ const router = createRouter({
               path: 'export',
               component: () =>
                 import('~/views/dashboard/journey/JourneyExportView.vue'),
+            },
+            {
+              name: 'preview-journey',
+              path: 'apercu',
+              component: () =>
+                import('~/views/dashboard/journey/JourneyPreviewView.vue'),
             },
             {
               path: 'point/:pointId',

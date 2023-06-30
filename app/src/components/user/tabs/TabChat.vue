@@ -28,7 +28,11 @@ useEventListener(document, 'visibilitychange', () => {
 <template>
   <Suspense>
     <div v-if="conversations && !loading" class="col h-full bg-beige-light">
-      <Header :title="store.trip?.name ?? ''" subtitle="Messagerie" />
+      <Header
+        :title="store.trip?.name ?? ''"
+        subtitle="Messagerie"
+        :not-display-infos="true"
+      />
       <div class="col flex-grow overflow-y-scroll pb-28 divide-y divide-beige">
         <ConversationItem
           v-for="conversation in conversations"

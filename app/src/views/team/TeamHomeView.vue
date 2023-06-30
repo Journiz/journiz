@@ -1,7 +1,9 @@
 <script lang="ts" setup="">
 import { onMounted, onUnmounted, watch } from 'vue'
 import { useIonRouter } from '@ionic/vue'
-import { useStorage } from '@vueuse/core'
+import { useStorage, watchOnce } from '@vueuse/core'
+import { useRoute } from 'vue-router'
+import { useRouteQuery } from '@vueuse/router'
 import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
@@ -13,6 +15,8 @@ import { showModal } from '~/composables/useModal'
 import { warnTeamOutside } from '~/utils/warnOutside'
 import { useGeolocationStore } from '~/stores/geolocation'
 import { warnTeamEndTrip } from '~/utils/warnStartStop'
+import TabTeamScore from '~/components/team/tabs/TabTeamScore.vue'
+import warnSecurity from '~/utils/warnSecurity'
 
 const store = useTeamStore()
 const router = useIonRouter()
@@ -62,6 +66,18 @@ onUnmounted(() => {
   // geolocationStore.stopWatching()
   // geolocationStore.stopReporting()
 })
+
+const query = useRouteQuery('justStarted', '')
+if (query.value) {
+  query.value = ''
+  // When the game just started, show security warning when the team starts moving
+  watchOnce(
+    () => [store.team?.latitude, store.team?.longitude],
+    () => {
+      warnSecurity()
+    }
+  )
+}
 </script>
 <template>
   <keep-alive>
@@ -90,7 +106,8 @@ onUnmounted(() => {
           icon="i-journiz:podium"
           icon-active="i-journiz:podium-fill"
         >
-          Score
+          <!-- Score -->
+          <TabTeamScore />
         </Tab>
         <ButtonOnlyTab
           title="Messages"

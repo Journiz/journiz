@@ -2,6 +2,7 @@ import { Point } from '@journiz/api-types'
 import { usePocketBase } from '@journiz/composables'
 import { ref } from 'vue'
 import { useIonRouter } from '@ionic/vue'
+import { useStorage } from '@vueuse/core'
 import { useTeamStore } from '~/stores/team/team'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import { showModal } from '~/composables/useModal'
@@ -15,6 +16,7 @@ export default function useTeamAnswer(
   const loading = ref(false)
   const store = useTeamStore()
   const router = useIonRouter()
+  const openHints = useStorage('openHints-' + point.id, 0)
 
   const successModal = async (isCorrect: boolean, score = 0) => {
     let title = ''
@@ -76,12 +78,15 @@ export default function useTeamAnswer(
     data.append('hasBeenValidated', autoValidation.toString())
     await pb.collection('answer').create(data)
 
-    const score = point.score - penalty
+    const hintPenalty = Math.round(point.score / 4) * openHints.value
+
+    const score = point.score - penalty - hintPenalty
     if (store.team) {
       store.team.score += score
       await store.saveTeam()
     }
     loading.value = false
+    openHints.value = 0
     successModal(isCorrect, score)
     store.refreshAll()
   }

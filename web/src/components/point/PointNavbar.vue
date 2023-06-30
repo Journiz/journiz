@@ -15,11 +15,11 @@ const items = [
   },
   {
     name: 'Contenu',
-    icon: 'i-uil:map-marker',
+    icon: 'i-iconoir:input-field',
   },
   {
     name: 'Dépendance',
-    icon: 'i-uil:map-marker',
+    icon: 'i-streamline:interface-hierarchy-2-node-organization-links-structure-link-nodes-network-hierarchy',
   },
 ]
 function goToTab(item) {
@@ -47,7 +47,7 @@ onMounted(() => {
       ref="itemRefs"
       :key="item.name"
       :class="i === currentTabIndex ? 'active' : ''"
-      class="nav-item relative flex items-center p-3 cursor-pointer"
+      class="nav-item relative flex items-center p-3 pr-4 cursor-pointer"
       @click="goToTab(item)"
     >
       <div

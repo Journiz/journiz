@@ -1,4 +1,4 @@
-<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
+<script setup lang="ts">
 import { onMounted, PropType, ref } from 'vue'
 // @ts-ignore
 import { MapboxMap } from '@studiometa/vue-mapbox-gl'
