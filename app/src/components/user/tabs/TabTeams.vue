@@ -13,7 +13,11 @@ const initialTab = (useRoute().query.tab as string) ?? 'map'
 </script>
 <template>
   <div v-if="store.trip" class="w-full h-full flex-grow flex flex-col">
-    <Header :title="store.trip.name" subtitle="Carte" />
+    <Header
+      :title="store.trip.name"
+      subtitle="Carte"
+      :not-display-infos="true"
+    />
     <TopTabs>
       <Tab
         title="Equipes"

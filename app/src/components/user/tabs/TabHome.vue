@@ -60,7 +60,11 @@ const showScores = async () => {
 </script>
 <template>
   <div v-if="store.user" class="flex flex-col h-full">
-    <Header :title="store.trip?.name ?? ''" subtitle="Paramètres" />
+    <Header
+      :title="store.trip?.name ?? ''"
+      subtitle="Paramètres"
+      :not-display-infos="true"
+    />
     <div
       v-if="store.trip?.status === 'playing'"
       class="flex-grow bg-beige-light p-4 flex flex-col gap-4"

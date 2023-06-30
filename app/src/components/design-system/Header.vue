@@ -7,6 +7,7 @@ defineProps<{
   title: string
   subtitle: string
   backTo?: any
+  notDisplayInfos?: boolean
 }>()
 </script>
 <template>
@@ -20,7 +21,8 @@ defineProps<{
     </div>
     <div class="w-9 flex-shrink-0 translate-x-4">
       <button
-        class="i-uil:info-circle text-red text-24px btn-animation"
+        v-if="notDisplayInfos !== true"
+        class="i-uil:info-circle text-theme text-24px btn-animation"
         @click="warnSecurity"
       ></button>
     </div>
