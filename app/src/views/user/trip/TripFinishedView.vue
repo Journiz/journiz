@@ -71,7 +71,10 @@ const compareFn = (a: Team, b: Team) => {
         </Transition>
       </div>
     </div>
-    <div v-if="(length ?? 0) > 3" class="grow mt-8 w-full overflow-scroll mb-4">
+    <div
+      v-if="(teams.length ?? 0) > 3"
+      class="grow mt-8 w-full overflow-scroll mb-4"
+    >
       <div v-if="teams" class="flex flex-col overflow-scroll h-full">
         <div
           v-for="(team, i) in teams?.slice((teams?.length - 3) * -1)"
