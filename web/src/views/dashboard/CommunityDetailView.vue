@@ -93,7 +93,7 @@ import PageTitle from '~/components/PageTitle.vue'
         <div
           class="communaute-detail--map w-full h-full w-1/2 rounded-lg overflow-hidden mapboxgl-map"
         >
-          <img src="https://placekitten.com/500/500" alt="" />
+          <img src="../../assets/images/communaute/map.png" alt="" />
         </div>
         <div class="communaute-detail--review">
           <div class="communaute-detail--time py-2 px-4 rounded-lg">
