@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
 import { Point } from '@journiz/api-types'
+import { useFileUrl } from '@journiz/composables'
+import { storeToRefs } from 'pinia'
 import SelectInput from '~/components/forms/SelectInput.vue'
 import HintInputs from '~/components/point/editPointInputs/HintInputs.vue'
 import ChoicesInputs from '~/components/point/editPointInputs/ChoicesInputs.vue'
@@ -9,6 +11,7 @@ import TextareaInput from '~/components/forms/TextareaInput.vue'
 import NumberInput from '~/components/forms/NumberInput.vue'
 import MediaSlider from '~/components/point/editPointInputs/MediaSlider.vue'
 import SquareButton from '~/components/buttons/SquareButton.vue'
+import DefaultButton from '~/components/buttons/DefaultButton.vue'
 
 const store = usePointStore()
 
@@ -62,6 +65,14 @@ async function addMedia(type: string) {
 const penaltyByHint = computed(() => {
   return Math.round((store.point?.score ?? 0) / 4)
 })
+const { point } = storeToRefs(store)
+const mediaUrl = useFileUrl(point, 'media' as never)
+
+const removeMedia = () => {
+  if (store.point) {
+    store.point.media = ''
+  }
+}
 </script>
 <template>
   <div v-if="store.point" class="pb-6 flex-col">
@@ -94,13 +105,34 @@ const penaltyByHint = computed(() => {
       Les joueurs répondront sous la forme d'une photo que vous pourrez valider
       ou non.
     </p>
+    <div v-if="mediaUrl" class="mt-4 mb-4 flex flex-col">
+      <label class="text-black font-medium mb-2">Visuel de la question</label>
+      <div
+        class="bg-white rounded-md h-46 relative overflow-hidden rounded-lg custom-shadow group"
+      >
+        <img
+          :src="mediaUrl"
+          alt=""
+          class="inset-0 w-full h-full object-cover"
+        />
+        <DefaultButton
+          class="absolute top-2 right-2 opacity-0 group-hover:opacity-100"
+          color="secondary"
+          @click="removeMedia"
+        >
+          <span class="i-uil:trash"></span>
+          Supprimer l'image
+        </DefaultButton>
+      </div>
+    </div>
     <MediaSlider
+      v-else
       v-model="store.point.fallbackMedia"
       label="Visuel de la question"
       class="mt-2 mb-4"
     />
     <div class="flex items-center mb-4">
-      <p>Ou remplacer le visuel par &nbsp;</p>
+      <p>{{ mediaUrl ? 'Remplacer' : 'Ou remplacer' }} le visuel par &nbsp;</p>
       <SquareButton
         class="mr-2"
         color="secondary"

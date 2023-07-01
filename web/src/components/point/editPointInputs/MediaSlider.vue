@@ -90,8 +90,4 @@ watch(currentImageIndex, (to: number, from: number) => {
 .prev-step-enter-from {
   transform: translateX(-100%);
 }
-
-.custom-shadow {
-  filter: drop-shadow(0px 1px 2px rgba(0, 35, 30, 0.16));
-}
 </style>
