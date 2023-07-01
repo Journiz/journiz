@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
 import { Point } from '@journiz/api-types'
-import { useFileUrl } from '@journiz/composables'
+import { useFileUrl, usePocketBase } from '@journiz/composables'
 import { storeToRefs } from 'pinia'
 import SelectInput from '~/components/forms/SelectInput.vue'
 import HintInputs from '~/components/point/editPointInputs/HintInputs.vue'
@@ -73,6 +73,20 @@ const removeMedia = () => {
     store.point.media = ''
   }
 }
+
+const pb = usePocketBase()
+const addFileLoading = ref(false)
+const onAddFile = async (e: Event) => {
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (file) {
+    addFileLoading.value = true
+    const data = new FormData()
+    data.append('media', file)
+    await pb.collection('point').update(store.point!.id, data)
+    await store.refresh()
+    addFileLoading.value = false
+  }
+}
 </script>
 <template>
   <div v-if="store.point" class="pb-6 flex-col">
@@ -137,23 +151,30 @@ const removeMedia = () => {
         class="mr-2"
         color="secondary"
         icon="photo"
+        :loading="addFileLoading"
         @click="addMedia('photo')"
       />
-      <p>ou &nbsp;</p>
-      <SquareButton
-        class="mr-2"
-        color="secondary"
-        icon="audio"
-        @click="addMedia('audio')"
+      <!--      <p>ou &nbsp;</p>-->
+      <!--      <SquareButton-->
+      <!--        class="mr-2"-->
+      <!--        color="secondary"-->
+      <!--        icon="audio"-->
+      <!--        @click="addMedia('audio')"-->
+      <!--      />-->
+      <!--      <p>ou &nbsp;</p>-->
+      <!--      <SquareButton-->
+      <!--        class="mr-2"-->
+      <!--        color="secondary"-->
+      <!--        icon="video"-->
+      <!--        @click="addMedia('video')"-->
+      <!--      />-->
+      <input
+        ref="fileInput"
+        class="hidden"
+        type="file"
+        :accept="accept"
+        @change="onAddFile"
       />
-      <p>ou &nbsp;</p>
-      <SquareButton
-        class="mr-2"
-        color="secondary"
-        icon="video"
-        @click="addMedia('video')"
-      />
-      <input ref="fileInput" class="hidden" type="file" :accept="accept" />
     </div>
     <TextareaInput v-model="store.point.description" label="Énoncé" />
     <TextareaInput v-model="store.point.question" label="Question" />
