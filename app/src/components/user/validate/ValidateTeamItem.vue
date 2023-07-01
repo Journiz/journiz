@@ -25,10 +25,10 @@ const pendingAnswersCount = computed(() => {
 })
 
 watch(pendingAnswersCount, () => {
-  emit('answersNum', answersCount.value)
+  emit('answersNum', pendingAnswersCount.value)
 })
 onMounted(() => {
-  emit('answersNum', answersCount.value)
+  emit('answersNum', pendingAnswersCount.value)
 })
 
 onIonViewDidEnter(() => {
