@@ -1,14 +1,16 @@
 <script lang="ts" setup="">
 import { Team } from '@journiz/api-types'
 import { useRealtimeTeam } from '@journiz/composables'
-import { computed } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { onIonViewDidEnter } from '@ionic/vue'
 import Button from '~/components/design-system/Button.vue'
-import { getColor } from '~/composables/useThemeColor'
 import TeamAvatar from '~/components/team/TeamAvatar.vue'
 
 const props = defineProps<{
   team: Team
+}>()
+const emit = defineEmits<{
+  answersNum: [num: number]
 }>()
 const { data: expandedTeam, loading, refresh } = useRealtimeTeam(props.team.id)
 const answersCount = computed(() => {
@@ -20,6 +22,13 @@ const pendingAnswersCount = computed(() => {
       (answer) => !answer.hasBeenValidated
     )?.length ?? 0
   )
+})
+
+watch(pendingAnswersCount, () => {
+  emit('answersNum', answersCount.value)
+})
+onMounted(() => {
+  emit('answersNum', answersCount.value)
 })
 
 onIonViewDidEnter(() => {

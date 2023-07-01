@@ -1,6 +1,12 @@
 <script lang="ts" setup="">
 import { onMounted, provide, reactive } from 'vue'
-import { TabData, TabsProvider, TabsProviderKey } from '~/types/tabs'
+import {
+  SetBadgeKey,
+  SetTabBadgeKey,
+  TabData,
+  TabsProvider,
+  TabsProviderKey,
+} from '~/types/tabs'
 import TabBar from '~/components/tabs/tab-bar/TabBar.vue'
 
 const state: TabsProvider = reactive({
@@ -24,6 +30,13 @@ const setActiveTab = (name: string) => {
   state.activeTab = state.tabs.find((tab) => tab.name === name)
   emit('tabChange', name)
 }
+provide(SetTabBadgeKey, (tabName: string, badge: number) => {
+  const i = state.tabs.findIndex((tab) => tab.name === tabName)
+  if (i < 0) {
+    return
+  }
+  state.tabs[i].badge = badge
+})
 
 onMounted(() => {
   if (defaultTabName) {

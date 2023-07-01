@@ -1,6 +1,6 @@
 <script lang="ts" setup="">
-import { computed, inject, onBeforeMount, onMounted } from 'vue'
-import { TabsProviderKey } from '~/types/tabs'
+import { computed, inject, onBeforeMount, onMounted, provide } from 'vue'
+import { SetBadgeKey, SetTabBadgeKey, TabsProviderKey } from '~/types/tabs'
 
 const props = defineProps<{
   title: string
@@ -11,13 +11,18 @@ const props = defineProps<{
 }>()
 const addTab = inject('addTab') as any
 onBeforeMount(() => {
-  addTab(props, props.defaultSelected)
+  addTab({ ...props, badge: 0 }, props.defaultSelected)
 })
 onMounted(() => {})
 
 const tabsProvider = inject(TabsProviderKey)
 const isActive = computed(() => {
   return tabsProvider!.activeTabName === props.name
+})
+
+const setTabBadge = inject(SetTabBadgeKey) as any
+provide(SetBadgeKey, (badge: number) => {
+  setTabBadge(props.name, badge)
 })
 </script>
 <template>
