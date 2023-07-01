@@ -2,10 +2,11 @@
 import { IonList } from '@ionic/vue'
 import { useConversations } from '@journiz/composables'
 import { useEventListener } from '@vueuse/core'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ConversationItem from '~/components/user/chat/ConversationItem.vue'
 import { useUserStore } from '~/stores/user'
 import Header from '~/components/design-system/Header.vue'
+import { useTabBadge } from '~/types/tabs'
 
 const store = useUserStore()
 const { data, loading, refresh } = useConversations({
@@ -24,6 +25,14 @@ useEventListener(document, 'visibilitychange', () => {
     refresh()
   }
 })
+const unreads = ref([])
+const unreadsNum = computed(() =>
+  unreads.value.reduce((acc, cur) => acc + cur, 0)
+)
+const setTabBadge = useTabBadge()
+watch(unreadsNum, (value) => {
+  setTabBadge?.(value)
+})
 </script>
 <template>
   <Suspense>
@@ -35,10 +44,11 @@ useEventListener(document, 'visibilitychange', () => {
       />
       <div class="col flex-grow overflow-y-scroll pb-28 divide-y divide-beige">
         <ConversationItem
-          v-for="conversation in conversations"
+          v-for="(conversation, i) in conversations"
           :key="conversation.id"
           :conversation="conversation.id"
           sender="user"
+          @unread="unreads[i] = $event"
         />
       </div>
     </div>
