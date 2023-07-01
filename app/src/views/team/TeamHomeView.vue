@@ -1,9 +1,10 @@
 <script lang="ts" setup="">
-import { onMounted, onUnmounted, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useIonRouter } from '@ionic/vue'
 import { useStorage, watchOnce } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 import { useRouteQuery } from '@vueuse/router'
+import { useChat } from '@journiz/composables'
 import Page from '~/components/Page.vue'
 import Tabs from '~/components/tabs/tab-bar/Tabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
@@ -78,11 +79,26 @@ if (query.value) {
     }
   )
 }
+const { conversation } = useChat(store.conversationId!, 'team')
+const tabs = ref()
+const unreadMessages = computed(
+  () => conversation.value?.expand?.messages?.filter((m) => !m.read).length ?? 0
+)
+onMounted(() => {
+  if (tabs.value) {
+    tabs.value.state.tabs[3].badge = unreadMessages.value
+  }
+})
+watch(unreadMessages, () => {
+  if (tabs.value) {
+    tabs.value.state.tabs[3].badge = unreadMessages.value
+  }
+})
 </script>
 <template>
   <keep-alive>
     <Page id="trip-tabs-page">
-      <Tabs class="flex-grow">
+      <Tabs ref="tabs" class="flex-grow">
         <Tab
           title="Paramètres"
           name="settings"
