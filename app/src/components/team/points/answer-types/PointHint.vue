@@ -9,7 +9,7 @@ const props = defineProps<{
 }>()
 const openHints = useStorage('openHints-' + props.point.id, 0)
 
-const penaltyByHint = props.point.score / 4
+const penaltyByHint = Math.round(props.point.score / 4)
 
 const selectedHint = ref<number>(-1)
 const openHint = async (index: number) => {

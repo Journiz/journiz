@@ -8,6 +8,7 @@ import Back from '~/components/router/Back.vue'
 import { showModal } from '~/composables/useModal'
 import { tripIsToday } from '~/utils/dates'
 import GoCountdown from '~/components/time/GoCountdown.vue'
+import TeamAvatar from '~/components/team/TeamAvatar.vue'
 
 const router = useIonRouter()
 const store = useUserStore()
@@ -77,7 +78,10 @@ const startTrip = async () => {
           :key="team.id"
           class="team-item bg-white py-5 px-6 rounded-xl"
         >
-          <div class="font-bold mb-3">{{ team.name }}</div>
+          <header class="flex items-center gap-2 mb-3">
+            <TeamAvatar class="w-6 h-6" :team="team" />
+            <div class="font-bold">{{ team.name }}</div>
+          </header>
           <div>
             <span
               v-for="(member, i) in team.members"

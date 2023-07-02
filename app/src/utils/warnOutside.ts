@@ -5,7 +5,8 @@ import router from '~/router'
 export const warnTeamOutside = async () => {
   const action = await showModal(
     'Pas si vite !',
-    `<p>Vous êtes en sortis de la zone de jeu !</p>`,
+    // eslint-disable-next-line no-irregular-whitespace
+    `<p>Vous êtes en sortis de la zone de jeu !</p>`,
     [
       {
         title: 'On retourne dans la zone',
@@ -28,7 +29,8 @@ export const warnTeamOutside = async () => {
 export const warnOutside = async (teamId: string, teamName: string) => {
   const action = await showModal(
     'Sortie de route !',
-    `<p>L'équipe ${teamName} est sortie de la zone de jeu !</p>`,
+    // eslint-disable-next-line no-irregular-whitespace
+    `<p>L'équipe ${teamName} est sortie de la zone de jeu !</p>`,
     [
       {
         title: 'Ok',
