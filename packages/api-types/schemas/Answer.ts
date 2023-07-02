@@ -9,5 +9,6 @@ export const AnswerSchema = BaseSchema.extend({
   answerMedia: z.string().optional(),
   isCorrect: z.boolean(),
   hasBeenValidated: z.boolean(),
+  hasScoreBeenAdded: z.boolean().optional(),
 })
 export type Answer = z.infer<typeof AnswerSchema>
