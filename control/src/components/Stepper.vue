@@ -244,17 +244,43 @@ const steps: Step[] = [
   },
   {
     title: 'Fake réponses des autres équipes',
-    onStep: () => {
+    onStep: async () => {
       console.log('Fake réponses des autres équipes')
+      for (const i in teams.value) {
+        if (teams.value[i]) {
+          const answersToCreate = Math.floor(Math.random() * 3) + 1
+          const points = [
+            'yrbqbka9349xyje',
+            'czpb36gh8cj4qij',
+            'ww71v8rxqb6zfof',
+          ]
+          for (let j = 0; j < answersToCreate; j++) {
+            await pb.collection('answer').create({
+              point: points[j],
+              team: teams.value[i].id,
+              answerData: 'any',
+              hasBeenValidated: false,
+              isCorrect: false,
+            })
+          }
+        }
+      }
     },
   },
   {
-    title: 'Validation Equipe photo (et audio)',
+    title: 'Validation Equipe photo et audio',
   },
   {
     title: 'Auto validation des autres équipes',
     onStep: async () => {
-      console.log('Auto validation des autres équipes')
+      const answers = await pb.collection('answer').getFullList({
+        filter: `team.trip="${trip.value?.id}"`,
+      })
+      for (const answer of answers) {
+        await pb.collection('answer').update(answer.id, {
+          hasBeenValidated: true,
+        })
+      }
       for (const i in teams.value) {
         await pb.collection('team').update(teams.value[i].id, {
           score: teamsScores[i as unknown as number],
