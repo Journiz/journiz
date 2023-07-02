@@ -57,6 +57,9 @@ useEventBus<string>('top-tabs').on((tabName) => {
 })
 
 onMounted(mounted)
+defineExpose({
+  state,
+})
 </script>
 <template>
   <div class="flex-grow col h-full">

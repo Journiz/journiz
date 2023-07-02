@@ -38,6 +38,8 @@ watch(
 const initialTab = (useRoute().query.tab as string) ?? 'map'
 const tabs = ref<typeof Tabs>()
 const currentTab = computed(() => tabs.value?.state.activeTabName)
+
+const subTab = ref('')
 </script>
 <template>
   <keep-alive>
@@ -59,7 +61,7 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
           icon-active="i-journiz:map-fill"
           :default-selected="['map', 'list'].includes(initialTab)"
         >
-          <TabTeams />
+          <TabTeams @tab-change="subTab = $event" />
         </Tab>
         <Tab
           title="Validation"
@@ -82,7 +84,9 @@ const currentTab = computed(() => tabs.value?.state.activeTabName)
       </Tabs>
 
       <div
-        v-show="!['chat', 'validation'].includes(currentTab)"
+        v-show="
+          !['chat', 'validation'].includes(currentTab) && subTab !== 'list'
+        "
         class="absolute bottom-36 left-1/2 transform -translate-x-1/2"
       >
         <TripCountdown
