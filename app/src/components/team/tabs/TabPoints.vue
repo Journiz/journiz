@@ -42,9 +42,10 @@ const defaultSelected = useRoute().query.subTab === 'list' ? 'list' : 'map'
     class="w-full h-full flex flex-col relative"
   >
     <Header :title="store.trip?.name" :subtitle="store.team?.name" />
-    <TopTabs class="flex-shrink">
+
+    <TeamMap v-if="store.trip?.status === 'finishing'" :points="points" />
+    <TopTabs v-else class="flex-shrink">
       <Tab
-        v-if="store.trip.status !== 'finishing'"
         title="Enigmes"
         name="list"
         :default-selected="defaultSelected === 'map'"
