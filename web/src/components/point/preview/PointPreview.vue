@@ -12,7 +12,7 @@ defineProps<{
   <div class="w-full h-full px-4 flex justify-center w-full">
     <div
       v-if="point"
-      class="flex flex-col w-112 py-4 px-6 border-2 border-green rounded-42px overflow-y-auto bg-white"
+      class="flex flex-col w-96 py-4 px-6 border-2 border-green rounded-42px overflow-y-auto bg-white"
     >
       <PointQuestion :key="point.id" class="mb-8" :point="point" />
       <PointPreviewAnswer :key="point.id" :point="point" />
