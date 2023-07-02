@@ -34,7 +34,7 @@ const login = async () => {
       src="../../assets/img/backgrounds/bg-login.jpg"
       alt="Background"
     />
-    <div class="px-8">
+    <form class="px-8">
       <h2
         class="relative color-green-dark text-2xl font-black text-center mb-10"
       >
@@ -45,6 +45,7 @@ const login = async () => {
         class="mb-4"
         label="Identifiant"
         svg-name="people"
+        tabindex="1"
         :no-display-required-stars="true"
       />
       <TextInput
@@ -52,16 +53,19 @@ const login = async () => {
         label="Mot de passe"
         type="password"
         svg-name="lock"
+        tabindex="2"
         :no-display-required-stars="true"
       />
       <p v-if="error" class="relative text-red p-2">{{ error }}</p>
       <Button
+        type="submit"
+        tabindex="0"
         class="relative w-full mt-6"
         color="theme"
         :loading="loading"
         @click="login"
         >Connexion</Button
       >
-    </div>
+    </form>
   </Page>
 </template>

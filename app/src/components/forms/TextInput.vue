@@ -33,6 +33,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  tabindex: {
+    type: String,
+    default: '0',
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -75,6 +79,7 @@ const togglePasswordVisibility = () => {
         svgName ? 'got-icon' : '',
       ]"
       :style="{ backgroundImage: 'url(' + imageURL + ')' }"
+      :tabindex="tabindex"
       @input="onInput"
     />
     <div
