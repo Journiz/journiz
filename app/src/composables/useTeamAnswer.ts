@@ -102,7 +102,7 @@ export default function useTeamAnswer(
     const hintPenalty = Math.round(point.score / 4) * openHints.value
 
     const score = point.score - penalty - hintPenalty
-    if (store.team) {
+    if (store.team && autoValidation && isCorrect) {
       store.team.score += score
       await store.saveTeam()
     }
