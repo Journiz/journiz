@@ -311,7 +311,8 @@ const runCurrent = async () => {
             :disabled="currentStepIndex >= steps.length - 1"
             @click="nextStep()"
           >
-            <span class="i-uil:angle-right-b"></span>
+            <span class="i-uil:skip-forward-alt"></span>
+            Next
           </button>
         </div>
         <transition>
@@ -325,16 +326,12 @@ const runCurrent = async () => {
         <button
           v-for="(step, i) in steps"
           :key="step.title"
-          class="flex items-center px-4 py-3 disabled:bg-base-200 disabled:text-base-content rounded-lg"
-          :class="
-            currentStepIndex === i
-              ? 'bg-primary text-primary-content'
-              : 'bg-neutral text-neutral-content'
-          "
+          class="flex items-center justify-start font-normal btn normal-case text-left disabled:cursor-default"
+          :class="currentStepIndex === i ? 'btn-primary' : ''"
           :disabled="!step.onStep"
           @click="goToStep(i)"
         >
-          <span class="font-bold mr-1">{{ i }}.</span>
+          <span class="font-bold -mr-1">{{ i }}.</span>
           <span>{{ step.title }}</span>
         </button>
       </div>
