@@ -8,10 +8,11 @@ type Step = {
   title: string
   onStep?: () => void
 }
-const props = defineProps<{
-  tripId: string
-}>()
-const { data: trip, update: updateTrip } = useTripForGameMaster(props.tripId)
+const tripId = useStorage('tripId', 'ydq57qnmy3n5gdp')
+const refresh = () => {
+  window.location.reload()
+}
+const { data: trip, update: updateTrip } = useTripForGameMaster(tripId.value)
 const teams = useStorage('teams', [])
 const teamId = useStorage('teamId', '')
 
@@ -40,14 +41,14 @@ const steps: Step[] = [
       teams.value = []
       teamId.value = ''
       const teamsToDelete = await pb.collection('team').getFullList({
-        filter: `trip="${props.tripId}"`,
+        filter: `trip="${trip.value?.id}"`,
       })
       for (const team of teamsToDelete) {
         await pb.collection('team').delete(team.id)
       }
 
       const messagesToDelete = await pb.collection('message').getFullList({
-        filter: `conversation.trip="${props.tripId}"`,
+        filter: `conversation.trip="${trip.value?.id}"`,
       })
       for (const message of messagesToDelete) {
         await pb.collection('message').delete(message.id)
@@ -63,7 +64,7 @@ const steps: Step[] = [
       for (const team of initialTeams) {
         const t = await pb.collection('team').create({
           ...team,
-          trip: props.tripId,
+          trip: trip.value?.id,
         })
         teams.value.push(t)
       }
@@ -83,9 +84,9 @@ const steps: Step[] = [
           name: teamsNames[i as unknown as number],
         })
       }
-      const teamsIds = teams.value.map((t) => t.id)
+      const teamsIds = teams.value.map((t: any) => t.id)
       const allTeams = await pb.collection('team').getFullList({
-        filter: `trip="${props.tripId}"`,
+        filter: `trip="${trip.value?.id}"`,
       })
       teamId.value = allTeams.find((t: any) => !teamsIds.includes(t.id))?.id
 
@@ -311,18 +312,44 @@ const reset = () => {
   currentStepIndex.value = 0
   runCurrent()
 }
+
+const buttons = ref<HTMLElement[]>()
 const runCurrent = async () => {
   if (isRunning.value) return
   isRunning.value = true
+  buttons.value?.[currentStepIndex.value]?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+  })
   await steps[currentStepIndex.value]?.onStep?.()
   isRunning.value = false
 }
 </script>
 <template>
-  <div class="card bg-base-100 shadow-xl px-6 py-5">
-    <h2 class="font-bold text-xl mb-4">Etapes</h2>
-    <div class="flex flex-col gap-2">
-      <header class="flex gap-2 items-center sticky top-0 py-2 bg-base-100">
+  <div class="">
+    <div class="navbar bg-base-100 shadow-lg fixed top-0 left-0 w-full">
+      <div class="flex-1 flex items-center">
+        <a class="btn btn-ghost normal-case text-xl">Journiz Stepper</a>
+        <div class="join max-w-xs">
+          <input
+            v-model="tripId"
+            type="text"
+            placeholder="Trip Id"
+            class="input join-item input-bordered w-full max-w-xs"
+          />
+
+          <button class="btn btn-primary join-item" @click="refresh">
+            <span class="i-uil:sync"></span>
+          </button>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <transition>
+          <span
+            class="loading loading-dots loading-md mr-2 text-red transition duration-50"
+            :class="isRunning ? 'opacity-100' : 'opacity-0'"
+          ></span>
+        </transition>
         <div class="join">
           <button class="btn join-item btn-error" @click="reset">
             <span class="i-uil:sync"></span>
@@ -341,16 +368,15 @@ const runCurrent = async () => {
             Next
           </button>
         </div>
-        <transition>
-          <span
-            v-show="isRunning"
-            class="loading loading-dots loading-md ml-2 text-red"
-          ></span>
-        </transition>
-      </header>
-      <div class="flex flex-col gap-2 flex-grow overflow-y-auto">
+      </div>
+    </div>
+    <div class="flex flex-col gap-2">
+      <div
+        class="flex flex-col gap-2 flex-grow overflow-y-auto px-8 pb-8 pt-24"
+      >
         <button
           v-for="(step, i) in steps"
+          ref="buttons"
           :key="step.title"
           class="flex items-center justify-start font-normal btn normal-case text-left disabled:cursor-default"
           :class="currentStepIndex === i ? 'btn-primary' : ''"
