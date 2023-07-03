@@ -3,6 +3,7 @@ import { usePocketBase } from '@journiz/composables'
 import { onMounted, ref } from 'vue'
 import { useJourneyStore } from '~/stores/journey'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import CommunityPointWindow from '~/components/point/CommunityPointWindow.vue'
 
 const pb = usePocketBase()
 
@@ -18,6 +19,8 @@ const props = defineProps({
 })
 
 const resultList = ref<any[]>([])
+const currentItem = ref<object>({})
+const windowVisible = ref<boolean>(false)
 
 onMounted(async () => {
   const radius = 0.02
@@ -44,6 +47,16 @@ onMounted(async () => {
     (p) => !pointsInJourneyIds.includes(p.id)
   )
 })
+
+const setCurrentItem = (item: object) => {
+  console.log('PLACE')
+  currentItem.value = item
+  windowVisible.value = true
+}
+
+const closeWindow = () => {
+  windowVisible.value = false
+}
 </script>
 <template>
   <div>
@@ -57,7 +70,8 @@ onMounted(async () => {
       <div
         v-for="item in resultList"
         :key="item.id"
-        class="community--slide rounded-lg bg-white"
+        class="community--slide rounded-lg bg-white hover:cursor-pointer"
+        @click="setCurrentItem(item)"
       >
         <div class="community--slide-button p-4">
           <p class="community--question">"{{ item.question }}"</p>
@@ -66,19 +80,14 @@ onMounted(async () => {
             {{ item.name }}
           </p>
         </div>
-        <div class="community--slide-detail">
-          <p>{{ item.name }}</p>
-          <p>{{ item.score }} pts</p>
-          <p>Énoncé {{ item.description }}</p>
-          <p>Question {{ item.question }}</p>
-          <p>Réponses {{ item.answerType }}</p>
-          <p>Indices {{ item.hint }}</p>
-          <DefaultButton color="secondary"
-            >Modifier et ajouter ce point</DefaultButton
-          >
-        </div>
       </div>
     </div>
+    <CommunityPointWindow
+      class="z-3"
+      :class="windowVisible ? '' : 'opacity-0 pointer-events-none'"
+      :item="currentItem"
+      @closeWindow="closeWindow"
+    />
   </div>
 </template>
 
