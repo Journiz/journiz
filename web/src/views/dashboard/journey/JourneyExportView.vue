@@ -9,6 +9,8 @@ import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import Basceamp from '~/components/map/Basecamp.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import PointMarker from '~/components/map/PointMarker.vue'
+import ShareJourneyWindow from '~/components/point/ShareJourneyWindow.vue'
+import CommunityPointWindow from '~/components/point/CommunityPointWindow.vue'
 
 const journeyStore = useJourneyStore()
 const router = useRouter()
@@ -30,6 +32,7 @@ if (journeyStore.journey?.duration) {
 const time = ref(initialTime)
 const security = ref(journeyStore.journey?.hasSafeZone ?? false)
 const loading = ref(false)
+const windowVisible = ref<boolean>(false)
 const exportJourney = async () => {
   loading.value = true
   const success = await journeyStore.exportJourney(time.value, security.value)
@@ -43,10 +46,7 @@ const exportJourney = async () => {
 <template>
   <div class="px-16 pt-10 h-full flex flex-col">
     <CustomHeader title="Exporter" class="h-auto mb-7 pt-12">
-      <DefaultButton
-        :loading="loading"
-        @click="router.push({ name: 'communityDetail' })"
-      >
+      <DefaultButton :loading="loading" @click="windowVisible = true">
         <span class="i-uil:share-alt"></span> Partager
       </DefaultButton>
       <DefaultButton :loading="loading" @click="exportJourney">
@@ -85,5 +85,10 @@ const exportJourney = async () => {
         </MapWithSafeZone>
       </div>
     </div>
+    <ShareJourneyWindow
+      class="z-20"
+      :class="windowVisible ? '' : 'opacity-0 pointer-events-none'"
+      @close-window="windowVisible = false"
+    />
   </div>
 </template>
