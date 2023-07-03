@@ -2,7 +2,6 @@
 import { usePocketBase } from '@journiz/composables'
 import { onMounted, ref } from 'vue'
 import { useJourneyStore } from '~/stores/journey'
-import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import CommunityPointWindow from '~/components/point/CommunityPointWindow.vue'
 
 const pb = usePocketBase()
@@ -49,7 +48,6 @@ onMounted(async () => {
 })
 
 const setCurrentItem = (item: object) => {
-  console.log('PLACE')
   currentItem.value = item
   windowVisible.value = true
 }
@@ -83,7 +81,7 @@ const closeWindow = () => {
       </div>
     </div>
     <CommunityPointWindow
-      class="z-3"
+      class="z-20"
       :class="windowVisible ? '' : 'opacity-0 pointer-events-none'"
       :item="currentItem"
       @closeWindow="closeWindow"
