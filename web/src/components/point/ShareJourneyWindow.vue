@@ -1,9 +1,24 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { nextTick } from 'vue/dist/vue'
+import { ref } from 'vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
+
 const router = useRouter()
 
 const emit = defineEmits(['closeWindow'])
+
+const fileInput = ref<HTMLInputElement>()
+
+const media = ref('')
+function addMedia() {
+  fileInput.value?.click()
+}
+const onAddImage = () => {
+  const file = fileInput.value?.files?.[0]
+  if (!file) return
+  media.value = URL.createObjectURL(file)
+}
 </script>
 <template>
   <div
@@ -29,14 +44,27 @@ const emit = defineEmits(['closeWindow'])
           Ajouter un description et une image à ce parcours pour aider les
           autres professeurs visualiser votre parcours
         </div>
-        <DefaultButton color="secondary" class="mb-8 mx-auto"
-          >Ajouter une image d'aperçu
+        <input
+          ref="fileInput"
+          type="file"
+          class="hidden"
+          accept="image/*"
+          @change="onAddImage"
+        />
+        <img
+          v-if="media"
+          :src="media"
+          class="max-h-48 rounded-lg shadow mb-3 object-cover mx-auto"
+          alt="thumb"
+        />
+        <DefaultButton color="secondary" class="mb-6 mx-auto" @click="addMedia">
           <span class="i-material-symbols:photo-camera-outline" />
+          {{ media ? "Modifier l'image" : "Ajouter une image d'illustration" }}
         </DefaultButton>
         <textarea
           class="rounded-lg shadow grow mb-5 w-full resize-none p-5"
           placeholder="Voici un parcours créé pour mes élèves de 1ere..."
-          rows="10"
+          rows="7"
         />
         <div class="flex justify-center gap-2">
           <DefaultButton
@@ -45,7 +73,7 @@ const emit = defineEmits(['closeWindow'])
           >
             Partager
           </DefaultButton>
-          <DefaultButton @click="emit('closeWindow')"> Annuler </DefaultButton>
+          <DefaultButton @click="emit('closeWindow')"> Annuler</DefaultButton>
         </div>
       </div>
     </div>
@@ -59,6 +87,7 @@ const emit = defineEmits(['closeWindow'])
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
+
 .custom-shadow {
   box-shadow: 0px 1px 3px 0px rgba(0, 35, 30, 0.16);
 }
