@@ -29,6 +29,12 @@ const unreads = ref([])
 const unreadsNum = computed(() =>
   unreads.value.reduce((acc, cur) => acc + cur, 0)
 )
+const setUnread = (i: number, num: any) => {
+  if (unreads.value[i]) {
+    // @ts-ignore
+    unreads.value[i] = num
+  }
+}
 const setTabBadge = useTabBadge()
 watch(unreadsNum, (value) => {
   setTabBadge?.(value)
@@ -48,7 +54,7 @@ watch(unreadsNum, (value) => {
           :key="conversation.id"
           :conversation="conversation.id"
           sender="user"
-          @unread="unreads[i] = $event"
+          @unread="setUnread(i, $event)"
         />
       </div>
     </div>

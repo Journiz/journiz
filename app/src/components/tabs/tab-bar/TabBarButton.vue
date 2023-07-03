@@ -37,11 +37,12 @@ defineProps<{
       ></span>
     </span>
     <span
-      v-show="!isActive && tab.badge > 0"
+      v-show="!isActive && (tab.badge ?? 0) > 0"
       class="block absolute -top-2 left-1/2 ml-2 bg-theme w-4 h-4 text-white flex items-center justify-center rounded-full"
-      :class="tab.badge > 9 ? 'text-10px' : 'text-8px'"
-      >{{ tab.badge }}</span
+      :class="(tab.badge ?? 0) > 9 ? 'text-10px' : 'text-8px'"
     >
+      {{ tab.badge }}
+    </span>
     <span class="text-11px">
       {{ tab.title }}
     </span>

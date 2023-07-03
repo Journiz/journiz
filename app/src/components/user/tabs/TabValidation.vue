@@ -13,6 +13,13 @@ const setBadge = useTabBadge()
 watch(totalAnswers, () => {
   setBadge?.(totalAnswers.value)
 })
+
+const updateAnswersNum = (i: number, num: any) => {
+  if (answersNums.value[i]) {
+    // @ts-ignore
+    answersNums.value[i] = num
+  }
+}
 </script>
 <template>
   <div v-if="store.trip" class="flex-grow h-full flex flex-col bg-beige-light">
@@ -30,7 +37,7 @@ watch(totalAnswers, () => {
         v-for="(team, i) in store.trip.expand.teams"
         :key="team.id"
         :team="team"
-        @answers-num="answersNums[i] = $event"
+        @answers-num="updateAnswersNum(i, $event)"
       />
     </div>
   </div>
