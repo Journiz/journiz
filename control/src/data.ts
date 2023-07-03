@@ -1,7 +1,7 @@
 export const initialTeams = [
   {
     name: 'Equipe 1',
-    members: ['Malo', 'Romain', 'Eliah', 'Margot', 'Mathis'],
+    members: ['Sandra', 'Karim', 'Léana', 'Gaspard'],
     batteryLevel: 76,
     isOutside: false,
     latitude: 45.90053,
@@ -10,7 +10,7 @@ export const initialTeams = [
   },
   {
     name: 'Equipe 2',
-    members: ['Lou', 'Elina', 'Gabriel', 'Camille', 'Alyssa'],
+    members: ['Samy', 'Yohan', 'Ophélie', 'Cassandra'],
     batteryLevel: 45,
     isOutside: false,
     latitude: 45.9006,
@@ -19,7 +19,7 @@ export const initialTeams = [
   },
   {
     name: 'Equipe 3',
-    members: ['Carolie', 'Maelys', 'Clément', 'Lucie', 'Léo'],
+    members: ['Joris', 'Adrien', 'Esteban', 'Lou', 'Maya'],
     batteryLevel: 92,
     isOutside: false,
     latitude: 45.90062,
@@ -28,7 +28,7 @@ export const initialTeams = [
   },
   {
     name: 'Equipe 4',
-    members: ['Lilou', 'Violette', 'Jules', 'Lilian', 'Louis'],
+    members: ['Miguel', 'Jordan', 'Katya', 'Sébastien'],
     batteryLevel: 71,
     isOutside: false,
     latitude: 45.900562,
