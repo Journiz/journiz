@@ -16,6 +16,7 @@ type Step = {
   onStep?: () => void
 }
 const tripId = useStorage('tripId', 'ydq57qnmy3n5gdp')
+const secondTripId = useStorage('secondTripId', '5y62iqbyg2gcwrp')
 const refresh = () => {
   window.location.reload()
 }
@@ -55,7 +56,7 @@ const steps: Step[] = [
       }
 
       const messagesToDelete = await pb.collection('message').getFullList({
-        filter: `conversation.trip="${trip.value?.id}"`,
+        filter: `conversation.trip="${trip.value?.id}" || conversation.trip="${secondTripId.value}"`,
       })
       for (const message of messagesToDelete) {
         await pb.collection('message').delete(message.id)
@@ -66,6 +67,12 @@ const steps: Step[] = [
       trip.value.date = new Date().toISOString()
       trip.value.duration = 60
       await updateTrip()
+
+      // Reset second trip
+      await pb.collection('trip').update(secondTripId.value, {
+        status: 'pairing',
+        date: new Date().toISOString(),
+      })
 
       // Create empty teams
       for (const team of initialTeams) {
@@ -336,20 +343,52 @@ const runCurrent = async () => {
 </script>
 <template>
   <div class="">
-    <div class="navbar bg-base-100 shadow-lg fixed top-0 left-0 w-full">
+    <nav class="navbar bg-base-100 shadow-lg fixed top-0 left-0 w-full">
       <div class="flex-1 flex items-center">
         <a class="btn btn-ghost normal-case text-xl">Journiz Stepper</a>
-        <div class="join max-w-xs">
-          <input
-            v-model="tripId"
-            type="text"
-            placeholder="Trip Id"
-            class="input join-item input-bordered w-full max-w-xs"
-          />
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost btn-circle">
+            <span class="indicator">
+              <span class="i-uil:setting text-20px"></span>
+            </span>
+          </label>
+          <div
+            tabindex="0"
+            class="mt-3 z-[1] card card-compact dropdown-content bg-base-100 shadow min-w-112"
+          >
+            <div class="card-body flex flex-col">
+              <div class="join flex">
+                <div class="flex flex-shrink-0 items-center pr-4">
+                  Main Trip Id
+                </div>
+                <input
+                  v-model="tripId"
+                  type="text"
+                  placeholder="Trip Id"
+                  class="input join-item input-bordered w-full max-w-xs"
+                />
 
-          <button class="btn btn-primary join-item" @click="refresh">
-            <span class="i-uil:sync"></span>
-          </button>
+                <button class="btn btn-primary join-item" @click="refresh">
+                  <span class="i-uil:sync"></span>
+                </button>
+              </div>
+              <div class="join flex">
+                <div class="flex flex-shrink-0 items-center pr-4">
+                  Second Trip Id
+                </div>
+                <input
+                  v-model="secondTripId"
+                  type="text"
+                  placeholder="Trip Id"
+                  class="input join-item input-bordered w-full max-w-xs"
+                />
+
+                <button class="btn btn-primary join-item" @click="refresh">
+                  <span class="i-uil:sync"></span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="flex items-center">
@@ -378,7 +417,7 @@ const runCurrent = async () => {
           </button>
         </div>
       </div>
-    </div>
+    </nav>
     <div class="flex flex-col gap-2">
       <div
         class="flex flex-col gap-2 flex-grow overflow-y-auto px-8 pb-8 pt-24"
