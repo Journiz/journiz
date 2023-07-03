@@ -14,7 +14,7 @@ import PageTitle from '~/components/PageTitle.vue'
     </header>
     <main class="communaute-detail mx-12">
       <div class="communaute-detail--content m-4">
-        <h3 class="communaute-detail--author">Par Mme Dumond</h3>
+        <h3 class="communaute-detail--author">Par Mr Boyer</h3>
         <div class="communaute-detail--picto-text my-2">
           <div class="communaute-detail--picto-text mr-4">
             <svg
@@ -34,7 +34,7 @@ import PageTitle from '~/components/PageTitle.vue'
                 fill-opacity="0.75"
               />
             </svg>
-            <p>16 énigmes</p>
+            <p>8 énigmes</p>
           </div>
           <div class="communaute-detail--picto-text">
             <svg
@@ -58,7 +58,7 @@ import PageTitle from '~/components/PageTitle.vue'
                 fill-opacity="0.75"
               />
             </svg>
-            <p>2 fois</p>
+            <p>1 fois</p>
           </div>
         </div>
         <div class="communaite-detail--info">
