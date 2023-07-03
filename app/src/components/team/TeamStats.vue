@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { Team } from '@journiz/api-types'
 import { useAnswers } from '@journiz/composables'
+import { computed } from 'vue'
 import TeamAvatar from '~/components/team/TeamAvatar.vue'
 import { getColor } from '~/composables/useThemeColor'
+import { useTeamStore } from '~/stores/team/team'
 
 const props = defineProps<{
   team: Team
   pointsNumber: number
 }>()
-const { data: answers } = useAnswers({
+const { data } = useAnswers({
   filter: `team="${props.team.id}"`,
+})
+const store = useTeamStore()
+const answers = computed(() => {
+  if (store.team) {
+    return store.team.expand?.answers ?? []
+  }
+  return data.value
 })
 </script>
 <template>
