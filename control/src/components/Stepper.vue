@@ -2,7 +2,14 @@
 import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { usePocketBase, useTripForGameMaster } from '@journiz/composables'
-import { initialTeams, teamsNames, teamsPositions, teamsScores } from '@/data'
+import {
+  initialTeams,
+  teamsColors,
+  teamsHats,
+  teamsNames,
+  teamsPositions,
+  teamsScores,
+} from '@/data'
 
 type Step = {
   title: string
@@ -82,6 +89,8 @@ const steps: Step[] = [
       for (const i in teams.value) {
         await pb.collection('team').update(teams.value[i].id, {
           name: teamsNames[i as unknown as number],
+          hat: teamsHats[i as unknown as number],
+          color: teamsColors[i as unknown as number],
         })
       }
       const teamsIds = teams.value.map((t: any) => t.id)
