@@ -52,8 +52,10 @@ const mounted = () => {
   requestAnimationFrame(mounted)
 }
 
-useEventBus<string>('top-tabs').on((tabName) => {
-  setActiveTab(tabName)
+useEventBus<string>('top-tabs').on(async (tabName) => {
+  setTimeout(() => {
+    setActiveTab(tabName)
+  }, 1000)
 })
 
 onMounted(mounted)

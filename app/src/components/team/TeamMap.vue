@@ -28,7 +28,7 @@ const visiblePoints = computed(() => {
 })
 </script>
 <template>
-  <Map :map-center="initialMapCenter" :zoom="13">
+  <Map :map-center="initialMapCenter" :zoom="16">
     <MapMarker
       v-for="point in visiblePoints"
       :key="point.id"
