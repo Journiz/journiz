@@ -4,6 +4,12 @@ set -x
 
 export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
 brew install cocoapods node@18
+
+Showing All Messages
+PATH="/usr/local/opt/node@18/bin:$PATH"
+export PATH
+
+
 # have to add node yourself link to this issue https://stackoverflow.com/questions/73462672/xcode-cloud-suddenly-failing-to-link-node-and-install-dependencies
 #NODE_VER=18
 #VERSION=$(curl -s https://nodejs.org/dist/latest-v$NODE_VER.x/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')
