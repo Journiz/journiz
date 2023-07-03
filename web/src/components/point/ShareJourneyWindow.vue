@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { nextTick } from 'vue/dist/vue'
 import { ref } from 'vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 

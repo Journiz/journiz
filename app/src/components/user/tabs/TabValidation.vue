@@ -15,9 +15,8 @@ watch(totalAnswers, () => {
 })
 
 const updateAnswersNum = (i: number, num: any) => {
-  if (answersNums.value[i]) {
-    // @ts-ignore
-    answersNums.value[i] = num
+  if (answersNums.value) {
+    answersNums.value[i] = num as never
   }
 }
 </script>
