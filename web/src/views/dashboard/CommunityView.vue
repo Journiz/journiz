@@ -117,7 +117,7 @@ function vueDetail() {
                           fill-opacity="0.75"
                         />
                       </svg>
-                      <p>14 fois</p>
+                      <p>8 fois</p>
                     </div>
                   </div>
                   <DefaultButton color="secondary" @click="vueDetail"
@@ -184,7 +184,8 @@ function vueDetail() {
                         height="24"
                         viewBox="0 0 24 24"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
                         <path
                           d="M12.5 12C12.9469 12 13.3296 11.8432 13.6481 11.5296C13.9666 11.216 14.1255 10.8395 14.125 10.4C14.125 9.96 13.9657 9.5832 13.6472 9.2696C13.3287 8.956 12.9463 8.79947 12.5 8.8C12.0531 8.8 11.6704 8.9568 11.3519 9.2704C11.0334 9.584 10.8745 9.96053 10.875 10.4C10.875 10.84 11.0343 11.2168 11.3528 11.5304C11.6713 11.844 12.0537 12.0005 12.5 12ZM12.5 17.88C14.1521 16.3867 15.3776 15.0299 16.1766 13.8096C16.9755 12.5893 17.375 11.5061 17.375 10.56C17.375 9.10667 16.9043 7.9168 15.9629 6.9904C15.0215 6.064 13.8672 5.60053 12.5 5.6C11.1323 5.6 9.97773 6.06347 9.03631 6.9904C8.0949 7.91733 7.62446 9.1072 7.625 10.56C7.625 11.5067 8.02448 12.5901 8.82344 13.8104C9.6224 15.0307 10.8479 16.3872 12.5 17.88ZM12.5 20C10.3198 18.1733 8.69154 16.4768 7.61525 14.9104C6.53896 13.344 6.00054 11.8939 6 10.56C6 8.56 6.65352 6.96667 7.96056 5.78C9.2676 4.59333 10.7808 4 12.5 4C14.2198 4 15.7332 4.59333 17.0402 5.78C18.3473 6.96667 19.0005 8.56 19 10.56C19 11.8933 18.4616 13.3435 17.3847 14.9104C16.3079 16.4773 14.6797 18.1739 12.5 20Z"
                           fill="#00231E"
@@ -387,7 +388,10 @@ function vueDetail() {
                   </svg>
                   <p>320</p>
                 </div>
-                <img src="../../assets/images/communaute/montpelier.jpeg" alt="" />
+                <img
+                  src="../../assets/images/communaute/montpelier.jpeg"
+                  alt=""
+                />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">Montpellier Centre ville</h3>
@@ -490,7 +494,10 @@ function vueDetail() {
                   </svg>
                   <p>125</p>
                 </div>
-                <img src="../../assets/images/communaute/citadelle.jpeg" alt="" />
+                <img
+                  src="../../assets/images/communaute/citadelle.jpeg"
+                  alt=""
+                />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">La citadelle</h3>
@@ -703,7 +710,10 @@ function vueDetail() {
                   </svg>
                   <p>22</p>
                 </div>
-                <img src="../../assets/images/communaute/chambery.jpeg" alt="" />
+                <img
+                  src="../../assets/images/communaute/chambery.jpeg"
+                  alt=""
+                />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">Sortie à Annecy</h3>
@@ -806,7 +816,10 @@ function vueDetail() {
                   </svg>
                   <p>12</p>
                 </div>
-                <img src="../../assets/images/communaute/albertville.jpg" alt="" />
+                <img
+                  src="../../assets/images/communaute/albertville.jpg"
+                  alt=""
+                />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">Sortie à Annecy</h3>
@@ -909,7 +922,10 @@ function vueDetail() {
                   </svg>
                   <p>2</p>
                 </div>
-                <img src="../../assets/images/communaute/grenoble.jpeg" alt="" />
+                <img
+                  src="../../assets/images/communaute/grenoble.jpeg"
+                  alt=""
+                />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">Sortie à Annecy</h3>
@@ -1009,7 +1025,7 @@ main.communaute {
 .parcours-list--img img {
   height: 100%;
   with: 100%;
-  aspect-ratio : 360/215;
+  aspect-ratio: 360/215;
 }
 .parcours-list--stared {
   color: white;

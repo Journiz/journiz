@@ -58,7 +58,7 @@ import PageTitle from '~/components/PageTitle.vue'
                 fill-opacity="0.75"
               />
             </svg>
-            <p>1 fois</p>
+            <p>6 fois</p>
           </div>
         </div>
         <div class="communaite-detail--info">
@@ -111,14 +111,15 @@ import PageTitle from '~/components/PageTitle.vue'
                 />
               </svg>
             </div>
-            <p>Environs 2h30</p>
+            <p>Environ 1h</p>
           </div>
           <div
             class="communaute-detail--description w-full my-4 px-6 py-4 bg-white rounded-xl drop-shadow-md"
           >
             <p>
-              Je suis professeur et j'ai créé un parcours de découverte de
-              l'histoire de Cran-Gevrier, une commune située en Haute-Savoie.
+              Je suis professeur d’histoire-géo et j’ai créé un parcours pour
+              mes élèves de seconde pour leurs faire découvrir la belle ville
+              d’Annecy, une commune située en Haute-Savoie.
             </p>
             <b class="mt-2">Lire la suite</b>
           </div>
@@ -159,8 +160,11 @@ import PageTitle from '~/components/PageTitle.vue'
             class="communaute-detail--comment mb-8"
           >
             <div class="communaute-detail--comment-author">
-              <div class="mr-2"></div>
-              <p>Prof du 97</p>
+              <img
+                :src="'https://i.pravatar.cc/300?img=' + index + 4"
+                class="mr-2 bg-red w-8 h-8 rounded-full"
+              />
+              <p>{{ index === 1 ? 'Prof du 53' : 'Mme Dubois' }}</p>
             </div>
             <div class="communaute-detail--rate">
               <svg
@@ -193,8 +197,12 @@ import PageTitle from '~/components/PageTitle.vue'
               </svg>
             </div>
             <p class="communaute-detail--comment-text">
-              Très bien organisé et adapté aux élèves de seconde ! C'était une
-              excellente occasion pour eux de découvrir cette commune.
+              {{
+                index == 2
+                  ? `Mes élèves ont adoré cette sortie scolaire ! L’énigme sur le Palais de l’Isle est un peu difficile à trouver mais avec les indices cela fonctionne !`
+                  : `Très bien organisé et adapté aux élèves de seconde ! C'était une
+              excellente occasion pour eux de découvrir cette commune.`
+              }}
             </p>
           </div>
         </div>
@@ -291,12 +299,6 @@ main.communaute-detail {
   align-self: center;
   height: fit-content;
   vertical-align: bottom;
-}
-.communaute-detail--comment-author > div {
-  height: 40px;
-  width: 40px;
-  background-color: #d9d9d9;
-  border-radius: 50%;
 }
 .communaute-detail--rate {
   display: inline-flex;
