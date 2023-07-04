@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { usePocketBase } from '@journiz/composables'
 import { onMounted, ref } from 'vue'
+import { Point } from '@journiz/api-types'
 import { useJourneyStore } from '~/stores/journey'
 import CommunityPointWindow from '~/components/point/CommunityPointWindow.vue'
 
@@ -17,7 +18,7 @@ const props = defineProps({
   },
 })
 
-const resultList = ref<any[]>([])
+const resultList = ref<Point[]>([])
 const currentItem = ref<object>({})
 const windowVisible = ref<boolean>(false)
 
@@ -42,6 +43,7 @@ onMounted(async () => {
   })
 
   // Utilisation des points récupérés
+  // @ts-ignore
   resultList.value = result.items.filter(
     (p) => !pointsInJourneyIds.includes(p.id)
   )
@@ -54,6 +56,22 @@ const setCurrentItem = (item: object) => {
 
 const closeWindow = () => {
   windowVisible.value = false
+}
+
+const answerType = (type: Point['answerType']) => {
+  switch (type) {
+    case 'text':
+      return 'Texte'
+    case 'choice':
+      return 'QCM'
+    case 'audio':
+      return 'Audio'
+    case 'image':
+      return 'Image'
+    case 'location':
+      return 'Localisation'
+  }
+  return ''
 }
 </script>
 <template>
@@ -68,12 +86,14 @@ const closeWindow = () => {
       <div
         v-for="item in resultList"
         :key="item.id"
-        class="community--slide rounded-lg bg-white hover:cursor-pointer"
+        class="community--slide rounded-xl shadow bg-white hover:cursor-pointer"
         @click="setCurrentItem(item)"
       >
         <div class="community--slide-button p-4">
           <p class="community--question">"{{ item.question }}"</p>
-          <p class="community--answerType font-medium">{{ item.answerType }}</p>
+          <p class="community--answerType font-medium">
+            {{ answerType(item.answerType) }}
+          </p>
           <p class="community--name">
             {{ item.name }}
           </p>
@@ -111,8 +131,6 @@ const closeWindow = () => {
   flex-direction: column;
   justify-content: space-around;
   aspect-ratio: 130/118;
-
-  box-shadow: 0px 1px 3px 0px rgba(0, 35, 30, 0.16);
 }
 .community--slide-detail {
   display: none;
