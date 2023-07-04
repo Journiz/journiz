@@ -58,11 +58,11 @@ import PageTitle from '~/components/PageTitle.vue'
                 fill-opacity="0.75"
               />
             </svg>
-            <p>6 fois</p>
+            <p>8 fois</p>
           </div>
         </div>
         <div class="communaite-detail--info">
-          <p>Posté le 24 avril 2023</p>
+          <p>Posté le 5 juillet 2023</p>
           <p class="ml-12">Annecy</p>
         </div>
         <div class="communaute-detail--cta my-2">
@@ -85,7 +85,7 @@ import PageTitle from '~/components/PageTitle.vue'
                 fill-opacity="0.75"
               />
             </svg>
-            <p>123</p>
+            <p>24</p>
           </div>
         </div>
       </div>
