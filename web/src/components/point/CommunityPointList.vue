@@ -2,7 +2,7 @@
 import { usePocketBase } from '@journiz/composables'
 import { onMounted, ref } from 'vue'
 import { useJourneyStore } from '~/stores/journey'
-import DefaultButton from '~/components/buttons/DefaultButton.vue'
+import CommunityPointWindow from '~/components/point/CommunityPointWindow.vue'
 
 const pb = usePocketBase()
 
@@ -18,6 +18,8 @@ const props = defineProps({
 })
 
 const resultList = ref<any[]>([])
+const currentItem = ref<object>({})
+const windowVisible = ref<boolean>(false)
 
 onMounted(async () => {
   const radius = 0.02
@@ -44,18 +46,30 @@ onMounted(async () => {
     (p) => !pointsInJourneyIds.includes(p.id)
   )
 })
+
+const setCurrentItem = (item: object) => {
+  currentItem.value = item
+  windowVisible.value = true
+}
+
+const closeWindow = () => {
+  windowVisible.value = false
+}
 </script>
 <template>
   <div>
-    <!-- <pre>{{ resultList }}</pre> -->
-    <h3 class="community--title text-black font-medium mt-8 mb-2">
+    <h3
+      v-if="resultList.length > 0"
+      class="community--title text-black font-medium mt-8 mb-2"
+    >
       Ajouter un point proposé par la communauté
     </h3>
     <div class="community--slider">
       <div
         v-for="item in resultList"
         :key="item.id"
-        class="community--slide rounded-lg bg-white"
+        class="community--slide rounded-lg bg-white hover:cursor-pointer"
+        @click="setCurrentItem(item)"
       >
         <div class="community--slide-button p-4">
           <p class="community--question">"{{ item.question }}"</p>
@@ -64,19 +78,14 @@ onMounted(async () => {
             {{ item.name }}
           </p>
         </div>
-        <div class="community--slide-detail">
-          <p>{{ item.name }}</p>
-          <p>{{ item.score }} pts</p>
-          <p>Énoncé {{ item.description }}</p>
-          <p>Question {{ item.question }}</p>
-          <p>Réponses {{ item.answerType }}</p>
-          <p>Indices {{ item.hint }}</p>
-          <DefaultButton color="secondary"
-            >Modifier et ajouter ce point</DefaultButton
-          >
-        </div>
       </div>
     </div>
+    <CommunityPointWindow
+      class="z-20"
+      :class="windowVisible ? '' : 'opacity-0 pointer-events-none'"
+      :item="currentItem"
+      @closeWindow="closeWindow"
+    />
   </div>
 </template>
 

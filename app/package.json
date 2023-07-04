@@ -1,6 +1,6 @@
 {
-  "name": "app",
-  "version": "0.0.0",
+  "name": "@journiz/app",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -48,10 +48,11 @@
     "@unhead/vue": "^1.1.27",
     "@unocss/reset": "^0.51.13",
     "@vueuse/core": "^10.1.2",
-    "@vueuse/sound": "^2.0.1",
+    "@vueuse/router": "^10.2.1",
     "capacitor-native-settings": "^5.0.0",
     "capacitor-voice-recorder": "^5.0.0",
     "gsap": "^3.11.5",
+    "howler": "^2.2.3",
     "ionicons": "^7.1.1",
     "mapbox-gl": "^2.15.0",
     "onesignal-cordova-plugin": "^3.3.1",
@@ -62,9 +63,11 @@
     "vue-router": "^4.2.1"
   },
   "devDependencies": {
+    "@capacitor/assets": "^2.0.4",
     "@capacitor/cli": "^5.0.4",
     "@ionic/cli": "^6.20.9",
     "@turf/turf": "^6.5.0",
+    "@types/howler": "^2.2.7",
     "@types/mapbox-gl": "^2.7.11",
     "@types/node": "^18.16.16",
     "@vitejs/plugin-vue": "^4.2.3",

@@ -19,6 +19,22 @@ defineProps({
     type: String,
     default: '',
   },
+  showCommunity: {
+    type: Boolean,
+    default: false,
+  },
+  sortable: {
+    type: Boolean,
+    default: false,
+  },
+  showBasecamp: {
+    type: Boolean,
+    default: true,
+  },
+  editable: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 async function deletePoint(id: string) {
@@ -65,12 +81,17 @@ watch(
 // const editPoint = async (id: string) => {
 //   await console.log('edit point', id)
 // }
+
+const selectedPointId = defineModel<string>('selectedId', {
+  default: '',
+  local: true,
+})
 </script>
 
 <template>
   <article class="pb-6">
     <BasecampLine
-      v-if="store.journey"
+      v-if="showBasecamp && store.journey"
       :basecamp-name="store.journey.basecampName"
       @editBasecamp="router.push({ name: 'basecamp-journey' })"
     />
@@ -89,8 +110,12 @@ watch(
         <template #item="{ item: point }">
           <PointItem
             :point="point"
+            :sortable="sortable"
             :level="0"
             :current-item-id="currentItemId"
+            :editable="editable"
+            :selected-id="selectedPointId"
+            @select="selectedPointId = $event"
             @sort-dependents="sortPointDependents(point.id, $event)"
             @edit-point="
               $router.push({
@@ -104,7 +129,7 @@ watch(
       </Sortable>
     </div>
     <CommunityPointList
-      v-if="store.journey"
+      v-if="showCommunity && store.journey"
       :basecamp-latitude="store.journey.basecampLatitude"
       :basecamp-longitude="store.journey.basecampLongitude"
     />

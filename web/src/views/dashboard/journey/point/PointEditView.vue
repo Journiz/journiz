@@ -20,10 +20,12 @@ store.setId(route.params.pointId as string)
 const { loading } = storeToRefs(store)
 await waitForEndLoading(loading)
 
+const isCreate = route.query.new !== undefined
+
 // passer en props
 const currentTabIndex = ref(0)
 async function save() {
-  if (currentTabIndex.value < 2) {
+  if (isCreate && currentTabIndex.value < 2) {
     currentTabIndex.value++
     await saveChanges()
     return
@@ -33,7 +35,7 @@ async function save() {
 }
 function quit() {
   const result = confirm(
-    'Vos changements ne serront pas sauvegardé. Voulez-vous vraiment quitter la page ?'
+    'Vos changements ne serront pas sauvegardés. Voulez-vous vraiment quitter la page ?'
   )
   if (result) {
     router.push({ name: 'edit-journey' })
@@ -46,6 +48,15 @@ async function saveChanges() {
     console.log(e)
   }
 }
+async function preview() {
+  await saveChanges()
+  await router.push({
+    name: 'preview-journey',
+    query: {
+      pointId: store.point?.id,
+    },
+  })
+}
 </script>
 
 <template>
@@ -57,16 +68,19 @@ async function saveChanges() {
         label="Nom du point"
       ></TextInput>
       <page-title v-else class="mb-10">{{ store.point.name }}</page-title>
-      <div class="flex">
+      <div class="flex gap-3">
         <SquareButton
-          class="mr-3"
           icon="back"
           color="white"
           :loading="store.loading"
           @click="quit"
         />
+        <DefaultButton :loading="store.loading" @click="preview">
+          <span class="i-uil:eye"></span>
+          Prévisualiser
+        </DefaultButton>
         <DefaultButton :loading="store.loading" @click="save">
-          {{ route.name == 'point-dependency' ? 'Enregistrer' : 'Suivant' }}
+          {{ isCreate && currentTabIndex < 2 ? 'Suivant' : 'Enregistrer' }}
         </DefaultButton>
       </div>
     </header>

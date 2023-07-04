@@ -1,7 +1,7 @@
 <script lang="ts" setup="">
 import { IonItem } from '@ionic/vue'
 import { useChat } from '@journiz/composables'
-import { computed } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { waitForEndLoading } from '~/utils/waitForEndLoading'
 import TeamAvatar from '~/components/team/TeamAvatar.vue'
 import { useUserStore } from '~/stores/user'
@@ -34,6 +34,16 @@ await waitForEndLoading(loading)
 
 const store = useUserStore()
 const teams = computed(() => store.trip?.expand?.teams?.slice(0, 3) ?? [])
+
+const emit = defineEmits<{
+  unread: [num: number]
+}>()
+onMounted(() => {
+  emit('unread', lastMessageUnRead.value ? 1 : 0)
+})
+watch(lastMessageUnRead, (value) => {
+  emit('unread', value ? 1 : 0)
+})
 </script>
 <template>
   <router-link

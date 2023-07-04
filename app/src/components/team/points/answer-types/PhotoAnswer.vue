@@ -1,6 +1,8 @@
 <script lang="ts" setup="">
 import { Point } from '@journiz/api-types'
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'
+import { watch } from 'vue'
+import { loadingController } from '@ionic/vue'
 import Button from '~/components/design-system/Button.vue'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import useTeamAnswer from '~/composables/useTeamAnswer'
@@ -19,11 +21,7 @@ const photoParams = {
   allowEditing: false,
   resultType: CameraResultType.DataUrl,
 }
-const { sendAnswer, loading: validationLoading } = useTeamAnswer(
-  props.point,
-  false,
-  true
-)
+const { sendAnswer, loading } = useTeamAnswer(props.point, false, true)
 const getPhoto = async (gallery = false) => {
   const image = await Camera.getPhoto({
     ...photoParams,
@@ -33,6 +31,21 @@ const getPhoto = async (gallery = false) => {
     await sendAnswer(image.dataUrl, true)
   }
 }
+let loadingIndicator: HTMLIonLoadingElement
+loadingController
+  .create({
+    message: "Envoi de l'image...",
+  })
+  .then((indicator) => {
+    loadingIndicator = indicator
+  })
+watch(loading, (isLoading) => {
+  if (isLoading) {
+    loadingIndicator?.present()
+  } else {
+    loadingIndicator?.dismiss()
+  }
+})
 </script>
 <template>
   <div class="flex flex-col">

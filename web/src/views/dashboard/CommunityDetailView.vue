@@ -14,7 +14,7 @@ import PageTitle from '~/components/PageTitle.vue'
     </header>
     <main class="communaute-detail mx-12">
       <div class="communaute-detail--content m-4">
-        <h3 class="communaute-detail--author">Par Mme Dumond</h3>
+        <h3 class="communaute-detail--author">Par Mr Boyer</h3>
         <div class="communaute-detail--picto-text my-2">
           <div class="communaute-detail--picto-text mr-4">
             <svg
@@ -34,7 +34,7 @@ import PageTitle from '~/components/PageTitle.vue'
                 fill-opacity="0.75"
               />
             </svg>
-            <p>16 énigmes</p>
+            <p>8 énigmes</p>
           </div>
           <div class="communaute-detail--picto-text">
             <svg
@@ -58,7 +58,7 @@ import PageTitle from '~/components/PageTitle.vue'
                 fill-opacity="0.75"
               />
             </svg>
-            <p>2 fois</p>
+            <p>1 fois</p>
           </div>
         </div>
         <div class="communaite-detail--info">
@@ -93,7 +93,7 @@ import PageTitle from '~/components/PageTitle.vue'
         <div
           class="communaute-detail--map w-full h-full w-1/2 rounded-lg overflow-hidden mapboxgl-map"
         >
-          <img src="https://placekitten.com/500/500" alt="" />
+          <img src="../../assets/images/communaute/map.png" alt="" />
         </div>
         <div class="communaute-detail--review">
           <div class="communaute-detail--time py-2 px-4 rounded-lg">

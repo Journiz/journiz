@@ -2,36 +2,61 @@
 import { ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import { usePocketBase, useTripForGameMaster } from '@journiz/composables'
-import { initialTeams, teamsNames, teamsScores } from '@/data'
+import {
+  initialTeams,
+  teamsColors,
+  teamsHats,
+  teamsNames,
+  teamsPositions,
+  teamsScores,
+} from '@/data'
 
 type Step = {
   title: string
   onStep?: () => void
 }
-const props = defineProps<{
-  tripId: string
-}>()
-const { data: trip, update: updateTrip } = useTripForGameMaster(props.tripId)
+const tripId = useStorage('tripId', 'ydq57qnmy3n5gdp')
+const secondTripId = useStorage('secondTripId', '5y62iqbyg2gcwrp')
+const refresh = () => {
+  window.location.reload()
+}
+const { data: trip, update: updateTrip } = useTripForGameMaster(tripId.value)
 const teams = useStorage('teams', [])
 const teamId = useStorage('teamId', '')
 
 const pb = usePocketBase()
+
+const moveTeamsTo = async (positions: number[][]) => {
+  for (const i in teams.value) {
+    await pb.collection('team').update(teams.value[i].id, {
+      latitude: positions[i as any][0],
+      longitude: positions[i as any][1],
+    })
+  }
+}
+
 const steps: Step[] = [
   {
     title: 'Remise à zéro',
     onStep: async () => {
       if (!trip.value) return
+
+      // Reset point message
+      await pb.collection('point').update('yrbqbka9349xyje', {
+        description: `Bonlieu à Annecy est un lieu prisé des amateurs de culture. Il accueille des spectacles, des expositions et des événements artistiques. Bonlieu est un haut lieu de créativité où l'art prend vie, attirant les passionnés d'arts visuels et de spectacle vivant.`,
+      })
+
       teams.value = []
       teamId.value = ''
       const teamsToDelete = await pb.collection('team').getFullList({
-        filter: `trip="${props.tripId}"`,
+        filter: `trip="${trip.value?.id}"`,
       })
       for (const team of teamsToDelete) {
         await pb.collection('team').delete(team.id)
       }
 
       const messagesToDelete = await pb.collection('message').getFullList({
-        filter: `conversation.trip="${props.tripId}"`,
+        filter: `conversation.trip="${trip.value?.id}" || conversation.trip="${secondTripId.value}"`,
       })
       for (const message of messagesToDelete) {
         await pb.collection('message').delete(message.id)
@@ -43,11 +68,17 @@ const steps: Step[] = [
       trip.value.duration = 60
       await updateTrip()
 
+      // Reset second trip
+      await pb.collection('trip').update(secondTripId.value, {
+        status: 'pairing',
+        date: new Date().toISOString(),
+      })
+
       // Create empty teams
       for (const team of initialTeams) {
         const t = await pb.collection('team').create({
           ...team,
-          trip: props.tripId,
+          trip: trip.value?.id,
         })
         teams.value.push(t)
       }
@@ -65,11 +96,13 @@ const steps: Step[] = [
       for (const i in teams.value) {
         await pb.collection('team').update(teams.value[i].id, {
           name: teamsNames[i as unknown as number],
+          hat: teamsHats[i as unknown as number],
+          color: teamsColors[i as unknown as number],
         })
       }
-      const teamsIds = teams.value.map((t) => t.id)
+      const teamsIds = teams.value.map((t: any) => t.id)
       const allTeams = await pb.collection('team').getFullList({
-        filter: `trip="${props.tripId}"`,
+        filter: `trip="${trip.value?.id}"`,
       })
       teamId.value = allTeams.find((t: any) => !teamsIds.includes(t.id))?.id
 
@@ -83,6 +116,15 @@ const steps: Step[] = [
     title: 'Lancement du parcours',
   },
   {
+    title: 'Equipe commence à bouger',
+    onStep: async () => {
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.90053,
+        longitude: 6.12847,
+      })
+    },
+  },
+  {
     title: 'Equipe sur le chemin du chateau',
     onStep: async () => {
       console.log('Equipe sur le chemin du chateau')
@@ -90,6 +132,7 @@ const steps: Step[] = [
         latitude: 45.897975,
         longitude: 6.1257381,
       })
+      await moveTeamsTo(teamsPositions[0])
     },
   },
   {
@@ -112,6 +155,7 @@ const steps: Step[] = [
         latitude: 45.90165,
         longitude: 6.12753,
       })
+      await moveTeamsTo(teamsPositions[1])
     },
   },
   {
@@ -131,10 +175,33 @@ const steps: Step[] = [
         latitude: 45.89921829763893,
         longitude: 6.126424635622585,
       })
+      await moveTeamsTo(teamsPositions[2])
     },
   },
   {
     title: 'Enregistrement dialogue',
+  },
+  {
+    title: 'Equipe devant mairie',
+    onStep: async () => {
+      console.log('Equipe devant la mairie')
+
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.899332344715845,
+        longitude: 6.129035165594151,
+      })
+      await moveTeamsTo(teamsPositions[3])
+    },
+  },
+  {
+    title: 'Equipe au mauvais endroit',
+    onStep: async () => {
+      console.log('Equipe au mauvais endroit')
+      await pb.collection('team').update(teamId.value, {
+        latitude: 45.898450859698585,
+        longitude: 6.129210128716409,
+      })
+    },
   },
   {
     title: 'Equipe derrière eglise St mau',
@@ -179,28 +246,58 @@ const steps: Step[] = [
         longitude: 6.12846,
       })
       for (const i in teams.value) {
-        const data: any = {}
-        if (teams[i as unknown as number]?.id) {
-          data.latitude = teams[i as unknown as number]?.latitude
-          data.longitude = teams[i as unknown as number]?.longitude
+        if (teams.value[i]) {
+          console.log({
+            latitude: initialTeams[i as unknown as number]?.latitude,
+            longitude: initialTeams[i as unknown as number]?.longitude,
+          })
+          await pb.collection('team').update(teams.value[i].id, {
+            latitude: initialTeams[i as unknown as number]?.latitude,
+            longitude: initialTeams[i as unknown as number]?.longitude,
+          })
         }
-        await pb.collection('team').update(teams.value[i].id, data)
       }
     },
   },
   {
     title: 'Fake réponses des autres équipes',
-    onStep: () => {
+    onStep: async () => {
       console.log('Fake réponses des autres équipes')
+      for (const i in teams.value) {
+        if (teams.value[i]) {
+          const answersToCreate = Math.floor(Math.random() * 3) + 1
+          const points = [
+            'yrbqbka9349xyje',
+            'czpb36gh8cj4qij',
+            'ww71v8rxqb6zfof',
+          ]
+          for (let j = 0; j < answersToCreate; j++) {
+            await pb.collection('answer').create({
+              point: points[j],
+              team: teams.value[i].id,
+              answerData: 'any',
+              hasBeenValidated: false,
+              isCorrect: false,
+            })
+          }
+        }
+      }
     },
   },
   {
-    title: 'Validation Equipe photo (et audio)',
+    title: 'Validation Equipe photo et audio',
   },
   {
     title: 'Auto validation des autres équipes',
     onStep: async () => {
-      console.log('Auto validation des autres équipes')
+      const answers = await pb.collection('answer').getFullList({
+        filter: `team.trip="${trip.value?.id}"`,
+      })
+      for (const answer of answers) {
+        await pb.collection('answer').update(answer.id, {
+          hasBeenValidated: true,
+        })
+      }
       for (const i in teams.value) {
         await pb.collection('team').update(teams.value[i].id, {
           score: teamsScores[i as unknown as number],
@@ -216,68 +313,125 @@ const isRunning = ref(false)
 const currentStepIndex = useStorage('currentStepIndex', 0)
 const nextStep = async () => {
   if (currentStepIndex.value >= steps.length - 1) return
-  isRunning.value = true
   do {
     currentStepIndex.value++
-  } while (
-    !steps[currentStepIndex.value].onStep &&
-    currentStepIndex.value < steps.length - 1
-  )
-  await steps[currentStepIndex.value].onStep?.()
-  isRunning.value = false
+  } while (!steps[currentStepIndex.value]?.onStep)
+  await runCurrent()
 }
 const goToStep = async (step: number) => {
   if (isRunning.value) return
-  if (step < currentStepIndex.value) {
-    currentStepIndex.value = 0
-    await steps[currentStepIndex.value].onStep?.()
-  }
-  while (currentStepIndex.value < step) {
-    await nextStep()
-  }
+  currentStepIndex.value = step
+  await runCurrent()
 }
 
 const reset = () => {
   currentStepIndex.value = 0
-  steps[0]?.onStep?.()
+  runCurrent()
 }
-const runCurrent = () => {
-  steps[currentStepIndex.value]?.onStep?.()
+
+const buttons = ref<HTMLElement[]>()
+const runCurrent = async () => {
+  if (isRunning.value) return
+  isRunning.value = true
+  buttons.value?.[currentStepIndex.value]?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+  })
+  await steps[currentStepIndex.value]?.onStep?.()
+  isRunning.value = false
 }
 </script>
 <template>
-  <div class="bg-amber-50 rounded-lg px-6 py-5">
-    <h2 class="font-bold text-xl mb-4">Etapes</h2>
-    <div class="flex flex-col gap-2">
-      <header class="flex gap-2 items-center">
-        <button class="btn btn-primary" @click="reset">Reset</button>
-        <button class="btn btn-secondary" @click="runCurrent">
-          Run current
-        </button>
-        <button
-          class="btn"
-          :disabled="currentStepIndex >= steps.length - 1"
-          @click="nextStep()"
-        >
-          <span class="i-uil:angle-right-b"></span>
-        </button>
+  <div class="">
+    <nav class="navbar bg-base-100 shadow-lg fixed top-0 left-0 w-full">
+      <div class="flex-1 flex items-center">
+        <a class="btn btn-ghost normal-case text-xl">Journiz Stepper</a>
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost btn-circle">
+            <span class="indicator">
+              <span class="i-uil:setting text-20px"></span>
+            </span>
+          </label>
+          <div
+            tabindex="0"
+            class="mt-3 z-[1] card card-compact dropdown-content bg-base-100 shadow min-w-112"
+          >
+            <div class="card-body flex flex-col">
+              <div class="join flex">
+                <div class="flex flex-shrink-0 items-center pr-4">
+                  Main Trip Id
+                </div>
+                <input
+                  v-model="tripId"
+                  type="text"
+                  placeholder="Trip Id"
+                  class="input join-item input-bordered w-full max-w-xs"
+                />
+
+                <button class="btn btn-primary join-item" @click="refresh">
+                  <span class="i-uil:sync"></span>
+                </button>
+              </div>
+              <div class="join flex">
+                <div class="flex flex-shrink-0 items-center pr-4">
+                  Second Trip Id
+                </div>
+                <input
+                  v-model="secondTripId"
+                  type="text"
+                  placeholder="Trip Id"
+                  class="input join-item input-bordered w-full max-w-xs"
+                />
+
+                <button class="btn btn-primary join-item" @click="refresh">
+                  <span class="i-uil:sync"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center">
         <transition>
           <span
-            v-show="isRunning"
-            class="loading loading-dots loading-md ml-2 text-red"
+            class="loading loading-dots loading-md mr-2 text-red transition duration-50"
+            :class="isRunning ? 'opacity-100' : 'opacity-0'"
           ></span>
         </transition>
-      </header>
-      <div class="flex flex-col gap-2 flex-grow overflow-y-auto">
+        <div class="join">
+          <button class="btn join-item btn-error" @click="reset">
+            <span class="i-uil:sync"></span>
+            Reset
+          </button>
+          <button class="btn join-item btn-warning" @click="runCurrent">
+            <span class="i-uil:play"></span>
+            Run current
+          </button>
+          <button
+            class="btn join-item btn-info"
+            :disabled="currentStepIndex >= steps.length - 1"
+            @click="nextStep()"
+          >
+            <span class="i-uil:skip-forward-alt"></span>
+            Next
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="flex flex-col gap-2">
+      <div
+        class="flex flex-col gap-2 flex-grow overflow-y-auto px-8 pb-8 pt-24"
+      >
         <button
           v-for="(step, i) in steps"
+          ref="buttons"
           :key="step.title"
-          class="flex items-center px-4 py-3 disabled:bg-gray-200 rounded-lg"
-          :class="currentStepIndex === i ? 'bg-sky-800 text-white' : 'bg-white'"
+          class="flex items-center justify-start font-normal btn normal-case text-left disabled:cursor-default"
+          :class="currentStepIndex === i ? 'btn-primary' : ''"
           :disabled="!step.onStep"
           @click="goToStep(i)"
         >
-          <span class="font-bold mr-1">{{ i }}.</span>
+          <span class="font-bold -mr-1">{{ i }}.</span>
           <span>{{ step.title }}</span>
         </button>
       </div>

@@ -14,7 +14,7 @@ defineProps({
 <template>
   <div>
     <div class="custom-shadow bg-white py-2 px-3 rounded-lg">
-      <div class="flex w-full justify-between mb-4 gap-2 overflow-hidden">
+      <div class="flex w-full justify-between mb-4 gap-2">
         <div class="custom-width flex items-center gap-3">
           <TeamAvatar class="w-8 h-8 shrink-0" :team="team" />
           <div

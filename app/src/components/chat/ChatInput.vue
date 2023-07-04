@@ -2,6 +2,10 @@
 import { Camera, CameraResultType } from '@capacitor/camera'
 import { ref } from 'vue'
 
+defineProps<{
+  sending?: boolean
+}>()
+
 const emit = defineEmits<{
   send: [data: { message: string; image?: string }]
   updateHeight: [height: number]
@@ -60,14 +64,17 @@ const send = () => {
           v-model="message"
           name="message"
           placeholder="Message..."
+          rows="1"
           @input="onInputMessage"
         ></textarea>
       </div>
       <button
-        class="send-btn bg-theme text-white flex justify-center items-center btn-animation"
+        class="send-btn bg-theme text-white flex justify-center items-center btn-animation disabled:bg-gray-300 transition duration-150"
+        :disabled="sending || message === ''"
         @click="send"
       >
-        <span class="i-carbon:send-alt-filled text-28px mr-1"></span>
+        <span v-if="sending" class="i-svg-spinners:180-ring"></span>
+        <span v-else class="i-carbon:send-alt-filled text-28px mr-1"></span>
       </button>
     </div>
   </div>
@@ -97,12 +104,12 @@ const send = () => {
   max-width: calc(100vw - 116px);
   max-height: 90px;
   font-size: 16px;
-  line-height: 16px;
+  line-height: 22px;
 }
 
 .grow-wrap > textarea,
 .grow-wrap::after {
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   grid-area: 1 / 1 / 2 / 2;
 }
 

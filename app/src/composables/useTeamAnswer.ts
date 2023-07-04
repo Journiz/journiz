@@ -1,7 +1,10 @@
 import { Point } from '@journiz/api-types'
-import { usePocketBase } from '@journiz/composables'
+import { getFileUrl, usePocketBase } from '@journiz/composables'
 import { ref } from 'vue'
 import { useIonRouter } from '@ionic/vue'
+import { useEventBus, useStorage } from '@vueuse/core'
+// @ts-ignore no types
+import { Howl } from 'howler'
 import { useTeamStore } from '~/stores/team/team'
 import dataURItoBlob from '~/utils/dataURIToBlob'
 import { showModal } from '~/composables/useModal'
@@ -15,6 +18,7 @@ export default function useTeamAnswer(
   const loading = ref(false)
   const store = useTeamStore()
   const router = useIonRouter()
+  const openHints = useStorage('openHints-' + point.id, 0)
 
   const successModal = async (isCorrect: boolean, score = 0) => {
     let title = ''
@@ -37,6 +41,17 @@ export default function useTeamAnswer(
     }
     content += '<p>Vous pouvez passer au point suivant. </p>'
 
+    if (isCorrect && store.team?.warCry) {
+      const url = getFileUrl(store.team, store.team.warCry)
+      if (url) {
+        const sound = new Howl({
+          src: [url],
+          preload: true,
+        })
+        sound.play()
+      }
+    }
+
     await showModal(
       title,
       content,
@@ -50,10 +65,18 @@ export default function useTeamAnswer(
       autoValidation ? (isCorrect ? 'win' : 'wrong') : 'send',
       'fullscreen'
     )
+    const hasDependendents = store.journey?.expand?.points?.some(
+      (p) => p.trigger === point.id
+    )
     if (router.canGoBack()) {
+      useEventBus('top-tabs').emit('list')
       router.back()
     } else {
-      router.replace({ name: 'team' })
+      const query: any = {}
+      if (hasDependendents) {
+        query.subTab = 'list'
+      }
+      router.replace({ name: 'team', query })
     }
   }
 
@@ -76,12 +99,15 @@ export default function useTeamAnswer(
     data.append('hasBeenValidated', autoValidation.toString())
     await pb.collection('answer').create(data)
 
-    const score = point.score - penalty
-    if (store.team) {
+    const hintPenalty = Math.round(point.score / 4) * openHints.value
+
+    const score = point.score - penalty - hintPenalty
+    if (store.team && autoValidation && isCorrect) {
       store.team.score += score
       await store.saveTeam()
     }
     loading.value = false
+    openHints.value = 0
     successModal(isCorrect, score)
     store.refreshAll()
   }

@@ -53,10 +53,23 @@ const correctAnswer = async (isCorrect: boolean) => {
   updateLoading.value = true
   currentAnswer.value.isCorrect = isCorrect
   currentAnswer.value.hasBeenValidated = true
-  await pb.collection('answer').update(currentAnswer.value.id, {
+  const data: any = {
     isCorrect,
     hasBeenValidated: true,
-  })
+  }
+  if (isCorrect && !currentAnswer.value.hasScoreBeenAdded) {
+    await pb.collection('team').update(team.value!.id, {
+      score: team.value!.score + currentAnswer.value.pointData!.score,
+    })
+    data.hasScoreBeenAdded = true
+  }
+  if (!isCorrect && currentAnswer.value.hasScoreBeenAdded) {
+    await pb.collection('team').update(team.value!.id, {
+      score: team.value!.score - currentAnswer.value.pointData!.score,
+    })
+    data.hasScoreBeenAdded = false
+  }
+  await pb.collection('answer').update(currentAnswer.value.id, data)
   updateLoading.value = false
   // await delay(1000)
   // nextAnswer()

@@ -1,13 +1,5 @@
 <script lang="ts" setup="">
-import {
-  IonItem,
-  IonLabel,
-  IonList,
-  IonRefresher,
-  IonRefresherContent,
-  IonSpinner,
-  loadingController,
-} from '@ionic/vue'
+import { IonSpinner, loadingController } from '@ionic/vue'
 import { computed, ref } from 'vue'
 import { useTrips } from '@journiz/composables'
 import { useUserStore } from '~/stores/user'

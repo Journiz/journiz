@@ -37,7 +37,7 @@ const currentItemYTranslate = computed(() => {
     route.path.startsWith(d.path)
   )
   if (currentPathIndex < 0) {
-    return -50
+    return -10
   }
   return menuElements.value[currentPathIndex].offsetTop
 })
@@ -66,6 +66,7 @@ const avatar = getFileUrl(userStore.user, userStore.user.avatar)
       <div
         class="absolute h-11 min-w-41 top-0 custom-shadow invert-rounded rounded-s-lg bg-white-off transition duration-200"
         :style="{ transform: 'translateY(' + currentItemYTranslate + 'px)' }"
+        :class="currentItemYTranslate === -10 ? 'hidden' : ''"
       />
       <SidebarMenuItem
         v-for="item in menuData"

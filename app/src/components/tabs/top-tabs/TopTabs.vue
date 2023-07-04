@@ -1,5 +1,6 @@
 <script lang="ts" setup="">
 import { onMounted, provide, reactive, ref } from 'vue'
+import { useEventBus } from '@vueuse/core'
 import { TabData, TabsProvider, TabsProviderKey } from '~/types/tabs'
 
 const state: TabsProvider = reactive({
@@ -50,7 +51,17 @@ const mounted = () => {
   }
   requestAnimationFrame(mounted)
 }
+
+useEventBus<string>('top-tabs').on(async (tabName) => {
+  setTimeout(() => {
+    setActiveTab(tabName)
+  }, 1000)
+})
+
 onMounted(mounted)
+defineExpose({
+  state,
+})
 </script>
 <template>
   <div class="flex-grow col h-full">

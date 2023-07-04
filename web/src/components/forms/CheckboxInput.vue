@@ -2,9 +2,9 @@
 const modelValue = defineModel<boolean>()
 </script>
 <template>
-  <div>
+  <span class="block">
     <input v-model="modelValue" class="custom-checkbox" type="checkbox" />
-    <div>
+    <span>
       <svg
         width="27"
         height="19"
@@ -21,8 +21,8 @@ const modelValue = defineModel<boolean>()
           stroke-linejoin="round"
         />
       </svg>
-    </div>
-  </div>
+    </span>
+  </span>
 </template>
 <style lang="scss" scoped>
 .custom-checkbox {
@@ -35,7 +35,7 @@ const modelValue = defineModel<boolean>()
   &:hover {
     cursor: pointer;
   }
-  & + div {
+  & + span {
     position: absolute;
     right: 0;
     display: inline-block;
@@ -49,7 +49,7 @@ const modelValue = defineModel<boolean>()
       cursor: pointer;
     }
   }
-  & + div svg {
+  & + span svg {
     position: absolute;
     left: 5px;
     .path {
@@ -58,7 +58,7 @@ const modelValue = defineModel<boolean>()
       transition: all 0.3s;
     }
   }
-  &:checked + div svg {
+  &:checked + span svg {
     .path {
       stroke-dashoffset: 0;
     }

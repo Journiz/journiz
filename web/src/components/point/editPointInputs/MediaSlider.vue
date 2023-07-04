@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-const imagesNum = 4
+const imagesNum = 7
 const currentImageIndex = defineModel<number>({
   default: 0,
 })
@@ -53,20 +53,20 @@ watch(currentImageIndex, (to: number, from: number) => {
       <div class="controls">
         <button
           class="cursor-pointer absolute transform -translate-y-1/2 top-1/2 left-4 rotate-90 p-2"
+          @click="prev"
         >
           <img
             src="../../../assets/images/svg/arrow-select.svg"
             alt="Fleche précédent"
-            @click="prev"
           />
         </button>
         <button
           class="cursor-pointer absolute transform -translate-y-1/2 top-1/2 right-4 -rotate-90 p-2"
+          @click="next"
         >
           <img
             src="../../../assets/images/svg/arrow-select.svg"
             alt="Fleche suivant"
-            @click="next"
           />
         </button>
       </div>
@@ -89,9 +89,5 @@ watch(currentImageIndex, (to: number, from: number) => {
 .next-step-leave-to,
 .prev-step-enter-from {
   transform: translateX(-100%);
-}
-
-.custom-shadow {
-  filter: drop-shadow(0px 1px 2px rgba(0, 35, 30, 0.16));
 }
 </style>

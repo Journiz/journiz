@@ -4,12 +4,18 @@ import { nanoid } from 'nanoid'
 import TextInput from '~/components/forms/TextInput.vue'
 import DefaultButton from '~/components/buttons/DefaultButton.vue'
 import Sortable from '~/components/forms/Sortable.vue'
+import HoverInfosButton from '~/components/buttons/HoverInfosButton.vue'
 
 const emit = defineEmits(['addHint', 'removeHint', 'update:modelValue'])
 const props = defineProps({
   modelValue: {
     type: Array as PropType<any[]>,
     required: true,
+  },
+  penalty: {
+    type: Number,
+    required: false,
+    default: 1,
   },
 })
 
@@ -38,7 +44,18 @@ function removeChoiceHint(id: string) {
 </script>
 <template>
   <div>
-    <div class="font-medium text-sm">Indices</div>
+    <div
+      class="relative flex font-medium text-sm gap-2 items-center mb-1 overflow-visible pt-4 z-1"
+    >
+      Indices
+      <HoverInfosButton>
+        Vous pouvez ajouter un indice à déclencher par les élèves si ils ont
+        trop de difficulté avec l’énoncé. <br />
+        <span class="font-bold">
+          Attention chaque indice coute -{{ penalty }} points</span
+        >
+      </HoverInfosButton>
+    </div>
     <Sortable
       v-model="hints"
       class=""
@@ -102,6 +119,17 @@ function removeChoiceHint(id: string) {
   &:checked + div svg {
     .path {
       stroke-dashoffset: 0;
+    }
+  }
+}
+.i-button {
+  .hover-window {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover {
+    .hover-window {
+      opacity: 1;
     }
   }
 }

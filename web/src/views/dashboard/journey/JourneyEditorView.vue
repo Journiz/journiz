@@ -9,6 +9,7 @@ import Map from '~/components/Map.vue'
 import MapMarker from '~/components/MapMarker.vue'
 import PointMarker from '~/components/map/PointMarker.vue'
 import Basceamp from '~/components/map/Basecamp.vue'
+import PointsWithNoLocationCount from '~/components/PointsWithNoLocationCount.vue'
 
 const router = useRouter()
 const store = useJourneyStore()
@@ -23,7 +24,11 @@ const newPoint = async () => {
     const newPoint = await store.newPoint()
     addLoading.value = false
     if (newPoint) {
-      await router.push({ name: 'edit-point', params: { pointId: newPoint } })
+      await router.push({
+        name: 'edit-point',
+        params: { pointId: newPoint },
+        query: { new: null },
+      })
     }
   } catch (e) {
     console.log(e)
@@ -41,18 +46,24 @@ function hoverMarker(pointId: string) {
       :no-display-return="true"
       class="px-16 h-auto mb-7 pt-12"
     >
-      <defaultButton @click="router.push({ name: 'export-journey' })">
-        Exporter
-      </defaultButton>
+      <DefaultButton @click="router.push({ name: 'preview-journey' })">
+        <span class="i-uil:eye"></span> Prévisualiser
+      </DefaultButton>
+      <DefaultButton @click="router.push({ name: 'export-journey' })">
+        <span class="i-uil:export"></span> Exporter
+      </DefaultButton>
     </CustomHeader>
     <div class="px-16">
-      <default-button class="mb-6" :loading="addLoading" @click="newPoint">
+      <DefaultButton class="mb-6" :loading="addLoading" @click="newPoint">
         Ajouter un nouveau point
-      </default-button>
+      </DefaultButton>
     </div>
     <div class="px-16 flex flex-grow pb-8 overflow-hidden">
       <PointList
         class="w-1/2 pr-2 max-h-full overflow-scroll"
+        :show-community="true"
+        :editable="true"
+        :sortable="true"
         :current-item-id="currentItemId"
       />
       <div class="relative flex-grow">
@@ -74,6 +85,10 @@ function hoverMarker(pointId: string) {
             <template #icon> <Basceamp /> </template>
           </MapMarker>
         </Map>
+        <PointsWithNoLocationCount
+          class="absolute right-2 top-2"
+          :points="store.journey!.expand!.points"
+        />
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 <script lang="ts" setup="">
 import { computed } from 'vue'
 import { Point } from '@journiz/api-types'
+import { useRoute } from 'vue-router'
 import TopTabs from '~/components/tabs/top-tabs/TopTabs.vue'
 import Tab from '~/components/tabs/Tab.vue'
 import { useTeamStore } from '~/stores/team/team'
@@ -32,6 +33,8 @@ const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
     return true
   })
 })
+
+const defaultSelected = useRoute().query.subTab === 'list' ? 'list' : 'map'
 </script>
 <template>
   <div
@@ -39,11 +42,21 @@ const points = computed<(Point & { hasAnswer: boolean })[]>(() => {
     class="w-full h-full flex flex-col relative"
   >
     <Header :title="store.trip?.name" :subtitle="store.team?.name" />
-    <TopTabs class="flex-shrink">
-      <Tab title="Enigmes" name="list">
+
+    <TeamMap v-if="store.trip?.status === 'finishing'" :points="points" />
+    <TopTabs v-else class="flex-shrink">
+      <Tab
+        title="Enigmes"
+        name="list"
+        :default-selected="defaultSelected === 'map'"
+      >
         <PointsList :points="points" />
       </Tab>
-      <Tab title="Carte" name="map" default-selected>
+      <Tab
+        title="Carte"
+        name="map"
+        :default-selected="defaultSelected === 'map'"
+      >
         <TeamMap :points="points" />
         <div
           class="absolute bottom-28 left-0 right-0 px-4 flex items-center justify-center gap-2"

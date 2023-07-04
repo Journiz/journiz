@@ -14,6 +14,12 @@ const logout = useLogout(useUserStore().logout)
 </script>
 <template>
   <Page class="relative justify-center h-full">
+    <div
+      class="absolute left-6 top-safe mt-4 w-10 h-10 rounded-full shadow-md bg-white flex items-center justify-center color-green-dark z-1 btn-animation -scale-x-100"
+      @click="logout"
+    >
+      <div class="i-tabler:logout text-lg"></div>
+    </div>
     <img
       class="absolute h-full w-full top-0 left-0 object-cover object-center"
       src="../../assets/img/backgrounds/bg-journey-choice.jpg"
@@ -30,8 +36,5 @@ const logout = useLogout(useUserStore().logout)
       </div>
       <PickTrip @trip-change="onTripChange" />
     </div>
-    <Button class="absolute bottom-3 left-8 mt-4" color="theme" @click="logout"
-      >Logout</Button
-    >
   </Page>
 </template>
