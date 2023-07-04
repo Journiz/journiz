@@ -44,7 +44,7 @@ const openHint = async (index: number) => {
       :class="(point.hint?.length ?? 0) > 1 ? 'grid-cols-2' : ''"
     >
       <button
-        class="tab-btn border-2 text-theme border-theme"
+        class="tab-btn border-2 text-theme border-theme btn-animation"
         :class="selectedHint === 0 ? 'open' : ''"
         @click="openHint(0)"
       >
@@ -52,7 +52,7 @@ const openHint = async (index: number) => {
       </button>
       <button
         v-if="(point.hint?.length ?? 0) > 1"
-        class="tab-btn border-2 text-green-dark border-green-dark"
+        class="tab-btn border-2 text-green-dark border-green-dark btn-animation"
         :class="selectedHint === 1 ? 'open' : ''"
         @click="openHint(1)"
       >
