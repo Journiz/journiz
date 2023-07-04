@@ -69,7 +69,9 @@ export default function useTeamAnswer(
       (p) => p.trigger === point.id
     )
     if (router.canGoBack()) {
-      useEventBus('top-tabs').emit('list')
+      if (hasDependendents) {
+        useEventBus('top-tabs').emit('list')
+      }
       router.back()
     } else {
       const query: any = {}
