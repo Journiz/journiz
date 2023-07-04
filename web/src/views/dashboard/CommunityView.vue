@@ -67,7 +67,7 @@ function vueDetail() {
                   </svg>
                   <p>32</p>
                 </div>
-                <img src="../../assets/images/communaute/annecy.jpg" alt="" />
+                <img src="../../assets/images/communaute/annecy.webp" alt="" />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">Sortie à Annecy</h3>
@@ -170,7 +170,7 @@ function vueDetail() {
                   </svg>
                   <p>22</p>
                 </div>
-                <img src="../../assets/images/communaute/Nantes.jpg" alt="" />
+                <img src="../../assets/images/communaute/Nantes.webp" alt="" />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">La vieille Ville</h3>
@@ -273,7 +273,7 @@ function vueDetail() {
                   </svg>
                   <p>45</p>
                 </div>
-                <img src="../../assets/images/communaute/londres.jpg" alt="" />
+                <img src="../../assets/images/communaute/londres.webp" alt="" />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">Londres</h3>
@@ -389,7 +389,7 @@ function vueDetail() {
                   <p>320</p>
                 </div>
                 <img
-                  src="../../assets/images/communaute/montpelier.jpeg"
+                  src="../../assets/images/communaute/montpelier.webp"
                   alt=""
                 />
               </div>
@@ -495,7 +495,7 @@ function vueDetail() {
                   <p>125</p>
                 </div>
                 <img
-                  src="../../assets/images/communaute/citadelle.jpeg"
+                  src="../../assets/images/communaute/citadelle.webp"
                   alt=""
                 />
               </div>
@@ -600,7 +600,7 @@ function vueDetail() {
                   </svg>
                   <p>89</p>
                 </div>
-                <img src="../../assets/images/communaute/dijon.jpg" alt="" />
+                <img src="../../assets/images/communaute/dijon.webp" alt="" />
               </div>
               <div class="parcours-list--content p-4">
                 <h3 class="parcours-list--name">Dijon</h3>
@@ -711,7 +711,7 @@ function vueDetail() {
                   <p>22</p>
                 </div>
                 <img
-                  src="../../assets/images/communaute/chambery.jpeg"
+                  src="../../assets/images/communaute/chambery.webp"
                   alt=""
                 />
               </div>
@@ -817,7 +817,7 @@ function vueDetail() {
                   <p>12</p>
                 </div>
                 <img
-                  src="../../assets/images/communaute/albertville.jpg"
+                  src="../../assets/images/communaute/albertville.webp"
                   alt=""
                 />
               </div>
@@ -923,7 +923,7 @@ function vueDetail() {
                   <p>2</p>
                 </div>
                 <img
-                  src="../../assets/images/communaute/grenoble.jpeg"
+                  src="../../assets/images/communaute/grenoble.webp"
                   alt=""
                 />
               </div>
