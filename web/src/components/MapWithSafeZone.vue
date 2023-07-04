@@ -154,8 +154,10 @@ const props = defineProps({
     default: null,
   },
 })
+const center = ref<Coordinates>(props.mapCenter)
 const updateArea = () => {
   const data = draw.getAll()
+  center.value = mapInstance.value.getCenter()
   if (data.features[0]) {
     // @ts-expect-error Library wrong type
     currentDrawId = data.features[0].id
@@ -190,7 +192,7 @@ onMounted(() => {
     />
     <Map
       class="h-full"
-      :map-center="mapCenter"
+      :map-center="center"
       :zoom="zoom"
       @getMap="(mapData) => (mapInstance = mapData)"
     >
